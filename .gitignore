@@ -1,0 +1,29 @@
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor swap/backup files
+*.swp
+*.swo
+*~
+
+# Local-only environment files
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Logs and temporary working files
+*.log
+.tmp/
+tmp/
+temp/
+
+# Local/private evaluation material
+**/eval/
+**/evals/
+
+# Local harness/runtime state
+.codex/
+.claude/
+.opencode/
