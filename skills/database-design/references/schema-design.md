@@ -1,0 +1,131 @@
+# Schema Design
+
+Use this reference when designing or reviewing tables, columns, relationships, constraints, keys, tenancy, soft deletes, timestamps, retention, or structured versus semi-structured storage.
+
+## Design From Invariants And Access Patterns
+
+Before proposing a schema, identify:
+
+- entities and lifecycle states;
+- relationships and cardinality;
+- invariants that must survive concurrency, retries, and application bugs;
+- data volume and growth pattern;
+- write, read, search, reporting, and pagination paths;
+- tenant, ownership, retention, audit, and deletion requirements;
+- data sensitivity and fields that should not be exposed broadly;
+- compatibility with existing data and consumers.
+
+Completion criterion: each table and relationship exists because it supports an invariant or access pattern, not because the object model happens to look that way.
+
+## Integrity Enforcement
+
+Use database constraints for durable truth:
+
+- primary keys for identity;
+- foreign keys for referential integrity;
+- unique constraints for uniqueness;
+- not-null constraints for required data;
+- check constraints for simple valid ranges, enums, and state combinations where supported;
+- default values only when the default is semantically valid, not as a way to hide missing input.
+
+Application validation should still exist for user-facing errors and early rejection, but it is not the final enforcement boundary.
+
+## Normalization And Denormalization
+
+Normalize when:
+
+- data is repeated across rows;
+- updates would otherwise require multiple changes;
+- relationships have independent lifecycles;
+- invariants belong to a separate concept;
+- query patterns can join without unacceptable cost.
+
+Denormalize only when:
+
+- the read path is proven important;
+- duplicated data rarely changes or consistency lag is acceptable;
+- the consistency/repair mechanism is explicit;
+- the simpler read model outweighs write and integrity cost.
+
+Rejected shortcut: do not store structured, frequently queried, or constraint-bearing data as opaque JSON merely because it is quicker to write.
+
+## Key Selection
+
+Choose keys by deployment and access needs:
+
+- UUID/ULID-style identifiers fit distributed creation, external exposure, or cross-system references.
+- Time-sortable identifiers can help append-heavy or recency-oriented workloads when the engine/index behavior supports it.
+- Auto-increment identifiers fit simple single-database systems but may leak ordering and can create coordination concerns across shards or imports.
+- Natural keys are valid only when the business value is genuinely stable and accepted as identity; otherwise use a surrogate key and a unique constraint on the natural value.
+
+Completion criterion: the key choice explains uniqueness, external exposure, ordering, import/distribution, and indexing implications.
+
+## Relationships And Deletes
+
+Define relationship ownership before choosing delete behavior:
+
+- restrict/delete prevention when children cannot exist without explicit review;
+- cascade only when child lifecycle is truly owned by the parent and deletion blast radius is acceptable;
+- set null/default only when orphaned records remain meaningful;
+- junction tables for many-to-many relationships, with uniqueness constraints preventing duplicate edges.
+
+For soft deletes:
+
+- define whether soft delete is required or whether hard delete is correct;
+- use `deleted_at` or an equivalent state marker consistently;
+- make deleted rows invisible by default in application queries;
+- provide an explicit include-deleted path for admin, restore, audit, or reconciliation workflows;
+- account for uniqueness among active rows, restore conflicts, retention, and purge jobs;
+- index common active-row predicates so hidden rows do not degrade hot paths.
+
+## Tenancy And Ownership
+
+For tenant-scoped data:
+
+- choose the tenant boundary explicitly: database, schema, table key, row-level policy, or hybrid;
+- include tenant/owner keys in tables that carry tenant-owned data;
+- include tenant keys in indexes for common tenant-scoped access paths;
+- enforce tenant filtering in repositories/query builders rather than relying on callers to remember it;
+- treat row-level security or database policies as an additional enforcement layer only after their operational behavior is understood and tested.
+
+Failure output: `Rejected: tenant boundary is ambiguous or tenant filtering depends on caller memory.`
+
+## Time, Audit, And Retention
+
+Store timestamps in UTC at rest. Use engine-appropriate timestamp types and convert for users at system edges.
+
+Use audit fields when the project needs traceability:
+
+- `created_at`;
+- `updated_at`;
+- `deleted_at` when soft delete exists;
+- `created_by`, `updated_by`, or actor/event tables when actor attribution matters.
+
+Define retention and purge behavior for large, sensitive, temporary, or legally governed data. Retention is part of schema design because it affects indexes, partitions, deletion strategy, and restore expectations.
+
+## JSON And Semi-Structured Data
+
+Use JSON/semi-structured fields when:
+
+- data is truly flexible or externally shaped;
+- the application treats the field mostly as an opaque payload;
+- versioning the nested structure is easier than relational modeling;
+- required indexes and validation are explicit.
+
+Prefer structured columns/tables when:
+
+- fields are filtered, joined, sorted, constrained, or reported on;
+- relationships and invariants matter;
+- partial updates and consistency rules are important;
+- downstream consumers depend on stable shape.
+
+## Backup And Restore
+
+For material persistent data, name the backup/restore expectation:
+
+- restore point objective and restore time objective when relevant;
+- whether migrations/backfills need pre-change backups or snapshots;
+- whether restore procedures have been tested;
+- what operational evidence proves recovery works.
+
+Completion criterion: destructive or high-volume database work has an explicit recovery path.
