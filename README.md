@@ -4,7 +4,7 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository currently contains the copied `agents/`, `skills/`, and `harness-instructions/` assets from the working source repository. Scripts are still reserved until install, export, or validation workflows are created intentionally.
+This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets from the working source repository. Scripts are still reserved until install, export, or validation workflows are created intentionally.
 
 ## What This Is
 
@@ -40,13 +40,19 @@ scripts/
   validate/
 ```
 
-The `docs/` tree is intentionally excluded for now. Documentation can be added later when there is curated public material worth maintaining.
+The public `docs/` tree is intentionally excluded for now. Curated public documentation can be added later when there is material worth maintaining outside the README.
 
 ## Repository Areas
 
 ### Skills
 
 `skills/` holds reusable procedures for recurring agent work. Skills should teach durable behavior, include clear use and non-use boundaries, and avoid project-specific assumptions unless the skill is intentionally scoped.
+
+Current skill groups include:
+
+- Workflow and definition: `coding-project-orchestrator`, `create-project-prd`, `create-engineering-spec`, `create-implementation-plan`, and `implementation-review-workflow`.
+- Design and quality: `architecture-design`, `api-design`, `database-design`, `testing-strategy`, and `error-handling-design`.
+- Documentation and support: `create-documentation`, `create-readme`, `create-project-adr`, `structured-problem-resolution`, `codebase-search`, `create-skills`, `git-commit`, `git-pull-request`, and `project-rules`.
 
 ### Agents
 
@@ -64,7 +70,7 @@ Each harness may need a different file format, but the role intent should stay a
 
 ## How To Use
 
-Once populated, copy assets selectively:
+Copy assets selectively:
 
 1. Copy the relevant `skills/` directories into the target harness skill directory.
 2. Copy the matching agent definition from `agents/<harness>/`.
