@@ -30,6 +30,10 @@ This skill controls the **caller side** of implementation review.
 
 The `implementation-reviewer` agent owns review judgment. This skill owns the behavior that makes that judgment useful: deciding when review is required, building the evidence packet, dispatching without contamination, respecting the verdict, and preserving finding identity across re-review.
 
+Review may surface implementation-pattern capture signals, but the reviewer does not create pattern artifacts. The caller routes concrete signals to `create-implementation-pattern` after verdict handling; `accepted`, `candidate`, `update existing`, and `rejected` are all valid outcomes.
+
+Review may also change project continuity state. Accepted work, blocked review, inconclusive evidence, request-changes loops, and explicit pause points can all be meaningful checkpoint state. The caller routes continuity updates to `project-continuity` when the project has `docs/progress.md` or another continuity artifact.
+
 ## Caller Responsibilities
 
 You must do four jobs. Do not delegate these jobs to the reviewer.
@@ -47,20 +51,21 @@ Before dispatch, create a compact packet. Prefer paths over pasted content. Neve
 
 Required fields:
 
-| Field              | Required content                                                                                                             |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| Objective          | What acceptance requires, in behavior/system terms                                                                           |
-| Repository         | Repo/worktree path                                                                                                           |
-| Review cycle       | `first_pass`, `resumed_review`, or `re_review`                                                                               |
-| Review depth       | Requested depth: `quick`, `standard`, or `deep`, with risk rationale                                                         |
-| Scope              | Review mode, diff source, changed files, non-target boundary                                                                 |
-| Base/head refs     | Base and head identifiers for branch, range, or PR review when known; otherwise `unknown` with reason                        |
-| Spec/plan          | Approved spec/plan paths or `none`                                                                                           |
-| Rules/contracts    | Relevant instructions, ADRs, schemas, public contracts, generated-file rules                                                 |
+| Field               | Required content                                                                                                                                                   |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Objective           | What acceptance requires, in behavior/system terms                                                                                                                 |
+| Repository          | Repo/worktree path                                                                                                                                                 |
+| Review cycle        | `first_pass`, `resumed_review`, or `re_review`                                                                                                                     |
+| Review depth        | Requested depth: `quick`, `standard`, or `deep`, with risk rationale                                                                                               |
+| Scope               | Review mode, diff source, changed files, non-target boundary                                                                                                       |
+| Base/head refs      | Base and head identifiers for branch, range, or PR review when known; otherwise `unknown` with reason                                                              |
+| Spec/plan           | Approved spec/plan paths or `none`                                                                                                                                 |
+| Rules/contracts     | Relevant instructions, ADRs, schemas, public contracts, generated-file rules                                                                                       |
 | Quality constraints | Existing patterns/reuse expectations, non-target cleanup/refactor boundaries, abstraction/dependency justifications, and named maintainability risks when supplied |
-| Verification       | Exact commands run, exact output or durable output paths, outcomes, checks not run and why                                   |
-| Prior review state | Prior reviewer report, stable finding registry, reconciliation section, and task/session ID when available; otherwise `none` |
-| Known limits       | Assumptions, blockers, unavailable tools, environment limits                                                                 |
+| Pattern capture     | Whether to watch for reusable implementation-pattern signals; default `watch`, plus known pattern catalogs or `none known`                                         |
+| Verification        | Exact commands run, exact output or durable output paths, outcomes, checks not run and why                                                                         |
+| Prior review state  | Prior reviewer report, stable finding registry, reconciliation section, and task/session ID when available; otherwise `none`                                       |
+| Known limits        | Assumptions, blockers, unavailable tools, environment limits                                                                                                       |
 
 Working-tree review must include untracked files unless the caller explicitly excludes them with rationale and acceptance impact in the packet. The caller supplies the best-known diff/current-files inventory; the reviewer owns canonical diff validation and may override stale or incomplete scope, but must report that override. Re-review must include the prior reviewer report or stable finding registry. If prior state cannot be recovered, do not pretend reconciliation is possible; dispatch only when the gap is named, the reviewer is asked to judge the consequence, and the final report will not claim prior findings were resolved. Do not require or search for a reviewer scratchpad unless the prior reviewer explicitly emitted a durable scratchpad path.
 
@@ -68,10 +73,10 @@ Working-tree review must include untracked files unless the caller explicitly ex
 
 Choose one cycle before dispatch:
 
-| Cycle            | Use when                                                                                      | Required caller behavior                                                                                                   |
-| ---------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `first_pass`     | No prior reviewer state exists for this implementation state                                  | Build a fresh packet from objective, scope, diff/current files, rules, and verification                                    |
-| `resumed_review` | Same review continues with no material implementation, evidence, check-result, scope, or prior-state change | Pass prior report/registry only to continue the same review; do not use this to clear `INCONCLUSIVE` |
+| Cycle            | Use when                                                                                                                                              | Required caller behavior                                                                                           |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `first_pass`     | No prior reviewer state exists for this implementation state                                                                                          | Build a fresh packet from objective, scope, diff/current files, rules, and verification                            |
+| `resumed_review` | Same review continues with no material implementation, evidence, check-result, scope, or prior-state change                                           | Pass prior report/registry only to continue the same review; do not use this to clear `INCONCLUSIVE`               |
 | `re_review`      | Code/files changed after prior findings, or same code has new verification evidence, blocked-check results, recovered prior state, or clarified scope | Pass prior report/registry plus new diff/current files or refreshed evidence; require prior finding reconciliation |
 
 Default to `re_review` when prior findings exist and code, config, artifact, tests, implementation files, verification evidence, blocked-check results, prior-state input, or scope changed. Use `resumed_review` only when continuing the same review with no material new inputs. Never reuse an old accepting verdict for a changed implementation or evidence state.
@@ -105,6 +110,7 @@ Constraints:
 - Preserve prior finding IDs on re-review.
 - Use at least the depth the risk surface requires; the requested depth is a floor you may lower only with explicit risk justification, and report any escalation or downgrade.
 - Treat the caller's changed-file list/diff as best-known input; validate canonical scope independently and report stale or incomplete scope.
+- Report concrete implementation-pattern capture signals as signals only; do not create or update pattern artifacts.
 - Return the implementation-reviewer structured report.
 
 Acceptance Criteria:
@@ -112,6 +118,7 @@ Acceptance Criteria:
 - Findings have stable IDs and evidence.
 - Commands run/skipped/blocked are reported.
 - Prior findings are reconciled when prior state is supplied.
+- Pattern-capture signals are reported as concrete candidates or `none`.
 - Coverage gaps and residual risks are explicit.
 ```
 
@@ -132,19 +139,41 @@ Do not substitute self-review or a generic reviewer as equivalent.
 
 The verdict controls the next action:
 
-| Verdict            | Allowed caller action                                                                                                                                                                   |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ACCEPT`           | Claim completion with reviewer evidence — only if `ESCALATION_RECOMMENDATION` is `none` and no anchoring risk is flagged; otherwise apply the escalation rule below first.                                                                                                                                                |
-| `ACCEPT_WITH_NITS` | Claim completion only while reporting non-blocking nits, residual risks, and skipped/non-material checks; also surface any `ESCALATION_RECOMMENDATION` or anchoring risk per the rule below.                                                                               |
-| `REQUEST_CHANGES`  | Do not claim completion. Fix or delegate fixes, then run `re_review` only after a material code, artifact, or evidence change.                                                          |
-| `REJECT`           | Stop acceptance. Re-plan or escalate.                                                                                                                                                   |
-| `INCONCLUSIVE`     | Do not claim completion. Gather missing evidence or run blocked checks, then dispatch `re_review` even when implementation state is unchanged; escalate when evidence cannot be obtained. |
+| Verdict            | Allowed caller action                                                                                                                                                                        |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ACCEPT`           | Claim completion with reviewer evidence — only if `ESCALATION_RECOMMENDATION` is `none` and no anchoring risk is flagged; otherwise apply the escalation rule below first.                   |
+| `ACCEPT_WITH_NITS` | Claim completion only while reporting non-blocking nits, residual risks, and skipped/non-material checks; also surface any `ESCALATION_RECOMMENDATION` or anchoring risk per the rule below. |
+| `REQUEST_CHANGES`  | Do not claim completion. Fix or delegate fixes, then run `re_review` only after a material code, artifact, or evidence change.                                                               |
+| `REJECT`           | Stop acceptance. Re-plan or escalate.                                                                                                                                                        |
+| `INCONCLUSIVE`     | Do not claim completion. Gather missing evidence or run blocked checks, then dispatch `re_review` even when implementation state is unchanged; escalate when evidence cannot be obtained.    |
 
 If the reviewer ignores packet scope, loses prior IDs, fails to report commands/checks, omits prior finding reconciliation, omits escalation/anchoring fields, or returns unsupported conclusions, treat the review as incomplete and re-dispatch once with the specific structural defect corrected. If the same structural defect repeats, stop and escalate instead of redispatching again.
 
 If the reviewer returns `ESCALATION_RECOMMENDATION` other than `none`, or `ANCHORING_AND_BIAS` reports material/present/unresolved anchoring risk, include that in the caller report. Do not claim unqualified completion until the escalation is handled or the user explicitly accepts the residual risk.
 
 Before acting on `ACCEPT` or `ACCEPT_WITH_NITS`, confirm the reviewer's reported `DEPTH.selected` is at least the depth the risk surface required (Gate 2.5). If the reviewer ran a lower depth than the risk required, treat the review as under-powered: do not claim completion; re-dispatch at the required depth with the risk surfaces named, or escalate.
+
+## Gate 4.5 — Handle Pattern-Capture Signals
+
+After verdict interpretation, inspect `PATTERN_CAPTURE_SIGNALS`.
+
+If the reviewer reports `none`, no pattern artifact is required.
+
+If the reviewer reports one or more concrete signals, route them to `create-implementation-pattern` unless the verdict requires implementation fixes first and the signal depends on the unresolved code. The pattern skill decides whether the result is an accepted pattern, candidate note, existing-pattern update, or rejection. Do not create pattern documentation directly from the review report.
+
+Pattern capture is not an acceptance finding by itself. It becomes blocking only when the signal is also a requirement gap, scope issue, correctness defect, missing documentation requirement, or explicit workflow requirement.
+
+## Gate 4.6 — Handle Project Continuity
+
+After verdict interpretation and pattern-signal handling, check whether the project has `docs/progress.md` or another named continuity artifact.
+
+If no continuity artifact or project policy exists, no continuity update is required.
+
+If continuity applies, route to `project-continuity` with the review verdict, active findings, blocked checks, verification evidence, changed artifact paths, and allowed next action.
+
+Do not mark work complete in continuity when the verdict is `REQUEST_CHANGES`, `REJECT`, or `INCONCLUSIVE`. Record blocked/incomplete state, active finding IDs, missing evidence, and next unblocking action instead.
+
+Continuity updates are not a substitute for review acceptance, pattern capture, commits, PRs, or ADRs. They preserve current state for the next workflow step.
 
 ## Gate 5 — Re-Review Loop
 
@@ -192,17 +221,19 @@ Failure output must name the missing input and the next required action.
 
 ## Rationalization Table
 
-| Temptation                                          | Reality                                                                                                                | Required action                                    |
-| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| “The coder already verified it.”                    | Coder verification is evidence, not independent acceptance.                                                            | Put exact outputs in the packet.                   |
-| “I can paste the whole thread.”                     | Conversation history contaminates the reviewer and wastes context.                                                     | Pass objective, paths, diff, rules, and outputs.   |
-| “Review is only for final completion.”              | Review also protects re-review, handoff, and implementation-unit boundaries.                                           | Dispatch when independent acceptance matters.      |
-| “The fix is obvious; no re-review needed.”          | Fixes can be partial or introduce new issues.                                                                          | Run `re_review` with prior IDs.                    |
-| “Reviewer still complains; run it again.”           | Review without new changes, evidence, prior-state recovery, check results, or scope clarification is an infinite loop. | Stop, report loop guard, and escalate.             |
-| “Review is blocked, so I reported it and can continue.” | A blocked review is not acceptance. | Stop unless the user explicitly authorizes proceeding with the named risk. |
-| “The reviewer output was malformed; redispatch until it works.” | Repeating malformed output is a reviewer/review-route failure. | Redispatch once with the structural defect named, then escalate. |
-| “The reviewer is unavailable, so I’ll self-review.” | Self-review is not independent review.                                                                                 | Report blocked or explicitly downgrade confidence. |
-| “This is just a skill/agent/config change.”         | Control artifacts change future behavior.                                                                              | Review them when acceptance matters.               |
+| Temptation                                                      | Reality                                                                                                                | Required action                                                                                                  |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| “The coder already verified it.”                                | Coder verification is evidence, not independent acceptance.                                                            | Put exact outputs in the packet.                                                                                 |
+| “I can paste the whole thread.”                                 | Conversation history contaminates the reviewer and wastes context.                                                     | Pass objective, paths, diff, rules, and outputs.                                                                 |
+| “Review is only for final completion.”                          | Review also protects re-review, handoff, and implementation-unit boundaries.                                           | Dispatch when independent acceptance matters.                                                                    |
+| “The fix is obvious; no re-review needed.”                      | Fixes can be partial or introduce new issues.                                                                          | Run `re_review` with prior IDs.                                                                                  |
+| “Reviewer still complains; run it again.”                       | Review without new changes, evidence, prior-state recovery, check results, or scope clarification is an infinite loop. | Stop, report loop guard, and escalate.                                                                           |
+| “Review is blocked, so I reported it and can continue.”         | A blocked review is not acceptance.                                                                                    | Stop unless the user explicitly authorizes proceeding with the named risk.                                       |
+| “The reviewer output was malformed; redispatch until it works.” | Repeating malformed output is a reviewer/review-route failure.                                                         | Redispatch once with the structural defect named, then escalate.                                                 |
+| “The reviewer is unavailable, so I’ll self-review.”             | Self-review is not independent review.                                                                                 | Report blocked or explicitly downgrade confidence.                                                               |
+| “This is just a skill/agent/config change.”                     | Control artifacts change future behavior.                                                                              | Review them when acceptance matters.                                                                             |
+| “The reviewer saw a recurring pattern, so write docs.”          | A review signal is not a pattern-worthiness decision.                                                                  | Route concrete signals through `create-implementation-pattern`; accept candidate, update, or rejection outcomes. |
+| “Review is done, so continuity can wait.”                       | The next session may start from stale state or miss blockers.                                                          | Use `project-continuity` when the project has a continuity artifact and review changed checkpoint state.         |
 
 ## Red Flags
 
@@ -214,6 +245,8 @@ Failure output must name the missing input and the next required action.
 - Review is blocked but the caller proceeds without explicit user authorization.
 - Same finding or inconclusive state is reviewed repeatedly without new implementation changes, evidence, prior-state recovery, check results, or scope clarification.
 - Same reviewer output defect repeats after one corrected redispatch.
+- Pattern-capture signals are treated as mandatory documentation without the `create-implementation-pattern` gate.
+- Review changes meaningful checkpoint state but an existing continuity artifact is ignored.
 - Reviewer verdict is quoted without active findings, blocked checks, and residual risks.
 - Reviewer escalation recommendation or anchoring/bias signal is omitted from the caller report.
 - Caller treats generic review as equivalent to `implementation-reviewer`.
@@ -227,6 +260,8 @@ When review gates allow progress, report:
 - review depth selected, and whether it met the depth the risk required;
 - active blocking finding count and any active non-blocking finding IDs/titles;
 - prior finding reconciliation status, if applicable;
+- pattern-capture status: none, routed to `create-implementation-pattern`, deferred with reason, or blocked;
+- project-continuity status: not applicable, updated, deferred with reason, or blocked;
 - escalation recommendation;
 - anchoring/bias status;
 - commands/checks blocked or skipped;

@@ -72,6 +72,20 @@ Source request: concise summary
 
 ### Planning-Relevant Impact Surfaces
 
+## Scope Shaping
+
+### Problem Baseline
+
+### Appetite / Decision Budget
+
+### Rabbit Holes
+
+### Scope Trade-offs
+
+### Scope Additions / Displacement
+
+### Lifecycle Ownership Cost
+
 ## Scope
 
 ## Non-Scope

@@ -15,6 +15,7 @@ Use this skill when:
 - Adding or reviewing indexes, query shapes, pagination, partitioning, connection pools, batch processing, or database performance changes.
 - Working specifically with PostgreSQL, MySQL, or MariaDB behavior that affects schema, query, migration, locking, pooling, replication, backup, or operational safety.
 - Working with database access through an ORM, query builder, driver, repository, migration tool, or generated schema layer.
+- Designing or reviewing credential-related persistence such as password verifiers, API key records, session/refresh-token records, webhook secret records, credential fingerprints, rotation metadata, revocation state, or last-used auditing.
 - Reviewing database code for SQL injection risk, unsafe raw SQL, missing parameterization, missing context/timeouts, connection leaks, or missing error translation.
 
 ## Do Not Use
@@ -47,6 +48,7 @@ Collect the facts that materially shape the database decision:
 - database engine, version, hosting model, migration tool, ORM/query builder/driver, and local conventions;
 - business invariants that must remain true even under concurrency or application bugs;
 - entities, relationships, lifecycle states, tenancy model, retention needs, audit needs, and data sensitivity;
+- credential or secret-derived records, hash/verifier requirements, rotation/revocation needs, expiry, scope, last-used metadata, and display-safe identifiers;
 - current and expected data volume, write/read ratio, hot paths, pagination needs, reporting/analytics needs, and access patterns;
 - concurrency pressure, contention points, idempotency requirements, retry behavior, and consistency requirements;
 - deployment model, migration windows, rollback expectations, backup/restore expectations, and environments that must be supported.
@@ -64,6 +66,7 @@ Rules:
 - Enforce identity, uniqueness, referential integrity, required fields, valid ranges, and state constraints with primary keys, foreign keys, unique constraints, not-null constraints, and check constraints where supported.
 - Use application validation to provide clear errors and preflight checks, not as the only integrity boundary.
 - Choose normalization, denormalization, keys, JSON/storage shape, soft delete semantics, tenant scoping, audit fields, and retention based on real invariants and access patterns.
+- Never model passwords, API keys, bearer tokens, session secrets, webhook secrets, recovery tokens, or private keys as ordinary plaintext columns. Store non-reversible verifiers, hashes, fingerprints, encrypted values, or secret-manager references according to whether the system must verify, display, rotate, or recover the value.
 - Keep persistence models from leaking blindly across application boundaries. Map database rows to explicit contracts when crossing policy, API, or UI boundaries.
 
 Load [Schema Design](references/schema-design.md) when designing or reviewing tables, columns, relationships, constraints, tenancy, soft deletes, timestamps, retention, or JSON/structured storage.
@@ -155,6 +158,7 @@ Before presenting database work as ready, verify:
 - indexes match query shapes and do not duplicate or blindly optimize;
 - queries are parameterized, bounded, and shaped to avoid N+1, unsafe `SELECT *`, and unbounded scans;
 - soft deletes, tenancy, auditing, retention, and UTC timestamp policy are handled where relevant;
+- credential and secret-derived data is not stored in plaintext, and rotation, revocation, expiry, owner/scope, display suffix/fingerprint, and last-used/audit metadata are modeled when relevant;
 - backup/restore, rollback, monitoring, and failure recovery are named when operational risk is material.
 
 Completion criterion: a future implementer can preserve correctness and operate the change without guessing.

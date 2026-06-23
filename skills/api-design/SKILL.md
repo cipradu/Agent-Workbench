@@ -47,7 +47,7 @@ Collect the facts that materially shape the API decision:
 - consumers: first-party UI, mobile app, public developers, partners, internal services, agents, jobs, webhooks, or generated clients;
 - contract authority: existing OpenAPI/schema/protobuf, framework routes, product spec, ADR, vendor constraints, or current production behavior;
 - compatibility surface: public, partner, internal multi-team, same-repo, same-deploy, experimental, or private;
-- data ownership, domain invariants, authorization model, trust boundary, sensitive fields, tenant/user scoping, and audit needs;
+- data ownership, domain invariants, authentication mechanism, authorization enforcement point, trust boundary, sensitive fields, tenant/user scoping, credential/header/cookie surface, CORS/browser exposure, rate-limit pressure, abuse controls, and audit needs;
 - expected volume, latency, rate-limit pressure, cacheability, real-time needs, payload size, pagination depth, and client retry behavior;
 - local conventions for response shape, error taxonomy, timestamps, correlation/request IDs, tracing, authentication, and documentation.
 
@@ -82,8 +82,10 @@ Rules:
 - Define resources, operations, commands, queries, events, or schema fields using domain language visible to the consumer.
 - Keep database rows, ORM models, internal DTOs, SDK responses, framework request objects, and transport envelopes from leaking as the public contract unless they are intentionally the contract.
 - Validate malformed input at the boundary; enforce business invariants in the owning policy module; enforce durable uniqueness and integrity in persistence when applicable.
+- Validate authentication headers, API key headers, cookies, content types, payload sizes, and upload metadata at the boundary before work is dispatched.
 - Reject unknown or extra fields when strict contracts are required; otherwise define forward-compatibility behavior explicitly.
 - Normalize input at the boundary where normalization affects matching, uniqueness, or authorization.
+- Derive identity, tenant, ownership, role, and scope from trusted server-side context. Do not accept client-submitted ownership, role, tenant, or privilege fields as authority.
 
 Completion criterion: request and response shapes, authorization-relevant identifiers, normalization, validation, and internal-to-external mapping are explicit.
 
@@ -102,6 +104,8 @@ Rules:
 - Include field-level validation details when the client can act on them.
 - Include request/correlation IDs in logs and in the response location chosen by the project convention, usually a header and sometimes the body.
 - Sanitize all errors. Do not expose stack traces, dependency internals, SQL, secrets, tokens, raw upstream payloads, or authorization decision details.
+- Define the disclosure policy for authentication, authorization, and not-found failures so error text, status choice, timing, and validation detail do not accidentally reveal resource existence.
+- For rate limits and temporary pressure, define safe `429`/`503` responses, `Retry-After` behavior when meaningful, and whether clients receive any quota headers.
 - Route unexpected failures through centralized error mapping so one endpoint does not invent a different error shape.
 
 Completion criterion: success shape, error shape, error code taxonomy, status mapping, validation details, and correlation/logging behavior are defined.
@@ -171,12 +175,14 @@ Before presenting API work as ready, verify:
 - API style choice is justified or inherited from a project standard;
 - request/response schemas do not leak internal persistence/framework/SDK shapes accidentally;
 - authentication and authorization checks cover both function access and object-level access;
+- authentication schemes, API key/header handling, cookies, CORS, transport assumptions, rate limits, request size limits, and disclosure policy are explicit;
 - success, error, validation, and unexpected-failure shapes are consistent;
 - collection outputs are paginated or proven bounded;
 - idempotency, retry, concurrency, and cache behavior are defined where relevant;
 - versioning/deprecation/sunset behavior is explicit for client-visible changes;
 - OpenAPI/schema/examples/tests/docs are updated or a reason is given for why they do not apply;
 - sensitive data, CORS, rate limits, resource consumption, and unsafe upstream/downstream calls are reviewed.
+- secret-bearing headers, cookies, tokens, raw credentials, signed URLs, and sensitive payloads are not exposed in public contracts, examples, logs, traces, or generated docs.
 
 Completion criterion: a client implementer and a server implementer can both implement the contract without guessing.
 

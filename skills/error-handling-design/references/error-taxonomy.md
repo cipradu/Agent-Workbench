@@ -7,11 +7,11 @@ Use this reference when defining failure categories, public codes, permanence, r
 | Category                 | Meaning                                                                                   | Public Handling                                                | Retry                                          |
 | ------------------------ | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------- |
 | `validation`             | Caller supplied malformed, missing, badly typed, badly formatted, or domain-invalid input | Return field/domain details when safe                          | No, except after caller changes input          |
-| `authentication`         | Caller identity is missing, invalid, expired, or unverifiable                             | Ask caller to authenticate or refresh credentials              | Only after credential refresh or re-auth       |
-| `authorization`          | Caller is known but not allowed to perform the action                                     | Deny safely, with disclosure policy                            | No                                             |
-| `not_found`              | Resource or route is absent, hidden, or outside disclosure policy                         | Return not-found shape consistent with policy                  | No, unless eventual consistency is documented  |
+| `authentication`         | Caller identity is missing, invalid, expired, malformed, or unverifiable                  | Ask caller to authenticate or refresh credentials without exposing credential internals | Only after credential refresh or re-auth       |
+| `authorization`          | Caller is known but not allowed to perform the action                                     | Deny safely, with disclosure policy and no ownership/policy internals | No                                             |
+| `not_found`              | Resource or route is absent, hidden, or outside disclosure policy                         | Return not-found shape consistent with policy and enumeration risk | No, unless eventual consistency is documented  |
 | `conflict`               | Request conflicts with current state, version, uniqueness, or concurrency rule            | Tell caller how to resolve when safe                           | Maybe after state refresh or idempotency check |
-| `rate_limited`           | Caller, tenant, token, IP, job, or system exceeded a limit                                | Tell caller to slow down when safe                             | Yes, after indicated backoff                   |
+| `rate_limited`           | Caller, tenant, token, IP, job, route, or system exceeded a limit                         | Tell caller to slow down when safe; include `Retry-After` when meaningful and safe | Yes, after indicated backoff                   |
 | `dependency_unavailable` | Downstream service, database, cache, queue, file store, or provider is unavailable        | Indicate temporary failure when safe                           | Yes, if operation is idempotent or guarded     |
 | `timeout`                | Operation exceeded a deadline or dependency response time                                 | Expose retry/backoff only when safe                            | Maybe, if duplicate side effects are prevented |
 | `cancelled`              | Caller, context, shutdown, or supervisor cancelled work                                   | Surface cancellation semantics to the owner                    | Depends on caller intent                       |
@@ -36,10 +36,20 @@ Rules:
 Useful code families:
 
 - input: `INVALID_INPUT`, `MISSING_REQUIRED_FIELD`, `INVALID_FIELD`, `INVALID_FORMAT`;
-- identity/access: `AUTHENTICATION_REQUIRED`, `TOKEN_EXPIRED`, `FORBIDDEN`;
+- identity/access: `AUTHENTICATION_REQUIRED`, `INVALID_AUTHENTICATION`, `TOKEN_EXPIRED`, `FORBIDDEN`;
 - resource/state: `NOT_FOUND`, `CONFLICT`, `VERSION_CONFLICT`, `ALREADY_EXISTS`;
 - pressure/retry: `RATE_LIMITED`, `SERVICE_UNAVAILABLE`, `TIMEOUT`;
 - domain: specific business-state failures, named from caller action rather than storage cause.
+
+## Security-Sensitive Failure Rules
+
+Rules:
+
+- Invalid, malformed, expired, missing, and unsupported credentials should map to stable authentication categories without echoing credential values, parser details, token claims, key IDs, or signature internals.
+- Authorization failures should not expose policy internals, role hierarchy, tenant membership, object ownership, or which condition failed unless the API deliberately documents that disclosure.
+- Choose whether unauthorized access to a protected object returns authorization or not-found semantics. Apply that policy consistently to status/category, public code, message, validation detail, timing, and batch-item behavior.
+- Rate-limit failures should expose enough backoff information for legitimate clients without giving attackers precise tuning data beyond the chosen contract.
+- Repeated malformed auth, forbidden access, suspicious enumeration, and abuse patterns may be operational or security telemetry even when the public error is a normal `4xx`.
 
 ## Public And Private Fields
 

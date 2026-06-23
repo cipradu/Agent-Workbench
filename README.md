@@ -4,7 +4,9 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets from the working source repository. Scripts are still reserved until install, export, or validation workflows are created intentionally.
+This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets from the working source repository. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, database/API/error/testing design, and git commit/PR discipline.
+
+Scripts are reserved until install, export, or validation workflows are created intentionally. For now, assets are copied manually into the target harness locations.
 
 ## What This Is
 
@@ -42,6 +44,8 @@ scripts/
 
 The public `docs/` tree is intentionally excluded for now. Curated public documentation can be added later when there is material worth maintaining outside the README.
 
+The `scripts/install/` and `scripts/validate/` directories are placeholders for future automation. They do not currently provide an installer or validator.
+
 ## Repository Areas
 
 ### Skills
@@ -50,7 +54,7 @@ The public `docs/` tree is intentionally excluded for now. Curated public docume
 
 Current skill groups include:
 
-- Workflow and definition: `coding-project-orchestrator`, `create-project-prd`, `create-engineering-spec`, `create-implementation-plan`, and `implementation-review-workflow`.
+- Workflow and definition: `coding-project-orchestrator`, `project-continuity`, `create-project-prd`, `create-engineering-spec`, `create-implementation-plan`, `create-implementation-pattern`, and `implementation-review-workflow`.
 - Design and quality: `architecture-design`, `api-design`, `database-design`, `testing-strategy`, and `error-handling-design`.
 - Documentation and support: `create-documentation`, `create-readme`, `create-project-adr`, `structured-problem-resolution`, `codebase-search`, `create-skills`, `git-commit`, `git-pull-request`, and `project-rules`.
 
@@ -77,6 +81,15 @@ Copy assets selectively:
 3. Copy the relevant project instruction file from `harness-instructions/`.
 4. Keep project-specific rules in the target project unless the rule is broadly reusable.
 5. Validate behavior with pressure scenarios before trusting a new or changed skill.
+
+Common local destinations are:
+
+- `~/.agents/skills/` for portable skills.
+- `~/.claude/agents/` and `~/.claude/CLAUDE.md` for Claude.
+- `~/.codex/agents/` and `~/.codex/AGENTS.md` for Codex.
+- `~/.config/opencode/agents/` and `~/.config/opencode/AGENTS.md` for OpenCode.
+
+The generic `harness-instructions/AGENTS.md` is a portable source file. Use the harness-specific instruction file when deploying to Claude, Codex, or OpenCode.
 
 ## Packaging Direction
 
