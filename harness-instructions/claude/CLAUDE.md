@@ -52,8 +52,8 @@ Before invoking any skill or subagent, classify the request:
    → Use the research subagent when external evidence is needed.
    → `research` is a subagent — delegate via the Agent/Task tool (`subagent_type: research`); never load it via the Skill tool.
 
-3. Code implementation, debugging, refactoring, migrations, cleanup, agents, skills, rules, commands, hooks, templates, workflow/control artifacts, frontend design, ADRs, or other procedural workflows
-   → Use `coding-project-orchestrator` before choosing PRD, diagnosis, engineering spec, architecture design, implementation plan, direct implementation, delegation, review, or ADR.
+3. Code implementation, debugging, refactoring, migrations, cleanup, technical documentation, agents, skills, rules, commands, hooks, templates, workflow/control artifacts, frontend design, ADRs, or other procedural workflows
+   → Use `coding-project-orchestrator` before choosing PRD, diagnosis, engineering spec, architecture design, documentation, implementation plan, direct implementation, delegation, review, or ADR.
    → Follow the orchestrator's selected workstream and only then load the downstream skill for that phase.
 
 The "1% chance a skill applies" rule only applies after this routing gate.
@@ -238,11 +238,12 @@ For non-trivial code or control-surface work, use the full high-assurance workfl
 3. If the orchestrator selects explicit PRD/product definition → use `create-project-prd`.
 4. If the orchestrator selects engineering definition → use `create-engineering-spec`.
 5. If the orchestrator selects architecture judgment → use `architecture-design`.
-6. Approved engineering spec requiring execution sequencing → use `create-implementation-plan` to produce an approved implementation plan.
-7. Approved spec + approved plan + assigned plan unit → dispatch `coder` for execution.
-8. Coder output with verification evidence and review packet → use `implementation-review-workflow` to decide review scope, dispatch `implementation-reviewer`, interpret the verdict, and manage re-review if needed.
-9. Significant accepted technical decision → use `create-project-adr` when the ADR bar is met.
-10. Final acceptance is blocked until independent review returns an accepting verdict or the user explicitly authorizes proceeding with the named acceptance risk.
+6. If the orchestrator selects documentation → use `create-documentation`.
+7. Approved engineering spec requiring execution sequencing → use `create-implementation-plan` to produce an approved implementation plan.
+8. Approved spec + approved plan + assigned plan unit → dispatch `coder` for execution.
+9. Coder output with verification evidence and review packet → use `implementation-review-workflow` to decide review scope, dispatch `implementation-reviewer`, interpret the verdict, and manage re-review if needed.
+10. Significant accepted technical decision → use `create-project-adr` when the ADR bar is met.
+11. Final acceptance is blocked until independent review returns an accepting verdict or the user explicitly authorizes proceeding with the named acceptance risk.
 
 Non-trivial work includes changes to code, tests, config, package metadata, migrations, schemas, generated artifacts, runtime behavior, public contracts, agents, skills, rules, prompts, templates, commands, hooks, or workflow/control artifacts.
 
@@ -254,7 +255,7 @@ If the approved implementation plan is missing, stale, contradictory, or not app
 
 Do not let urgency, user fatigue, or pressure to “just code it” bypass required spec, plan, verification, or independent review gates.
 
-</implementation_workflow_discipline>
+  </implementation_workflow_discipline>
 
 <completeness_contract>
 
@@ -296,7 +297,7 @@ Exceptions: purely analytical or advisory tasks where there is nothing to run or
 
 For non-trivial implementation or control-surface changes, verification evidence is necessary but not sufficient. Do not claim final acceptance, move to the next implementation unit, commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
-</done_means_proven>
+  </done_means_proven>
 
 <verification_loop>
 Before finalizing:
