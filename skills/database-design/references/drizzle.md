@@ -6,6 +6,7 @@ Always apply the general database rules first. This reference covers the adapter
 
 ## Core Rules
 
+- Treat Drizzle as the adapter layer, not the data-model authority. Apply the general database rules and the engine-specific reference before accepting a Drizzle shape.
 - Define schema in TypeScript using the dialect-specific table helpers for the target engine.
 - Derive types from tables with `typeof table.$inferSelect` and `typeof table.$inferInsert`; do not hand-maintain duplicate DTO types as the database source of truth.
 - Use Drizzle query APIs for normal repository/query code.
@@ -16,6 +17,7 @@ Always apply the general database rules first. This reference covers the adapter
 - Keep transactions short and free of external network calls.
 - Enforce soft delete filters by default in the query layer, with explicit include-deleted behavior where needed.
 - Use prepared statements for hot paths where the target driver and project convention support them.
+- Do not copy Drizzle examples blindly. For PostgreSQL, examples using `serial` are not a reason to violate a project or skill convention that prefers identity columns.
 
 ## Schema And Types
 
@@ -23,6 +25,7 @@ Rules:
 
 - choose the correct dialect package for the target engine;
 - define constraints and indexes in schema/migration code where the tool supports it;
+- define actual database constraints for durable integrity. Drizzle relations improve query ergonomics but do not replace foreign keys, unique constraints, not-null constraints, check constraints, or exclusion constraints where the database must enforce the invariant;
 - keep database column names stable and explicit;
 - derive select/insert types from the table definition;
 - map database rows to API/domain contracts instead of returning table types everywhere by default.
@@ -37,6 +40,7 @@ Rules:
 - keep one logical change per migration where practical;
 - do not rely on generated output to decide operational safety;
 - handle partitioning, specialized indexes, constraints, or engine-specific DDL through reviewed migrations/scripts when Drizzle schema cannot express the operation safely;
+- keep raw SQL migrations for unsupported engine features tied to the same safety bar as hand-written SQL: static identifiers or allowlists, parameterized runtime values where applicable, explicit blast radius, and rollback/recovery notes;
 - verify migration commands and config against the project's installed Drizzle/drizzle-kit version before asserting exact CLI syntax.
 
 Failure output: `Blocked: Drizzle migration behavior needs project-version verification: <specific command/config/API>.`
