@@ -52,7 +52,7 @@ Before invoking any skill or subagent, classify the request:
    → Use the research subagent when external evidence is needed.
    → `research` is a subagent — explicitly spawn or delegate to a research specialist using Codex's subagent mechanism; don't load it as a skill.
 
-3. Code implementation, debugging, refactoring, migrations, cleanup, technical documentation, agents, skills, rules, commands, hooks, templates, workflow/control artifacts, frontend design, ADRs, or other procedural workflows
+3. Code implementation, debugging, refactoring, migrations, cleanup, technical documentation, agents, skills, rules, commands, hooks, templates, workflow/control artifacts, frontend design, ADRs, implementation patterns, or other procedural workflows
    → Use `coding-project-orchestrator` before choosing PRD, diagnosis, engineering spec, architecture design, documentation, implementation plan, direct implementation, delegation, review, or ADR.
    → Follow the orchestrator's selected workstream and only then load the downstream skill for that phase.
 
@@ -242,8 +242,10 @@ For non-trivial code or control-surface work, use the full high-assurance workfl
 7. Approved engineering spec requiring execution sequencing → use `create-implementation-plan` to produce an approved implementation plan.
 8. Approved spec + approved plan + assigned plan unit → dispatch `coder` for execution.
 9. Coder output with verification evidence and review packet → use `implementation-review-workflow` to decide review scope, dispatch `implementation-reviewer`, interpret the verdict, and manage re-review if needed.
-10. Significant accepted technical decision → use `create-project-adr` when the ADR bar is met.
-11. Final acceptance is blocked until independent review returns an accepting verdict or the user explicitly authorizes proceeding with the named acceptance risk.
+10. Project continuity checkpoint where `docs/progress.md` or another continuity artifact exists and meaningful work is starting, resuming, pausing, blocked, accepted, merged, or closed → use `project-continuity`; progress notes never replace source truth.
+11. Concrete reusable implementation-pattern signal from implementation or review evidence → use `create-implementation-pattern` to decide accepted pattern, candidate note, existing-pattern update, or rejection. Do not force pattern creation when no concrete signal exists.
+12. Significant accepted technical decision → use `create-project-adr` when the ADR bar is met.
+13. Final acceptance is blocked until independent review returns an accepting verdict or the user explicitly authorizes proceeding with the named acceptance risk.
 
 Non-trivial work includes changes to code, tests, config, package metadata, migrations, schemas, generated artifacts, runtime behavior, public contracts, agents, skills, rules, prompts, templates, commands, hooks, or workflow/control artifacts.
 
@@ -255,7 +257,7 @@ If the approved implementation plan is missing, stale, contradictory, or not app
 
 Do not let urgency, user fatigue, or pressure to “just code it” bypass required spec, plan, verification, or independent review gates.
 
-  </implementation_workflow_discipline>
+</implementation_workflow_discipline>
 
 <completeness_contract>
 
@@ -297,7 +299,7 @@ Exceptions: purely analytical or advisory tasks where there is nothing to run or
 
 For non-trivial implementation or control-surface changes, verification evidence is necessary but not sufficient. Do not claim final acceptance, move to the next implementation unit, commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
-  </done_means_proven>
+</done_means_proven>
 
 <verification_loop>
 Before finalizing:
@@ -521,7 +523,7 @@ Do not dispatch `coder` for non-trivial implementation/control-surface work unle
 - code-quality constraints, including existing patterns/reuse expectations, abstraction/dependency justifications, and cleanup/refactor non-goals;
 - expected verification commands or checks;
 - whether this is first-pass execution or review-fix execution;
-- expected review packet requirements.
+- expected review packet requirements, including whether the coder should report observed implementation-pattern signals or `none observed`.
 
 If the spec or plan is missing, stale, contradicted, or not applicable, do not dispatch `coder`. Return to `coding-project-orchestrator`; it will select diagnosis, PRD confirmation, engineering spec, architecture design, implementation plan, or blocker as appropriate.
 
@@ -534,6 +536,10 @@ Use `implementation-review-workflow` for non-trivial implementation/control-surf
 The review workflow owns caller-side review behavior: deciding whether review is required, building the review packet, dispatching `implementation-reviewer`, interpreting the verdict, tracking findings across re-review, and deciding whether the work is accepted, blocked, or must return to coder.
 
 Dispatch `implementation-reviewer` only with a complete review packet. In Codex, explicitly spawn or delegate to the configured `implementation-reviewer` specialist when available; otherwise spawn a specialist with the implementation-reviewer prompt and complete review packet. The reviewer is an independent read-only acceptance gate, not a fixer.
+
+If implementation or review evidence reports a concrete reusable implementation-pattern signal, route it through `create-implementation-pattern` after verdict handling. Accepted pattern, candidate note, existing-pattern update, and rejection are all valid outcomes; absence of a concrete signal requires no pattern artifact.
+
+If the project has `docs/progress.md` or another continuity artifact, use `project-continuity` at meaningful start, resume, pause, blocked, accepted, merged, or closed checkpoints. Continuity updates preserve current state, blockers, active artifacts, and next valid action; they do not replace specs, plans, review verdicts, ADRs, commits, PRs, or source truth.
 
 ---
 

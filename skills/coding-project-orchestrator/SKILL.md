@@ -37,6 +37,8 @@ Preserve these boundaries:
 - execution strategy describes units, dependencies, blast radius, verification, approvals, and re-plan triggers;
 - implementation changes code, tests, docs, config, schemas, commands, agents, skills, rules, or other artifacts;
 - review gives independent acceptance evidence after implementation or artifact drafting;
+- project continuity preserves current state, blockers, active artifacts, and next valid action across sessions without replacing source truth;
+- implementation patterns preserve reusable local guidance for recurring solution shapes after recurrence, forces, non-use cases, and examples have been proven;
 - ADRs preserve significant lasting decisions after the decision is real enough to record.
 
 ## Operating Process
@@ -72,6 +74,7 @@ Minimum checks:
 - Engineering truth: Are required behavior, constraints, invariants, authority, contracts, or acceptance evidence missing?
 - Architecture truth: Are ownership, boundaries, seams, adapters, or trade-offs unresolved?
 - Execution truth: Are units, dependencies, blast radius, verification, or re-plan triggers missing?
+- Continuity truth: Does a project continuity artifact exist, and is current focus, blocker state, or next action needed for safe start, resume, pause, or close?
 - Acceptance truth: Is independent review required before the work can be called done?
 
 Completion criterion: the next action is chosen from the kind of truth actually missing, not from the user's wording alone.
@@ -123,6 +126,8 @@ Select the workstream from evidence, then load the owning downstream skill befor
 | Direct implementation         | The direct-work criteria in Step 3 all pass                                                                                                          | Implement within scope, verify, then review if required    |
 | Delegated implementation      | An approved plan unit is ready and isolated execution is useful                                                                                      | dispatch the configured coder only with a complete handoff |
 | Implementation review         | Non-trivial implementation or control-surface artifacts changed                                                                                      | `implementation-review-workflow`                           |
+| Project continuity            | A project continuity artifact exists or is required, and meaningful work is starting, resuming, pausing, blocked, accepted, merged, or closed        | `project-continuity`                                       |
+| Pattern capture               | Implementation, review, ADR/spec/plan, or codebase evidence shows a concrete recurring implementation approach or future convention signal           | `create-implementation-pattern`                            |
 | Decision capture              | A significant lasting technical decision has been made                                                                                               | `create-project-adr`                                       |
 
 Completion criterion: the selected workstream preserves artifact boundaries and gives the downstream skill/action the prerequisites it needs.
@@ -173,6 +178,8 @@ Before claiming completion:
 - run required commands, inspections, or evidence checks;
 - dispatch independent review when required;
 - handle review verdicts instead of summarizing them away;
+- update project continuity when a continuity artifact exists or is required and a meaningful start/resume/pause/close checkpoint changed current state;
+- surface implementation-pattern candidates only when concrete recurrence or mandate signals exist, then route them to `create-implementation-pattern` for accepted/candidate/update/rejection judgment;
 - surface ADR candidates only when decisions meet the ADR bar;
 - report residual risk and skipped checks.
 
@@ -196,18 +203,20 @@ Stop and report the blocker instead of proceeding when:
 
 ## Rationalization Table
 
-| Temptation                                       | Reality                                                             | Required action                                                                                                                                              |
-| ------------------------------------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| "It is small, just code it."                     | Small is not the same as understood.                                | Check desired behavior, cause, blast radius, and verification first.                                                                                         |
-| "The user asked for a feature, so write a PRD."  | PRD is for explicit product-definition work, not every code change. | Use PRD only when the user asked for a PRD or equivalent product-scope artifact; otherwise ask one targeted question or block when product truth is missing. |
-| "The bug report gives the fix."                  | A bug report often includes a diagnosis, not verified cause.        | Use `structured-problem-resolution` until cause and fix hypothesis are supported.                                                                            |
-| "A spec is enough; skip the plan."               | Spec truth is not execution strategy.                               | Plan when units, dependencies, blast radius, verification, or delegation matter.                                                                             |
-| "The plan tells me exactly what to edit."        | A plan is guardrails, not a script.                                 | Re-read codebase reality and stop if the plan is stale or contradicted.                                                                                      |
-| "Architecture can be decided by pattern name."   | Pattern names do not prove fit.                                     | Use `architecture-design` to prove forces, ownership, seams, and trade-offs.                                                                                 |
-| "Tests passed, so it is done."                   | Tests are evidence, not always independent acceptance.              | Run required review and report residual risk.                                                                                                                |
-| "The reviewer found something, so implement it." | Review feedback is a signal, not an instruction.                    | Evaluate, diagnose when needed, and route to fix, spec, plan, or user decision.                                                                              |
-| "This is just a skill/rule/template change."     | Control artifacts alter future behavior.                            | Treat as implementation/control-surface work and review when non-trivial.                                                                                    |
-| "High assurance means always maximum ceremony."  | Over-processing creates drag and stale artifacts.                   | Use the lightest sufficient workflow, with explicit escalation when risk or uncertainty requires it.                                                         |
+| Temptation                                        | Reality                                                             | Required action                                                                                                                                              |
+| ------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| "It is small, just code it."                      | Small is not the same as understood.                                | Check desired behavior, cause, blast radius, and verification first.                                                                                         |
+| "The user asked for a feature, so write a PRD."   | PRD is for explicit product-definition work, not every code change. | Use PRD only when the user asked for a PRD or equivalent product-scope artifact; otherwise ask one targeted question or block when product truth is missing. |
+| "The bug report gives the fix."                   | A bug report often includes a diagnosis, not verified cause.        | Use `structured-problem-resolution` until cause and fix hypothesis are supported.                                                                            |
+| "A spec is enough; skip the plan."                | Spec truth is not execution strategy.                               | Plan when units, dependencies, blast radius, verification, or delegation matter.                                                                             |
+| "The plan tells me exactly what to edit."         | A plan is guardrails, not a script.                                 | Re-read codebase reality and stop if the plan is stale or contradicted.                                                                                      |
+| "Architecture can be decided by pattern name."    | Pattern names do not prove fit.                                     | Use `architecture-design` to prove forces, ownership, seams, and trade-offs.                                                                                 |
+| "Tests passed, so it is done."                    | Tests are evidence, not always independent acceptance.              | Run required review and report residual risk.                                                                                                                |
+| "The reviewer found something, so implement it."  | Review feedback is a signal, not an instruction.                    | Evaluate, diagnose when needed, and route to fix, spec, plan, or user decision.                                                                              |
+| "The conversation has the current state."         | Conversation context decays and may not survive the next session.   | Use `project-continuity` when a project continuity artifact exists or checkpoint state needs to persist.                                                     |
+| "A useful pattern appeared, so create a pattern." | Pattern capture is a check, not automatic documentation.            | Route concrete recurrence or mandate signals to `create-implementation-pattern`; accept candidate, update, or rejection outcomes.                            |
+| "This is just a skill/rule/template change."      | Control artifacts alter future behavior.                            | Treat as implementation/control-surface work and review when non-trivial.                                                                                    |
+| "High assurance means always maximum ceremony."   | Over-processing creates drag and stale artifacts.                   | Use the lightest sufficient workflow, with explicit escalation when risk or uncertainty requires it.                                                         |
 
 ## Red Flags
 
@@ -217,6 +226,8 @@ Stop and report the blocker instead of proceeding when:
 - A failure is fixed by trying changes before explaining the mechanism.
 - The agent asks broad intake questions instead of inspecting recoverable context.
 - Direct implementation is chosen without naming verification.
+- Existing `docs/progress.md` or project continuity artifact is ignored on start/resume.
+- Work reaches a meaningful pause/close checkpoint without checking whether continuity needs updating.
 - The plan changes the product or engineering requirement it was supposed to satisfy.
 - Architecture output starts with a named pattern before forces and ownership.
 - Review is skipped because the implementer already verified the change.

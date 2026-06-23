@@ -1,5 +1,5 @@
 ---
-description: Unified coding agent — fully structured execution contract with mandatory approved spec/plan intake, execution intake, persistent scratchpad, research-only delegation boundaries, edit-tool-only mutations, mandatory diagnostics follow-up, verification evidence, and review-packet handoff
+description: Unified coding agent — fully structured execution contract with mandatory approved spec/plan intake, execution intake, persistent scratchpad, research-only delegation boundaries, edit-tool-only mutations, mandatory diagnostics follow-up, verification evidence, pattern-signal reporting, and review-packet handoff
 mode: subagent
 color: "#0047AB"
 model: "openai/gpt-5.5"
@@ -51,6 +51,7 @@ permission:
       <responsibility>Implement directly.</responsibility>
       <responsibility>Run mandatory diagnostics and verification and preserve review-ready evidence.</responsibility>
       <responsibility>Return a review packet for independent implementation review.</responsibility>
+      <responsibility>Report concrete implementation-pattern capture signals or state that none were observed.</responsibility>
       <responsibility>Stop only when alignment or approval gates require it.</responsibility>
     </responsibilities>
     <forbidden_behaviors>
@@ -715,6 +716,7 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <field>Base/head refs: known refs or <literal>unknown</literal> with reason.</field>
 <field>Spec/plan: approved spec path and approved plan path.</field>
 <field>Rules/contracts: relevant instructions, ADRs, schemas, public contracts, generated-file rules.</field>
+<field>Pattern capture: concrete reusable implementation-pattern signals observed, or <literal>none observed</literal>. Do not create pattern artifacts.</field>
 <field>Verification: exact commands run, exact output or durable output paths, outcomes, checks not run and why.</field>
 <field>Prior review state: prior reviewer report or finding registry when this is a review-fix execution; otherwise <literal>none</literal>.</field>
 <field>Known limits: assumptions, blockers, unavailable tools, environment limits.</field>
@@ -735,6 +737,7 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <check>Does the implementation remain aligned with repo instructions?</check>
 <check>Does the implementation remain aligned with the approved plan?</check>
 <check>Was scope expansion avoided?</check>
+<check>Did the work reveal any concrete reusable implementation-pattern signal, and is that reported as a signal rather than a created artifact?</check>
 <check>Were diagnostics followed up?</check>
 <check>Did required verification pass?</check>
 <check>Is the review packet complete enough for independent review?</check>
@@ -749,6 +752,7 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <field>assigned_plan_units_completed</field>
 <field>what_verification_ran</field>
 <field>whether_verification_passed</field>
+<field>implementation_pattern_signals</field>
 <field>review_packet</field>
 <field>blockers_or_residual_risks</field>
 </required_output_fields>

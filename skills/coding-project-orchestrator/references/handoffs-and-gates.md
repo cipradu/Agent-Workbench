@@ -13,6 +13,8 @@ Use this reference before moving from one workstream to another or dispatching a
 - [Gate: To Direct Implementation](#gate-to-direct-implementation)
 - [Gate: To Coder Delegation](#gate-to-coder-delegation)
 - [Gate: To Implementation Review](#gate-to-implementation-review)
+- [Gate: To Project Continuity](#gate-to-project-continuity)
+- [Gate: To Implementation Pattern](#gate-to-implementation-pattern)
 - [Gate: To ADR](#gate-to-adr)
 - [Re-Plan Triggers During Execution](#re-plan-triggers-during-execution)
 
@@ -125,6 +127,32 @@ Pass condition:
 Failure output:
 
 `Blocked: implementation review packet is missing <objective/scope/diff/verification/prior state>.`
+
+## Gate: To Project Continuity
+
+Pass condition:
+
+- The project has `docs/progress.md`, another named continuity artifact, or an explicit instruction to maintain one.
+- Meaningful project work is starting, resuming, pausing, blocked, accepted, merged, or closed; or the user asks for current state, next action, blockers, where work left off, or whether progress is aligned with active artifacts.
+- Source truth can be named: git state, PRD, spec, plan, ADR, review, issue, PR, verification output, or explicit user status.
+- The objective is to preserve or read current state, not to replace PRD/spec/plan/review/ADR truth or write a diary.
+
+Failure output:
+
+`Skipped: project continuity is not applicable or cannot be reconciled: <no artifact/no policy/missing source truth/conflict>.`
+
+## Gate: To Implementation Pattern
+
+Pass condition:
+
+- A concrete pattern-capture signal exists from implementation, review, ADR/spec/plan, or codebase inconsistency evidence.
+- Source evidence can be named: files, review finding, repeated examples, accepted mandate, or existing conflicting approaches.
+- The objective is to decide pattern-worthiness, not to force documentation.
+- The candidate is not better handled only as an ADR, engineering spec, implementation plan, reader-facing documentation, or domain-specific skill.
+
+Failure output:
+
+`Rejected: implementation-pattern candidate lacks concrete recurrence, mandate, force, example, or artifact-boundary evidence: <specific reason>.`
 
 ## Gate: To ADR
 
