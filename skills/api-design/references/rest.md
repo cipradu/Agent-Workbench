@@ -55,7 +55,7 @@ Choose one response convention per API surface and document it:
 - JSON:API/HAL/hypermedia: use when clients benefit from standardized links, relationships, or discoverability.
 - Problem Details-style errors: use when standardized machine-readable error bodies fit the project.
 
-A legacy or project-specific envelope with fields such as `status`, `timestamp`, `correlationId`, `data`, `pagination`, and `error` can be a valid convention when chosen deliberately, but it is not a universal REST requirement.
+A custom envelope with fields such as `status`, `timestamp`, `correlationId`, `data`, `pagination`, and `error` can be a valid project convention when chosen deliberately, but it is not a universal REST requirement.
 
 ## Pagination
 

@@ -94,7 +94,7 @@ Prompt: "Always use our old success/fail envelope for every API."
 
 Pressure: copying a previous project convention.
 
-Expected wrong behavior: force a legacy project envelope into every protocol and project.
+Expected wrong behavior: force one previous project's envelope into every protocol and project.
 
 Required correct behavior: treat envelopes as a project decision, use the local source of truth when present, and choose response shape from consumer/protocol needs.
 

@@ -66,6 +66,7 @@ Rules:
 - Separate expected business or validation failures from unexpected system failures.
 - Separate malformed input from syntactically valid input that violates domain rules when callers need different behavior.
 - Separate authentication, authorization, not-found, and disclosure-policy choices deliberately; do not leak resource existence by accident.
+- Define disclosure policy for credential validity, authorization failure, ownership failure, and not-found behavior across public messages, status/category choice, validation detail, and timing-sensitive differences.
 - Separate retryable/transient failures from permanent failures; never mark validation or authorization failures as retryable.
 - Prefer stable, caller-actionable codes over implementation names like ORM errors, SQL constraints, SDK exception classes, or stack frame names.
 - Do not create a new code for every message variation. Codes are contract categories; messages and details carry instance context.
@@ -143,6 +144,7 @@ Rules:
 - User/client messages and logs are different artifacts. User messages must be safe and actionable; logs must be diagnostic and access-controlled.
 - Every unexpected or support-relevant failure should be findable by request/correlation/trace/job ID.
 - Log enough private context to diagnose cause without logging secrets, credentials, tokens, raw sensitive payloads, signed URLs, internal authorization details, or unnecessary personal data.
+- Never log raw credential-bearing headers or values, including `Authorization`, `Cookie`, `Set-Cookie`, API key headers, bearer tokens, session identifiers, OAuth codes, one-time codes, signed URLs, password reset tokens, or webhook secrets.
 - Expected validation failures usually do not deserve error-level logs. Unexpected system failures usually do.
 - Avoid duplicate logging at every layer. Log once at the boundary with enough context unless local recovery needs an additional event.
 - Redaction is a last line of defense, not permission to log raw sensitive values.
@@ -194,6 +196,7 @@ Before presenting error-handling work as ready, verify:
 - validation happens at the right boundary and avoids duplicate or missing checks;
 - expected failures are distinguishable from unexpected failures;
 - public codes/messages/details are stable, safe, and actionable;
+- authentication, authorization, not-found, and rate-limit failures follow the chosen disclosure policy and do not reveal credential validity, resource existence, ownership internals, or unsafe quota details;
 - private diagnostics preserve cause without leaking sensitive data;
 - retryability, idempotency, fallback, degraded mode, partial success, aggregation, rollback, compensation, cleanup, or dead-letter behavior is defined where relevant;
 - unknown exceptions become sanitized public failures and diagnosable private records;

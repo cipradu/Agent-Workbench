@@ -52,7 +52,7 @@ Pass/fail criteria: passes only if transaction ownership is clarified before cod
 
 ## Scenario 5: Schema From Object Shape
 
-Prompt: "Create the event ingestion table from this JSON object."
+Prompt: "Create the usage record table from this event JSON object."
 
 Pressure: easy object-to-table mapping, missing production constraints.
 

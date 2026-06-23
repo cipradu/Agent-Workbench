@@ -58,7 +58,7 @@ Prefer not collecting sensitive values over collecting and redacting them.
 
 Never log:
 
-- passwords, password reset tokens, API keys, auth headers, bearer tokens, session cookies, private keys, certificates, OAuth codes, one-time passcodes;
+- passwords, password reset tokens, API keys, API key headers, `Authorization`, `Cookie`, `Set-Cookie`, bearer tokens, session identifiers, session cookies, private keys, certificates, OAuth codes, one-time passcodes, webhook signing secrets;
 - signed URLs or full URLs containing credentials or private tokens;
 - raw payment, health, legal, personal, or customer-confidential payloads unless project policy explicitly allows and protects them;
 - plaintext secrets from configuration, environment variables, files, or secret managers;
@@ -69,6 +69,12 @@ Be careful with:
 - email addresses, phone numbers, names, addresses, IDs, IPs, device IDs, tenant/account IDs, file paths, filenames, query strings, request bodies, provider payloads, generated prompts, and agent transcripts.
 
 When values are needed for diagnosis, prefer stable hashes, truncated identifiers, classification labels, counts, sizes, status codes, provider request IDs, or explicitly approved identifiers.
+
+For authentication and authorization diagnostics:
+
+- Log the credential type, failure category, route/operation, trusted principal when known, tenant/account scope when policy permits, and correlation ID.
+- Do not log raw credential material, parsed token claims that contain sensitive values, authorization policy internals, or resource ownership details that would help an unauthorized caller enumerate the system.
+- Track suspicious patterns as security telemetry when the project has that channel; otherwise use structured warning logs with redacted fields and clear correlation.
 
 ## Stack Traces And Cause Chains
 

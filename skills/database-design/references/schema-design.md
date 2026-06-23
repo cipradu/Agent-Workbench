@@ -103,6 +103,22 @@ Use audit fields when the project needs traceability:
 
 Define retention and purge behavior for large, sensitive, temporary, or legally governed data. Retention is part of schema design because it affects indexes, partitions, deletion strategy, and restore expectations.
 
+## Credential And Secret-Derived Data
+
+Do not store reusable secrets as ordinary plaintext data.
+
+Rules:
+
+- Passwords are never stored directly. Store a verifier produced by a project-approved password hashing scheme, plus algorithm/version/parameter metadata when needed for future rehashing.
+- API keys, bearer tokens, refresh tokens, webhook secrets, recovery tokens, and one-time codes should be stored as non-reversible verifiers, keyed hashes, token fingerprints, or secret-manager references unless plaintext recovery is explicitly required and protected.
+- If plaintext recovery is truly required, state why, encrypt at rest with key-management boundaries outside the application table, and define who or what can decrypt.
+- Store display-safe metadata separately from the secret verifier: prefix or last characters for user display, created time, last-used time, expiry, revoked time, owner, tenant, scope, environment, and credential name/label when relevant.
+- Model rotation and revocation as lifecycle state, not as an afterthought. Unique constraints and indexes should prevent duplicate active credentials where the domain requires it.
+- Do not index or expose raw sensitive values. Index verifier/fingerprint columns only when lookup requires it, and keep response mappers from returning verifier columns.
+- Treat credential records as audit-sensitive: define retention, purge, restore, and incident investigation behavior deliberately.
+
+Completion criterion: the schema supports verification, rotation, revocation, display, lookup, audit, and retention without storing or exposing the reusable secret itself.
+
 ## JSON And Semi-Structured Data
 
 Use JSON/semi-structured fields when:
