@@ -9,7 +9,9 @@ description: Use when a rough feature, bug report, compliance request, operation
 
 Use when a rough request must become an engineering-facing spec before planning, coding, migration, compliance work, or review. Trigger on requests to create, write, draft, sharpen, decompose, or think through a spec; vague feature asks; product notes that need engineering translation; bug reports that need target behavior defined; and high-consequence domains such as regulated data, billing, telecom, healthcare, financial workflows, legal/audit workflows, security, schemas, migrations, or operational systems.
 
-**Do not** use for implementation plans, code changes, task breakdowns, commit boundaries, file edit lists, or quick factual answers. Use a plan skill after the spec is approved.
+## Do Not Use
+
+Do not use for implementation plans, code changes, task breakdowns, commit boundaries, file edit lists, or quick factual answers. Use a plan skill after the spec is approved.
 
 ## Iron Law
 
@@ -21,7 +23,7 @@ If a gate fails, do not write a full spec. Emit a blocked packet, delegate disco
 
 ## Core Concept
 
-**Fit before form.** A spec is not a template. It is the engineering truth needed before planning: what must be true, what must never happen, who or what has authority, which constraints apply, what risks matter, what proves acceptance, and what the later plan must analyze.
+**Fit before form.** A spec is not a template. It is the engineering truth needed before planning: what must be true, what must never happen, who or what has authority, which constraints apply, what risks matter, what proves acceptance, what shape of scope fits the available appetite, and what the later plan must analyze.
 
 Greenfield fit means researched fit to domain, constraints, authority, options, technologies, operations, security, quality attributes, and best practices. Brownfield fit means researched fit to the existing system: rules, ADRs, current behavior, code, tests, dependencies, contracts, runtime wiring, consumers, compatibility, and operations.
 
@@ -97,6 +99,21 @@ Spec-level impact is not implementation planning. The spec must identify impacte
 
 Risk analysis must be structured, not prose. At spec depth, run a pass across security/attack, reliability/failure, compliance/regulatory, and operational dimensions. If a dimension has no impact, state `no impact` with a reason.
 
+## Scope Shaping Rule
+
+An engineering spec must shape scope deliberately instead of listing an idealized feature set. Borrow the useful Shape Up discipline without weakening the spec gates:
+
+- Problem before solution: state the current baseline, who or what is affected, and the cost of the status quo before writing requirements.
+- Appetite before scope expansion: identify the delivery appetite or decision budget when the user or project provides one. Appetite is how much the work is worth, not an implementation estimate.
+- Fixed appetite, variable scope: when the desired solution does not fit the appetite, cut or defer scope explicitly instead of expanding the time budget inside the spec.
+- Scope additions must declare their trade: when adding or expanding a capability, state what it displaces, consumes, defers, or forces into explicit scope expansion. If nothing is displaced, explain why the appetite or required outcome still justifies the added ownership.
+- Rough but solved: define the target behavior, interfaces, constraints, and acceptance evidence clearly enough for planning, while leaving implementation order, file choreography, and code to the plan.
+- Rabbit holes are risks: identify likely derailers, unknowns, dependency traps, edge cases, and hidden complexity; resolve them through constraints, explicit mitigations, research, deferral, or blockers.
+- Ownership cost is scope: material capabilities must account for build, test, maintenance, documentation/support, operational, and future-change burden at spec depth. Do not treat these as plan-only concerns when they affect whether the requirement belongs.
+- No-gos are first-class: record excluded capabilities, edge cases, related features, or nice-to-haves that would change scope, risk, or appetite.
+
+If appetite is unknown and it materially changes scope, do not invent it. Ask one informed blocking question or produce a spec that marks appetite as unresolved and keeps scope conservative. If appetite is irrelevant because the request is a hard requirement, operational fix, compliance obligation, or bug target, state that and shape by required outcome, risk, and acceptance evidence instead.
+
 ## Delegation Rules
 
 Use isolated discovery or research workers when the evidence surface is broad, independent, or likely to consume context. Delegation is read-only unless artifact mutation is explicitly approved.
@@ -156,6 +173,9 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 | “I’ll mark it as an assumption and continue.”               | Material assumptions cannot become normative truth.                                               | Resolve, defer, or block.                       |
 | “Risk section can be generic.”                              | Generic risk prose is unreviewable.                                                               | Use the risk register.                          |
 | “This is basically a plan, so files and steps help.”        | Plan detail belongs in the plan.                                                                  | Include impact surfaces, not edit choreography. |
+| “We can fit everything if the plan is good.”                 | A spec must not hide scope overflow behind execution optimism.                                    | Shape to appetite, mark no-gos, or block.       |
+| “No-gos make the spec weaker.”                              | Explicit exclusions protect the requirement from accidental expansion.                            | Record excluded scope and the reason.           |
+| “The agent suggested it, so it belongs in the spec.”         | Agent suggestions are hypotheses, not authority, product truth, or engineering truth.             | Require source authority, acceptance evidence, displacement and ownership analysis, or record it as non-scope/deferred. |
 
 ## Red Flags — Stop Before Full Spec
 
@@ -166,6 +186,10 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 - A new component inside an existing platform is treated as greenfield.
 - Source-of-truth authority is vague or ownerless.
 - The spec invents APIs, packages, state machines, or data contracts.
+- Scope grows from an ideal solution instead of the stated problem, appetite, and authority.
+- A new capability is added without saying what it displaces, consumes, defers, or why it is mandatory.
+- Material lifecycle ownership cost is ignored for a capability that affects operations, docs/support, maintenance, or future change.
+- Rabbit holes or no-gos are missing for work with meaningful uncertainty or related tempting scope.
 - User stories remain the primary structure.
 - Risks appear as generic prose instead of a register.
 - A blocker is buried inside polished prose.
@@ -182,6 +206,9 @@ When a red flag appears, return to the relevant gate or emit the blocked packet.
 - Every external library, framework, version, API, or standard fact is current, version-specific, and traced to a primary source — none taken from model memory.
 - Required greenfield or brownfield workflow passed.
 - Source/authority map covers every material claim.
+- Scope is shaped against the problem baseline, appetite when relevant, rabbit holes, and explicit no-gos.
+- Scope additions state what they displace, consume, defer, or why the required outcome justifies added ownership.
+- Material capabilities include lifecycle ownership impact: build, test, maintain, document/support, operate, and future change.
 - Domain terms, sources of truth, invariants, states, and authority roles are explicit.
 - Risk register covers required dimensions or gives reasoned no-impact entries.
 - Requirements have IDs, source classes, acceptance evidence, risk mapping, and planning-relevant impact surfaces.
