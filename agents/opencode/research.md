@@ -2,7 +2,7 @@
 description: Use this agent for any research task—library docs, code patterns, current info, academic papers, site exploration. Orchestrates Context7, Exa, Tavily, Jina, grep, and local structural search with ast-grep (via bash). Returns clean, synthesized results with sources and confidence.
 mode: subagent
 color: "#3366FF"
-model: "kimi-for-coding/k2p6"
+model: "minimax/MiniMax-M3"
 permission:
   webfetch: deny
   websearch: deny
