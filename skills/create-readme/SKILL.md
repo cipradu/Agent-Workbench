@@ -213,6 +213,6 @@ Stop and fix before completion when:
 
 ## Related Skill Handoffs
 
-- Use `documentation-writer` when the task is a multi-page docs set, tutorial, how-to guide, explanation, or reference documentation rather than a README.
+- Use `create-documentation` when the task is a multi-page docs set, tutorial, how-to guide, explanation, or reference documentation rather than a README.
 - Use `create-engineering-spec` when README work reveals unclear product or engineering behavior that must be specified before documentation can be accurate.
 - Use `git-commit` only after the user explicitly asks to commit README changes.
