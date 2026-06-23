@@ -111,18 +111,19 @@ Failure output: `Rejected: workflow choice is not justified against risk, uncert
 
 Select the workstream from evidence, then load the owning downstream skill before producing that artifact.
 
-| Workstream                    | Use when                                                                                                        | Owning skill or action                                     |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Discussion or design analysis | User wants reasoning, comparison, critique, or explanation only                                                 | Answer directly; do not mutate                             |
-| Diagnosis                     | Something is failing, surprising, disputed, or root cause is unknown                                            | `structured-problem-resolution`                            |
-| Product definition            | Explicit PRD, project-definition, or product-definition intent exists, and product/workflow truth must be defined | `create-project-prd`                                       |
-| Engineering definition        | Required behavior, constraints, invariants, authority, contracts, risks, or acceptance evidence must be defined | `create-engineering-spec`                                  |
-| Architecture judgment         | Ownership, boundaries, seams, adapters, patterns, or trade-offs shape the answer                                | `architecture-design`                                      |
-| Execution planning            | Approved engineering truth must become implementation units, dependencies, verification, and handoff            | `create-implementation-plan`                               |
-| Direct implementation         | The direct-work criteria in Step 3 all pass                                                                     | Implement within scope, verify, then review if required    |
-| Delegated implementation      | An approved plan unit is ready and isolated execution is useful                                                 | dispatch the configured coder only with a complete handoff |
-| Implementation review         | Non-trivial implementation or control-surface artifacts changed                                                 | `implementation-review-workflow`                           |
-| Decision capture              | A significant lasting technical decision has been made                                                          | `create-project-adr`                                       |
+| Workstream                    | Use when                                                                                                                                             | Owning skill or action                                     |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Discussion or design analysis | User wants reasoning, comparison, critique, or explanation only                                                                                      | Answer directly; do not mutate                             |
+| Diagnosis                     | Something is failing, surprising, disputed, or root cause is unknown                                                                                 | `structured-problem-resolution`                            |
+| Product definition            | Explicit PRD, project-definition, or product-definition intent exists, and product/workflow truth must be defined                                    | `create-project-prd`                                       |
+| Engineering definition        | Required behavior, constraints, invariants, authority, contracts, risks, or acceptance evidence must be defined                                      | `create-engineering-spec`                                  |
+| Architecture judgment         | Ownership, boundaries, seams, adapters, patterns, or trade-offs shape the answer                                                                     | `architecture-design`                                      |
+| Documentation                 | Reader-facing technical docs, tutorials, how-to guides, reference docs, explanations, API docs, runbooks, or docs updates must be created or revised | `create-documentation`                                     |
+| Execution planning            | Approved engineering truth must become implementation units, dependencies, verification, and handoff                                                 | `create-implementation-plan`                               |
+| Direct implementation         | The direct-work criteria in Step 3 all pass                                                                                                          | Implement within scope, verify, then review if required    |
+| Delegated implementation      | An approved plan unit is ready and isolated execution is useful                                                                                      | dispatch the configured coder only with a complete handoff |
+| Implementation review         | Non-trivial implementation or control-surface artifacts changed                                                                                      | `implementation-review-workflow`                           |
+| Decision capture              | A significant lasting technical decision has been made                                                                                               | `create-project-adr`                                       |
 
 Completion criterion: the selected workstream preserves artifact boundaries and gives the downstream skill/action the prerequisites it needs.
 
@@ -138,6 +139,7 @@ Rules:
 - Do not let an engineering spec invent product truth.
 - Do not let an implementation plan change spec truth.
 - Do not treat architecture analysis as an implementation plan.
+- Do not let documentation invent product truth, engineering truth, architecture decisions, or execution order.
 - Do not record an ADR for a decision that is not significant, not durable, or not actually decided.
 - Do not let review findings silently change scope; route them to diagnosis, spec revision, plan revision, implementation fix, or user decision.
 
@@ -194,18 +196,18 @@ Stop and report the blocker instead of proceeding when:
 
 ## Rationalization Table
 
-| Temptation                                       | Reality                                                      | Required action                                                                                      |
-| ------------------------------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| "It is small, just code it."                     | Small is not the same as understood.                         | Check desired behavior, cause, blast radius, and verification first.                                 |
+| Temptation                                       | Reality                                                             | Required action                                                                                                                                              |
+| ------------------------------------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| "It is small, just code it."                     | Small is not the same as understood.                                | Check desired behavior, cause, blast radius, and verification first.                                                                                         |
 | "The user asked for a feature, so write a PRD."  | PRD is for explicit product-definition work, not every code change. | Use PRD only when the user asked for a PRD or equivalent product-scope artifact; otherwise ask one targeted question or block when product truth is missing. |
-| "The bug report gives the fix."                  | A bug report often includes a diagnosis, not verified cause. | Use `structured-problem-resolution` until cause and fix hypothesis are supported.                    |
-| "A spec is enough; skip the plan."               | Spec truth is not execution strategy.                        | Plan when units, dependencies, blast radius, verification, or delegation matter.                     |
-| "The plan tells me exactly what to edit."        | A plan is guardrails, not a script.                          | Re-read codebase reality and stop if the plan is stale or contradicted.                              |
-| "Architecture can be decided by pattern name."   | Pattern names do not prove fit.                              | Use `architecture-design` to prove forces, ownership, seams, and trade-offs.                         |
-| "Tests passed, so it is done."                   | Tests are evidence, not always independent acceptance.       | Run required review and report residual risk.                                                        |
-| "The reviewer found something, so implement it." | Review feedback is a signal, not an instruction.             | Evaluate, diagnose when needed, and route to fix, spec, plan, or user decision.                      |
-| "This is just a skill/rule/template change."     | Control artifacts alter future behavior.                     | Treat as implementation/control-surface work and review when non-trivial.                            |
-| "High assurance means always maximum ceremony."  | Over-processing creates drag and stale artifacts.            | Use the lightest sufficient workflow, with explicit escalation when risk or uncertainty requires it. |
+| "The bug report gives the fix."                  | A bug report often includes a diagnosis, not verified cause.        | Use `structured-problem-resolution` until cause and fix hypothesis are supported.                                                                            |
+| "A spec is enough; skip the plan."               | Spec truth is not execution strategy.                               | Plan when units, dependencies, blast radius, verification, or delegation matter.                                                                             |
+| "The plan tells me exactly what to edit."        | A plan is guardrails, not a script.                                 | Re-read codebase reality and stop if the plan is stale or contradicted.                                                                                      |
+| "Architecture can be decided by pattern name."   | Pattern names do not prove fit.                                     | Use `architecture-design` to prove forces, ownership, seams, and trade-offs.                                                                                 |
+| "Tests passed, so it is done."                   | Tests are evidence, not always independent acceptance.              | Run required review and report residual risk.                                                                                                                |
+| "The reviewer found something, so implement it." | Review feedback is a signal, not an instruction.                    | Evaluate, diagnose when needed, and route to fix, spec, plan, or user decision.                                                                              |
+| "This is just a skill/rule/template change."     | Control artifacts alter future behavior.                            | Treat as implementation/control-surface work and review when non-trivial.                                                                                    |
+| "High assurance means always maximum ceremony."  | Over-processing creates drag and stale artifacts.                   | Use the lightest sufficient workflow, with explicit escalation when risk or uncertainty requires it.                                                         |
 
 ## Red Flags
 
