@@ -224,7 +224,7 @@ Final response for documentation creation or update must include:
 - Use `create-engineering-spec` when behavior, contracts, authority, or acceptance evidence must be defined before docs.
 - Use `architecture-design` when the request asks to reason about architecture rather than document accepted/current architecture.
 - Use `api-design` when API contract decisions are not settled.
-- Use `database-design`, `error-handling-design`, or `testing-strategy` when those concerns must be designed before documenting them.
+- Use `database-design`, `queue-and-cache-design`, `error-handling-design`, or `testing-strategy` when those concerns must be designed before documenting them.
 - Use `create-project-adr` when a documentation pass reveals a significant undocumented accepted technical decision.
 
 ## Rationalization Table

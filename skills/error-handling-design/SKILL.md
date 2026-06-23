@@ -180,6 +180,7 @@ Rules:
 
 - APIs: coordinate with `api-design` for protocol status, schema, compatibility, versioning, OpenAPI/GraphQL, and client behavior.
 - Databases: coordinate with `database-design` for constraint ownership, transaction rollback, retries, deadlocks, serialization failures, and migration/backfill behavior.
+- Queues and caches: coordinate with `queue-and-cache-design` for job retries, dead-letter behavior, stalled workers, queue outage behavior, cache staleness, invalidation failures, lock expiry, rate-limit state, and worker recovery.
 - Tests: coordinate with `testing-strategy` for regression, negative-path, boundary, contract, integration, and manual evidence.
 - Architecture: coordinate with `architecture-design` when the error mapping boundary changes ownership across controllers, services, adapters, domain modules, jobs, or infrastructure.
 - Operations/observability: follow existing logging/tracing/metrics standards when present; do not invent parallel telemetry conventions inside this skill.

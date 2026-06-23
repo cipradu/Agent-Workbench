@@ -199,6 +199,12 @@ When blocked, emit the failure output from the failed step and name the smallest
 
 Use `create-project-adr` when a database decision changes a durable project convention, would be costly to reverse, affects persistent data shape, chooses a database/ORM/migration strategy, establishes tenancy/soft-delete/audit policy, or sets a repeated transaction/query/migration pattern future maintainers will question.
 
+## Related Skill Handoffs
+
+- Use `queue-and-cache-design` when database work crosses into cache invalidation, cache refresh, Redis keys, queue enqueue timing, outbox handoff, worker side effects, idempotency keys, distributed locks, pub/sub, streams, retries, dead-letter behavior, or queue/cache observability.
+- Use `error-handling-design` when database errors, transaction failures, constraint failures, deadlocks, or retry exhaustion must be translated into application or public failure contracts.
+- Use `testing-strategy` when database work needs migration tests, integration tests, transaction/concurrency tests, backfill verification, or regression evidence.
+
 ## Rationalization Table
 
 | Temptation                                           | Reality                                                                                           | Required action                                                                                  |
