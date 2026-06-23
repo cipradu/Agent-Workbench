@@ -223,6 +223,7 @@ Use `create-project-adr` when an API decision establishes a durable project conv
 ## Related Skill Handoffs
 
 - Use `database-design` when API behavior depends on schema invariants, transactions, locks, migrations, pagination performance, indexes, soft deletes, tenancy, or durable data integrity.
+- Use `queue-and-cache-design` when API behavior depends on asynchronous job/status resources, queued processing, cache lifecycle, cache invalidation, runtime idempotency, rate-limit state, pub/sub, streams, retries, dead-letter behavior, or worker failure semantics.
 - Use `architecture-design` when the API decision changes module ownership, adapter boundaries, service boundaries, or policy/mechanism separation.
 - Use `create-engineering-spec` when the API contract must become implementation-ready requirements.
 - Use `create-implementation-plan` only after an approved spec exists and codebase-grounded task sequencing is needed.

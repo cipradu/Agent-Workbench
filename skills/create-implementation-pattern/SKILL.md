@@ -150,7 +150,7 @@ Use `implementation-review-workflow` when implementation changes need independen
 
 Use `create-documentation` when the pattern should be published as reader-facing technical documentation or integrated into a docs site.
 
-Use domain skills such as `api-design`, `database-design`, `error-handling-design`, or `testing-strategy` when the pattern is inside one of those domains and domain-specific quality rules matter.
+Use domain skills such as `api-design`, `database-design`, `queue-and-cache-design`, `error-handling-design`, or `testing-strategy` when the pattern is inside one of those domains and domain-specific quality rules matter.
 
 ## Rationalization Counters
 

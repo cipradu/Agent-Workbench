@@ -55,7 +55,7 @@ The `scripts/install/` and `scripts/validate/` directories are placeholders for 
 Current skill groups include:
 
 - Workflow and definition: `coding-project-orchestrator`, `project-continuity`, `create-project-prd`, `create-engineering-spec`, `create-implementation-plan`, `create-implementation-pattern`, and `implementation-review-workflow`.
-- Design and quality: `architecture-design`, `api-design`, `database-design`, `testing-strategy`, and `error-handling-design`.
+- Design and quality: `architecture-design`, `api-design`, `database-design`, `queue-and-cache-design`, `testing-strategy`, and `error-handling-design`.
 - Documentation and support: `create-documentation`, `create-readme`, `create-project-adr`, `structured-problem-resolution`, `codebase-search`, `create-skills`, `git-commit`, `git-pull-request`, and `project-rules`.
 
 ### Agents

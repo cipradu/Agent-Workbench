@@ -206,6 +206,24 @@ Before forming any theory, gather facts. This is the most important step and the
 
 **Reproduce it.** Can you trigger the problem reliably? If yes, you have a fast feedback loop for testing hypotheses. If no, gather more data about the conditions under which it occurs. For feedback-driven signals: can you reproduce the scenario the reviewer describes?
 
+**Build the feedback loop before testing hypotheses.** A feedback loop is a fast, deterministic, agent-runnable pass/fail signal for the user's actual symptom. It can be a test, command, script, trace replay, browser check, benchmark, or structured manual capture, but it must tell you whether the original symptom is present. If no reliable loop exists, the next task is to build or sharpen the loop, not to guess at fixes.
+
+Use the lightest loop that reaches the real bug:
+
+1. Failing test at the seam that exercises the bug: unit, integration, contract, or end-to-end.
+2. HTTP/API command against a running service, with exact request, response, status, headers, and relevant logs captured.
+3. CLI invocation with a fixture input and expected stdout, stderr, exit code, or output diff.
+4. Browser automation for UI failures, asserting on DOM, console, network, storage, and visible state as relevant.
+5. Captured trace replay: saved network request, event payload, log sequence, queue message, job input, or data fixture replayed through the smallest real path.
+6. Throwaway harness around one service, module, or function with dependencies mocked only at true external boundaries.
+7. Property, fuzz, stress, or repeated-run loop when the symptom is intermittent or data-dependent.
+8. Bisect or differential loop when a known-good state, prior version, alternate config, or dataset can be compared against the failing state.
+9. Structured human-in-the-loop capture only as a last resort, with exact steps, timestamps, observed output, screenshots/logs when useful, and enough structure to compare before and after.
+
+Iterate on the loop itself. Make it faster by narrowing setup, sharper by asserting the specific symptom instead of a broad crash/pass, and more deterministic by controlling time, randomness, filesystem, network, concurrency, and external services where possible. For nondeterministic bugs, the immediate goal is a higher reproduction rate; loop the trigger, add stress, widen timing windows, or capture enough runs to make the failure debuggable.
+
+If you genuinely cannot build a loop, stop and say what you tried. Ask for the missing artifact or access: a reproducing environment, HAR/network capture, log dump, core dump, trace, fixture, screen recording with timestamps, data sample, or permission to add temporary diagnostic instrumentation. Do not proceed as if a hypothesis is confirmed without a loop or equivalent evidence.
+
 **Check what changed.** `git log`, `git diff`, recent dependency updates. The single most productive question for any problem that used to work: what's different between when it worked and when it broke?
 
 ### Step 2: Hypothesize (what do you think is happening, and why?)
@@ -256,6 +274,8 @@ Many issues — especially those involving libraries, frameworks, version upgrad
 Design the _smallest_ experiment that would confirm or disprove your hypothesis.
 
 **Prefer observation over modification.** Before changing code, try to verify through observation: add a log or print statement, check a variable's value, read the database state, inspect network traffic. Observation is free — it doesn't risk introducing new problems.
+
+**Instrument narrowly.** Prefer debugger/REPL inspection when available. If you add temporary logs or probes, each one must distinguish a specific hypothesis and use a unique searchable prefix such as `[DEBUG-<short-token>]` so cleanup is mechanical. Never "log everything and grep." For performance problems, establish a baseline measurement first; use timing harnesses, profilers, query plans, resource metrics, or benchmarks rather than intuition-heavy logging.
 
 **One variable at a time.** If you change multiple things, you won't know which one mattered. Make one change, observe the result, then decide your next move.
 
@@ -381,7 +401,10 @@ Fix the problem and nothing else. Don't refactor nearby code, add unrelated impr
 
 - Does the original problem go away?
 - Do ALL existing tests still pass (not just the one that was failing)?
-- If possible, add a test that would have caught this problem
+- Re-run the original feedback loop against the un-minimized scenario, not only the narrowed reproduction.
+- Add regression coverage at the correct seam when such a seam exists. The correct seam exercises the real bug pattern as it occurred at the call site; a shallow test that cannot reproduce the triggering chain is false confidence.
+- If no correct regression seam exists, document that as a testability or architecture gap instead of pretending a weak test proves the fix.
+- Remove temporary diagnostic logs, probes, traces, fixtures, and throwaway harnesses unless they were intentionally promoted into maintained tests or tooling.
 
 **Implication validation:**
 
@@ -495,6 +518,9 @@ There are two gates. Both are non-negotiable.
 **Gate 1 — Investigation gate (before any source interaction):**
 **You may not edit source files until you have created the scratch file, written your initial hypothesis, AND recorded your research/evidence results (Step 3).** The three conditions are: (1) scratch file exists, (2) hypothesis is written, (3) current external research is recorded when drift-prone external behavior matters, or local evidence is recorded with a reason external/current research is not relevant. All three must be satisfied before any source edit. Diagnostic additions (print/log statements for observation) are exempt — observation is free, changes are not.
 
+**Feedback-loop condition (before testing hypotheses):**
+**You may not treat a hypothesis as tested or a fix as verified until the scratch file names the feedback loop or explains why no loop can currently be built.** If the loop is weak, flaky, manual, or partial, record that limitation and improve it before trusting the result. A passing nearby test is not evidence unless it exercises the user's actual symptom or the minimized form of the same failure mechanism.
+
 **Gate 2 — Fix gate (before applying the fix):**
 **You may not apply the fix until impact analysis is written in the scratch file.** Once you have a confirmed hypothesis and a proposed fix, you must write the impact analysis — callers affected, contracts changed, regression risk, edge cases — BEFORE you write fix code. This is what prevents "I think this is it, let me try it" followed by a worse situation. If you cannot articulate what your fix affects, you do not understand it well enough to apply it.
 
@@ -517,6 +543,12 @@ Signal evaluation:
   - Source trust level: [high/medium/low]
   - Factual claims verified? [yes/no/partially]
   - Diagnosis accepted or investigating independently? [accepted/investigating]
+
+Feedback loop:
+  - Loop command/procedure: [test, curl/API command, CLI fixture, browser script, trace replay, harness, benchmark, manual capture, or none yet]
+  - Symptom asserted: [exact failure signal this loop proves]
+  - Reproducibility: [deterministic / intermittent with rate / not yet reproduced]
+  - Loop limitations: [slow/flaky/manual/partial/none]
 
 Hypothesis 1: [specific theory]
   Evidence for: ...
@@ -554,6 +586,7 @@ Update the file as you progress through investigation. This is your working docu
 ### Why the File Matters
 
 - **Gates premature action** — you cannot skip to fixing because the file must exist, hypothesis must be written, AND research/evidence must be recorded before source edits
+- **Forces a real feedback loop** — hypotheses and fixes must be tested against the actual symptom or a minimized reproduction, not a nearby green check
 - **Forces current evidence** — the Research / evidence check section must be filled in before the gate opens, preventing the "I already know this" and "I'll just figure it out from code" traps
 - **Prevents circular investigation** — you won't re-check things you've already checked
 - **Makes reasoning transparent** — others can see and correct your thinking
@@ -644,6 +677,7 @@ This catches problems that sophisticated investigation never would, because soph
 
 These signals mean your current approach isn't working:
 
+- **No feedback loop** — if you cannot trigger the symptom or compare before/after behavior, stop improving code and improve the loop or ask for the missing artifact/access. A hypothesis without a signal is not testable.
 - **No research/evidence recorded** — if you are about to edit source files or test a hypothesis by modifying code and you have not recorded current external research or local evidence, STOP. Go back to Step 3. If external behavior is involved, search current sources. If the issue is purely local, record the local evidence and why external/current research is not relevant. No exceptions.
 - **No impact analysis written** — if you are about to apply a fix and the impact analysis section of the scratch file is empty, STOP. You do not understand your fix well enough. Trace the callers, check the contracts, identify edge cases. Write it in the scratch file. Then apply. Every time you skip this, you end up in a worse spot than where you started.
 - **3+ failed fix attempts** — you're likely misunderstanding the problem. Revert changes, return to observation, and re-read the error with fresh eyes. Question your assumptions.
@@ -683,6 +717,7 @@ See [cognitive-traps.md](cognitive-traps.md) for detailed descriptions and count
 | --------------------------------------- | -------------------------------------------------- |
 | Clear error message, obvious fix        | Fix directly                                       |
 | Error points to general area            | Read surrounding code, understand data flow        |
+| No reliable reproduction                | Build or sharpen the feedback loop                 |
 | Don't know where the problem is         | Binary search (code or commits)                    |
 | Know where, not why                     | Trace backward from failure point                  |
 | Intermittent failure                    | Identify what differs between pass and fail        |
@@ -704,6 +739,7 @@ See [cognitive-traps.md](cognitive-traps.md) for detailed descriptions and count
 | -------------------------------------- | ---------------------------------------------------------------------- |
 | Evaluate the signal before acting      | Not all signals are accurate — errors mislead, humans can be wrong     |
 | Verify claims against actual code      | The codebase is the source of truth, not opinions                      |
+| Build the feedback loop first          | A fast, specific signal turns debugging from guessing into learning    |
 | Read the error completely              | It often contains the answer                                           |
 | Observe before changing                | Changes are risky, observation is free                                 |
 | One change at a time                   | Multiple changes destroy your ability to learn                         |

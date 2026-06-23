@@ -13,6 +13,15 @@ Start from evidence:
 - execution plan or representative benchmark when available;
 - write-path cost and migration/locking cost.
 
+When reading an execution plan, capture the details that explain behavior, not just whether an index appears:
+
+- scan type and whether the table size makes that scan acceptable;
+- join strategy and whether it matches expected row counts;
+- estimated rows versus actual rows when actual execution data is safe to gather;
+- loops, sort/hash operations, memory or disk spill indicators, and buffer/cache reads when the engine reports them;
+- whether an index-only plan still needs heap/table reads;
+- before/after plan evidence for material optimization claims, or the explicit reason plan evidence is unavailable.
+
 Failure output: `Rejected: optimization is not backed by query shape, data volume, or plan evidence.`
 
 ## Index Selection
@@ -115,7 +124,7 @@ Before accepting a performance change:
 
 - query shape and access path are documented;
 - existing indexes checked;
-- plan/statistics or representative benchmark reviewed when material;
+- plan/statistics or representative benchmark reviewed when material, including before/after evidence for claimed improvements;
 - write overhead and migration cost considered;
 - N+1 and unbounded scans checked;
 - pagination is deterministic and indexed;
