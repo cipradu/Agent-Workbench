@@ -92,15 +92,23 @@ Source request: concise summary
 
 ## Domain Model
 
-### Terms
+### Product-Domain Inputs To Preserve Or Refine
+
+### Engineering Domain Terms
+
+### Current Vs Target Concepts
 
 ### Actors and Systems
 
 ### Sources of Truth
 
-### Invariants
+### Rules, Invariants, And Permissions
 
 ### State Transitions or Flows
+
+### Scenario Probes
+
+### Conflicts And Resolutions
 
 ## Requirements
 

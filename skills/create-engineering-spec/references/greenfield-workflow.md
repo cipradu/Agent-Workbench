@@ -10,11 +10,11 @@ From decomposition, identify actors with power, veto, responsibility, or operati
 
 Completion criterion: every material concept/rule has candidate authority or blocker.
 
-### 2. Build domain primer
+### 2. Build engineering domain model
 
-Create domain glossary, actors/systems, processes/events, data concepts, lifecycles, rules/invariants, and constraints. Use research when the domain is unfamiliar.
+Create an engineering-domain model, not a glossary. Include product-domain inputs to preserve or refine, target engineering concepts, actors/systems, processes/events, data concepts, lifecycles, rules/invariants, authority roles, state transitions, sources of truth, and constraints. Use research when the domain is unfamiliar.
 
-Completion criterion: a future planner can understand the domain language and constraints without guessing.
+Completion criterion: a future planner can understand the product-to-engineering translation, domain language, authority, state, and constraints without guessing.
 
 ### 3. Run structured research plan
 
@@ -61,4 +61,4 @@ Stop before full spec when:
 
 ## Output Contribution
 
-The greenfield workflow contributes stakeholder/authority map, domain primer, research findings, option analysis, target-system constraints, risk register, acceptance evidence, open decisions, and non-goals.
+The greenfield workflow contributes stakeholder/authority map, engineering-domain model, research findings, option analysis, target-system constraints, risk register, acceptance evidence, open decisions, and non-goals.
