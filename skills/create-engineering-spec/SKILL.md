@@ -31,28 +31,30 @@ Greenfield fit means researched fit to domain, constraints, authority, options, 
 
 | Artifact            | Defines                                                                                                                                               | Does not define                                                  |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| Product brief / PRD | product problem, audience, stakeholder value, product success                                                                                         | engineering contracts or implementation strategy                 |
+| Product brief / PRD | product problem, audience, stakeholder value, product-domain language/model, product success                                                          | engineering contracts or implementation strategy                 |
 | Engineering spec    | required behavior, constraints, invariants, authority, contracts, fit analysis, risk register, planning-relevant impact surfaces, acceptance evidence | implementation order, code, task choreography, commit boundaries |
 | Implementation plan | codebase-grounded execution strategy for satisfying an approved spec                                                                                  | new product truth or full implementation code                    |
 
 User stories are source material only. Convert them into actors, impacts, rules, data concepts, constraints, invariants, contracts, and acceptance evidence.
 
+When a PRD, product brief, or domain note exists, treat its product-domain model as source material to preserve, refine, or explicitly reject with evidence. Do not discard product language just because the engineering spec needs a different structure.
+
 ## Mandatory Sequence
 
 Run these steps in order. Do not skip, merge, or reverse them.
 
-| Step | Required method                                             | Completion condition                                                      |
-| ---- | ----------------------------------------------------------- | ------------------------------------------------------------------------- |
-| 1    | [Decompose the request](references/decomposition-method.md) | all eight facets are stated or blocked                                    |
-| 2    | Classify greenfield or brownfield                           | existing-system ownership question is answered                            |
-| 3    | Inventory rules, ADRs, and available skills                 | applicable rules/ADRs and stack/library skills are loaded and applied, or recorded as missing |
-| 4    | [Plan research](references/research-planning.md)            | research categories, order, stop conditions, and evidence needs are known |
-| 5    | Run the selected workflow                                   | greenfield or brownfield readiness checklist passes                       |
-| 6    | Build source/authority map                                  | each material fact has current authority or is blocked                    |
-| 7    | Build spec-level risk/impact model                          | risk register and impact surfaces are complete at spec depth              |
-| 8    | Synthesize requirements                                     | every requirement is traceable, testable, and plan-enabling               |
+| Step | Required method                                             | Completion condition                                                                                                                                  |
+| ---- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | [Decompose the request](references/decomposition-method.md) | all eight facets are stated or blocked                                                                                                                |
+| 2    | Classify greenfield or brownfield                           | existing-system ownership question is answered                                                                                                        |
+| 3    | Inventory rules, ADRs, and available skills                 | applicable rules/ADRs and stack/library skills are loaded and applied, or recorded as missing                                                         |
+| 4    | [Plan research](references/research-planning.md)            | research categories, order, stop conditions, and evidence needs are known                                                                             |
+| 5    | Run the selected workflow                                   | greenfield or brownfield readiness checklist passes                                                                                                   |
+| 6    | Build engineering domain model and source/authority map     | PRD/product-domain inputs, engineering terms, current/target concepts, authorities, invariants, and states are explicit or blocked                    |
+| 7    | Build spec-level risk/impact model                          | risk register and impact surfaces are complete at spec depth                                                                                          |
+| 8    | Synthesize requirements                                     | every requirement is traceable, testable, and plan-enabling                                                                                           |
 | 9    | Independent spec review                                     | a fresh reviewer validates decomposition, authority, requirements, research currency, and risk; material findings are resolved or the spec is blocked |
-| 10   | Emit output                                                 | full spec only if all gates pass; otherwise blocked packet                |
+| 10   | Emit output                                                 | full spec only if all gates pass; otherwise blocked packet                                                                                            |
 
 ## Mode Classification
 
@@ -92,6 +94,20 @@ Ask questions only after discovery makes them informed. If research or repositor
 Source of truth is domain-general. Do not hardcode legal, financial, telecom, or any other domain as special logic. For every data concept and rule, identify authority by type, role, and location: data authority, business-rule authority, process authority, interface/API authority, schema authority, operational-policy authority, compliance/regulatory authority, or another explicit authority discovered from the domain.
 
 Material assumptions cannot support normative requirements. Resolve them, move them outside normative scope, or block the spec.
+
+## Domain Language And Scenario Probe Rule
+
+Engineering specs must stabilize an engineering-domain model before turning language into requirements, contracts, invariants, or data concepts. A PRD, product brief, or domain note is source material, not disposable intake. Preserve product-domain terms, actors, workflows, and success concepts unless evidence shows they are wrong, overloaded, deprecated, or contradicted. When renaming or refining a product-domain term, record the reason and map the original term to the spec term.
+
+The engineering-domain model translates product language into data concepts, contracts, invariants, authority roles, state transitions, acceptance evidence, and planning-relevant impact surfaces. It is not a glossary and not an implementation model. Do not jump from domain nouns to tables, classes, queues, events, or API shapes until lifecycle, authority, source of truth, and current/target status are known.
+
+Classify material terms and concepts as PRD-preserved, current-system, target, disputed, deprecated, or blocked. For brownfield work, compare PRD/product truth to existing code, tests, schemas, APIs, operational docs, ADRs, and specs. Existing implementation is evidence for current truth, not automatic authority for target truth.
+
+Use concrete scenarios to test domain boundaries: happy path, failure path, lifecycle transition, handoff, excluded actor, edge case, and authority conflict. If a scenario changes the meaning of a term, state, process, or invariant, update the decomposition and domain model before synthesizing requirements.
+
+For brownfield work, cross-check important domain claims against code, tests, schemas, APIs, operational docs, and existing ADRs/specs. If the request says partial cancellation is possible but the code only cancels whole records, surface the contradiction instead of choosing silently.
+
+Do not create or update a separate glossary file from this skill unless the user explicitly asks for that artifact. Capture the domain model inside the spec output and hand off lasting technical decisions through `create-project-adr` when they meet the ADR bar.
 
 ## Risk and Impact Rule
 
@@ -144,6 +160,7 @@ The reviewer MUST validate:
 - every external library, framework, version, API, protocol, or standard claim is backed by current, version-specific research, not model memory, and is not deprecated;
 - applicable rules and ADRs were found and respected, and conflicts were surfaced rather than buried;
 - the available skills for the stack and domain were loaded and applied;
+- PRD/product-domain inputs are preserved, refined, or rejected with evidence, and current-vs-target terminology conflicts are surfaced;
 - the risk register honestly covers the required dimensions, with reasoned no-impact entries rather than generic prose;
 - every requirement has acceptance evidence and is testable;
 - assumptions are labeled and do not prop up normative requirements;
@@ -156,26 +173,28 @@ Resolve every finding: revise the spec to fix valid findings, or record a reason
 
 A spec encodes decisions — chosen direction, boundaries, authority, technology direction, and rejected options. Once the spec passes its gates, surface the significant decisions it embeds and offer to record them as ADRs.
 
-Apply the ADR bar selectively. A decision qualifies only when it is architecturally significant, had real alternatives that were weighed, and carries lasting consequences. Do not ADR trivial, easily reversible, or purely product-scope choices.
+Apply the ADR bar selectively. A decision qualifies only when reversal would be meaningfully costly or risky, a future maintainer would reasonably ask why this path was chosen, and the choice reflects a real trade-off among alternatives. Do not ADR trivial, easily reversible, obvious, purely product-scope, or single-path choices.
 
 Present qualifying decisions to the user; the user confirms which graduate to ADRs (an offer, not a gate). Create each confirmed ADR using the `create-project-adr` skill — one decision per ADR; do not write ADRs freehand. Reference any ADRs created from the spec.
 
 ## Rationalization Table
 
-| Temptation                                                  | Reality                                                                                           | Required action                                 |
-| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| “The request is clear, so decomposition is unnecessary.”    | Clarity of wording is not decomposition of goal, actors, rules, data, constraints, and authority. | Run decomposition.                              |
-| “This does not fit greenfield or brownfield.”               | It does. Any existing constraint makes it brownfield; otherwise it is greenfield.                 | Resolve mode; choose one.                       |
-| “This is a new component, so it is greenfield.”             | New component inside an existing system is brownfield first.                                      | Run brownfield workflow.                        |
-| “Brownfield discovery is only needed for complicated code.” | Brownfield always has existing truth and impact surfaces.                                         | Inspect or delegate.                            |
-| “The user asked for speed, so draft now.”                   | Speed does not remove research or authority obligations.                                          | Run the workflow or block.                      |
-| “I can infer the data model.”                               | Inferred data models create unsafe specs.                                                         | Map authority or block.                         |
-| “I’ll mark it as an assumption and continue.”               | Material assumptions cannot become normative truth.                                               | Resolve, defer, or block.                       |
-| “Risk section can be generic.”                              | Generic risk prose is unreviewable.                                                               | Use the risk register.                          |
-| “This is basically a plan, so files and steps help.”        | Plan detail belongs in the plan.                                                                  | Include impact surfaces, not edit choreography. |
-| “We can fit everything if the plan is good.”                 | A spec must not hide scope overflow behind execution optimism.                                    | Shape to appetite, mark no-gos, or block.       |
-| “No-gos make the spec weaker.”                              | Explicit exclusions protect the requirement from accidental expansion.                            | Record excluded scope and the reason.           |
-| “The agent suggested it, so it belongs in the spec.”         | Agent suggestions are hypotheses, not authority, product truth, or engineering truth.             | Require source authority, acceptance evidence, displacement and ownership analysis, or record it as non-scope/deferred. |
+| Temptation                                                     | Reality                                                                                           | Required action                                                                                                         |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| “The request is clear, so decomposition is unnecessary.”       | Clarity of wording is not decomposition of goal, actors, rules, data, constraints, and authority. | Run decomposition.                                                                                                      |
+| “This does not fit greenfield or brownfield.”                  | It does. Any existing constraint makes it brownfield; otherwise it is greenfield.                 | Resolve mode; choose one.                                                                                               |
+| “This is a new component, so it is greenfield.”                | New component inside an existing system is brownfield first.                                      | Run brownfield workflow.                                                                                                |
+| “Brownfield discovery is only needed for complicated code.”    | Brownfield always has existing truth and impact surfaces.                                         | Inspect or delegate.                                                                                                    |
+| “The user asked for speed, so draft now.”                      | Speed does not remove research or authority obligations.                                          | Run the workflow or block.                                                                                              |
+| “I can infer the data model.”                                  | Inferred data models create unsafe specs.                                                         | Map authority or block.                                                                                                 |
+| “I’ll mark it as an assumption and continue.”                  | Material assumptions cannot become normative truth.                                               | Resolve, defer, or block.                                                                                               |
+| “Risk section can be generic.”                                 | Generic risk prose is unreviewable.                                                               | Use the risk register.                                                                                                  |
+| “This is basically a plan, so files and steps help.”           | Plan detail belongs in the plan.                                                                  | Include impact surfaces, not edit choreography.                                                                         |
+| “We can fit everything if the plan is good.”                   | A spec must not hide scope overflow behind execution optimism.                                    | Shape to appetite, mark no-gos, or block.                                                                               |
+| “No-gos make the spec weaker.”                                 | Explicit exclusions protect the requirement from accidental expansion.                            | Record excluded scope and the reason.                                                                                   |
+| “The agent suggested it, so it belongs in the spec.”           | Agent suggestions are hypotheses, not authority, product truth, or engineering truth.             | Require source authority, acceptance evidence, displacement and ownership analysis, or record it as non-scope/deferred. |
+| “The PRD already modeled the domain, so the spec can skip it.” | Product-domain modeling is input, not an engineering-domain model.                                | Preserve or refine PRD terms, map them to engineering concepts, and surface current/target conflicts.                   |
+| “The domain terms are obvious.”                                | Obvious terms are often where product, operations, and implementation meanings diverge.           | Reconcile terms against sources and probe with scenarios.                                                               |
 
 ## Red Flags — Stop Before Full Spec
 
@@ -185,6 +204,9 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 - Greenfield work lacks structured research and option analysis.
 - A new component inside an existing platform is treated as greenfield.
 - Source-of-truth authority is vague or ownerless.
+- Domain terms are overloaded, contradicted by source material, or used as data concepts without clarified meaning.
+- PRD/product-domain terms are silently lost, renamed, or replaced without source evidence.
+- Current implementation contradicts PRD/product truth and the conflict is not surfaced.
 - The spec invents APIs, packages, state machines, or data contracts.
 - Scope grows from an ideal solution instead of the stated problem, appetite, and authority.
 - A new capability is added without saying what it displaces, consumes, defers, or why it is mandatory.
@@ -209,7 +231,7 @@ When a red flag appears, return to the relevant gate or emit the blocked packet.
 - Scope is shaped against the problem baseline, appetite when relevant, rabbit holes, and explicit no-gos.
 - Scope additions state what they displace, consume, defer, or why the required outcome justifies added ownership.
 - Material capabilities include lifecycle ownership impact: build, test, maintain, document/support, operate, and future change.
-- Domain terms, sources of truth, invariants, states, and authority roles are explicit.
+- PRD/product-domain inputs, engineering-domain terms, terminology conflicts, current/target concepts, scenario probes, sources of truth, invariants, states, and authority roles are explicit.
 - Risk register covers required dimensions or gives reasoned no-impact entries.
 - Requirements have IDs, source classes, acceptance evidence, risk mapping, and planning-relevant impact surfaces.
 - Assumptions are labeled and do not support normative requirements.
