@@ -21,6 +21,8 @@ Private diagnostics should be:
 - access-controlled by the logging/error-reporting system;
 - redacted by policy and by field choice.
 
+Generated artifacts, reports, support excerpts, review packets, screenshots, transcripts, and provider outputs can become public or widely shared artifacts. Treat them as public unless access control is explicit and verified. Include only safe summaries, redacted identifiers, and correlation pointers; keep raw payloads, internal commentary, prompts, stack traces, and provider diagnostics in private systems.
+
 ## Correlation
 
 Every support-relevant failure should connect public output to private diagnostics.
@@ -38,6 +40,8 @@ If no convention exists, do not invent a full observability system in this skill
 
 Failure output: `Blocked: support-relevant failure has no correlation path: <surface>.`
 
+For generated reports and automation, correlation may be a report ID, run ID, job ID, source ID, provider request ID, or artifact path plus timestamp. The public artifact should name the support-safe identifier, not embed private logs.
+
 ## Log Levels
 
 Choose level by operational significance, not by whether the code path returns an error object.
@@ -51,6 +55,8 @@ Common guidance:
 - critical/fatal: process cannot safely continue or core service is unavailable.
 
 Expected user validation failures often do not deserve error logs. Security abuse, repeated malformed traffic, and operational anomaly patterns may deserve warn or security telemetry even when the public response is a validation error.
+
+Startup, setup, dev-server, local-tool, or provider-auth diagnostics are examples of failure surfaces, not proof that the application contract is safe. Treat them like other diagnostics: redact values, include correlation where useful, and avoid turning environmental details into public user-facing messages.
 
 ## Redaction Rules
 
@@ -69,6 +75,14 @@ Be careful with:
 - email addresses, phone numbers, names, addresses, IDs, IPs, device IDs, tenant/account IDs, file paths, filenames, query strings, request bodies, provider payloads, generated prompts, and agent transcripts.
 
 When values are needed for diagnosis, prefer stable hashes, truncated identifiers, classification labels, counts, sizes, status codes, provider request IDs, or explicitly approved identifiers.
+
+For generated or review artifacts:
+
+- do not include raw logs beyond the smallest necessary excerpt;
+- redact secrets, tokens, signed URLs, cookies, credential-bearing headers, and private paths before sharing;
+- avoid provider/internal commentary that reveals prompts, policy internals, moderation details, hidden fields, billing secrets, or customer-confidential payloads;
+- summarize failure categories and counts when raw rows are not necessary;
+- preserve source/item identity only at the granularity the receiver is authorized to see.
 
 For authentication and authorization diagnostics:
 
@@ -101,6 +115,20 @@ Duplicate logging is justified when:
 
 Duplicate logging is not justified when every catch block logs the same exception and rethrows it unchanged.
 
+## Public Artifact Boundary
+
+Before writing an error into a public artifact, generated report, README, docs page, issue comment, PR body, review packet, or user-visible transcript, decide whether the receiver needs:
+
+- the public code/message only;
+- a redacted diagnostic summary;
+- a support/correlation ID;
+- source coverage or partial-output state;
+- a private-log pointer for maintainers.
+
+Do not paste private stack traces, raw payloads, secrets, provider bodies, or internal authorization facts into public artifacts to make the finding look more evidenced.
+
+Failure output: `Rejected: public artifact includes private diagnostic material: <specific field>.`
+
 ## Logging Checklist
 
 - Public message is safe and distinct from private diagnostic.
@@ -111,3 +139,4 @@ Duplicate logging is not justified when every catch block logs the same exceptio
 - Logging happens at the right boundary without noisy duplication.
 - Fallbacks, degraded mode, retry exhaustion, and dead-lettering are visible when they matter operationally.
 - Security/audit needs are covered by project policy, not improvised in error messages.
+- Generated artifacts and review packets preserve public/private separation and correlation without embedding private logs.

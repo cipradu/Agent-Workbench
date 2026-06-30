@@ -70,6 +70,14 @@ Recommended section order:
 
 Do not use every section automatically. Use the smallest body that gives reviewers enough truth.
 
+## Authority And Source Freshness
+
+PR bodies often combine several sources: branch diff, commit messages, PR templates, contribution docs, recent PRs, issue tracker rules, plans, review reports, test reports, and user notes. Treat those as evidence with different authority, not as one interchangeable pile.
+
+Use current branch/platform state for what is in the PR. Use repository instructions and required templates for required shape. Use recent PRs only as weak style evidence unless they match current rules. If sources conflict, follow the current authoritative source, name the conflict when it affects review, and block when required template semantics or issue-closing behavior cannot be resolved.
+
+Do not copy stale patterns such as placeholder sections, file-list summaries, assistant attribution, unexplained issue-closing keywords, obsolete branch names, old release-note requirements, or missing-validation examples just because previous PRs used them.
+
 ## Evidence By Change Type
 
 | Change type                 | Expected evidence                                                                               |
@@ -83,8 +91,24 @@ Do not use every section automatically. Use the smallest body that gives reviewe
 | Dependency/build/CI         | Command output, compatibility note, lockfile or config impact                                   |
 | Refactor                    | Preservation boundary, characterization/testing evidence, explicit no behavior change statement |
 | Agent/rule/skill/workflow   | Behavior failure addressed, pressure scenario or review evidence, compatibility risk            |
+| Bug fix                     | Root cause, reproduction or incident evidence, original failing path validation, regression check |
+| Runtime/operations          | Healthy/failure signals, logs or metrics to watch, rollback or mitigation trigger when relevant |
+| Generated reports/artifacts | Source window or command, timestamp/path consistency, privacy/redaction check, why artifact belongs in review |
 
 If evidence is missing, say exactly what was not run and why. Do not write "tests pass" unless the command actually ran.
+
+## Upstream Evidence Intake
+
+Use upstream artifacts to sharpen the review contract, not to replace it.
+
+- Plans: cite the plan path and exact U-IDs or requirement labels only when the branch is known to implement them. Planned tests are expected coverage, not validation evidence.
+- Review reports: summarize unresolved actionable findings, coverage gaps, residual risks, and requirements completeness. Do not paste full review tables.
+- Dogfood or browser-polish reports: name tested flows, scenario status, screenshots/manual evidence, console status when checked, human-verification gaps, and unresolved paper cuts.
+- Optimization logs: include target, baseline-to-final metric, hard gates, measurement context, noise/variance notes, deferred or reverted work, and proxy-metric risks. Do not link local scratch logs unless they were intentionally exported.
+- Feedback artifacts: distinguish observed facts from inferred cause or implementation rationale. Cite repo-relative evidence paths when safe; avoid absolute local paths and raw media unless explicitly safe and requested.
+- Known residual review or CI findings: include severity, file/line or check name, summary, link when available, and whether the PR is draft, blocked, or ready with accepted risk.
+
+If an upstream artifact's scope does not match the resolved PR range, do not use it as validation evidence. Mention it only as background or ignore it.
 
 ## Reviewer Guidance
 
@@ -99,6 +123,12 @@ Useful guidance:
 - "Out of scope: follow-up cleanup of `<area>`."
 
 Avoid guidance that only repeats sections or file lists visible in the diff.
+
+## Bug-Fix PRs
+
+For a bug-fix PR, the reviewer needs to know the failure path and why the fix belongs at the origin rather than the symptom. Include the observed failure, root cause, fix approach, validation that exercises the original failing path, and any prevention or defense-in-depth only when the bug pattern justifies it.
+
+If the root cause is uncertain, the reproduction was not possible, validation only proves the symptom changed, or temporary debug probes remain, the PR should be draft or blocked unless the body explicitly names the uncertainty and the user accepts the review risk.
 
 ## Draft Versus Ready Language
 
@@ -125,6 +155,14 @@ If the repository has a PR template:
 - do not fill checkboxes dishonestly.
 
 If no template exists, use the body shape above.
+
+## Audience And Surface Boundaries
+
+A PR summary may lead with user-facing value, but it is not launch copy. Keep the prose factual, reviewer-oriented, and evidence-backed. Avoid feed hooks, calls to action, hashtags, "excited to announce", brand-voice personalization, or promotional framing.
+
+PR title, PR body, review notes, changelog entry, release notes, and announcement copy are different surfaces. Do not reuse one draft verbatim across them without adapting the audience and evidence expectations.
+
+Keep local and sensitive material out of the body unless explicitly intended and safe: auth URLs, device codes, provider tokens, local opt-out config, machine-local setup, local `.env` state, generated promotion drafts, internal provider commentary, raw recordings, copied databases, temp server logs, and local experiment scratch paths.
 
 ## Forbidden Content
 

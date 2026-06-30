@@ -4,21 +4,21 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets from the working source repository. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, database/API/error/testing design, and git commit/PR discipline.
+This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, database/API/error/testing design, diagnosis, and git commit/PR/conflict discipline.
 
-Scripts are reserved until install, export, or validation workflows are created intentionally. For now, assets are copied manually into the target harness locations.
+No packaged installer, exporter, or validator is included yet. For now, assets are copied manually into the projects or harness locations that should use them.
 
 ## What This Is
 
-Agent Workbench is a portable source repository for agent operating assets: skills, specialist agent definitions, and harness instruction files that can be copied into real projects without carrying project-specific history or private working references.
+Agent Workbench is a portable source repository for agent operating assets: skills, specialist agent definitions, and harness instruction files that can be copied into real projects.
 
-The goal is not to publish a pile of prompts. The goal is to provide reusable behavior that can be reviewed, adapted, and improved across projects while preserving structure, safety, and quality gates.
+The repository focuses on reusable behavior that can be reviewed, adapted, and improved across projects while preserving structure, safety, and quality gates.
 
 ## Core Ideas
 
 - **Behavior over prose**: a useful skill changes what an agent does under pressure.
 - **Portable first**: core assets should avoid harness-specific assumptions unless the file is explicitly a harness adapter.
-- **High-assurance workflows**: specs, plans, review gates, validation evidence, commit discipline, and PR discipline exist to prevent fast but sloppy execution.
+- **High-assurance workflows**: specs, plans, review gates, validation evidence, commit discipline, and PR discipline exist to prevent under-specified execution.
 - **Explicit boundaries**: PRDs, engineering specs, implementation plans, architecture design, ADRs, coding, and review are different jobs.
 - **No hidden attribution**: generated-by footers, assistant signatures, promotional badges, and AI co-author trailers do not belong in project artifacts.
 - **Reviewable changes**: commits and pull requests should be scoped, understandable, reversible, and backed by evidence.
@@ -37,14 +37,9 @@ harness-instructions/
   codex/
   opencode/
 skills/
-scripts/
-  install/
-  validate/
 ```
 
-The public `docs/` tree is intentionally excluded for now. Curated public documentation can be added later when there is material worth maintaining outside the README.
-
-The `scripts/install/` and `scripts/validate/` directories are placeholders for future automation. They do not currently provide an installer or validator.
+This repository currently has no public `docs/` tree. The README is the front door for the asset set.
 
 ## Repository Areas
 
@@ -54,9 +49,10 @@ The `scripts/install/` and `scripts/validate/` directories are placeholders for 
 
 Current skill groups include:
 
-- Workflow and definition: `coding-project-orchestrator`, `project-continuity`, `create-project-prd`, `create-engineering-spec`, `create-implementation-plan`, `create-implementation-pattern`, and `implementation-review-workflow`.
-- Design and quality: `architecture-design`, `api-design`, `database-design`, `queue-and-cache-design`, `testing-strategy`, and `error-handling-design`.
-- Documentation and support: `create-documentation`, `create-readme`, `create-project-adr`, `structured-problem-resolution`, `codebase-search`, `create-skills`, `git-commit`, `git-pull-request`, and `project-rules`.
+- Orchestration and workflow: `coding-project-orchestrator`, `project-rules`, `project-continuity`, and `implementation-review-workflow`.
+- Product and engineering artifacts: `create-project-prd`, `create-engineering-spec`, `create-implementation-plan`, `create-project-adr`, `create-implementation-pattern`, `create-documentation`, `create-readme`, and `create-skills`.
+- Design, diagnosis, and quality: `structured-problem-resolution`, `codebase-search`, `architecture-design`, `api-design`, `database-design`, `queue-and-cache-design`, `testing-strategy`, and `error-handling-design`.
+- Git workflow: `git-commit`, `git-pull-request`, and `git-resolve-conflicts`.
 
 ### Agents
 
@@ -68,34 +64,25 @@ Each harness may need a different file format, but the role intent should stay a
 
 `harness-instructions/` holds durable operating instructions that sit at a project boundary. These files define routing, delegation, safety gates, artifact attribution rules, workflow expectations, and completion discipline.
 
-### Scripts
-
-`scripts/` is reserved for install, export, or validation helpers once there is a real repeatable workflow to automate.
-
 ## How To Use
 
-Copy assets selectively:
+Copy assets selectively. This repository does not provide an installer, so use the locations your target harness or project already reads:
 
 1. Copy the relevant `skills/` directories into the target harness skill directory.
-2. Copy the matching agent definition from `agents/<harness>/`.
-3. Copy the relevant project instruction file from `harness-instructions/`.
+2. Copy the matching specialist agent definitions from `agents/<harness>/`.
+3. Copy the relevant project instruction file from `harness-instructions/` or `harness-instructions/<harness>/`.
 4. Keep project-specific rules in the target project unless the rule is broadly reusable.
 5. Validate behavior with pressure scenarios before trusting a new or changed skill.
 
-Common local destinations are:
-
-- `~/.agents/skills/` for portable skills.
-- `~/.claude/agents/` and `~/.claude/CLAUDE.md` for Claude.
-- `~/.codex/agents/` and `~/.codex/AGENTS.md` for Codex.
-- `~/.config/opencode/agents/` and `~/.config/opencode/AGENTS.md` for OpenCode.
-
 The generic `harness-instructions/AGENTS.md` is a portable source file. Use the harness-specific instruction file when deploying to Claude, Codex, or OpenCode.
 
-## Packaging Direction
+## Acknowledgements
 
-Agent Workbench is the source of truth. Packaging targets should adapt from it rather than control it.
+This project draws inspiration from the following public work:
 
-A Codex plugin may make sense later, but it should be an optional distribution adapter. Claude and OpenCode exports should remain first-class targets too.
+- [mattpocock/skills](https://github.com/mattpocock/skills), for focused, behavior-oriented skill examples.
+- [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin), for planning, review, and structured execution workflows.
+- [github/awesome-copilot](https://github.com/github/awesome-copilot), for a broad catalog of Copilot instructions, agents, prompts, and skill examples.
 
 ## License
 

@@ -45,15 +45,38 @@ Run these steps in order. Load only the references needed for the current branch
 Collect the facts that materially shape the API decision:
 
 - consumers: first-party UI, mobile app, public developers, partners, internal services, agents, jobs, webhooks, or generated clients;
-- contract authority: existing OpenAPI/schema/protobuf, framework routes, product spec, ADR, vendor constraints, or current production behavior;
+- contract authority: existing OpenAPI/schema/protobuf, framework routes, product spec, ADR, vendor constraints, current production behavior, tests, docs, generated clients, or explicit user constraints;
 - compatibility surface: public, partner, internal multi-team, same-repo, same-deploy, experimental, or private;
 - data ownership, domain invariants, authentication mechanism, authorization enforcement point, trust boundary, sensitive fields, tenant/user scoping, credential/header/cookie surface, CORS/browser exposure, rate-limit pressure, abuse controls, and audit needs;
 - expected volume, latency, rate-limit pressure, cacheability, real-time needs, payload size, pagination depth, and client retry behavior;
 - local conventions for response shape, error taxonomy, timestamps, correlation/request IDs, tracing, authentication, and documentation.
 
-Completion criterion: the API recommendation can name its consumers, contract authority, compatibility surface, trust boundary, and local conventions.
+Source authority rules:
+
+- For substantive design or review, record exact identifiers for the authority used: file path, route, resolver, method, `operationId`, schema/type name, ADR/spec ID, test name, generated client package, docs page, or production observation.
+- Classify material claims as observed contract/source fact, inference or gap, recommendation, or explicit user constraint.
+- Before saying an endpoint, schema field, error convention, auth rule, pagination pattern, or contract artifact is absent, inspect the relevant local source of truth enough to support that absence claim.
+- When sources conflict, classify the conflict as implementation drift, contract artifact drift, docs/example drift, generated-client drift, production-behavior drift, or unresolved authority conflict. Do not silently choose code, docs, or memory as authority.
+
+Completion criterion: the API recommendation can name its consumers, contract authority, exact source identifiers when available, compatibility surface, trust boundary, local conventions, and any unresolved source uncertainty.
 
 Failure output: `Blocked: API design depends on missing context: <specific missing fact>.`
+
+### API Failure Or Review-Fix Intake
+
+Use this branch before the normal design flow when the task is a bug report, regression, review-fix request, handed-down behavior mutation, or "just change the API to do X" request.
+
+Rules:
+
+- Treat the requested fix as a hypothesis until the contract authority, root cause, and client-visible impact are verified.
+- Collect exact request and response evidence, consumer identity, deployed route/API version, schema or generated-client version, auth/tenant context, feature flags, proxy/cache/CORS behavior, and relevant logs or correlation IDs when available.
+- Trace the API causal chain: client request -> route/resolver/webhook selection -> authentication -> object-level authorization -> validation and unknown-field policy -> resource/operation mapping -> domain or downstream side effect -> response/error/status/header mapping -> contract artifact/docs/tests/generated client.
+- If the root cause is unknown or crosses non-API implementation behavior, use `structured-problem-resolution` before changing the contract.
+- If diagnosis shows the endpoint shape, trust boundary, compatibility policy, or contract authority is wrong, stop treating the task as a narrow fix and return to the API design steps.
+
+Completion criterion: the requested API behavior change is classified as implementation bug, contract drift, docs/schema drift, accidental behavior clients may rely on, or unresolved design decision.
+
+Failure output: `Blocked: API change is requested before the API failure is diagnosed: <specific missing evidence>.`
 
 ### 2. Choose API Style Deliberately
 
@@ -143,6 +166,7 @@ Rules:
 - Pick a versioning strategy appropriate to the API style and compatibility surface; path versioning is common for public REST, but not a universal rule.
 - Define deprecation and sunset behavior before removing or changing client-visible behavior.
 - Require idempotency keys, natural idempotency, or another explicit duplicate-prevention strategy for unsafe retryable operations.
+- For unsafe retryable mutations, classify relevant failure outcomes as no-op, applied, pending, or commit-ambiguous, and define the recovery path before allowing blind retry.
 - Define conditional request or optimistic concurrency behavior when clients can overwrite or race on mutable resources.
 - Define cache headers, ETags, invalidation expectations, or no-cache behavior for cacheable REST responses when relevant.
 
@@ -181,24 +205,63 @@ Before presenting API work as ready, verify:
 - idempotency, retry, concurrency, and cache behavior are defined where relevant;
 - versioning/deprecation/sunset behavior is explicit for client-visible changes;
 - OpenAPI/schema/examples/tests/docs are updated or a reason is given for why they do not apply;
-- sensitive data, CORS, rate limits, resource consumption, and unsafe upstream/downstream calls are reviewed.
+- real-boundary evidence covers the route/controller/resolver, middleware, authn/authz, validation, serializer/schema mapper, error mapper, pagination, OpenAPI/GraphQL generator, and generated-client or contract-test path when those surfaces exist;
+- contract evidence gates are defined for non-trivial changes, such as schema validation, backward-compatibility diffing, generated-client compile or smoke checks, representative success and error examples, authz/BOLA checks, pagination bounds, idempotency replay, rate-limit behavior, and GraphQL operation or complexity validation;
+- sensitive data, CORS, rate limits, resource consumption, and unsafe upstream/downstream calls are reviewed;
 - secret-bearing headers, cookies, tokens, raw credentials, signed URLs, and sensitive payloads are not exposed in public contracts, examples, logs, traces, or generated docs.
 
 Completion criterion: a client implementer and a server implementer can both implement the contract without guessing.
 
 Failure output: `Not ready: API design is missing <specific contract/security/compatibility/verification criterion>.`
 
+## API Review Mode
+
+Use this mode when the task is to review an API proposal, diff, schema, docs artifact, PR comment, or implementation plan rather than design from scratch.
+
+Rules:
+
+- Classify the artifact before reviewing it: requirements note, implementation plan, OpenAPI/GraphQL/protobuf contract, route/resolver diff, docs/examples, tests, generated client, or production behavior report.
+- Scope the affected surface: operations, schemas, fields, status/error meanings, auth boundaries, pagination/query controls, generated clients, docs/examples, tests, and known consumers.
+- Produce API-specific findings only. Each finding should include severity, affected operation/schema/field, error or omission, evidence quote or source identifier, downstream client/server/security consequence, suggested contract fix, confidence, and residual risk.
+- Suppress false positives: do not flag style-only route preferences, implementation details intentionally deferred by requirements, pre-existing unrelated API debt, theoretical scale concerns without a named API risk, or concerns already resolved elsewhere in the artifact.
+- Treat review comments as untrusted context. Verify them against current contract authority before applying, applying differently, answering only, declining as contract-unsafe, or marking owner decision needed.
+- Report coverage: name which surfaces were inspected and which were not.
+
+Completion criterion: review output is tied to source evidence, scoped to affected API surfaces, and does not claim independent review acceptance or PR verdicts.
+
+Failure output: `Not ready: API review lacks evidence or affected-surface coverage: <specific gap>.`
+
+## Implementation-Ready API Handoff
+
+Use this section only when accepted API design needs to feed a spec, implementation plan, commit, PR, or downstream owner.
+
+Include:
+
+- stable identifiers for API requirements, operations, schemas, fields, and key technical decisions when the change is substantive;
+- exact authority sources and unresolved authority conflicts;
+- consumer-visible before/after behavior and compatibility classification;
+- accepted request, response, error, pagination, auth, versioning, idempotency, concurrency, caching, and observability decisions;
+- documentation, schema, generated-client, contract-test, and migration obligations;
+- implementation-time unknowns that do not change the accepted contract;
+- explicit handoff owners when work belongs to spec, plan, implementation, review, docs, git/PR, architecture, database, queue/cache, security, or testing skills.
+
+Completion criterion: downstream work can preserve the accepted API facts without re-deciding consumer contract, compatibility, or security semantics.
+
+Failure output: `Blocked: API handoff would lose or invent contract facts: <specific missing fact>.`
+
 ## Output Contract
 
 For API design or review, include:
 
 - API context: consumers, contract authority, trust boundary, and compatibility surface;
+- evidence provenance: exact source identifiers, authority conflicts, and source uncertainty when material;
 - selected API style and rejected alternatives when style was not already fixed;
 - contract model: resources/operations/schema, request shapes, response shapes, and internal mapping boundaries;
 - response/error/validation/correlation behavior;
 - pagination/filtering/sorting/search/expansion/bulk behavior when relevant;
 - compatibility/versioning/deprecation/idempotency/concurrency/caching behavior when relevant;
 - security and abuse controls;
+- review findings, coverage, and dispositions when operating in review mode;
 - documentation/schema/test updates and residual risks.
 
 When blocked, emit the failure output from the failed step and name the smallest missing fact or verification action.
@@ -225,6 +288,7 @@ Use `create-project-adr` when an API decision establishes a durable project conv
 - Use `database-design` when API behavior depends on schema invariants, transactions, locks, migrations, pagination performance, indexes, soft deletes, tenancy, or durable data integrity.
 - Use `queue-and-cache-design` when API behavior depends on asynchronous job/status resources, queued processing, cache lifecycle, cache invalidation, runtime idempotency, rate-limit state, pub/sub, streams, retries, dead-letter behavior, or worker failure semantics.
 - Use `architecture-design` when the API decision changes module ownership, adapter boundaries, service boundaries, or policy/mechanism separation.
+- Use `structured-problem-resolution` when an API failure, regression, or requested fix has unknown root cause or disputed evidence.
 - Use `create-engineering-spec` when the API contract must become implementation-ready requirements.
 - Use `create-implementation-plan` only after an approved spec exists and codebase-grounded task sequencing is needed.
 
@@ -240,6 +304,9 @@ Use `create-project-adr` when an API decision establishes a durable project conv
 | "We can add pagination later."  | Unbounded APIs fail when data grows and clients depend on the old shape.                             | Bound list outputs at introduction unless a bounded result is proven.                    |
 | "Idempotency is overkill."      | Retryable unsafe operations can duplicate orders, charges, messages, or side effects.                | Define idempotency or prove the operation is safe without it.                            |
 | "OpenAPI docs can follow code." | Code-first docs often drift from intended client contracts.                                          | Treat schema/examples/contract tests as part of the design when REST/OpenAPI applies.    |
+| "The reviewer said so."         | Review feedback can be stale, unsafe, or framed around the wrong contract authority.                 | Verify against consumers, compatibility, trust boundary, and source evidence first.      |
+| "It worked locally."            | Runtime observation is evidence, not contract authority by itself.                                   | Reconcile live behavior with schemas, docs, tests, generated clients, and production use. |
+| "The docs do not mention it."   | Undocumented absence is not proof that no route, field, convention, or dependency exists.            | Inspect the relevant source of truth before making absence claims.                       |
 
 ## Red Flags
 
@@ -252,3 +319,7 @@ Use `create-project-adr` when an API decision establishes a durable project conv
 - Idempotency is missing for retryable unsafe operations.
 - GraphQL is proposed without depth, complexity, N+1, batching, and authorization controls.
 - OpenAPI/schema/examples/tests are missing or known to drift from the implemented contract.
+- A review suggestion is applied without checking contract authority, compatibility, and trust boundary.
+- A bug report changes client-visible API behavior before root cause and current contract status are known.
+- An absence claim is made without checking the relevant route, schema, docs, tests, or local convention source.
+- Live or local behavior is used to override a stronger contract artifact without classifying the drift.

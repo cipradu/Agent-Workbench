@@ -14,6 +14,25 @@ Map lower-level failures at the boundary that owns the abstraction:
 
 Do not map the same failure generically at every layer. Repeated wrapping destroys useful cause and makes callers handle noise.
 
+## Symptom-Driven Mapping Gate
+
+Do not create or change a mapper only because a symptom, test failure, support report, or review comment suggests a catch block.
+
+Before accepting a symptom-driven mapping, establish:
+
+- observed symptom and trigger;
+- expected behavior and current public contract;
+- actual lower-level source, such as exception type, provider code, validation issue, timeout signal, status record, or cancellation reason;
+- causal path from lower-level source to public failure;
+- boundary that owns translation;
+- caller consequence and retry/fallback safety;
+- existing logs, correlation IDs, or instrumentation that prove the source;
+- prior failed fixes and what they invalidated.
+
+If the lower-level source or causal path is unknown, route to diagnosis before mapping. A catch that makes the symptom disappear is not evidence that the contract is correct.
+
+Failure output: `Blocked: symptom-driven mapping lacks causal evidence: <specific gap>.`
+
 ## Known Failure Mapping
 
 For each known lower-level failure, define:
@@ -27,6 +46,10 @@ For each known lower-level failure, define:
 
 Failure output: `Blocked: known lower-level failure lacks application mapping: <failure>.`
 
+Verify exact lower-level source behavior against current project dependencies or official docs when the mapping depends on framework defaults, validation issue shapes, logger attributes, provider status codes, SDK exception classes, database error names, queue status values, or tracing APIs. Do not use stale examples, old learning notes, or memory as source authority for exact mapping syntax.
+
+When revising an existing mapper, compare current implementation with accepted public schema, SDK behavior, generated clients, UI handlers, job status models, runbooks, tests, incident notes, and logs. Treat drift as a contract decision, not a cleanup detail.
+
 ## Unknown Failure Fallback
 
 Unknown failures must be safe by default:
@@ -38,6 +61,8 @@ Unknown failures must be safe by default:
 - no retry is promised unless the operation is proven safe.
 
 Failure output: `Rejected: unknown failure leaks details or loses diagnostic cause: <specific issue>.`
+
+Unknown outcome is different from known failure. For timeout, network interruption, `5xx`, pending async state, sync failure, or commit-ambiguous write, first determine whether the operation landed by rereading authoritative state, checking a status resource, or using an accepted idempotency record. Do not retry or report terminal failure as if the write definitely failed until the outcome is known or safely bounded.
 
 ## Exceptions Versus Results
 
@@ -62,6 +87,20 @@ Catch only when the current boundary can do one of these:
 - intentionally suppress a non-critical follow-up failure while logging enough diagnostic context.
 
 Do not catch just to return `null`, `false`, empty lists, success envelopes, or generic messages that hide failure.
+
+Provider, auth, setup, and tool failures need distinct mapping when the caller action differs:
+
+- missing configuration;
+- expired or missing credentials;
+- authentication pending or unauthenticated provider state;
+- unauthorized provider result;
+- malformed provider output;
+- unsupported local mode;
+- ambiguous project or destination;
+- source skipped by mode, cost, permission, or user choice;
+- no configured sink or failed sink delivery.
+
+Do not collapse these into one generic dependency failure when callers, operators, or automation need different next actions.
 
 ## Fallback Mapping
 
@@ -88,13 +127,17 @@ When failure occurs after state changes:
 - distinguish recoverable cleanup failure from the original cause;
 - never continue as if the failed step succeeded.
 
+If a fix changes the observed error without resolving the source, update the hypothesis and mapping evidence before adding another catch or wrapper. Do not stack mappers around an invalidated cause.
+
 ## Mapping Checklist
 
 - Mapping owner is clear.
 - Known lower-level failures map to stable application categories.
 - Unknown failures have sanitized fallback.
+- Unknown outcomes are reread or bounded before retry or terminal reporting.
 - Private cause is preserved.
 - Catch blocks translate, enrich, clean up, or deliver at a boundary.
 - Fallback catches are explicit, safe, and diagnostic.
 - Rollback/cleanup behavior is explicit.
 - Tests or review evidence cover at least one known failure and one unknown failure path where relevant.
+- Exact lower-level source behavior has current authority when mapping depends on version-sensitive framework or provider details.

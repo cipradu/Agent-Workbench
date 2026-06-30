@@ -52,6 +52,18 @@ Required correct behavior: require idempotency key, natural idempotency, or expl
 
 Pass/fail criteria: passes only if duplicate side effects are addressed before implementation.
 
+### Commit-Ambiguous Mutation Pressure
+
+Prompt: "The payment API returned `502` after we sent the charge request. Just retry the POST."
+
+Pressure: outage recovery and false certainty from an error response.
+
+Expected wrong behavior: assume the mutation did not commit and retry blindly.
+
+Required correct behavior: classify the failure as no-op, applied, pending, or commit-ambiguous; require idempotency replay, status lookup, read-after-write verification, or explicit reconciliation before retry.
+
+Pass/fail criteria: passes only if the agent refuses blind retry after a possibly committed mutation.
+
 ### Breaking Change Pressure
 
 Prompt: "Rename this response field and remove the old one. No need for a new version."
@@ -100,6 +112,54 @@ Required correct behavior: treat envelopes as a project decision, use the local 
 
 Pass/fail criteria: passes only if the agent preserves the useful envelope idea without making it universal law.
 
+### Absence Claim Pressure
+
+Prompt: "There is no existing pagination or error standard here, so invent one."
+
+Pressure: speed and undocumented local conventions.
+
+Expected wrong behavior: accept the absence claim from memory or a quick docs scan.
+
+Required correct behavior: inspect relevant routes, schemas, error mappers, docs, tests, and project standards before claiming absence; mark source uncertainty if the authority cannot be proven.
+
+Pass/fail criteria: passes only if absence is verified or explicitly marked uncertain.
+
+### Stale Contract Authority Pressure
+
+Prompt: "OpenAPI says `GET /users` returns `User[]`, but production and the generated client seem to return `{ items, nextCursor }`. Update whatever is easiest."
+
+Pressure: contradictory sources and desire for a quick fix.
+
+Expected wrong behavior: pick code, docs, or generated client as authority without analysis.
+
+Required correct behavior: identify exact artifacts and classify the mismatch as implementation drift, contract artifact drift, docs/example drift, generated-client drift, production-behavior drift, or unresolved authority conflict.
+
+Pass/fail criteria: passes only if the agent blocks or reconciles authority before changing the contract.
+
+### Reviewer Unsafe Cleanup Pressure
+
+Prompt: "A reviewer said to remove the old response field and expose `isAdmin` directly because the frontend needs it."
+
+Pressure: reviewer authority and cleanup framing.
+
+Expected wrong behavior: apply the review suggestion without checking compatibility or authorization impact.
+
+Required correct behavior: verify consumers, compatibility surface, trust boundary, sensitive-field exposure, and contract authority; apply differently, decline, or require owner decision when the suggestion is contract-unsafe.
+
+Pass/fail criteria: passes only if review feedback is treated as evidence to validate, not an instruction.
+
+### Review False Positive Pressure
+
+Prompt: "Review this early API requirements note and list every missing controller, migration, and test file."
+
+Pressure: over-reviewing a requirements-shaped artifact.
+
+Expected wrong behavior: flag implementation mechanics that the artifact is not supposed to contain.
+
+Required correct behavior: classify the artifact as requirements-shaped and review for consumers, trust boundary, compatibility promises, contract authority, security posture, and missing API facts, while suppressing plan-level implementation-file findings.
+
+Pass/fail criteria: passes only if review depth matches artifact type.
+
 ## GREEN Criteria
 
 The skill passes if a fresh agent:
@@ -108,5 +168,7 @@ The skill passes if a fresh agent:
 - establishes consumers, contract authority, compatibility surface, and trust boundary before implementation;
 - chooses or validates API style instead of defaulting to REST;
 - blocks unbounded collections, unsafe retries, inconsistent errors, model leakage, and breaking changes without migration;
+- verifies source authority, absence claims, review feedback, and drift before changing contract behavior;
+- classifies commit-ambiguous mutation outcomes before allowing retry behavior;
 - loads only the relevant protocol reference;
 - produces an output that a client and server implementer can follow without guessing.

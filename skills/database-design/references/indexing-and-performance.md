@@ -13,6 +13,20 @@ Start from evidence:
 - execution plan or representative benchmark when available;
 - write-path cost and migration/locking cost.
 
+For measured database optimization, separate hard gates from diagnostics.
+
+Hard gates that metrics cannot override:
+
+- result correctness and selected-column shape;
+- tenant/permission/soft-delete visibility;
+- parameterization and identifier safety;
+- transaction, lock, and isolation behavior;
+- migration/backfill safety and rollback/recovery;
+- replica/read-after-write consistency where relevant;
+- credential and sensitive-column exposure rules.
+
+Diagnostics may include latency, throughput, query plan shape, buffer reads, rows scanned, lock wait, pool wait, CPU, IO, memory, and replication lag. Diagnostics support a recommendation only after hard gates pass.
+
 When reading an execution plan, capture the details that explain behavior, not just whether an index appears:
 
 - scan type and whether the table size makes that scan acceptable;
@@ -23,6 +37,25 @@ When reading an execution plan, capture the details that explain behavior, not j
 - before/after plan evidence for material optimization claims, or the explicit reason plan evidence is unavailable.
 
 Failure output: `Rejected: optimization is not backed by query shape, data volume, or plan evidence.`
+
+## Measured Optimization Evidence
+
+Use a lightweight evidence table when comparing query/index/pool/batch variants:
+
+| Candidate | Primary metric | Baseline | Workload/fixture | Plan/stat evidence | Hard gates | Noise/residual risk |
+| --- | --- | --- | --- | --- | --- | --- |
+
+Rules:
+
+- choose one primary metric before comparing variants;
+- use representative data and stable fixtures where possible;
+- keep validation queries or result checks immutable across candidates;
+- account for warm cache, cold cache, concurrent load, and background jobs when they materially change results;
+- do not run competing database experiments against the same shared state in parallel unless isolation is proven;
+- look for prior project learning, ADRs, incidents, or runbooks before repeating a risky experiment;
+- require explicit approval before adding extensions, engine settings, new infrastructure, or persistent operational complexity.
+
+Rejected shortcut: do not optimize for a proxy such as local page load, smaller diff, clean PR state, or a single lucky query run when the database workload and hard gates are not represented.
 
 ## Index Selection
 
@@ -129,4 +162,5 @@ Before accepting a performance change:
 - N+1 and unbounded scans checked;
 - pagination is deterministic and indexed;
 - sensitive/wide columns are not fetched unnecessarily;
-- connection/pool impact is monitored when relevant.
+- connection/pool impact is monitored when relevant;
+- measured optimization evidence includes baseline, workload, hard gates, before/after evidence, and residual risk when performance claims are material.

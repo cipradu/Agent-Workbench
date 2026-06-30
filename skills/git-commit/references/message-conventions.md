@@ -10,6 +10,21 @@ Use this reference when a commit message convention, type, body, or footer decis
 
 Do not invent a new style because it looks cleaner than the repository history. Do not copy a bad message pattern when documented rules contradict it.
 
+## Source Reconciliation
+
+Treat convention sources as evidence with different authority.
+
+| Source Conflict | Required Handling |
+| --- | --- |
+| User direction conflicts with repository rules | Follow the repository rule unless the user explicitly accepts the named policy risk and the rule is not a hard safety/attribution ban. |
+| Recent history conflicts with documented instructions | Follow documented instructions and treat the history as stale or noisy. |
+| Recent history contains vague subjects, attribution, issue-closing footers, or inconsistent scopes | Copy only the useful convention signal, such as type or scope shape; reject the bad pattern. |
+| Commit template conflicts with current repository or user constraints | Use the template only for required semantic fields and omit forbidden or irrelevant boilerplate. |
+| Hook/release tooling imposes a format | Follow the mechanical requirement and still keep the message factual, scoped, and free of forbidden attribution. |
+| Prior learning or upstream workflow summary suggests a message | Treat it as advisory until current staged diff and local convention confirm it. |
+
+Block only when the conflict changes the message semantics or could create a misleading, policy-violating, or automation-triggering commit.
+
 ## Conventional Commits Fallback
 
 Format:
@@ -63,6 +78,20 @@ The body should answer the useful subset of:
 
 Do not hard-wrap body prose at a fixed column width unless the repository explicitly requires it. Use blank lines, bullets, or paragraphs where they carry meaning.
 
+## Origin-Specific Body Guidance
+
+Use the origin of the change to decide what the body must preserve. Do not copy transcripts, review threads, dogfood reports, benchmark logs, or planning prose into the commit message.
+
+| Change Origin | Useful Body Content | Avoid |
+| --- | --- | --- |
+| Bug fix | Failing symptom, supported cause, corrected behavior, regression or focused check evidence | Investigation diary, failed hypotheses, "works now" without cause |
+| Plan/spec/ADR-backed work | Stable source identifier when helpful, implemented boundary, actual checks run, intentional exclusions | Planned checks that did not run, plan prose pasted as body |
+| PR feedback or review fix | The behavior or contract corrected, why the staged diff is the right unit, verification evidence | Reviewer quote dumps, fixed `fix(review): ...` subjects that hide the actual change |
+| QA, dogfood, browser, or device fix | Scenario affected, user-visible or runtime outcome, rerun/manual evidence, skipped-check risk | Raw session notes, screenshots/log inventories, unverified "QA passed" claims |
+| Measured optimization | Baseline, final measurement, hard gates, trade-off or scope limit | Scratch experiment detail, metric-only marketing, benchmark claims without context |
+| Generated/report artifact | Why the artifact is source-controlled, generation or validation evidence, privacy/scope note | Local paths, auth/provider state, raw extracted data, cache details |
+| Workflow/control artifact | Behavior failure closed, new gate or stop condition, validation and review evidence | Process transcript, apology, broad philosophy, tool/model attribution |
+
 ## Footer Decision
 
 Use footers only for semantic metadata that the repository expects or the user requested.
@@ -91,4 +120,8 @@ Avoid by default:
 | `update files`               | Explain the behavior or maintenance outcome                     |
 | `feat!: change API`          | Use breaking markers only after explicit confirmation           |
 | `fix bug`                    | Name the failing behavior and the corrected outcome             |
+| `fix(review): address comments` | Name the contract, behavior, or artifact that changed           |
+| Body copied from a PR thread | Summarize the durable outcome and evidence                      |
+| Body lists every changed file | Explain intent, scope, verification, and exclusions             |
+| Marketing or launch-copy tone | Keep factual maintainer-oriented prose                          |
 | Assistant attribution footer | End on the last substantive line                                |

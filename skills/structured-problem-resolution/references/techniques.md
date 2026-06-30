@@ -9,7 +9,10 @@ Detailed walkthroughs of specific debugging techniques referenced from SKILL.md.
 3. [Reproduction](#reproduction) -- Making bugs reliable
 4. [Isolation](#isolation) -- Narrowing the scope
 5. [Observation](#observation) -- Seeing what's actually happening
-6. [Domain-Specific](#domain-specific) -- Techniques for specific bug categories
+6. [Evidence Handling](#evidence-handling) -- Provenance, freshness, and external artifacts
+7. [Cross-Boundary Investigation](#cross-boundary-investigation) -- Finding where valid state becomes invalid
+8. [Measurable and External-State Investigations](#measurable-and-external-state-investigations) -- Variance, metrics, and mutation readback
+9. [Domain-Specific](#domain-specific) -- Techniques for specific bug categories
 
 ---
 
@@ -285,6 +288,132 @@ When the bug is in how your program interacts with the OS:
 - **strace (Linux) / dtruss (macOS):** Shows every system call -- invaluable for "why can't it find the file?" (shows exact paths tried), "why is it hanging?" (shows which call blocks), and "why is it slow?" (shows I/O patterns).
 - **Network tracing (tcpdump, Wireshark):** For debugging API calls, connection failures, TLS issues, or unexpected request/response content.
 - **lsof:** Shows what files and sockets a process has open.
+
+---
+
+## Evidence Handling
+
+### Source Windows and Provenance
+
+Logs, metrics, traces, screenshots, reports, and media are point-in-time evidence. Before treating them as diagnostic truth, record:
+
+- source/tool and query/filter shape;
+- timestamp, timezone, source window, and latest data considered;
+- known ingestion lag, sampling, retention, truncation, or missing-data behavior;
+- environment, branch/version/release, user/tenant/test fixture, and relevant IDs such as request, trace, correlation, job, or event IDs;
+- redaction status for secrets, credentials, PII, customer data, raw recordings, transcripts, and local-only artifacts;
+- canonical source when sources disagree.
+
+Do not ask users for credentials, API keys, database passwords, tokens, or secret-bearing connection strings. Ask for redacted output, query shape, source name, and enough context to reproduce or reason about the evidence.
+
+### Production Evidence Harvesting
+
+When production or CI evidence already exists, preserve high-signal fields before they age out:
+
+- full error payload and stack trace, not just the headline;
+- request/trace/correlation IDs;
+- release/build metadata and feature flag/config state;
+- relevant log snippets with timestamps before and after the failure;
+- breadcrumbs, queue/job IDs, retry counts, and downstream service responses;
+- source-window limits and known gaps.
+
+Assemble one linear failing-event timeline before reproducing from scratch when the timeline is available. Reproduction is still valuable, but stale logs or missing source windows can mislead.
+
+### Canonical Source Selection
+
+When CI logs, local reproduction, monitoring, user reports, browser screenshots, and database state disagree, name the source that is authoritative for the active hypothesis and why. Examples:
+
+- Current source code is authoritative for what should execute locally, but runtime logs are authoritative for what actually executed in production.
+- A browser screenshot is authoritative for visible state at one moment, not for root cause.
+- A database row is authoritative for stored state, not for which code wrote it unless paired with trace or log evidence.
+- A successful generic test is not authoritative for a user-visible path it does not exercise.
+
+---
+
+## Cross-Boundary Investigation
+
+### Boundary Instrumentation
+
+For multi-layer failures, list every boundary from trigger to symptom and capture entry/exit state for each boundary in one run:
+
+1. user action or external trigger;
+2. UI/browser/mobile/client state;
+3. API/CLI/request parser boundary;
+4. auth/permission/validation boundary;
+5. service/domain logic boundary;
+6. database/cache/queue/filesystem boundary;
+7. external provider/network boundary;
+8. worker/callback/event/middleware boundary;
+9. output/render/report/side-effect boundary.
+
+Read the timeline linearly. The root cause is near the first boundary where valid state becomes invalid, not necessarily where the error finally appears.
+
+### System Boundary Checklist
+
+Use only the parts relevant to the failing path:
+
+- Network: DNS, routing, TLS, status codes, proxy/CDN behavior, retries, timeouts, request and response body shape.
+- Database: query plan, locks, connection pool, transaction boundary, replica lag, migration state, tenant/permission scope, actual rows read and written.
+- Filesystem: existence, permissions, path case sensitivity, symlinks, working directory, open handles, disk space, generated artifact freshness.
+- Process/runtime: executable path, version, branch/worktree, dependency set, env vars, config file source, server process, port conflict, build output.
+- Browser/UI: route, DOM, visible state, console errors, network failures, storage/cookies, service workers, accessibility state, screenshots tied to steps.
+- Mobile/device: build/install/launch, device/simulator, OS/runtime version, logs, screenshots, automation limits, cleanup state.
+
+### Bug-Class Pre-Tracing Scan
+
+Before deep tracing, quickly scan common bug classes so the first hypothesis is not overly narrow:
+
+- time/timezone/clock skew;
+- encoding, locale, collation, Unicode, and case sensitivity;
+- floating-point precision and integer overflow;
+- off-by-one boundaries and empty/singleton collections;
+- cache staleness, generated artifact staleness, and CDN/proxy behavior;
+- permissions, auth, tenancy, and feature flags;
+- dependency drift, API deprecation, and config source drift;
+- path/case sensitivity and working-directory mismatch;
+- concurrency, ordering, retries, TOCTOU, and observer effects.
+
+---
+
+## Measurable and External-State Investigations
+
+### Measurement and Variance Discipline
+
+For performance, flakiness, repeated failed fixes, and quality metrics:
+
+- capture a baseline before changing code;
+- define the primary metric, hard correctness gates, diagnostic metrics, and acceptance threshold;
+- repeat enough runs to understand noise, or record why repetition is impossible;
+- control time, randomness, concurrency, cache warmth, external providers, and fixture data where possible;
+- keep the benchmark, trace, fixture, sample set, or rubric immutable unless the measurement itself is proven wrong;
+- record outcomes as confirmed, disproven, degenerate, error, timeout, deferred, or inconclusive.
+
+Do not accept a single faster run, one passing flaky run, or a better proxy metric when guardrails regress. A proxy metric can guide investigation; it cannot replace the original symptom or accepted success criteria.
+
+### Shared-State Contamination
+
+When tests, probes, or experiments can interfere with each other, check:
+
+- hardcoded ports and sockets;
+- shared SQLite files, databases, schemas, tenants, queues, Redis keys, cache namespaces, lock/PID files, and temp paths;
+- global mocks, singleton state, environment variables, monkeypatches, seeded randomness, fake timers, and fixture reuse;
+- rate limits, external provider quotas, GPUs, simulators, and other exclusive resources;
+- test ordering and parallel execution.
+
+Run related tests together when contamination could hide a failure. Passing a single isolated test can be misleading when the original failure depended on suite order or shared state.
+
+### External Mutation Readback
+
+Commands and APIs can return misleading outcomes:
+
+- `0` exit with an empty or wrong target update;
+- timeout after the remote side already committed the change;
+- 202/pending response with later failure;
+- 5xx after partial mutation;
+- stale/precondition failure where retrying with the same input is wrong;
+- invalid payload where readback is unnecessary because nothing was accepted.
+
+Before retrying or declaring completion, capture stdout, stderr, exit code/status, target object ID, request body or command shape, idempotency support, and authoritative readback. Retry only when the intended change is absent and the retry is safe.
 
 ---
 

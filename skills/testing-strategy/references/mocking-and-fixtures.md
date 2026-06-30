@@ -22,6 +22,27 @@ Before creating a mock response or fixture:
 3. Preserve important nullability, optionality, status/error variants, pagination metadata, IDs, timestamps, and nested shapes.
 4. Add contract/schema validation when drift would be expensive.
 
+## Fixture Freshness
+
+Fixtures, snapshots, generated samples, and mocks drift like code.
+
+Before relying on existing test data:
+
+- check it against the current schema, contract, generated type, source window, or real sample;
+- classify stale fixtures as `current/no change`, `stale but correctable`, `contradicted by source truth`, `fixture drift`, `over-mocked`, or `wrong seam`;
+- include telemetry/reporting fields such as timestamps, source windows, missing metrics, pagination, IDs, redaction-safe identifiers, and unavailable-data variants when downstream code depends on them;
+- update fixtures only when the protected behavior or current contract justifies the change, not merely to make assertions pass.
+
+## Mock Boundary False Positives
+
+Suppress mock-related findings when the mock is a true external boundary and the test has separate evidence for the local behavior. Raise a finding when:
+
+- the code under test or project-owned collaborator is mocked;
+- the mock omits fields real downstream code relies on;
+- the assertion proves only a call count or mock return;
+- the mock hides database, auth, routing, serialization, generated-contract, queue/cache, or browser behavior that is the actual risk;
+- shared mocks, globals, fake timers, environment variables, files, queues, caches, or browser contexts can contaminate related tests.
+
 ## Fixture Rules
 
 - Prefer factories/builders for varied test data and fixtures for stable shared examples.
@@ -38,3 +59,5 @@ Before creating a mock response or fixture:
 - The test asserts `mockFunction` call counts instead of observable behavior.
 - The code under test is mocked.
 - Cleanup requires production-only methods that should not exist.
+- Snapshot or fixture refresh is accepted without checking whether behavior, source truth, or schema changed.
+- Related test files pass alone but fail together because shared mocks, globals, fixtures, or fake timers leak.

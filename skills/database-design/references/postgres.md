@@ -16,6 +16,8 @@ Before using a PostgreSQL-specific feature, identify:
 
 Version matters for features such as `UNIQUE NULLS NOT DISTINCT`, generated identity behavior, JSON/path features, index options, logical replication capabilities, and extension availability.
 
+When project artifacts disagree, prefer current PostgreSQL evidence for PostgreSQL-specific behavior: server major version, enabled extensions, deployed constraints/indexes, migration history, `EXPLAIN` output, replica topology, and hosting restrictions. Treat old ORM examples, stale generated schema, copied migration snippets, and generic SQL assumptions as untrusted until checked against the target version.
+
 Failure output: `Blocked: PostgreSQL feature/version behavior must be verified before use: <specific feature>.`
 
 ## Schema And Data Types
@@ -203,6 +205,16 @@ Rules:
 - keep read-after-write, idempotency, authorization, checkout, and user-visible consistency reads on primary unless a lag-wait strategy is explicit;
 - monitor replication lag and replication slot/WAL retention where replication is used;
 - understand synchronous replication trade-offs before requiring zero data loss.
+
+For read-only reporting or operational observers:
+
+- prefer read-only roles and replicas only when stale reads are acceptable;
+- keep consistency-sensitive checks on primary or require an explicit lag-wait/sticky-read strategy;
+- bound queries by indexed predicates, time windows, limits, or batches;
+- select only required columns and avoid sensitive verifier or payload fields;
+- account for long-running reads that can hold snapshots and delay vacuum cleanup.
+
+Failure output: `Rejected: PostgreSQL read-only observer path ignores replica lag, privileges, query bounds, or sensitive data exposure.`
 
 ## Backup And Recovery
 

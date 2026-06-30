@@ -166,6 +166,103 @@ When problem resolution goes wrong, it's usually not because of lacking technica
 - Reproduce in the actual failing environment (or as close as you can get)
 - Systematically diff environments when something works in one place but not another
 
+### Stale Scratch Anchoring
+
+**What it is:** Treating an old scratch file, prior issue title, previous failed fix, old log excerpt, or session summary as current truth.
+
+**How it manifests:**
+
+- Yesterday's scratch says "cache bug", so today's investigation starts in cache even though the latest log points to auth.
+- A prior solution doc describes the same error string, so you apply its fix without checking current versions, branch, config, or runtime state.
+- A review comment was written against old code, but you resolve it as if the line still means the same thing.
+
+**Countermeasures:**
+
+- Reconcile old notes against current code, branch/worktree, dependencies, runtime, latest thread update, and current symptom.
+- Label stale context as current, stale but correctable, contradicted, superseded, or requiring restart from observation.
+- Treat prior learnings as leads that generate hypotheses, not as root-cause proof.
+
+### Metric Gaming
+
+**What it is:** Accepting a scalar improvement as success while the original behavior, correctness, safety, or user-visible outcome remains unproven.
+
+**How it manifests:**
+
+- One benchmark run is faster, but variance is larger than the improvement.
+- A quality score improves because the fixture or rubric was weakened.
+- Cache hit rate rises while stale reads increase.
+- A flaky test passes once after a timing tweak and is declared fixed.
+
+**Countermeasures:**
+
+- Define baseline, target, guardrails, variance policy, and immutable measurement assets before changing code.
+- Re-run enough to understand noise, or label the result inconclusive.
+- Verify the original symptom and hard correctness gates, not just the proxy metric.
+
+### False-Success Command Output
+
+**What it is:** Trusting stdout, a URL, a success code, or a "completed" message without reading back the target state.
+
+**How it manifests:**
+
+- A command exits 0 but wrote an empty remote artifact.
+- An API call times out after the remote side already created the object, then a retry creates a duplicate.
+- A 202 response is treated as success even though the eventual job failed.
+
+**Countermeasures:**
+
+- Capture stdout, stderr, exit code/status, target state, and fallback path.
+- Read back authoritative state before retrying or claiming completion when mutation status is ambiguous.
+- Separate stale/precondition failures, invalid payloads, false success, and ambiguous post-write failures.
+
+### Optional-Tool False Blocker
+
+**What it is:** Treating a missing helpful tool as proof the investigation is blocked or as the cause of the symptom.
+
+**How it manifests:**
+
+- Browser automation is unavailable, so a UI bug is declared untestable even though logs, screenshots, or manual capture could narrow it.
+- A profiler is missing, so a performance issue is guessed at instead of using a coarser baseline.
+- A simulator is unavailable, so device evidence is ignored rather than recorded as an automation limitation.
+
+**Countermeasures:**
+
+- Classify environment findings as blocking failure, optional capability gap, or unrelated observation.
+- Use the lightest valid loop that reaches the symptom.
+- Ask for setup help only when no valid evidence path remains.
+
+### Visual-Satisfaction False Proof
+
+**What it is:** Treating a screenshot, hot reload, visual polish, or user satisfaction as root-cause proof.
+
+**How it manifests:**
+
+- The UI "looks better" after a CSS tweak, but the original click path still fails under a different state.
+- A screenshot shows the expected page but not whether the side effect, network call, storage update, or accessibility behavior succeeded.
+- A dogfood note says the flow feels fixed, but the failing runtime logs were never rechecked.
+
+**Countermeasures:**
+
+- Capture the original observable symptom and re-run the same path after the fix.
+- Pair visual evidence with DOM, console, network, storage, server logs, or true end-state checks as relevant.
+- Record manual or automation limits as residual risk.
+
+### Prior-Learning Overtrust
+
+**What it is:** Applying a remembered or documented old fix because the current problem resembles a past problem.
+
+**How it manifests:**
+
+- "We fixed this by bumping the timeout last time" becomes the first edit, even though the current trace shows a data-shape error.
+- A solution doc's old dependency behavior is copied after the dependency changed.
+- A known workaround is applied without checking whether the upstream bug was fixed.
+
+**Countermeasures:**
+
+- Search prior learnings for leads, failed attempts, and stale warnings, then verify applicability with current evidence.
+- Record conflicts between prior learning and current source/runtime evidence.
+- Use current official docs or current local runtime behavior for drift-prone facts.
+
 ---
 
 ## Traps in Receiving Feedback
@@ -285,6 +382,22 @@ These traps are specific to processing human input — code reviews, suggestions
 - Take a break before addressing late-round feedback
 - Apply the same verification discipline to the last round as to the first
 - If you genuinely disagree with late-round feedback, say so rather than capitulating
+
+### Review-Fatigue Auto-Apply
+
+**What it is:** Treating review feedback as a queue to clear instead of a set of evidence claims to verify.
+
+**How it manifests:**
+
+- Applying every AI or reviewer suggestion because a prior batch had valid findings.
+- Letting "safe" cleanup remove validation, redaction, accessibility behavior, logging, or compatibility checks.
+- Marking feedback resolved because code changed, without verifying the original evidence disappeared.
+
+**Countermeasures:**
+
+- Keep stable IDs and dispositions for each item.
+- Verify factual claims, scope, and current relevance before each edit.
+- Use `fixed differently`, `not addressing with evidence`, `declined harmful`, or `needs human decision` when the literal suggestion is not the right fix.
 
 ---
 

@@ -20,6 +20,16 @@ docs/specs/2026-06-18_14-07_user-management-02_spec.md
 
 The implementation plan must reuse the exact spec slug segment when creating its corresponding plan file.
 
+## Stable ID Lifecycle
+
+Use stable IDs from the first draft that may be reviewed or handed off.
+
+- Preserve `REQ`, `AE`, `RISK`, and `AUTH` IDs across reordering and wording changes.
+- When splitting an item, keep the original ID on the part that preserves the original meaning and create new IDs for new obligations.
+- When merging items, record which IDs were merged and why.
+- When removing or superseding an item, record its status instead of silently deleting it when downstream artifacts may reference it.
+- Preserve stable upstream IDs from PRDs, audits, prior specs, ADRs, plans, or reviews by mapping them to the spec IDs.
+
 ## Full Spec Form
 
 Use only when all gates pass.
@@ -69,6 +79,8 @@ Source request: concise summary
 ### Greenfield Foundation or Brownfield Fit
 
 ### Source / Authority Map
+
+### Source Scope And Confidence
 
 ### Planning-Relevant Impact Surfaces
 
@@ -128,6 +140,10 @@ Source request: concise summary
 
 ### Deferred Questions
 
+## Review Finding Disposition
+
+## Planning Handoff
+
 ## Reviewer Guidance
 
 ### Must Flag
@@ -142,6 +158,8 @@ Source request: concise summary
 ```markdown
 REQ-001 — short requirement name
 Source: user | rule | ADR | existing spec | code/test | external source | assumption
+Source scope: target authority | adjacent impact | pre-existing contradiction | historical context | untrusted signal | inferred hint | unsupported
+Source confidence: authority-backed | current-system | current-external | verified evidence | weak context | unsupported
 Statement: observable behavior, contract, invariant, or constraint
 Acceptance evidence: AE-001 or explicit evidence
 Risk addressed: risk ID or `none` with reason
@@ -156,6 +174,10 @@ Context/input:
 Action/event:
 Expected result:
 Requirements covered: REQ-001, REQ-002
+Modality: automated | manual/human | external-system | blocked | diagnostic-only | hard gate
+Proof source:
+Blocked/skipped proof:
+Degenerate pass to reject:
 ```
 
 ## Risk Register Form
@@ -178,9 +200,47 @@ AUTH-001 — concept or rule name
 Authority type: data | business rule | process | interface/API | schema | operational policy | compliance/regulatory | other
 Owner/role:
 Location/source:
+Source scope:
+Source confidence:
 Applies to:
 Conflict/tiebreaker:
 ```
+
+## Review Finding Disposition Form
+
+```markdown
+REV-001 — short finding name
+Finding type: decomposition gap | source/authority gap | research-currency gap | domain-model conflict | brownfield-fit gap | stale-source conflict | risk/impact gap | acceptance-evidence gap | implementation leakage | scope drift | unresolved blocker
+Affected section or ID:
+Evidence:
+Confidence anchor:
+Consequence:
+Blocks readiness: yes | no
+Disposition: revised | revised-differently | answered-no-change | invalid-with-evidence | declined-with-harm | deferred-non-blocking | blocked-needs-decision
+Resolution evidence:
+```
+
+## Planning Handoff Form
+
+```markdown
+Spec path:
+Slug:
+Status:
+Mode:
+Review state:
+Requirement IDs:
+Acceptance evidence IDs:
+Risk IDs:
+Authority IDs:
+Non-scope and no-gos:
+Open blockers:
+Deferred planning-safe questions:
+Planning-relevant impact surfaces:
+ADR candidates:
+External handoff note:
+```
+
+The external handoff note may summarize what later commit, PR, publishing, review, or implementation workflows need to preserve. It must not include implementation units, file choreography, git commands, PR mutation, CI watch, tracker filing, or publishing mechanics.
 
 ## Blocked Packet Form
 
@@ -204,7 +264,11 @@ Mode: Greenfield | Brownfield
 
 ## Missing Source-of-Truth / Evidence
 
+## Stale Or Conflicting Source State
+
 ## Required Research or Discovery
 
 ## Blocking Question
+
+## Durable Residuals
 ```

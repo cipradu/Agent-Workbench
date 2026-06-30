@@ -17,6 +17,8 @@ Start by identifying:
 
 MySQL and MariaDB diverge in SQL details. Do not assume syntax or behavior is portable without checking the target engine and version.
 
+When project artifacts disagree, prefer current MySQL/MariaDB evidence for engine-specific behavior: exact server family/version, InnoDB settings, deployed constraints/indexes, migration history, DDL algorithm support, replication topology, and hosting restrictions. Treat copied MySQL examples, stale ORM metadata, generated schema output, and generic SQL assumptions as untrusted until checked against the target engine.
+
 Failure output: `Blocked: MySQL/MariaDB version or engine behavior must be verified before use: <specific feature>.`
 
 ## Schema Defaults
@@ -112,6 +114,8 @@ Rules:
 
 Failure output: `Rejected: MySQL migration does not account for DDL algorithm, metadata locks, or replication impact.`
 
+During review, explicitly look for hidden metadata-lock and gap-lock risk when a diff changes large tables, indexes, predicates used by `UPDATE`/`DELETE`, online DDL options, isolation settings, or migration ordering. A migration that is harmless on an empty local database can still block production writes or replicas.
+
 ## Replication And Read Consistency
 
 MySQL replication is commonly asynchronous. Reads from replicas may be stale.
@@ -125,6 +129,16 @@ Rules:
 - check version-specific terminology and commands before standardizing diagnostics.
 
 Failure output: `Rejected: replica read strategy can return stale data for a consistency-sensitive path.`
+
+For read-only reporting or operational observers:
+
+- prefer read-only users and replicas only when stale reads are acceptable;
+- keep checkout, permission, idempotency, and read-your-own-write paths on primary unless a lag-wait/sticky-read strategy exists;
+- bound queries by indexed predicates, time windows, limits, or batches;
+- select only required columns and avoid sensitive verifier or payload fields;
+- account for long reads and large transactions that can increase replication lag.
+
+Failure output: `Rejected: MySQL read-only observer path ignores replica lag, privileges, query bounds, or sensitive data exposure.`
 
 ## Pooling, Timeouts, And Security
 

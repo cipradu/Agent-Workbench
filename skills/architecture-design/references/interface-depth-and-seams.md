@@ -48,6 +48,19 @@ Minimum interface notes:
 - Internal seams may exist inside a deep module for its own tests, but they should not leak into the external interface.
 - Do not create a seam for a dependency that does not block testing, variation, ownership, or volatility.
 
+## Dependency Categories For Deepening
+
+When deepening shallow modules, classify dependencies before choosing the seam. The category determines whether the design should merge code, substitute locally, introduce a port, or isolate an external mechanism.
+
+| Dependency category | Meaning                                                                                                                                           | Design move                                                                                              | Test move                                                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| In-process          | Pure computation, in-memory state, local policy, or code fully owned by the project.                                                              | Deepen directly; hide internal helpers behind one public interface.                                      | Test through the deepened interface without adapters.                                                                                      |
+| Local-substitutable | Local IO or infrastructure with a faithful local substitute, such as filesystem, clock, embedded database, in-memory queue, or local test server. | Keep the public interface semantic; use the substitute inside tests instead of exposing mechanism seams. | Prefer local substitute/integration evidence over mock-heavy ports.                                                                        |
+| Remote but owned    | Another service, worker, API, or process owned by the same project/team.                                                                          | Put the port at the network/process seam; keep policy in the owning module and transport in adapters.    | Use production transport adapter plus in-memory/fake adapter or contract test that exercises the same policy-facing port.                  |
+| True external       | Vendor, SaaS, third-party SDK/API, payment/email/telco/cloud provider, or dependency outside project control.                                     | Inject an explicit external-service boundary and normalize vendor concepts before they reach policy.     | Mock or fake the external boundary for policy tests; add adapter/contract/integration evidence where the real dependency behavior matters. |
+
+Do not introduce a port just because a dependency exists. Introduce it when the category creates real variation, test substitution, volatility isolation, ownership separation, or external-mechanism protection.
+
 ## Common Shallow Interfaces
 
 - Pass-through services that forward one call to one repository or SDK.
@@ -74,4 +87,4 @@ Choose the interface that lowers total system complexity, not the one with the m
 
 ## Verification
 
-An interface passes when a future caller can use it from its contract, a test can verify behavior through it, and a maintainer can change the hidden implementation without updating ordinary callers.
+An interface passes when a future caller can use it from its contract, a test can verify behavior through it, and a maintainer can change the hidden implementation without updating ordinary callers. When a shallow cluster has been deepened and the new interface has behavior-covering tests, delete or demote obsolete tests that only preserved the old internal shape; keeping both layers as equal truth recreates the shallow design in the test suite.
