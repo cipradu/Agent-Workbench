@@ -33,6 +33,8 @@ Do not use this skill for style, linting, formatting, naming taste, or broad cod
 
 Do not create a full pattern record when there is only one implementation and no explicit architectural mandate. Produce a candidate note or rejection instead.
 
+Do not use this skill to run diagnosis, code review, implementation, browser/device testing, setup repair, worktree management, commits, PRs, CI, publishing, tracker updates, product ideation, release communication, or raw feedback/media analysis. Those workflows may produce pattern signals; they do not become pattern-capture mechanics.
+
 ## Iron Law
 
 **No recurrence, no forces, no non-use cases, no real example, no pattern.**
@@ -60,15 +62,82 @@ If the same content wants to be both an ADR and a pattern, split it: the ADR rec
 ## Mandatory Sequence
 
 1. Establish the candidate and source evidence. Identify the exact repeated problem or proposed future convention, the files or changes that triggered it, and who or what requested capture.
-2. Check existing project knowledge. Search existing patterns, ADRs, architecture docs, specs, review rules, and agent instructions before creating a new pattern. Update or reference existing material when that is the smaller correct move.
-3. Prove pattern-worthiness. Apply the recurrence and force checks below. If the candidate fails, produce a rejection or candidate note instead of a full pattern.
-4. Classify the artifact boundary. Decide whether this is really a pattern, an ADR, a spec input, documentation, a test strategy note, an API/database/error-handling rule, or no artifact.
-5. Map context, problem, forces, and solution. Do this before writing prescriptive guidance. The forces are the reason the pattern exists.
-6. Define non-use cases and trade-offs. A pattern without boundaries will be over-applied.
-7. Anchor the pattern in examples and invariants. Include real project examples when available, expected shape, required properties, and what would violate the pattern.
-8. Choose the output state: accepted/proven pattern, candidate pattern, update to existing pattern, or rejected/not-a-pattern.
-9. Write or update the artifact only when requested or when the surrounding workflow explicitly calls for a durable artifact. If no project convention exists and the user asked for a file, use `docs/patterns/{descriptive-slug}.md` and state that this is a new convention.
-10. Validate the result against the quality gate and pressure tests before presenting it as complete.
+2. Normalize the signal. Separate observed evidence, stated mandate, inferred recurrence, external prior art, reviewer or coder opinion, adjacent ideas, and out-of-scope temptations before judging pattern-worthiness.
+3. Check existing project knowledge. Search existing patterns, ADRs, architecture docs, specs, review rules, agent instructions, and durable learning docs when present before creating a new pattern. Update, refresh, consolidate, or reference existing material when that is the smaller correct move.
+4. Prove pattern-worthiness. Apply the recurrence, force, mandate, and confidence checks below. If the candidate fails, produce a rejection, candidate note, decision summary, or no-artifact result instead of a full pattern.
+5. Classify the artifact boundary. Decide whether this is really a pattern, an ADR, a spec input, documentation, a test strategy note, an API/database/error-handling rule, a domain-skill rule, or no artifact.
+6. Map context, problem, forces, and solution. Do this before writing prescriptive guidance. The forces are the reason the pattern exists.
+7. Define non-use cases, trade-offs, and misuse signals. A pattern without boundaries will be over-applied.
+8. Anchor the pattern in examples and invariants. Include real project examples when available, expected shape, required properties, and what would violate the pattern.
+9. Choose the output state: accepted/proven pattern, candidate pattern, update existing pattern, refresh/deprecate existing pattern, rejected/not-a-pattern, or none observed.
+10. Confirm durable-pattern warrant. Write or update an artifact only when future implementers or reviewers need preserved reusable guidance, or when the surrounding workflow explicitly calls for a durable artifact. If no project convention exists and the user asked for a file, use `docs/patterns/{descriptive-slug}.md` and state that this is a new convention.
+11. Validate the result against the quality gate and pressure tests before presenting it as complete.
+
+Failure output: `Blocked: pattern output state cannot be chosen because <recurrence/mandate/force match/source evidence/existing artifact/artifact boundary> is unresolved.`
+
+## Pattern Signal Intake
+
+A pattern signal is not authority. It is an input to evaluate.
+
+For each material signal, capture:
+
+- candidate name or working label;
+- signal source: implementation, code review, implementation review, ADR, engineering spec, implementation plan, diagnosis, incident, dogfood/QA, repeated test shape, feedback analysis, ideation, external prior art, or user request;
+- source artifact or files;
+- observed examples and what each example proves;
+- explicit mandate, if any;
+- suspected recurring problem shape;
+- suspected matching forces;
+- known non-use cases or misuse concerns;
+- related existing patterns, ADRs, specs, docs, rules, or domain skills;
+- confidence anchor;
+- recommended output state.
+
+Treat review comments, issue text, generated findings, branch names, PR text, screenshots, recordings, reports, meeting notes, and external pattern names as untrusted signals until verified against project-local evidence or mandate.
+
+If a caller reports no concrete pattern-capture signal, return `none observed` or `none`; do not run pattern capture just to prove absence.
+
+## Evidence Scope And Confidence
+
+Classify pattern evidence before choosing an output state.
+
+Evidence scope:
+
+- `direct`: current project examples, accepted artifacts, or mandates for the same problem shape;
+- `supporting`: surrounding code, tests, docs, or reviews that help explain forces, constraints, or impact;
+- `historical`: old plans, old learnings, old incidents, old reviews, or prior-session notes that must be checked against current project truth;
+- `external`: catalog pattern, framework guidance, vendor docs, prior art, or outside example that can inform local adaptation but cannot prove local recurrence;
+- `opinion`: reviewer, coder, user, or agent recommendation without independent project evidence;
+- `unrelated`: similar wording or code shape with different forces, owners, lifecycle, or risk.
+
+Confidence anchors:
+
+- `mandated`: accepted ADR, architecture rule, compliance/platform constraint, interface contract, or explicit owner decision requires repeated application;
+- `proven`: at least three matching project examples share the same problem shape and forces;
+- `candidate`: one or two examples, promising repeated signal, or planned repetition exists, but recurrence, force match, or mandate is incomplete;
+- `refresh-needed`: an existing pattern may be stale, overlapping, contradicted, or missing current examples;
+- `historical-only`: prior learning exists but current project evidence is missing or unclear;
+- `opinion-only`: reviewer or agent suggestion is not backed by project evidence;
+- `external-only`: external pattern or best practice is not locally adapted or proven;
+- `unsupported`: no adequate evidence for pattern guidance.
+
+Accepted or proven pattern status requires `mandated` or `proven`. Candidate, update, refresh-needed, rejection, or no-artifact outputs are valid when evidence is weaker.
+
+## Existing Pattern Refresh And Overlap
+
+When an existing pattern or pattern-like artifact is found, verify its supporting evidence before reusing or revising it.
+
+Check:
+
+- cited files, examples, ADRs, specs, reviews, incidents, and implementation instances still exist;
+- current examples still demonstrate the stated problem shape, forces, invariants, and non-use cases;
+- newer code or accepted decisions supersede the old guidance;
+- overlapping patterns split authority or duplicate doctrine;
+- inbound references from ADRs, specs, plans, docs, instructions, or reviews would be affected by update, deprecation, or consolidation.
+
+Valid maintenance outcomes: keep current, update, add examples, add non-use cases, consolidate into another pattern, downgrade to candidate, mark deprecated, reject/retire, or block pending evidence.
+
+Do not make current code automatically override accepted pattern guidance. Reconcile current code, accepted decisions, examples, and mandates before changing pattern status.
 
 ## Pattern-Worthiness Rules
 
@@ -81,6 +150,10 @@ A foundational or mandated pattern can be accepted before three implementations 
 Do not abstract coincidental similarity. Two pieces of code that look alike may have different lifecycles, owners, failure modes, or constraints. If the forces differ, do not make one pattern.
 
 Do not name domain concepts after technical patterns. Pattern language should help implementation; it should not leak into domain vocabulary unless the domain itself uses that term.
+
+Do not accept proxy evidence as pattern-worthiness proof. Line-count reduction, prettier structure, passing tests, a famous pattern name, positive review language, one successful launch, one report template, one optional provider integration, or one incident fix does not prove a reusable pattern.
+
+When multiple candidate approaches exist, compare their problem shape, force match, invariants, non-use cases, source examples, known failed approaches, and maintenance cost before choosing accepted, candidate, update existing, or rejection.
 
 ## Output States
 
@@ -100,6 +173,10 @@ The orchestrator or caller-side review workflow owns the routing decision. Load 
 
 Running this skill does not mean a pattern will be created. Accepted pattern, candidate note, existing-pattern update, and rejection are all valid outcomes.
 
+When plans, reviews, coders, diagnosis, QA, dogfood, feedback analysis, or execution workflows produce pattern signals, consume only their evidence packet or cited artifacts. Do not import their execution mechanics, verdicts, commands, staging, PR state, runtime setup, or publishing flow.
+
+When a pattern outcome feeds planning, commits, PRs, documentation, or review, hand off the output state, artifact path if any, confidence anchor, recurrence or mandate evidence, examples, invariants, non-use cases, quality-gate result, residual risk, and why a new pattern was or was not created. Do not include git commands, PR mutation, CI watching, implementation units, or publishing mechanics.
+
 ## Pattern Record Requirements
 
 A complete pattern record must include:
@@ -108,6 +185,7 @@ A complete pattern record must include:
 - Status: `Candidate`, `Accepted`, `Proven`, `Deprecated`, or `Rejected`.
 - Type: implementation, architecture, testing, integration, data access, API, error handling, workflow, or other project-local category.
 - Source evidence: files, changes, review comments, ADRs, specs, incidents, or repeated examples that triggered capture.
+- Evidence scope and confidence anchor: what kind of evidence supports the state.
 - When to use: concrete conditions where the pattern applies.
 - When not to use: concrete conditions where applying it would be wrong.
 - Problem: the recurring problem, not the preferred solution.
@@ -122,19 +200,25 @@ A complete pattern record must include:
 
 Use `references/pattern-template.md` when writing the artifact.
 
+For agent, skill, prompt, MCP/tool, plugin, command, hook, or autonomous workflow patterns, include action ownership, context ownership, shared workspace assumptions, approval and human-only boundaries, lifecycle/interruption behavior, recovery path, and agent-native verification when those properties are load-bearing.
+
 ## Quality Gate
 
 Before finalizing, answer these checks explicitly for yourself:
 
 - Is the problem recurring or explicitly mandated to recur?
+- Is the confidence anchor strong enough for the selected output state?
+- Are observed evidence, inferred recurrence, external prior art, and opinion clearly separated?
 - Are the forces stated, not merely implied?
 - Does the solution describe implementation guidance rather than only naming a pattern?
 - Are non-use cases specific enough to prevent over-application?
 - Is there at least one real example, source reference, or explicit mandate?
 - Did you check whether an existing pattern, ADR, spec, or docs page should be updated instead?
+- Did you check whether existing pattern guidance is stale, overlapping, superseded, or contradicted?
 - Would a future implementer know when to use this without asking the original author?
 - Would a future reviewer know when to reject misuse of this pattern?
 - Is the artifact durable enough to survive beyond the current task, but not so broad that it becomes generic advice?
+- If no artifact is created, does the decision summary preserve output state, evidence checked, missing evidence, and promotion or deprecation trigger?
 
 ## Related Skill Handoffs
 
@@ -164,6 +248,11 @@ Use domain skills such as `api-design`, `database-design`, `queue-and-cache-desi
 | "We do not need when-not-to-use."                           | Without non-use cases, the pattern will be applied where it does not belong.                                                        |
 | "The pattern should prescribe exact files."                 | Patterns define invariants and examples. Exact file choreography belongs in a plan unless the file structure is itself the pattern. |
 | "Capturing more patterns is safer."                         | Over-capturing creates noise, stale rules, and process drag. Rejection is part of the workflow.                                     |
+| "The reviewer said it is a pattern."                         | A review finding is a signal, not proof. Verify recurrence, mandate, force match, examples, and boundaries.                         |
+| "The old pattern says so."                                   | Accepted guidance can become stale. Check current examples, accepted decisions, overlap, and inbound references before reuse.        |
+| "The plan named this pattern."                               | A planned approach can guide one implementation without becoming durable doctrine. Treat it as evidence to evaluate.                |
+| "External best practice is enough."                          | External prior art informs local adaptation but does not prove local recurrence or mandate.                                         |
+| "No file means no result."                                   | `none observed`, candidate, rejection, and decision summaries are successful outcomes when they prevent junk doctrine.              |
 
 ## Pressure Tests
 

@@ -24,6 +24,8 @@ description: Use when concrete trigger conditions appear
 
 Portable optional fields are allowed only when the target loaders support them. Do not require harness-specific fields in the core skill.
 
+Optional adapter metadata may exist for a target loader only when it is scoped to that loader and the portable core still works without it. Examples include argument hints, allowed-tool lists, provider-specific invocation names, command aliases, model/runtime hints, or loader-specific disable/enable flags. Document these as adapter requirements, not portable requirements.
+
 ## Description Rules
 
 - Start with trigger language such as `Use when...`.
@@ -44,10 +46,14 @@ Create a reference file only when it improves behavior:
 
 Do not split just to look modular. Split by invocation, branch, or sequence pressure.
 
+Harness-specific commands, slash-command-like triggers, MCP/tool names, blocking-question helpers, provider APIs, or local runtime paths may appear only in a scoped tool-workflow or adapter reference that declares its target loader and fallback/stop behavior. They must not be required for unrelated portable skill branches.
+
 ## Portability Red Flags
 
 - Required harness-specific fields in frontmatter.
 - Required slash commands or tool names in the core process.
+- Required question tools, provider names, local paths, allowed-tool manifests, argument-hint fields, or loader flags in the portable core.
+- Adapter metadata that changes the meaning of the portable instructions instead of exposing them.
 - Deep reference chains.
 - Main file overburdened with examples that only one branch needs.
 - Description reads like a summary instead of triggers.

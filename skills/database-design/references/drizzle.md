@@ -29,6 +29,9 @@ Rules:
 - keep database column names stable and explicit;
 - derive select/insert types from the table definition;
 - map database rows to API/domain contracts instead of returning table types everywhere by default.
+- reconcile Drizzle schema, generated migrations, deployed schema, generated types, and current query selections before treating any one layer as authority;
+- verify project Drizzle, drizzle-kit, dialect package, and driver versions before asserting exact config shape, generation behavior, or migration command syntax;
+- keep local launch files, environment variable names, and provider setup details as project/runtime sources, not as database-design authority unless they identify the actual engine, schema, or migration tool.
 
 Completion criterion: Drizzle schema, inferred types, and public contracts do not drift independently.
 
@@ -44,6 +47,8 @@ Rules:
 - verify migration commands and config against the project's installed Drizzle/drizzle-kit version before asserting exact CLI syntax.
 
 Failure output: `Blocked: Drizzle migration behavior needs project-version verification: <specific command/config/API>.`
+
+Generated Drizzle migrations are review inputs, not proof of operational safety. Check generated DDL against engine-specific lock/rewrite behavior, existing rows, migration order, rollback/recovery, and the current deployed schema before accepting it.
 
 ## Transactions
 
@@ -66,3 +71,5 @@ Use raw SQL only when:
 - the user explicitly approves the escape hatch.
 
 Failure output: `Rejected: Drizzle raw SQL escape hatch lacks justification, parameterization, or explicit approval.`
+
+When reviewing a raw SQL finding, include the affected query/migration, why Drizzle APIs are insufficient, whether values are parameterized, whether identifiers are static or allowlisted, the target dialect/version, the migration/runtime blast radius, the rollback/recovery path when relevant, and the safer non-raw alternative considered.

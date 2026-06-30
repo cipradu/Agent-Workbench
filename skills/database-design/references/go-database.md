@@ -18,6 +18,8 @@ Always apply the general database rules first. This reference covers the adapter
 
 Failure output: `Rejected: Go database access lacks parameterization, context propagation, row cleanup, or error distinction.`
 
+During review, check context propagation, parameterization, dynamic identifier allowlists, explicit selected columns, `rows.Close()`, row iteration errors, not-found distinction, error wrapping, and whether helper functions accept the active transaction when they participate in a unit of work.
+
 ## Transactions
 
 Rules:
@@ -29,6 +31,8 @@ Rules:
 - use custom isolation levels only for named invariants;
 - use `SELECT ... FOR UPDATE` or engine-equivalent row locks when reading data to compute and write a new value.
 
+Rejected shortcut: do not replace a transaction handoff with a helper that opens its own connection when the statements must commit or roll back together.
+
 ## Scanning And Nullable Columns
 
 Rules:
@@ -37,6 +41,8 @@ Rules:
 - keep struct tags aligned with selected columns when using struct scanning;
 - handle nullable columns deliberately with pointers, `sql.NullXxx`/generic nullable types, or explicit query conversion;
 - do not accidentally convert `NULL` to a misleading zero value.
+
+For schema or query changes, verify nullable round-trips and selected-column order against the current SQL, scanner, and struct tags. A passing compile does not prove the database result shape is preserved.
 
 ## Connection Pool
 
@@ -50,6 +56,12 @@ Configure and observe the pool:
 - open/in-use/idle connection counts.
 
 Pool settings are workload and database-capacity decisions, not constants to copy blindly.
+
+## Behavior-Preserving Simplification
+
+Before simplifying Go database code, prove that parameterization, context deadlines, row cleanup, nullable handling, not-found distinction, transaction ownership, isolation/locks, rollback behavior, pool observability, and tenant/sensitive-column filtering are preserved.
+
+Rejected shortcut: do not remove explicit SQL columns, context-aware methods, transaction parameters, nullable wrappers, or error checks because the shorter code still compiles.
 
 ## Migrations And Tests
 

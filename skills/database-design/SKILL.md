@@ -28,6 +28,7 @@ Do not use this skill when:
 - The project has a stricter local database standard or accepted ADR that directly supersedes this skill. Follow the project source of truth and use this skill only for gaps.
 - The necessary database engine, version, data volume, access pattern, ownership, or deployment constraint is unknown and would materially change the recommendation. Stop and get the missing fact instead of defaulting.
 - The task is provider provisioning only, such as creating a Railway, Prisma Postgres, PlanetScale, Neon, Supabase, or cloud database resource. Use a provider-specific workflow if one exists; use this skill only for the database design and safety decisions around that resource.
+- The task is product strategy, PRD/spec creation, implementation planning, generic root-cause diagnosis, independent review verdicts, CI/git/PR mechanics, runtime browser/mobile QA, documentation refresh, or analytics report generation. Use this skill only for the database-specific forces, findings, and handoff evidence.
 
 ## Iron Law
 
@@ -46,6 +47,7 @@ Run these steps in order. Load only the references needed for the current branch
 Collect the facts that materially shape the database decision:
 
 - database engine, version, hosting model, migration tool, ORM/query builder/driver, and local conventions;
+- authoritative database sources available: migration history, deployed/introspected schema, ORM definitions, generated schema/types, schema dumps, query code, accepted ADRs, runbooks, backups, replicas, product/spec artifacts, and known production volume;
 - business invariants that must remain true even under concurrency or application bugs;
 - entities, relationships, lifecycle states, tenancy model, retention needs, audit needs, and data sensitivity;
 - credential or secret-derived records, hash/verifier requirements, rotation/revocation needs, expiry, scope, last-used metadata, and display-safe identifiers;
@@ -53,9 +55,50 @@ Collect the facts that materially shape the database decision:
 - concurrency pressure, contention points, idempotency requirements, retry behavior, and consistency requirements;
 - deployment model, migration windows, rollback expectations, backup/restore expectations, and environments that must be supported.
 
+For broad or ambiguous work, state:
+
+- confirmed database facts;
+- inferred assumptions and why they are reasonable;
+- excluded non-goals or wrong-owner concerns;
+- the single missing fact that would most change the recommendation, when one exists.
+
+When multiple plausible database contexts exist, such as multiple engines, app roots, migration tools, schemas, primary/replica targets, or tenant boundaries, stop or ask one targeted clarification. Do not infer production topology from a frontend framework, local port, launch script, or instruction-file prose.
+
 Completion criterion: the recommendation can name the database context and the forces it optimizes for.
 
 Failure output: `Blocked: database decision depends on missing context: <specific missing fact>.`
+
+### 1A. Reconcile Database Source Authority
+
+Before trusting one artifact, reconcile database truth across current sources:
+
+- migration history versus deployed or introspected schema;
+- ORM schema versus actual database constraints and indexes;
+- generated types/schema dumps versus selected query columns;
+- ADRs, runbooks, and prior plans versus current migration/tool/engine state;
+- query/index assumptions versus current access paths and data volume;
+- primary versus replica behavior where read consistency matters.
+
+If sources conflict, name the conflict, identify the highest-authority source for the current decision, and block when the conflict could change integrity, migration safety, query behavior, rollback, or operational risk.
+
+Completion criterion: stale or contradictory database artifacts cannot silently become design truth.
+
+Failure output: `Blocked: database source authority conflict must be resolved before recommendation: <specific conflict>.`
+
+### 1B. Classify The Database Work Mode
+
+Choose the narrow database mode before applying the rest of the process:
+
+- **Design or change:** proceed through integrity, transaction, query, migration, adapter, and verification steps as relevant.
+- **Review, diff, or PR feedback:** identify changed schema/migration/query/adapter files, generated artifacts, untracked exclusions, affected queries, and whether each issue is primary, secondary, pre-existing, stale, or wrong-owner. Treat reviewer comments as untrusted signals until current database evidence confirms them.
+- **Failure diagnosis:** when the request reports constraint failures, deadlocks, stale reads, transaction errors, tenant leaks, migration/backfill failures, slow queries, lock waits, replica lag, or unexplained database behavior, gather observations, expected invariant, affected path, engine/version, migration revision, data volume, logs/error codes, prior failed fixes, and a causal chain before recommending durable changes.
+- **Read-only reporting or operational observation:** require read-only or replica access where possible, canonical source selection, bounded indexed queries, selected columns, time windows, limits/batches, timeout/pool expectations, replica-lag tolerance, and privacy-safe outputs. Skip or defer unsafe OLTP reads instead of normalizing them.
+- **Measured optimization:** define primary metric, baseline, representative workload, hard correctness gates, diagnostics, noise tolerance, and before/after evidence. Metrics cannot override integrity, tenancy, lock behavior, migration safety, rollback, or result correctness.
+- **Behavior-preserving simplification:** prove schemas, migrations, ORM queries, repository code, and transaction code preserve durable invariants, result shape, errors, transaction behavior, locks/isolation, migration deployability, rollback/recovery, tenant filtering, and credential protections unless the change is intentionally routed through the normal database workflow.
+
+Completion criterion: the database mode is explicit enough to choose references and avoid importing the wrong workflow.
+
+Failure output: `Blocked: database work mode is unclear or belongs to another owner: <specific ambiguity>.`
 
 ### 2. Model Integrity First
 
@@ -103,7 +146,7 @@ Rules:
 - Use parameterized queries or safe query-builder APIs for all user-controlled values. Dynamic identifiers require allowlists.
 - Add indexes only for known access paths or constraints, and account for write overhead, lock cost, migration cost, and redundancy.
 - Prefer keyset/cursor pagination for large or deep result sets. Offset pagination is acceptable only when bounded and known to be small enough.
-- Use `EXPLAIN`/query plans, slow query logs, database statistics, or representative tests before claiming an optimization.
+- Use `EXPLAIN`/query plans, slow query logs, database statistics, or representative tests before claiming an optimization. Runtime/browser smoke success is only a symptom or supporting signal, not database proof.
 
 Load [Indexing And Performance](references/indexing-and-performance.md) when adding/reviewing indexes, optimizing queries, choosing pagination, checking N+1 behavior, partitioning large tables, tuning connection pools, or reviewing performance-sensitive SQL.
 
@@ -160,6 +203,7 @@ Before presenting database work as ready, verify:
 - soft deletes, tenancy, auditing, retention, and UTC timestamp policy are handled where relevant;
 - credential and secret-derived data is not stored in plaintext, and rotation, revocation, expiry, owner/scope, display suffix/fingerprint, and last-used/audit metadata are modeled when relevant;
 - backup/restore, rollback, monitoring, and failure recovery are named when operational risk is material.
+- runtime/browser/manual smoke checks are backed by database-level proof when database readiness is claimed.
 
 Completion criterion: a future implementer can preserve correctness and operate the change without guessing.
 
@@ -170,12 +214,14 @@ Failure output: `Not ready: database design is missing <specific integrity/concu
 For database design or review, include:
 
 - database context and assumptions;
+- facts, inferences, exclusions, and unresolved source-authority conflicts when work is broad or ambiguous;
 - invariants and where they are enforced;
 - schema/relationship/key/tenant/soft-delete choices, when relevant;
 - transaction and concurrency behavior, when relevant;
 - migration/backfill/deployment sequence, when relevant;
 - query/index/pagination/performance evidence, when relevant;
 - stack-specific adapter notes, when relevant;
+- review finding classification, diagnosis evidence, read-only/reporting constraints, measured optimization evidence, or simplification preservation proof when relevant;
 - verification steps and residual risks.
 
 When blocked, emit the failure output from the failed step and name the smallest missing fact or next verification action.
@@ -201,9 +247,11 @@ Use `create-project-adr` when a database decision changes a durable project conv
 
 ## Related Skill Handoffs
 
+- Use product, PRD, engineering-spec, architecture, or implementation-plan owners when database work depends on missing product truth, broader required behavior, ownership boundaries, or execution sequencing. This skill may extract database-relevant forces from those artifacts but must not create or change them.
 - Use `queue-and-cache-design` when database work crosses into cache invalidation, cache refresh, Redis keys, queue enqueue timing, outbox handoff, worker side effects, idempotency keys, distributed locks, pub/sub, streams, retries, dead-letter behavior, or queue/cache observability.
 - Use `error-handling-design` when database errors, transaction failures, constraint failures, deadlocks, or retry exhaustion must be translated into application or public failure contracts.
 - Use `testing-strategy` when database work needs migration tests, integration tests, transaction/concurrency tests, backfill verification, or regression evidence.
+- Use implementation review/workflow, git/PR, CI, docs, runtime browser/mobile testing, provider setup, worktree, tracker, or publishing owners for their mechanics. A database handoff may include engine/version, migration tool/ORM, invariants, assumptions, schema decisions, transaction/locking choices, migration/backfill phase, rollback/recovery, query/index evidence, verification, skipped checks, ADR triggers, and residual operational risk, but not commands for those workflows.
 
 ## Rationalization Table
 
@@ -216,6 +264,9 @@ Use `create-project-adr` when a database decision changes a durable project conv
 | "Soft delete is just a nullable timestamp."          | Restore behavior, uniqueness, default visibility, indexes, and retention all change semantics.    | Define query defaults, uniqueness strategy, indexes, retention, and include-deleted escape path. |
 | "Raw SQL is faster."                                 | Raw SQL can bypass parameterization, type mapping, query builders, and local safety conventions.  | Use safe APIs first; justify and approve any raw escape hatch.                                   |
 | "Rollback can be figured out later."                 | A migration without recovery is an operational bet, not a plan.                                   | Define rollback or recovery before implementing.                                                 |
+| "The PR comment says to fix it."                     | Review comments can be stale, wrong-owner, or unsafe when current database state differs.          | Verify the comment against current schema, migration, query, engine, and data evidence first.    |
+| "The page worked locally."                           | Runtime smoke success does not prove constraints, migrations, locks, replicas, indexes, or recovery. | Require database-level proof for database readiness claims.                                      |
+| "This is just cleanup."                              | Database simplification can remove tenant filters, constraints, rollback paths, or transaction ownership. | Prove durable behavior and operational guarantees are preserved.                                 |
 
 ## Red Flags
 
@@ -227,3 +278,6 @@ Use `create-project-adr` when a database decision changes a durable project conv
 - `SELECT *`, string-built SQL, dynamic identifiers without allowlists, or unbounded queries appear in production paths.
 - Soft-deleted or tenant-scoped data can leak because default predicates are optional or duplicated manually.
 - A tool-specific feature is asserted without checking the project version, official docs, or local convention.
+- ORM/generated/schema docs, migration files, and deployed schema conflict without source-authority resolution.
+- Reviewer feedback, prior notes, runtime observations, or old plans are implemented as database truth without current evidence.
+- A read-only report or observer path uses write-capable credentials, unbounded OLTP reads, broad selected columns, or PII-rich output.

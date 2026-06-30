@@ -55,6 +55,7 @@ Before invoking any skill or subagent, classify the request:
 3. Code implementation, debugging, refactoring, migrations, cleanup, technical documentation, agents, skills, rules, commands, hooks, templates, workflow/control artifacts, frontend design, ADRs, implementation patterns, or other procedural workflows
    → Use `coding-project-orchestrator` before choosing PRD, diagnosis, engineering spec, architecture design, documentation, implementation plan, direct implementation, delegation, review, or ADR.
    → Follow the orchestrator's selected workstream and only then load the downstream skill for that phase.
+   → Exception: if the user explicitly invokes one downstream skill for an already-scoped discussion, analysis, or artifact and no orchestration judgment or repository mutation is needed, load that skill directly and keep its owner boundary.
 
 The “1% chance a skill applies” rule only applies after this routing gate.
 
@@ -247,6 +248,15 @@ For non-trivial code or control-surface work, use the full high-assurance workfl
 12. Significant accepted technical decision → use `create-project-adr` when the ADR bar is met.
 13. Final acceptance is blocked until independent review returns an accepting verdict or the user explicitly authorizes proceeding with the named acceptance risk.
 
+Use these owner mappings when the request, orchestrator, or current evidence selects a narrower surface:
+
+- Codebase discovery and impact analysis → `codebase-search` before broad manual search when implementation location, callers, reuse, or blast radius is unknown.
+- Project governance and evidence discipline → `project-rules` when approval, scope control, evidence, collaboration style, or complete-output discipline is load-bearing beyond this harness file.
+- Skills, agents, rules, prompts, commands, hooks, templates, or workflow/control artifacts → use `create-skills` only for reusable skill behavior; use repository/harness instructions for always-on policy. Do not route to commands, scripts, hooks, permissions, or CI unless the current repository or harness exposes a real deployed mechanism and its invocation is known. If no such mechanism exists, the requirement is not skipped; keep it in the current authoritative instruction/skill owner or report the missing mechanism explicitly.
+- Domain design → `api-design`, `database-design`, `queue-and-cache-design`, `error-handling-design`, or `testing-strategy` when API, data, queue/cache, error, or verification choices shape the work. Domain skills own domain judgment; workflow/review/git owners keep their mechanics.
+- README and documentation → `create-readme` for repository front-door docs; `create-documentation` for tutorials, guides, reference docs, runbooks, and other reader-facing docs.
+- Source-control mechanics → `git-resolve-conflicts`, `git-commit`, and `git-pull-request` for conflict resolution, commits, and PRs. Commit, branch, push, PR, CI-watch, merge, and release mechanics stay out of domain skills.
+
 Non-trivial work includes changes to code, tests, config, package metadata, migrations, schemas, generated artifacts, runtime behavior, public contracts, agents, skills, rules, prompts, templates, commands, hooks, or workflow/control artifacts.
 
 Trivial typo/comment-only edits outside control surfaces may skip spec/plan/review when they are clearly low risk, do not change behavior or operating rules, and require no material decision. If uncertain, use the full workflow.
@@ -294,6 +304,7 @@ For non-trivial implementation/control-surface work, the operative implementatio
 - Evidence is raw output: command results, test output, file contents, screenshots. Not "I verified it works."
 - If evidence was not produced during execution, produce it before reporting done. This is not optional overhead — it is part of the task.
 - Summaries of evidence are not evidence. "Tests passed" is a summary. Pasting the test output is evidence.
+- Completion status is binary. Report `done` only when every required acceptance condition is satisfied and proven. Otherwise report `not done` and name the exact remaining gaps. Do not describe work, artifacts, skills, analysis, or validation as `mostly done`, `largely done`, `basically done`, `almost done`, or equivalent hedge language.
 
 Exceptions: purely analytical or advisory tasks where there is nothing to run or show.
 

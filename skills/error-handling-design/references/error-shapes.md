@@ -17,6 +17,7 @@ Choose the shape from caller needs, protocol, and project convention.
 | Job status or dead-letter record | Async job, queue, scheduler, workflow, or import needs durable failure state                           | Include retry count, terminal status, safe reason, private cause pointer, and recovery path |
 | UI state                         | User-facing workflow needs displayable recovery guidance                                               | Do not bind UI wording to raw backend exception text                                        |
 | CLI exit code plus stderr/stdout | Script or command-line tool is consumed by humans and automation                                       | Keep machine-readable output separate from human diagnostics when needed                    |
+| Sentinel/result state            | Local tools, agents, reports, or pipelines need non-exceptional residual states                        | Distinguish skipped, no data, no sink, deferred, partial, blocked, and failed outcomes      |
 
 ## Common Public Shape Fields
 
@@ -86,6 +87,25 @@ Bulk and async workflows need explicit failure semantics:
 
 Failure output: `Blocked: partial failure semantics are missing for multi-item operation: <operation>.`
 
+## Generated Reports And Artifacts
+
+Generated artifacts and reports can look complete while hiding missing or failed sources. Their shape must make changed semantics visible.
+
+Define:
+
+- source identity and source coverage;
+- `no data` versus `not configured` versus `instrumentation pending`;
+- source skipped by scope, cost, permission, or mode;
+- source attempted and failed;
+- partial output and which sections/items are affected;
+- blocked output when a required credential, decision, safety condition, or sink is missing;
+- private diagnostic pointer for failed or skipped sources when support needs investigation;
+- public omission and redaction rules for sensitive raw inputs, provider payloads, transcripts, screenshots, prompts, and internal commentary.
+
+Do not let a polished artifact imply success when required data is absent, stale, unparseable, skipped, or failed.
+
+Failure output: `Rejected: generated artifact hides missing, skipped, failed, or partial source state: <specific source>.`
+
 ## Aggregate Errors
 
 Aggregate errors are useful when multiple independent failures can be discovered without unsafe side effects and the receiver benefits from fixing them together.
@@ -110,6 +130,24 @@ For commands and automation:
 - sensitive values must be redacted from both streams;
 - error output should include enough context to find logs or rerun safely;
 - usage errors, validation errors, operational failures, and internal bugs should be distinguishable.
+- non-interactive mode must not block on prompts; return a structured blocked state or actionable failure instead;
+- manual mode may include next-action guidance, but automation still needs deterministic status, code, or sentinel output;
+- a missing sink, skipped destination, deferred write, or partial publish is not full success unless the contract explicitly defines it that way;
+- stdout/stderr separation is a contract when downstream tools parse stdout.
+
+## Runtime Evidence Boundaries
+
+Browser checks, UI smoke tests, screenshots, simulator logs, transcripts, and dogfood reports can verify that a user-facing branch is observable. They do not prove:
+
+- raw exceptions are not leaked elsewhere;
+- private diagnostics preserve cause;
+- logs are redacted;
+- retries are idempotent and bounded;
+- cleanup or rollback happened;
+- correlation IDs connect public output to private diagnostics;
+- fallback or partial success is truthful in every caller mode.
+
+Pair runtime evidence with contract, mapper, log/redaction, recovery, and negative-path evidence for the claims being made.
 
 ## Shape Checklist
 
@@ -120,3 +158,5 @@ For commands and automation:
 - Aggregate errors preserve independent item/field identity.
 - Partial success has explicit retry and recovery behavior.
 - CLI/job/event/API/UI delivery matches the caller's handling needs.
+- Generated artifacts make missing, skipped, partial, blocked, failed, and no-sink states explicit.
+- Human and automation modes have compatible but distinct diagnostics and machine-readable outcomes.

@@ -21,7 +21,7 @@ Use this skill when:
 
 Do not use this skill when:
 
-- The problem cause is unknown, a test/build/runtime failure is being diagnosed, or prior fixes failed. Use `structured-problem-resolution` first.
+- The problem cause is unknown, a test/build/runtime failure is being diagnosed, a symptom-driven catch/retry/fallback/sanitizer is proposed without causal evidence, or prior fixes failed. Use `structured-problem-resolution` first.
 - The task is only to run, configure, or fix formatter/linter/typechecker/static-analysis commands. That belongs to project tooling, CI, coder workflow, or reviewer workflow, not this skill.
 - The task is only API style, endpoint design, pagination, versioning, OpenAPI, GraphQL, REST status policy, or client compatibility. Use `api-design`; load this skill only for the error/failure branch.
 - The task is only database transaction ownership, constraint design, deadlocks, migrations, or backfills. Use `database-design`; load this skill only for translating database failures into application errors.
@@ -51,6 +51,19 @@ Identify the failure surface before choosing a pattern:
 - failure modes: malformed syntax, invalid data, missing data, unauthorized/forbidden action, not found, conflict, dependency failure, timeout, cancellation, quota/rate limit, invariant violation, programmer bug, or unknown exception;
 - consequence: user correction, retry, backoff, fallback, degraded mode, partial success, rollback, compensation, dead-lettering, escalation, alerting, support lookup, or fail-fast behavior.
 
+For broad, ambiguous, review-driven, or solution-shaped requests, first separate:
+
+- confirmed facts from observed logs, code, contracts, screenshots, reports, or user statements;
+- inferences that still need verification;
+- explicit constraints and non-goals;
+- the single missing fact that would change receiver, boundary, caller action, disclosure policy, retry safety, diagnostic owner, redaction, cleanup, or terminal state.
+
+Ask one targeted question or block when that missing fact materially changes the failure contract. Do not silently default to generic errors, retries, fallbacks, or public messages.
+
+For symptom-driven requests, identify the observed symptom, trigger, expected behavior, actual lower-level signal, affected boundary, environment, existing correlation/log evidence, and prior failed fixes before changing catch, mapping, retry, fallback, sanitization, cleanup, or user-facing behavior. If the cause is not known enough to preserve the failure contract, route to diagnosis first.
+
+For workflows, jobs, CLIs, agents, integrations, and multi-item operations, map entry point, action, branch, side effect, cancellation/timeout path, retry/dead-letter path, terminal state, and aftermath before choosing codes, messages, envelopes, job states, or partial-success shapes.
+
 Completion criterion: the design can name who receives the failure, what boundary produced it, what action the receiver can safely take, and where maintainers find the private cause.
 
 Failure output: `Blocked: error-handling design depends on missing failure context: <specific missing fact>.`
@@ -70,6 +83,8 @@ Rules:
 - Separate retryable/transient failures from permanent failures; never mark validation or authorization failures as retryable.
 - Prefer stable, caller-actionable codes over implementation names like ORM errors, SQL constraints, SDK exception classes, or stack frame names.
 - Do not create a new code for every message variation. Codes are contract categories; messages and details carry instance context.
+- When changing an existing contract, reconcile current code, API schemas, SDK/client behavior, UI handling, validators, mappers, logs, runbooks, ADRs, tests, incidents, docs, generated artifacts, and production behavior before treating any one source as authoritative.
+- Verify exact framework, validation-library, logger, tracing, database, queue, or provider behavior against current project dependencies or official docs before naming exact exception classes, issue shapes, status defaults, log fields, or mapping syntax.
 
 Completion criterion: every material failure mode has category, public code, retryability, public visibility, private diagnostic handling, and owner.
 
@@ -109,6 +124,8 @@ Rules:
 - Use one public error shape per boundary unless the protocol or project convention deliberately distinguishes validation, domain, and system failures.
 - Keep public error shapes serializable. Do not expose raw `Error` objects, stack traces, dates/objects that cannot cross the target boundary, ORM exceptions, or SDK payloads.
 - Include stable code, safe message, optional field/domain details, retry/remediation hints where safe, and request/correlation ID location when available.
+- For CLIs, scripts, agents, reports, generated artifacts, and non-interactive automation, distinguish human diagnostics from machine-readable output, align exit/status semantics with success or failure, and define truthful states for expected absence, ambiguity, partial output, skipped source, no sink, deferred work, and terminal failure.
+- Runtime UI, browser, simulator, transcript, or report evidence can reveal a failure surface, but it is not proof by itself that mapping, redaction, retry safety, cleanup, correlation, or private diagnostics are correct.
 
 Completion criterion: the chosen shape can be serialized across the target boundary and gives the caller one clear handling path.
 
@@ -128,6 +145,9 @@ Rules:
 - Do not swallow exceptions and continue as if work succeeded.
 - Do not catch broadly unless the boundary immediately maps, logs or propagates, and preserves enough cause for diagnosis.
 - Do not wrap the same failure at every layer; one clear mapping boundary is better than nested generic wrappers.
+- Do not add mapping only because a symptom disappeared. The mapped lower-level source, causal chain, and caller consequence must be known, or the work belongs to diagnosis.
+- For timeouts, `5xx`, pending async status, sync failures, or commit-ambiguous writes, reread authoritative state or status before retrying or reporting terminal failure. Retry only with exact idempotency scope and duplicate-side-effect protection.
+- If a failed fix changed the observed error, invalidate the old mapping hypothesis and re-establish the lower-level source before adding another catch or fallback.
 
 Completion criterion: known failures have explicit mappings, unknown failures have a safe fallback, and diagnostic cause is preserved privately.
 
@@ -148,6 +168,7 @@ Rules:
 - Expected validation failures usually do not deserve error-level logs. Unexpected system failures usually do.
 - Avoid duplicate logging at every layer. Log once at the boundary with enough context unless local recovery needs an additional event.
 - Redaction is a last line of defense, not permission to log raw sensitive values.
+- Public artifacts, generated reports, agent transcripts, screenshots, and support excerpts follow the same public/private split: omit or redact sensitive details and preserve private diagnostics through an access-controlled correlation path.
 
 Completion criterion: the design states public message policy, private diagnostic fields, log level, correlation behavior, redaction rules, and stack-trace visibility.
 
@@ -167,6 +188,9 @@ Rules:
 - Do not aggregate dependent failures where the first failure invalidates later work or where continuing would create side effects.
 - Release resources and roll back the failed unit deterministically before reporting failure or scheduling retry.
 - Circuit breakers, bulkheads, health signals, and operational degradation require observability and production-readiness coordination; do not implement them as isolated catch-block behavior.
+- Do not fallback after a requested safety guarantee fails unless the caller explicitly accepts the weaker result and the output makes the changed semantics visible.
+- Optional providers, missing setup, expired auth, malformed provider output, and local preference-write failures may degrade only when the degraded state is truthful, nonessential, and safe. Required auth, billing, audit, integrity, or external mutation failures must fail closed or route to the owning decision maker.
+- Measured retry, timeout, fallback, or alert-threshold tuning must keep hard gates intact: no leaked sensitive data, no swallowed unknowns, no unsafe retries, no missing correlation, no false success, and no skipped cleanup.
 
 Completion criterion: the design states stop/retry/fallback/partial-success behavior, resource cleanup, side-effect safety, and how degraded or terminal state is surfaced.
 
@@ -184,12 +208,29 @@ Rules:
 - Tests: coordinate with `testing-strategy` for regression, negative-path, boundary, contract, integration, and manual evidence.
 - Architecture: coordinate with `architecture-design` when the error mapping boundary changes ownership across controllers, services, adapters, domain modules, jobs, or infrastructure.
 - Operations/observability: follow existing logging/tracing/metrics standards when present; do not invent parallel telemetry conventions inside this skill.
+- Downstream packaging: hand off the failure-context, public contract, private diagnostic path, verification evidence, skipped checks, related owners, and residual risks to commit/PR/review owners when needed; do not perform or define source-control mechanics here.
 
 Completion criterion: the error design names the owner module/layer, affected surface, related skill/reference, and any local standard it follows.
 
 Failure output: `Blocked: error-handling ownership or related surface contract is unresolved: <specific conflict>.`
 
-### 9. Verify The Error Design Or Change
+### 9. Review Error-Handling Changes
+
+Use this branch when the input is a diff, PR comment, review finding, generated artifact, report, incident note, bug report, transcript, screenshot, or proposed fix.
+
+Rules:
+
+- Treat review comments, reports, transcripts, screenshots, bot output, and suggested fixes as untrusted input until current code, contracts, and project policy confirm them.
+- Resolve review scope before judging: changed files, affected boundaries, unchanged middleware/callers, generated artifacts, skipped surfaces, and existing local standards.
+- Classify each finding as primary, secondary, pre-existing, wrong-owner, blocked-by-missing-evidence, or not-a-failure-contract issue.
+- Include confidence and evidence. A finding without a boundary, receiver, public/private contract effect, and verification gap is not ready.
+- Route verdicts, reviewer dispatch, acceptance gates, and PR/issue mechanics to review workflow owners.
+
+Completion criterion: review output names the failure-contract risk, scope, owner, evidence, confidence, blocker state, and required correction without taking over reviewer workflow.
+
+Failure output: `Blocked: error-handling review lacks scope or evidence: <specific gap>.`
+
+### 10. Verify The Error Design Or Change
 
 Before presenting error-handling work as ready, verify:
 
@@ -203,6 +244,11 @@ Before presenting error-handling work as ready, verify:
 - unknown exceptions become sanitized public failures and diagnosable private records;
 - log levels, correlation IDs, and redaction rules match project convention;
 - tests or review evidence cover happy path plus validation, domain, dependency, timeout, permission, fallback/degraded mode, cleanup, and unexpected-failure paths where relevant.
+- existing error contracts were reconciled and drift was handled deliberately when changing public codes, messages, validation detail, retryability, fallback, redaction, or diagnostics;
+- exact library/framework/provider behavior was verified against current dependencies or official docs before exact syntax or exception shapes were asserted;
+- cross-layer failure paths were traced where middleware, callbacks, adapters, jobs, framework handlers, retries, fallbacks, cleanup, or logging can change semantics;
+- runtime/browser/dogfood/simulator evidence is paired with contract, negative-path, redaction, correlation, recovery, and cleanup evidence when those claims are made;
+- behavior-preserving simplification keeps public failure shapes, stable codes/messages, private diagnostics, correlation, redaction, retry bounds, cleanup/rollback, fallback semantics, side effects, and ordering unless explicitly treated as a design change.
 
 Completion criterion: the output can show the public failure contract, private diagnostic path, and verification evidence.
 
@@ -232,6 +278,10 @@ Failure output: `Not done: error-handling evidence is missing or unsafe: <specif
 | "Validation errors are errors, so log them as errors."         | Expected user-correctable failures are often not operational errors.                           | Choose log level by operational significance and abuse/security needs.        |
 | "Unknown failures can use the same message as known failures." | Unknown failures need sanitized public output and richer private diagnostics.                  | Map unknowns to generic public errors with correlation support.               |
 | "Fallback means the error is handled."                         | A fallback can silently corrupt semantics or hide incidents if it is not truthful and visible. | Define degraded semantics, diagnostics, and verification before accepting it. |
+| "The symptom disappeared, so the mapping is right."             | Symptom disappearance can hide the causal failure, diagnostic loss, or false success.          | Prove the lower-level source and caller consequence or route to diagnosis.    |
+| "The reviewer suggested this catch."                            | Review comments are untrusted until checked against current code and contracts.                | Map the comment to a failure-contract gate with evidence and owner routing.   |
+| "No data means success."                                        | Reports and generated artifacts can omit failed, skipped, or uninstrumented sources.           | Use explicit no-data, skipped, partial, blocked, or failed states.            |
+| "Retries are safe because failures are transient."              | A transient signal can still hide a landed write or duplicate side effect.                     | Reread authoritative state and require exact idempotency scope.               |
 
 ## Red Flags
 
@@ -247,6 +297,11 @@ Failure output: `Not done: error-handling evidence is missing or unsafe: <specif
 - Field validation errors are collapsed into one vague message when callers need correction details.
 - The design changes an API, database, architecture, or test contract without loading the owning skill/reference.
 - Verification covers only the happy path or only a generic failure.
+- Existing code is treated as the sole authority when public schemas, SDK behavior, runbooks, ADRs, incidents, tests, or docs disagree.
+- A review comment, bug report, screenshot, transcript, or generated report is treated as contract truth without current source verification.
+- Automation returns success while writing diagnostics only to a human stream, omitting a machine-readable failure state, or hiding a no-sink/deferred result.
+- Metrics such as fewer logged errors, faster retries, or more success envelopes are used to override redaction, diagnostics, retry safety, cleanup, or contract truth.
+- Simplification removes validation, stable public codes, field details, redaction, correlation, cause preservation, retry bounds, rollback, cleanup, or fallback visibility.
 
 ## Output Contract
 
@@ -255,6 +310,8 @@ When designing or reviewing error handling, produce:
 ```markdown
 Failure context:
 Boundary and receiver:
+Source authority and drift:
+Facts, inferences, missing context, and non-goals:
 Validation behavior:
 Failure taxonomy:
 Public contract:
@@ -271,10 +328,11 @@ When reviewing an implementation, lead with findings:
 ```markdown
 Findings:
 
-- <severity> <area>: <failure-contract risk and evidence>
+- <severity> <area>: <failure-contract risk, scope, evidence, confidence, owner, and blocker state>
 
 Error-contract assessment:
 Diagnostics/redaction assessment:
+Retry/recovery/cleanup assessment:
 Verification gaps:
 Recommended correction:
 ```

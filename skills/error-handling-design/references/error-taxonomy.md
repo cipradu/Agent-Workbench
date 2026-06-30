@@ -20,6 +20,31 @@ Use this reference when defining failure categories, public codes, permanence, r
 
 Projects may use different names. Preserve local names when they are accepted; preserve these meanings.
 
+## Source Authority And Drift
+
+When revising an existing taxonomy, identify which source currently owns the public contract before changing categories or codes.
+
+Potential sources:
+
+- accepted API schema, GraphQL schema, SDK contract, generated client, or public docs;
+- code-level mapper, validator, middleware, job status model, CLI result shape, or UI error handler;
+- ADR, security policy, compliance rule, support runbook, incident note, or production behavior;
+- tests, contract fixtures, generated artifacts, or monitoring conventions.
+
+Drift to check:
+
+- public code or category differs across surfaces;
+- message text changes caller action or disclosure;
+- validation field shape differs from client expectations;
+- authentication, authorization, not-found, or rate-limit behavior leaks different information by surface;
+- retryability differs between public output, job status, SDK behavior, and logs;
+- fallback/degraded-mode states are hidden in one surface and visible in another;
+- dead-letter, terminal, partial, skipped, or no-sink status names disagree;
+- log/correlation fields cannot connect public reports to private diagnostics;
+- redaction policy differs between user output, logs, reports, transcripts, and generated artifacts.
+
+Do not assume current implementation is authoritative when it violates an accepted public contract or leaks lower-level details. Do not assume docs are authoritative when they are stale and contradicted by current accepted schema, tests, or production behavior. Block when authority cannot be determined and the choice affects compatibility, privacy, retry safety, or caller action.
+
 ## Public Code Rules
 
 Public codes are caller contracts.
@@ -40,6 +65,20 @@ Useful code families:
 - resource/state: `NOT_FOUND`, `CONFLICT`, `VERSION_CONFLICT`, `ALREADY_EXISTS`;
 - pressure/retry: `RATE_LIMITED`, `SERVICE_UNAVAILABLE`, `TIMEOUT`;
 - domain: specific business-state failures, named from caller action rather than storage cause.
+
+Generated-artifact, report, CLI, agent, or local-automation states may need names for non-exceptional absence and residual outcomes:
+
+- `NO_DATA`: source was reachable and valid, but returned no relevant data;
+- `NOT_CONFIGURED`: required configuration is missing for this feature or report section;
+- `INSTRUMENTATION_PENDING`: the metric or signal is not collected yet;
+- `SOURCE_SKIPPED`: the source was intentionally omitted by scope, cost, permission, or mode;
+- `SOURCE_FAILED`: the source was attempted and failed;
+- `PARTIAL_RESULT`: some independent items or sources succeeded and others did not;
+- `BLOCKED`: a required decision, credential, permission, or safety condition is missing;
+- `NO_SINK`: output could not be delivered because the configured destination is absent or invalid;
+- `DEFERRED`: work is accepted but not complete, and a status path exists.
+
+Use local names when they exist. These states are examples of distinct semantics, not mandatory code names.
 
 ## Security-Sensitive Failure Rules
 
@@ -87,8 +126,26 @@ Rules:
 - Do not retry validation, authentication, authorization, permanent not-found, or invariant violations by default.
 - Bound retries by count, total time, and backoff policy. Do not create unbounded retry loops.
 - Avoid retrying the same failure at multiple layers unless ownership is explicit.
+- Treat timeout, network failure, `5xx`, pending async status, sync failure, or commit-ambiguous write as unknown outcome until authoritative state is reread or a status resource confirms the result.
+- Define exact idempotency scope: operation, target, request body, idempotency key, tenant/user boundary, and replay window. A different body with the same key, or the same body against a different target, is not automatically safe.
 
 Failure output: `Rejected: retryability is unsafe or undefined: <specific failure>.`
+
+## Behavior-Preserving Changes
+
+Simplifying or refactoring error-handling code is a taxonomy change unless public categories and codes are proven unchanged.
+
+Preserve:
+
+- public category and code;
+- public message meaning and caller action;
+- validation field/domain detail shape;
+- retryability and permanence;
+- disclosure policy for authentication, authorization, not-found, and rate limits;
+- private diagnostic path and correlation;
+- fallback, partial, terminal, skipped, dead-letter, and no-sink semantics.
+
+Failure output: `Rejected: taxonomy simplification changes failure contract without approval: <specific drift>.`
 
 ## Taxonomy Checklist
 
@@ -97,3 +154,4 @@ Failure output: `Rejected: retryability is unsafe or undefined: <specific failur
 - Public messages are safe.
 - Private cause is preserved where maintainers can access it.
 - Transient, permanent, expected, and unexpected failures are distinguishable.
+- Source authority and drift are reconciled before public taxonomy changes.

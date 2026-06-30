@@ -15,7 +15,17 @@ Before writing a migration, classify it:
 - large-table operation;
 - migration-tool graph change.
 
+Also classify the source-authority state:
+
+- migration files match the current deployed or introspected schema;
+- ORM/schema definitions match generated migrations;
+- generated types/schema dumps are current;
+- accepted ADRs/runbooks still match the migration approach;
+- current data volume and table shape match the assumptions behind the change.
+
 Completion criterion: the deployment sequence reflects the risk class. A destructive or large-table change is not treated like a small additive migration.
+
+Failure output: `Blocked: migration source authority is stale or contradictory: <specific artifact conflict>.`
 
 ## Expand-Contract Sequence
 
@@ -37,6 +47,23 @@ Examples:
 - Remove column/table: stop using it first, deploy, verify no consumers remain, then drop later.
 
 Failure output: `Rejected: migration requires expand-contract but performs the breaking change in one step.`
+
+## Deploy-Window Review
+
+Review a migration as a deployable operation, not just a file diff.
+
+Check:
+
+- old code running against the new schema;
+- new code running against old or partially backfilled data;
+- mixed-version application instances during rolling deploys;
+- primary/replica behavior and read-after-write paths;
+- retry/idempotency behavior if callbacks, jobs, outbox rows, cache refresh, or external events depend on the migrated data;
+- partial deploy, failed migration, failed backfill, and rollback/recovery paths.
+
+When cross-layer mechanics matter, hand off queue/cache/outbox, error-contract, test, implementation-plan, and review mechanics to their owners while preserving the database evidence they need.
+
+Failure output: `Rejected: migration deploy-window compatibility is not proven: <specific old/new/partial-state risk>.`
 
 ## Migration File Discipline
 
@@ -79,6 +106,8 @@ Rules:
 - verify source/target counts, null rates, orphan rows, constraint readiness, and sample rows;
 - avoid `OFFSET` for very large backfills because it becomes slower as the scan advances.
 
+If a backfill fails or is interrupted, capture current state before proposing a rerun: last processed key or timestamp, completed batch count, failed row examples, affected row count, partial target values, constraints already added, locks/timeouts observed, and whether retries are idempotent. Do not restart by assumption.
+
 Failure output: `Rejected: backfill is not resumable or does not define verification.`
 
 ## Migration Graph Hygiene
@@ -91,10 +120,15 @@ Keep the migration graph understandable:
 - keep generated migrations reviewed, not blindly accepted;
 - keep migration files versioned and tied to the release/deployment process.
 
+Generated migration files are evidence, not authority by themselves. Reconcile them with ORM definitions, hand-written SQL, deployed schema, migration heads, engine-specific DDL behavior, and operational rollout constraints before accepting them.
+
+Rejected shortcut: do not refresh or delete generated migration/schema artifacts just to make files align unless current database authority and rollout impact are understood.
+
 ## Verification Checklist
 
 Before accepting a migration/backfill:
 
+- current revision/head and deployed or representative schema checked;
 - upgrade path tested;
 - downgrade/rollback or recovery path tested/described;
 - compatibility with old and new application code considered;
@@ -103,4 +137,7 @@ Before accepting a migration/backfill:
 - large-table operations use safe mechanisms;
 - backfill is batched, resumable, observable, and idempotent;
 - pre/post validation queries exist;
+- validation output names expected counts, null rates, orphan checks, duplicate checks, constraint readiness, sample rows, and any skipped checks;
 - backup/snapshot/restore plan named when risk is material.
+
+For high-risk migrations, include a compact verification packet: source authority checked, deploy window, pre-change validation SQL, post-change validation SQL, rollback/recovery evidence, monitoring signals, and residual operational risk.

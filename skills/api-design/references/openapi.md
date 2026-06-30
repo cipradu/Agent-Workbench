@@ -15,6 +15,28 @@ Decide whether OpenAPI is:
 
 The stricter the consumer compatibility surface, the closer OpenAPI should be to source of truth.
 
+## Authority And Drift
+
+Before relying on OpenAPI, record the exact artifact and identifiers used:
+
+- OpenAPI file or URL;
+- API version or generated timestamp when available;
+- path and method;
+- `operationId`;
+- schema names;
+- generated client package/version when used;
+- related route/controller/resolver/test/docs paths when known.
+
+Classify mismatches instead of silently picking one source:
+
+| Drift Type             | Signal                                                                   | Required Response                                                       |
+| ---------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| Implementation drift   | Runtime route or response differs from the accepted OpenAPI contract     | Treat implementation as suspect until compatibility and authority agree |
+| Contract artifact drift | OpenAPI omits or misstates behavior accepted elsewhere                  | Update or regenerate the artifact before claiming contract readiness     |
+| Docs/example drift     | Prose docs or examples disagree with schema or behavior                  | Fix examples/docs or mark them non-authoritative                         |
+| Generated-client drift | SDK types, operation names, or nullability differ from accepted contract | Regenerate or document migration before client-facing release            |
+| Authority conflict     | No source can be proven canonical                                        | Block or escalate; do not invent the contract from memory                |
+
 ## Required Contract Elements
 
 For each operation, define:
@@ -63,7 +85,8 @@ If SDKs or typed clients are generated from OpenAPI:
 - avoid schema changes that produce misleading breaking changes in generated code;
 - review generated type names and nullable/optional behavior;
 - test representative generated client calls;
-- document migration notes when generated types change.
+- run compatibility diff checks when public, partner, or independently deployed clients depend on generated types;
+- document migration notes when generated operation names, type names, fields, enum values, or nullability change.
 
 ## Contract Tests And Drift Checks
 
@@ -73,6 +96,7 @@ Use the strongest verification available in the project:
 - test implementation responses against schema for representative success and error cases;
 - test request validation against schema where supported;
 - compare routes against documented paths;
+- compare documented status codes, headers, auth requirements, pagination, idempotency, and error schemas against implementation behavior;
 - generate mocks from schema for client tests;
 - run backward-compatibility diff checks for public/partner APIs;
 - include examples in docs and tests when examples are part of client guidance.
@@ -80,9 +104,10 @@ Use the strongest verification available in the project:
 ## OpenAPI Checklist
 
 - OpenAPI version and role are clear.
+- Exact artifact, path/method, `operationId`, and schema identifiers are recorded for substantive work.
 - Each operation has stable `operationId`.
 - Requests, responses, headers, errors, and security are documented.
 - Pagination/filtering/sorting/idempotency/cache/rate-limit behavior is represented where relevant.
 - Examples include success and common failures.
 - Generated clients or mocks are considered when used.
-- Schema and implementation drift is checked.
+- Schema, docs/examples, generated clients, and implementation drift are checked or explicitly marked unresolved.

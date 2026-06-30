@@ -9,12 +9,22 @@ A regression test protects against a known failure.
 Required shape:
 
 - original failure signal: bug report, failing command, review finding, incident, user reproduction, or observed bad behavior;
+- linked diagnosis or causal-chain summary when the cause was not obvious;
 - seam where the failure is observable;
-- expected failure before the fix, or a reason red cannot be reproduced;
+- expected red reason before the fix, or a reason red cannot be reproduced;
+- actual red output comparison when red evidence is available;
 - fixed behavior;
 - command or evidence proving the case now passes.
 
 For bug fixes, the best regression test would have caught the bug before the fix. If that is impossible, state why and choose the closest evidence.
+
+The red failure must match the bug mechanism. A test that fails because of setup, missing fixture fields, an unsafe mock, stale generated artifacts, wrong environment, or a nearby unrelated error is not regression evidence yet.
+
+Use the smallest realistic reproducer that still exercises the original mechanism. Do not reduce the test so far that it bypasses the boundary where valid state becomes invalid.
+
+When a diagnosis had uncertain links, include evidence that would fail if the important prediction were wrong rather than only checking the patched symptom.
+
+For feedback-derived tests, preserve the evidence pointer: comment ID, report, transcript moment, screenshot, log, incident, recording, or manual step. Separate observed facts, inferred intent, confirmed requirement, and current source truth.
 
 ## Characterization Tests
 
@@ -36,6 +46,8 @@ Rules:
 - Separate preservation tests from new desired behavior tests.
 - After the refactor, run the characterization tests unchanged unless the spec deliberately changes behavior.
 
+For simplification or behavior-preserving refactors, verify safety behavior that can be accidentally removed: validation, authorization, data-loss prevention, error handling, cleanup, accessibility affordances, and compatibility behavior. Run changed-scope tests and broaden when shared utilities, public boundaries, generated contracts, or runtime interaction chains are affected.
+
 ## Review-Finding Tests
 
 When a reviewer finds a defect:
@@ -47,3 +59,5 @@ When a reviewer finds a defect:
 5. Re-run the test and include it in the review packet.
 
 If no automated test is feasible, provide manual evidence and reviewer focus.
+
+For batches of review findings, preserve stable IDs and group root/dependent gaps. Require targeted evidence for each behavior-affecting fix plus one combined validation gate when fixes interact through shared files, fixtures, contracts, state, or runtime paths.

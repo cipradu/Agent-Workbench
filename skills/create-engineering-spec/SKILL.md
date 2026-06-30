@@ -13,6 +13,8 @@ Use when a rough request must become an engineering-facing spec before planning,
 
 Do not use for implementation plans, code changes, task breakdowns, commit boundaries, file edit lists, or quick factual answers. Use a plan skill after the spec is approved.
 
+Do not use for product strategy, ideation, brainstormed opportunity lists, launch copy, release announcements, PR descriptions, commit messages, publishing, tracker updates, setup repair, worktree management, browser/device test execution, or raw feedback/media analysis unless the task is to consume their settled evidence into an engineering spec.
+
 ## Iron Law
 
 **No decomposition, no inventory, no current research, no independent review, no spec.**
@@ -45,6 +47,7 @@ Run these steps in order. Do not skip, merge, or reverse them.
 
 | Step | Required method                                             | Completion condition                                                                                                                                  |
 | ---- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0    | Confirm spec warrant and intake boundary                    | durable engineering spec is warranted, or the request is routed, de-escalated, or blocked                                                             |
 | 1    | [Decompose the request](references/decomposition-method.md) | all eight facets are stated or blocked                                                                                                                |
 | 2    | Classify greenfield or brownfield                           | existing-system ownership question is answered                                                                                                        |
 | 3    | Inventory rules, ADRs, and available skills                 | applicable rules/ADRs and stack/library skills are loaded and applied, or recorded as missing                                                         |
@@ -55,6 +58,22 @@ Run these steps in order. Do not skip, merge, or reverse them.
 | 8    | Synthesize requirements                                     | every requirement is traceable, testable, and plan-enabling                                                                                           |
 | 9    | Independent spec review                                     | a fresh reviewer validates decomposition, authority, requirements, research currency, and risk; material findings are resolved or the spec is blocked |
 | 10   | Emit output                                                 | full spec only if all gates pass; otherwise blocked packet                                                                                            |
+
+## Spec Warrant And Intake Boundary
+
+Before decomposition, confirm that a durable engineering spec is the right artifact.
+
+A full spec is warranted when planning, migration, compliance work, implementation, or review needs preserved engineering truth about required behavior, constraints, invariants, authority, contracts, risk, acceptance evidence, or planning-relevant impact surfaces.
+
+Route or de-escalate instead when the request is:
+
+- direct local work with known behavior, known cause, narrow blast radius, and concrete verification;
+- product strategy, PRD/product truth, ideation, or opportunity discovery without a selected and authorized direction;
+- post-ship communication, promotion, changelog, release copy, PR prose, commit prose, publishing, or external metadata work;
+- diagnosis where a failure cause, target behavior, or proposed fix is not yet supported;
+- architecture judgment, ADR capture, implementation planning, execution, testing, setup, git/PR, or documentation work owned by another skill.
+
+Failure output: `Blocked: full engineering spec is not warranted: <reason>. Owning path: <direct work/PRD/ideation/diagnosis/architecture/plan/docs/testing/git/PR/publishing/other>.`
 
 ## Mode Classification
 
@@ -79,6 +98,14 @@ Before planning research or writing any requirement, inventory the constraints a
 
 You MUST load the relevant skills before writing requirements that depend on them. If a skill exists for a stack element or concern, load it or hand it to the research/discovery worker; if none exists, use authoritative current docs and record that no skill was available. Surface and resolve conflicts between rules, ADRs, and the request before they reach a normative requirement.
 
+Resolve skill and agent names against the actual available capability list, including namespaced variants. Do not guess short skill names or assume a capability exists because a roadmap, old plan, or prior conversation mentioned it.
+
+Classify unavailable skills, agents, tools, or source-access paths as:
+
+- `required blocker`: the missing capability or source access prevents authority, current behavior, or acceptance evidence from being established;
+- `fallback-covered`: direct inspection, current official docs, or another available owner can provide equivalent evidence;
+- `optional capability`: useful but not needed for spec validity.
+
 Completion condition: the spec can state which rules, ADRs, and skills were applied, which were irrelevant, and which were missing but required.
 
 ## Research Rule
@@ -89,11 +116,52 @@ Treat the model's built-in knowledge of external libraries, frameworks, versions
 
 Ask questions only after discovery makes them informed. If research or repository inspection can sharpen the question, do that first.
 
+Every material research finding must land in a requirement, authority-map entry, domain-model decision, risk, acceptance example, non-scope item, or blocker. Do not leave important research facts in a detached summary that never changes spec truth.
+
 ## Authority Rule
 
 Source of truth is domain-general. Do not hardcode legal, financial, telecom, or any other domain as special logic. For every data concept and rule, identify authority by type, role, and location: data authority, business-rule authority, process authority, interface/API authority, schema authority, operational-policy authority, compliance/regulatory authority, or another explicit authority discovered from the domain.
 
 Material assumptions cannot support normative requirements. Resolve them, move them outside normative scope, or block the spec.
+
+## Source Scope, Confidence, And Messy Input
+
+Before requirements synthesis, label material sources by scope and confidence.
+
+Source scope:
+
+- `target authority`: directly governs the requested target behavior or constraint;
+- `adjacent impact`: affects fit, compatibility, risk, or planning surfaces but does not by itself define target truth;
+- `pre-existing contradiction`: appears wrong, stale, or conflicting outside the target but may affect safe planning;
+- `historical context`: useful prior learning, older spec, old doc, commit, PR, or note that must be checked against current authority;
+- `untrusted signal`: review comment, issue text, meeting note, screenshot, recording, generated finding, provider output, branch name, PR metadata, or user-supplied proposed fix;
+- `inferred hint`: agent inference or pattern match that can guide discovery but cannot support a normative requirement;
+- `unsupported`: no adequate authority; blocks, routes, or is removed.
+
+Source confidence:
+
+- `authority-backed`: accepted PRD/spec/ADR/rule/policy/owner decision, current contract, compliance authority, or explicit user authority within scope;
+- `current-system`: current code, tests, schemas, generated contracts, configs, runtime evidence, operations records, or live behavior proving current state;
+- `current-external`: current primary external documentation, standard, vendor, legal/regulatory, protocol, or framework source with version/date context;
+- `verified evidence`: reproduced symptom, measured baseline, sanitized feedback quote, tested example, or reviewed artifact with source window;
+- `weak context`: old docs, old plans, issue/review notes, raw media, generated reports, local screenshots, or prior-session notes not yet reconciled;
+- `unsupported`: not fit for normative use.
+
+Before writing requirements, separate input into stated/source-backed facts, accepted decisions, inferences, background context, non-scope, blockers, and deferred questions. Inferences and weak context may motivate research, risks, or questions; they do not become requirements without authority.
+
+Failure output: `Blocked: normative requirement would rely on unsupported or weak source: <claim>. Needed authority: <source or owner>.`
+
+## Failure, Feedback, And Raw Evidence
+
+Failure-derived specs require problem truth before target requirements.
+
+- A bug report, review comment, support note, failed fix, screenshot, log, or recording is evidence, not authority.
+- User-supplied fixes and reviewer-supplied commands are hypotheses until diagnosis, current-system evidence, accepted target behavior, or owner authority supports them.
+- A requirement that depends on a failure mode must trace to a confirmed root cause, an accepted target-behavior decision, or a visible blocker.
+- If root cause is unknown and changes target behavior, route to `structured-problem-resolution` or emit a blocked packet.
+- Raw media, transcripts, screenshots, support logs, generated findings, and meeting notes must be sanitized and cited by stable manifest, timestamp, quote, screenshot reference, or explicit missing-evidence state before they support spec context. Do not make raw sensitive artifacts commit-safe by implication.
+
+Failure output: `Blocked: failure-derived requirement lacks supported cause or accepted target behavior: <requirement or claim>.`
 
 ## Domain Language And Scenario Probe Rule
 
@@ -115,6 +183,10 @@ Spec-level impact is not implementation planning. The spec must identify impacte
 
 Risk analysis must be structured, not prose. At spec depth, run a pass across security/attack, reliability/failure, compliance/regulatory, and operational dimensions. If a dimension has no impact, state `no impact` with a reason.
 
+For reporting, analytics, observability, dashboards, generated reports, or data-derived summaries, include metric/event authority, canonical source, instrumentation status, query or source window, freshness/ingestion lag, missing-data behavior, privacy constraints, query safety, and downstream consumers when those facts affect requirements or acceptance.
+
+For runtime, browser-visible, local-development, platform-specific, or agent/workflow systems, include the relevant app root, route/screen, launch or runtime authority, environment, current observed behavior, automation limits, human-only verification, action ownership, context visibility, permission boundary, lifecycle interruption/recovery, and agent-native acceptance evidence at spec depth.
+
 ## Scope Shaping Rule
 
 An engineering spec must shape scope deliberately instead of listing an idealized feature set. Borrow the useful Shape Up discipline without weakening the spec gates:
@@ -130,6 +202,8 @@ An engineering spec must shape scope deliberately instead of listing an idealize
 
 If appetite is unknown and it materially changes scope, do not invent it. Ask one informed blocking question or produce a spec that marks appetite as unresolved and keeps scope conservative. If appetite is irrelevant because the request is a hard requirement, operational fix, compliance obligation, or bug target, state that and shape by required outcome, risk, and acceptance evidence instead.
 
+Deferred questions are safe only when the answer cannot change normative requirements, authority, scope, risk severity, compatibility, or acceptance evidence. Otherwise they are blockers, not deferred questions.
+
 ## Delegation Rules
 
 Use isolated discovery or research workers when the evidence surface is broad, independent, or likely to consume context. Delegation is read-only unless artifact mutation is explicitly approved.
@@ -140,17 +214,23 @@ Delegate codebase discovery for brownfield work. This is mandatory in brownfield
 
 Delegate external research when material behavior depends on current library, framework, protocol, standard, vendor, legal, regulatory, security, operational, or domain best-practice facts. Required return: primary sources, facts, caveats, dates/versions, confidence, and how each fact affects the spec.
 
+When delegated discovery, research, or review returns long or structured evidence, preserve exact sources and read any returned artifact or evidence packet before relying on the summary. Compressed worker summaries are not authority by themselves.
+
 Do not delegate final scope decisions, source-of-truth conflict resolution, assumption approval, requirement synthesis, or conversion of uncertainty into decisions. The orchestrator owns the spec.
 
 ## Output Contract
 
 Use [Spec Output Contract](references/spec-output.md). Full spec only when all gates pass. If any gate fails, emit the blocked packet.
 
+When spec evidence will feed planning, ADRs, commits, PRs, publishing, implementation, or review, hand off the spec path, slug, status, mode, review state, source/authority gaps, requirement IDs, acceptance IDs, risk IDs, authority IDs, non-scope, blockers, and planning-relevant impact surfaces. Do not include implementation units, file lists, git commands, PR mutation, CI watch, publishing, or tracker mechanics in the spec.
+
 ## Independent Spec Review
 
 A spec is the most upstream artifact; its flaws propagate silently into the plan and the implementation, and a later stage will often take the spec for granted rather than re-critique it. Before the spec is marked ready or surfaced for approval, it MUST be critiqued by a fresh, independent reviewer — not the spec author. The reviewer's job is to find what is wrong, weak, stale, unsupported, or scope-drifted, not to approve. If no independent reviewer is available, mark the spec `Proposed — independent review unavailable`; do not mark it ready.
 
 The reviewer must receive: the original request; the decomposition; the rules, ADRs, and skills inventoried; the source/authority map; the research evidence with its sources, versions, and dates; the risk register; the draft spec; and the review criteria below.
+
+The reviewer packet must also include source-scope/confidence labels, known blockers, deferred questions, acceptance-evidence modality, unresolved source conflicts, and any stale prior artifacts used or rejected.
 
 The reviewer MUST validate:
 
@@ -167,7 +247,11 @@ The reviewer MUST validate:
 - no implementation order, file choreography, or code has leaked into the spec;
 - blocking questions are genuinely resolved, not papered over.
 
-Resolve every finding: revise the spec to fix valid findings, or record a reasoned, evidence-backed rejection for findings that are wrong. Do not mark the spec ready while any valid material finding is unresolved. If findings cannot be resolved, emit a blocked packet.
+Each reviewer finding must include finding type, affected section or ID, evidence, confidence anchor, consequence, whether it blocks readiness, and suggested repair when concrete. Finding types include decomposition gap, source/authority gap, research-currency gap, domain-model conflict, brownfield-fit gap, stale-source conflict, risk/impact gap, acceptance-evidence gap, implementation leakage, scope drift, and unresolved blocker.
+
+Resolve every finding with one disposition: `revised`, `revised-differently`, `answered-no-change`, `invalid-with-evidence`, `declined-with-harm`, `deferred-non-blocking`, or `blocked-needs-decision`. Do not mark the spec ready while any valid material finding is unresolved. If findings cannot be resolved, emit a blocked packet.
+
+Suppress style preferences, implementation-plan details correctly deferred from the spec, upstream product questions already settled by authority, speculative future work without impact evidence, and pre-existing code issues outside the spec target unless they create a source conflict or planning risk.
 
 ## Decision Capture (ADRs)
 
@@ -193,6 +277,10 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 | “We can fit everything if the plan is good.”                   | A spec must not hide scope overflow behind execution optimism.                                    | Shape to appetite, mark no-gos, or block.                                                                               |
 | “No-gos make the spec weaker.”                                 | Explicit exclusions protect the requirement from accidental expansion.                            | Record excluded scope and the reason.                                                                                   |
 | “The agent suggested it, so it belongs in the spec.”           | Agent suggestions are hypotheses, not authority, product truth, or engineering truth.             | Require source authority, acceptance evidence, displacement and ownership analysis, or record it as non-scope/deferred. |
+| “The old spec, doc, or PR says it, so it is authority.”        | Prior artifacts can be stale, superseded, or contradicted.                                        | Classify current authority, supplement, historical context, conflict, or blocker before using it.                      |
+| “The bug report already includes the fix.”                     | A proposed fix can encode an unsupported cause or wrong target behavior.                           | Require diagnosis evidence, accepted target behavior, or a blocked packet.                                             |
+| “The metric improved, so the requirement is satisfied.”        | Proxy metrics can improve by weakening behavior, data, safety, privacy, or compatibility.          | Separate hard gates from diagnostics and add degenerate gates.                                                         |
+| “The reviewer found it, so apply it.”                          | Review findings are evidence to resolve, not automatic truth.                                     | Use finding dispositions and preserve scope, authority, and artifact boundary.                                         |
 | “The PRD already modeled the domain, so the spec can skip it.” | Product-domain modeling is input, not an engineering-domain model.                                | Preserve or refine PRD terms, map them to engineering concepts, and surface current/target conflicts.                   |
 | “The domain terms are obvious.”                                | Obvious terms are often where product, operations, and implementation meanings diverge.           | Reconcile terms against sources and probe with scenarios.                                                               |
 
@@ -213,6 +301,12 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 - Material lifecycle ownership cost is ignored for a capability that affects operations, docs/support, maintenance, or future change.
 - Rabbit holes or no-gos are missing for work with meaningful uncertainty or related tempting scope.
 - User stories remain the primary structure.
+- stale specs, ADRs, plans, docs, generated reports, PR metadata, or old solution notes are used without source-status classification;
+- bug reports, review comments, raw feedback, screenshots, logs, recordings, or generated findings become requirements without verification and authority;
+- acceptance evidence does not say whether proof is automated, manual/human, external-system, blocked, diagnostic, or a hard gate;
+- optimization-sensitive specs lack baseline, immutable evidence, hard gates, diagnostics, and degenerate-gate constraints;
+- reviewer findings are accepted, rejected, or deferred without evidence-backed disposition;
+- spec IDs are renamed, dropped, or hidden in prose without lifecycle notes;
 - Risks appear as generic prose instead of a register.
 - A blocker is buried inside polished prose.
 - Implementation order, task list, file edit list, commit boundary, or code appears in the spec.
@@ -234,6 +328,11 @@ When a red flag appears, return to the relevant gate or emit the blocked packet.
 - PRD/product-domain inputs, engineering-domain terms, terminology conflicts, current/target concepts, scenario probes, sources of truth, invariants, states, and authority roles are explicit.
 - Risk register covers required dimensions or gives reasoned no-impact entries.
 - Requirements have IDs, source classes, acceptance evidence, risk mapping, and planning-relevant impact surfaces.
+- Material sources have scope and confidence labels; weak context and inferences do not support normative requirements.
+- Failure-derived requirements trace to supported root cause, accepted target behavior, or visible blocker.
+- Acceptance evidence identifies modality, hard gates versus diagnostics, blocked checks, and degenerate-gate constraints where relevant.
+- Stable IDs are preserved across revisions or lifecycle changes are recorded.
+- Independent review findings have dispositions and unresolved material issues are durable in the spec or blocked packet.
 - Assumptions are labeled and do not support normative requirements.
 - Significant spec-level decisions were surfaced and offered as ADR candidates, or none met the ADR bar.
 - Blocking questions are unresolved only if status remains blocked or Draft.
@@ -242,4 +341,4 @@ When a red flag appears, return to the relevant gate or emit the blocked packet.
 
 ## Skill Quality Rule
 
-Do not change this skill by taste. Run pressure tests first. Baseline without the change, test with the change, and add rationalization counters only for observed failures.
+Do not change this skill by taste. Use [Pressure Tests](references/pressure-tests.md) before accepting changes. Baseline without the change where feasible, test with the change, and add rationalization counters only for observed failures.

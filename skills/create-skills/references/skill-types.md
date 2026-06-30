@@ -103,11 +103,17 @@ Required structure:
 - universal opening order;
 - exact commands or tool actions;
 - prerequisites;
+- preflight state and availability checks;
+- native owner or preferred tool, plus substitution policy;
+- output contracts, sentinel meanings, and error meanings;
 - safety boundaries;
+- side-effect, credential, privacy, and local-state boundaries;
 - verification steps;
-- recovery paths.
+- bounded recovery paths;
+- cleanup or teardown requirements;
+- manual handoff or stop condition when the safety guarantee cannot be preserved.
 
-Incomplete if it omits the check that proves the tool action worked.
+Incomplete if it omits the check that proves the tool action worked, or if fallback makes a different safety promise than the primary tool.
 
 ## Router Skill
 
@@ -118,8 +124,26 @@ Required structure:
 - universal opening order;
 - decision tree;
 - trigger boundaries;
+- branch ambiguity fallback;
 - child skill/reference list;
+- selected-reference loading instructions;
 - handoff instructions;
 - fallback when no route matches.
 
-Incomplete if it duplicates child skill content instead of routing.
+Incomplete if it duplicates child skill content instead of routing, or if a branch can be selected without naming the selected child/reference and stop condition.
+
+## Router/Tool-Workflow Hybrid
+
+Use when one skill has a shared entrypoint or safety contract, then routes into branch-specific tool actions or references.
+
+Required structure:
+
+- universal opening order;
+- shared preflight and safety boundary;
+- branch trigger table;
+- exact selected-reference rule for each branch;
+- common output or handoff contract;
+- branch-specific stop conditions;
+- tests proving the right branch and reference are used before subtle tool actions.
+
+Incomplete if shared safety guidance is duplicated in every branch, or if branch references become overflow bins for behavior that every invocation needs.

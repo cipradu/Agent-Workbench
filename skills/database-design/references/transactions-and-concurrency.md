@@ -40,6 +40,8 @@ Do after commit when possible:
 
 If a side effect must be exactly coordinated with the database commit, use an explicit transactional outbox or equivalent project pattern instead of calling the external system inside the transaction.
 
+When the side effect belongs to a queue, cache, worker, pub/sub, webhook, external API, or distributed retry path, hand off the non-database mechanics to the owning queue/cache/workflow skill. This reference owns only the database transaction boundary, commit ordering, idempotency evidence, and failure mode that the handoff must preserve.
+
 ## Isolation And Locks
 
 Use the default isolation level only when it protects the invariant. Escalate isolation only for a named anomaly or invariant risk.
@@ -54,6 +56,30 @@ Common guidance:
 - lock only what will be modified or what protects the invariant.
 
 Completion criterion: the isolation/locking choice names the invariant it protects and the contention cost it accepts.
+
+## Failure Diagnosis And Instrumentation
+
+For deadlocks, serialization failures, stale reads, duplicate rows, missing rows, lock waits, "transaction already in progress" errors, or partial writes, do not patch transaction code from the symptom alone.
+
+Gather:
+
+- observed symptom and expected invariant;
+- affected read/write path and exact SQL shape when available;
+- engine/version, isolation level, transaction owner, migration revision, and primary/replica path;
+- database error class/code, lock wait/deadlock diagnostics, query duration, row counts, and relevant logs;
+- prior failed fixes and what each one disproved;
+- a causal chain from trigger to database observation to user-visible symptom.
+
+Use predictions to test uncertain hypotheses:
+
+- missing lock predicts concurrent writes can read the same pre-update value;
+- replica lag predicts primary reads are correct while replica reads are stale;
+- nested transaction ownership predicts the error occurs before the inner helper can commit independently;
+- missing retry of the whole unit predicts partial statement retry can duplicate side effects or leave stale session state.
+
+Completion criterion: the proposed transaction change is tied to an observation that could disprove it.
+
+Failure output: `Blocked: transaction/concurrency fix lacks database-level causal evidence: <specific gap>.`
 
 ## Savepoints
 
@@ -77,6 +103,8 @@ Rules:
 - use jittered backoff when contention may repeat;
 - log database error class/code, attempt count, elapsed time, and final outcome;
 - do not retry non-idempotent external side effects unless they are guarded by idempotency keys or an outbox.
+
+Map idempotency to the database invariant: unique idempotency keys, request fingerprints, status transitions, ledger rows, or durable outbox records should make whole-unit retries safe. Application-only flags are not enough when concurrent requests can race.
 
 Failure output: `Rejected: retry policy can duplicate side effects or retry only part of the transaction.`
 
@@ -103,3 +131,9 @@ Rules:
 - fail fast or degrade deliberately when the database is unavailable instead of hanging indefinitely.
 
 Completion criterion: long-running or production database paths have explicit timeout/cancellation behavior and pool observability.
+
+## Behavior-Preserving Transaction Simplification
+
+Before simplifying transaction code, prove that the same unit of work commits or rolls back atomically, the same layer owns begin/commit/rollback, isolation and locks still protect the invariant, retries still wrap the whole safe unit, side effects still occur on the correct side of commit, and diagnostic cause is still preserved.
+
+Rejected shortcut: do not remove a transaction, lock, savepoint, retry wrapper, context/deadline, rollback, or error translation because a local test still passes without concurrency pressure.

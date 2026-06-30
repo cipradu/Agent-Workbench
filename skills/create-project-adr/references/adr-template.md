@@ -5,6 +5,7 @@
 - Section Guidance
 - Canonical Template
 - Eliciting Missing Information
+- Validation Findings And Readiness States
 - Review Checklist
 - Blocked ADR Packet
 
@@ -40,6 +41,8 @@ Use the project status vocabulary when one exists. Common statuses:
 | Deprecated | No longer recommended or no longer applies |
 | Superseded | Replaced by another ADR                    |
 
+Use `Proposed` only when the decision is concrete enough for approval and the alternatives/consequences are known. If the decision is still being discovered, use the blocked ADR packet instead of a Proposed ADR.
+
 Superseded format:
 
 ```markdown
@@ -60,6 +63,8 @@ Include:
 - functional requirements driving the decision;
 - quality attributes or operational constraints;
 - candidate alternatives.
+
+Classify source evidence before drafting context. Accepted decision evidence, proposed decision evidence, candidate signals, inferred rationale, stale/conflicting sources, and out-of-scope adjacent choices should not be blended into one historical claim.
 
 Bad context:
 
@@ -105,6 +110,12 @@ For each meaningful alternative:
 - tie rejection reasons to forces named in Context.
 
 Do not write "rejected because it did not fit" unless the fit problem is concrete.
+
+### Notes And Source Breadcrumbs
+
+Use Notes for concise source breadcrumbs that materially support the context, alternatives, or consequences. Prefer repo-relative paths for project files, specs, plans, source manifests, screenshots, reports, and other local evidence. Avoid absolute local paths unless the project ADR convention explicitly requires them.
+
+Useful breadcrumbs include source ADRs, specs, plans, architecture reviews, implementation-plan KTDs, validated review findings, incident/debug summaries, dogfood or QA reports, experiment summaries, source manifests, and code paths. Omit process exhaust such as phase logs, command transcripts, tool plumbing, commit/PR status, or implementation progress unless it is concise decision evidence.
 
 ## Canonical Template
 
@@ -175,7 +186,7 @@ Be specific enough that someone can implement or respect the decision.]
 
 ## Notes
 
-[Optional links to discussions, specs, plans, research, code, docs, or review evidence.]
+[Optional links to discussions, specs, plans, research, code, docs, review evidence, KTDs, incident reports, experiment summaries, or source manifests. Use repo-relative paths for local project evidence.]
 ```
 
 ## Eliciting Missing Information
@@ -206,6 +217,42 @@ When consequences are unclear, ask:
 
 If the user cannot articulate alternatives or trade-offs, block ADR creation and route to architecture/spec/research until the decision is ready.
 
+Ask one targeted question at a time. Challenge weak answers directly and tie the challenge to the failed ADR gate:
+
+| Weak input | Gate at risk | Better response |
+| ---------- | ------------ | --------------- |
+| "We chose it because it is better." | alternatives/consequences | Ask what measurable force, constraint, or quality attribute makes it better, and what cost is accepted. |
+| "The plan already says to do it." | decision readiness | Ask whether the plan's KTD is accepted as a durable project decision or only a local execution choice. |
+| "The reviewer asked for it." | source authority | Ask whether the finding was validated and whether the project accepts the resulting decision. |
+| "The bug proved it." | context evidence | Ask for the confirmed causal chain and why a local fix is insufficient. |
+| "The metric improved." | consequence honesty | Ask for the baseline, hard gates, immutable evidence, and unacceptable ways to satisfy the metric. |
+| "The current code does this." | authority/freshness | Ask whether code reflects an accepted decision, drift from an accepted ADR, or an unrecorded supersession. |
+
+Do not accept a weak ADR after arbitrary rounds. If the decisive information remains missing, emit the blocked ADR packet.
+
+## Validation Findings And Readiness States
+
+Use structured findings when validating a draft ADR or evaluating an ADR candidate.
+
+| Field | Meaning |
+| ----- | ------- |
+| ADR gate | decision readiness, ADR bar, project convention, context, one decision, alternatives, consequences, immutability, variant fit, source authority, freshness |
+| Severity | blocking or advisory |
+| Type | error or omission |
+| Evidence | exact text, source artifact, related ADR, rule, code path, or missing required section |
+| Affected section | ADR section or source decision field affected |
+| Consequence | why future maintainers would be misled or blocked |
+| Suggested correction | one concrete correction, owner route, or blocked next action |
+| Readiness state | ready to write, ready for approval as Proposed, rejected below ADR bar, blocked for missing evidence, supersession required |
+
+Suppress false positives:
+
+- style-only preferences that do not affect future-maintainer understanding;
+- requests for implementation steps, test plans, or rollout choreography;
+- demands to create ADRs for routine fixes, local refactors, or already-covered decisions;
+- product/spec questions already settled upstream;
+- stale review comments, unvalidated findings, or pre-existing debt that has not become an accepted/proposed decision.
+
 ## Review Checklist
 
 Before calling an ADR ready, verify:
@@ -213,12 +260,15 @@ Before calling an ADR ready, verify:
 - The ADR records one decision.
 - The title is specific and searchable.
 - Status and date are present.
+- `Proposed` means ready for approval, not still being discovered.
 - Context is factual, not advocacy.
+- Source evidence is classified and source breadcrumbs are portable.
 - The decision is active and actionable.
 - Alternatives are concrete and rejection reasons tie back to context.
 - Consequences include positives and negatives.
 - Related or superseded ADRs are linked.
 - Numbering and path follow project convention.
+- Existing coverage and freshness conflicts were checked.
 - Accepted ADR history is not rewritten.
 
 ## Blocked ADR Packet
@@ -230,11 +280,14 @@ Use this when the ADR cannot be created safely.
 
 Status: Blocked
 Requested ADR path: [path or unknown]
-Blocking gate: [decision readiness | ADR bar | project convention | context | alternatives | consequences | immutability]
+Blocking gate: [decision readiness | ADR bar | project convention | existing coverage | source authority | context | one decision | alternatives | consequences | immutability | freshness]
+Readiness state: [blocked for missing evidence | rejected below ADR bar | supersession required | owner decision needed]
 
 ## Missing Evidence
 
 ## What Was Checked
+
+## Source Authority Or Freshness Conflict
 
 ## Why ADR Creation Cannot Continue Safely
 

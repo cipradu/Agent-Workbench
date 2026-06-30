@@ -10,6 +10,7 @@ description: Use when designing or reviewing software architecture, module bound
 - Designing a new module, service, subsystem, feature slice, integration, or architectural boundary.
 - Deciding where business logic, validation, persistence, IO, retries, timeouts, mapping, configuration, or error handling belongs.
 - Reviewing whether an existing design has unclear ownership, leaky interfaces, pass-through layers, shallow abstractions, hidden coupling, or framework/SDK leakage.
+- Reviewing architecture in a diff, proposal document, ADR candidate, implementation plan, review comment, or migration/refactor note.
 - Considering Clean Architecture, Hexagonal Architecture, DDD, repositories, CQRS, events, queues, microservices, plugins, shared libraries, or other structural patterns.
 - Refactoring architecture in brownfield code where tests, behavior, compatibility, or runtime wiring may constrain the change.
 
@@ -26,6 +27,8 @@ Architecture is ownership and trade-off discipline, not pattern decoration. Do n
 
 ## Operating Process
 
+Run the steps in order. If an earlier step returns `Blocked`, `Rejected`, or `Not ready`, stop on that state instead of producing a recommendation from later-step assumptions.
+
 ### 1. Establish Forces
 
 Identify the facts that should shape the architecture before suggesting structure.
@@ -37,6 +40,14 @@ Minimum forces:
 - scale, data volume, latency, reliability, security, privacy, compliance, operability, and team constraints that materially apply;
 - current implementation state for brownfield work;
 - external systems, persistent state, trust boundaries, and compatibility surfaces.
+
+Before accepting the user's proposed shape, run a source and framing gate:
+
+- If the request starts with a named pattern, layer, service split, adapter, repository, event, queue, plugin model, rewrite, or abstraction, identify the concrete pain, affected callers, current workaround, and consequence of doing nothing.
+- Classify material inputs as confirmed fact, source-backed constraint, inferred assumption, background context, stale or conflicting source, or missing force.
+- Before claiming the project lacks an ADR, boundary, adapter, seam, ownership convention, dependency direction, or local pattern, inspect the relevant source or label the claim as an assumption.
+- When code, ADRs, docs, diagrams, generated findings, runtime behavior, review comments, or external state disagree, classify the conflict before choosing authority: stale documentation, implementation drift, unresolved architecture decision, compatibility exception, or source-of-truth ambiguity.
+- Carry exact source identifiers when available, such as paths, ADR IDs, module names, API or schema names, diagram names, runtime config names, or review-comment anchors.
 
 Completion criterion: the architecture recommendation can name the forces it is optimizing for and the forces it is deliberately not optimizing for.
 
@@ -106,6 +117,8 @@ For each significant pattern or abstraction, answer:
 
 Use [Decision Framing](references/decision-framing.md) for option comparison, quality attributes, and ADR handoff.
 
+For broad or solution-shaped prompts, discover at least two materially different architecture options before recommending one. Candidate options may differ by owner, boundary placement, seam timing, migration direction, policy/mechanism split, or compatibility strategy. Reject weak options with reasons tied to missing forces, shallow interfaces, boundary leaks, brownfield gaps, compatibility risks, or weak verification paths.
+
 Completion criterion: each architectural choice has a concrete problem, rejected alternatives, accepted costs, and a revisit trigger when appropriate.
 
 Failure output: `Rejected: pattern not justified: <pattern> does not solve a proven problem in this context.`
@@ -121,6 +134,8 @@ Rules:
 - Create the smallest useful seam before a broad restructure.
 - Keep behavior changes, refactoring, and cleanup separate unless the spec explicitly binds them.
 - Preserve public compatibility or provide a transition path when changing externally reachable interfaces.
+
+If the request comes from a bug, regression, repeated workaround, review finding, incident, or unexplained behavior, treat it as failure-driven architecture. Require causal evidence that the symptom is architectural before moving ownership or boundaries: wrong responsibility, leaky interface, duplicated policy, cross-subsystem interaction, unsafe side effect ordering, or a local fix that would only hide the design problem.
 
 Use [Brownfield Architecture](references/brownfield-architecture.md) before recommending migration, extraction, broad refactor, or replacement.
 
@@ -143,13 +158,37 @@ Minimum output:
 - verification strategy;
 - ADR candidates, if any.
 
+When reviewing an existing artifact instead of designing from scratch, use bounded architecture review mode:
+
+- Classify the artifact shape first: requirements-level architecture direction, ADR candidate, implementation plan, diff, migration/refactor proposal, interface sketch, or review comment.
+- Match scrutiny to the artifact. Do not demand implementation sequencing from requirements-level architecture notes; do require implementability, transition, compatibility, and verification from plan-shaped artifacts.
+- Report findings only when they name the affected owner, boundary, interface, seam, pattern, or trade-off; cite the source evidence; explain the downstream consequence; and route the correction to the right owner.
+- Treat weak or speculative concerns as residual risk, not confident findings.
+- Do not own independent review verdicts, severity policy, reviewer dispatch, PR-comment resolution, or auto-application.
+
 Completion criterion: the output gives a future implementer enough structure to preserve the design without duplicating the reasoning process.
 
 Failure output: `Not ready: architecture recommendation is missing <problem/forces/boundaries/interfaces/trade-offs/verification/ADR candidates>.`
 
-## ADR Handoff
+## Handoff Boundaries
 
-This skill may identify ADR candidates but does not write ADRs freehand. A decision qualifies for ADR handoff when reversal would be costly, future contributors will ask why, the decision sets a repeated pattern, or real alternatives were weighed. Use the `create-project-adr` skill to record confirmed ADRs.
+This skill may identify ADR candidates but does not write ADRs freehand. A decision qualifies for ADR handoff only when it meets the `create-project-adr` bar: reversal would be costly or risky, future contributors will need the context, and real alternatives were weighed. Use the `create-project-adr` skill to record confirmed ADRs.
+
+When architecture work will feed a spec, implementation plan, review, commit, or PR, hand off architecture facts without absorbing downstream mechanics.
+
+Architecture handoff should preserve:
+
+- source evidence and unresolved authority conflicts;
+- forces optimized for and deliberately not optimized for;
+- ownership decisions and affected boundaries;
+- interfaces, seams, caller obligations, and hidden complexity;
+- policy/mechanism split and adapter responsibilities;
+- alternatives rejected and accepted trade-offs;
+- brownfield behavior to preserve, compatibility surfaces, and transition notes;
+- verification strategy and residual risks;
+- ADR candidates and decisions that require another owner.
+
+Do not add implementation units, file-list choreography, branch creation, commits, pushes, PR mutation, CI watching, tracker filing, review verdicts, or external publishing steps.
 
 ## Rationalization Table
 
@@ -162,6 +201,9 @@ This skill may identify ADR candidates but does not write ADRs freehand. A decis
 | "This wrapper makes the architecture cleaner." | Pass-through wrappers add names without reducing complexity.                        | Apply the deletion test and reject wrappers that do not concentrate knowledge.      |
 | "The database model is convenient to return."  | Persistence shape leaks storage decisions and coupling.                             | Map to an explicit contract at the boundary.                                        |
 | "We can document the weird sequence."          | Documentation does not fix temporal coupling.                                       | Redesign the interface so valid usage is harder to misuse.                          |
+| "The old ADR or diagram says so."              | Architecture sources can be stale, partial, or contradicted by accepted rules.      | Reconcile source authority before treating the artifact as binding.                 |
+| "The reviewer asked for it."                   | Review comments are evidence, not architecture authority.                           | Verify the affected boundary and route non-architecture work to the owner.          |
+| "Implementation needs this now."               | Handoffs preserve decisions; they do not turn architecture into planning or git.    | Hand off forces, decisions, risks, and verification without execution mechanics.     |
 
 ## Red Flags
 
@@ -173,6 +215,10 @@ This skill may identify ADR candidates but does not write ADRs freehand. A decis
 - A brownfield design changes behavior and structure in the same unsafely broad move.
 - A public interface changes without compatibility, migration, or consumer analysis.
 - The design optimizes for file organization aesthetics rather than lower cognitive load, locality, and testability.
+- The recommendation trusts a stale or conflicting source without classifying authority.
+- Architecture review findings lack affected boundary, source evidence, or downstream consequence.
+- A failure-driven architecture change moves ownership before causal evidence shows a design signal.
+- The output smuggles implementation units, commits, PRs, review verdicts, or delivery steps into architecture guidance.
 
 ## Pressure Tests
 
@@ -215,3 +261,43 @@ Expected wrong behavior: accept direct SDK and ORM coupling for speed.
 Required behavior: keep business policy in the owning module and place Stripe/database mechanics behind adapters with explicit contracts.
 
 Pass condition: the agent names the policy owner, adapter responsibilities, and boundary DTO/value object.
+
+### Source Authority Pressure
+
+Prompt: "The old architecture doc says to add repositories everywhere, but the code does not use them. Follow the doc."
+
+Expected wrong behavior: treat either the old doc or current code as automatic authority.
+
+Required behavior: inspect or request the relevant ADR/doc/code evidence, classify stale documentation versus implementation drift or unresolved decision, and still require forces, ownership, interface depth, alternatives, and trade-offs.
+
+Pass condition: the agent blocks or scopes the recommendation until source authority is reconciled.
+
+### Architecture Review Pressure
+
+Prompt: "Review this plan and tell me if the architecture is bad."
+
+Expected wrong behavior: return generic severity findings or demand file-by-file implementation details regardless of artifact type.
+
+Required behavior: classify the artifact shape, review affected ownership/boundaries/seams/trade-offs at the right scrutiny level, and route non-architecture issues elsewhere.
+
+Pass condition: findings name affected boundaries, source evidence, downstream consequence, action owner, residual risk, and coverage without owning review verdicts.
+
+### Failure-Driven Pressure
+
+Prompt: "This bug keeps coming back, so extract the module into a service."
+
+Expected wrong behavior: accept the extraction as the fix.
+
+Required behavior: require causal evidence that the recurrence comes from wrong responsibility, leaky interface, duplicated policy, or cross-subsystem interaction before recommending a boundary move.
+
+Pass condition: the agent routes unknown cause to diagnosis or recommends the smallest characterized seam instead of broad extraction.
+
+### Handoff Pressure
+
+Prompt: "Turn this architecture recommendation into the spec, plan, commit, and PR."
+
+Expected wrong behavior: write requirements, implementation units, commit commands, or PR text inside the architecture answer.
+
+Required behavior: preserve architecture facts, ADR candidates, verification needs, and residual risks while routing specs, plans, commits, and PRs to their owners.
+
+Pass condition: the agent emits an architecture handoff and refuses downstream mechanics inside this skill.
