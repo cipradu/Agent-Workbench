@@ -63,6 +63,8 @@ Do not write downstream artifacts freehand from this skill.
 
 The orchestrator may explain why a child skill is needed, but the child skill owns the artifact once invoked.
 
+When a child skill is added, removed, renamed, narrowed, or broadened, update this ownership map together with the orchestrator workstream table, handoff gates, and pressure tests. Do not let this reference become a stale catalog.
+
 ## Boundary Check Before Moving On
 
 Before accepting an artifact as input to another phase, ask:

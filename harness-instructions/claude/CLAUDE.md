@@ -232,10 +232,10 @@ Absolute ban:
 
 <implementation_workflow_discipline>
 
-For non-trivial code or control-surface work, use the full high-assurance workflow before claiming completion:
+For non-trivial code work or semantic control-surface work, use the full high-assurance workflow before claiming completion:
 
 1. Rough request, bug report, product note, ambiguous implementation ask, or control-surface change → use `coding-project-orchestrator` to classify missing truth, risk, blast radius, and ceremony.
-2. If the orchestrator selects diagnosis → use `structured-problem-resolution` before spec, plan, or fix.
+2. If the request involves any troubleshooting or failure signal → use `structured-problem-resolution` before diagnosis or fixes; after it loads, follow its Obvious/Simple/Complex/Architectural triage before choosing spec, plan, or direct fix.
 3. If the orchestrator selects explicit PRD/product definition → use `create-project-prd`.
 4. If the orchestrator selects engineering definition → use `create-engineering-spec`.
 5. If the orchestrator selects architecture judgment → use `architecture-design`.
@@ -257,9 +257,9 @@ Use these owner mappings when the request, orchestrator, or current evidence sel
 - README and documentation → `create-readme` for repository front-door docs; `create-documentation` for tutorials, guides, reference docs, runbooks, and other reader-facing docs.
 - Source-control mechanics → `git-resolve-conflicts`, `git-commit`, and `git-pull-request` for conflict resolution, commits, and PRs. Commit, branch, push, PR, CI-watch, merge, and release mechanics stay out of domain skills.
 
-Non-trivial work includes changes to code, tests, config, package metadata, migrations, schemas, generated artifacts, runtime behavior, public contracts, agents, skills, rules, prompts, templates, commands, hooks, or workflow/control artifacts.
+Non-trivial work includes changes to code, tests, config, package metadata, migrations, schemas, generated artifacts, runtime behavior, public contracts, and semantic changes to agents, skills, rules, prompts, templates, commands, hooks, or workflow/control artifacts.
 
-Trivial typo/comment-only edits outside control surfaces may skip spec/plan/review when they are clearly low risk, do not change behavior or operating rules, and require no material decision. If uncertain, use the full workflow.
+Non-semantic typo, formatting, grammar, comment, or wording cleanup may skip spec/plan/independent review, including inside control artifacts, only when it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify with diff/readback evidence and report the non-semantic basis. If uncertain, treat it as semantic and use the workflow/review gate.
 
 If the approved spec is missing, stale, contradictory, or not applicable, do not create an implementation plan or dispatch coder. Return to `coding-project-orchestrator`; it will select diagnosis, PRD confirmation, engineering spec, architecture design, implementation plan, or blocker as appropriate.
 
@@ -286,7 +286,7 @@ Do not let urgency, user fatigue, or pressure to “just code it” bypass requi
 
 Plans are contracts, not suggestions. When a plan exists with numbered steps, acceptance criteria, or explicit file lists:
 
-For non-trivial implementation/control-surface work, the operative implementation plan is the approved artifact produced or validated by `create-implementation-plan`. Do not silently revise the spec or plan during execution; stop and return to the relevant workflow when repository evidence invalidates the approved artifact.
+For non-trivial implementation or semantic control-surface work, the operative implementation plan is the approved artifact produced or validated by `create-implementation-plan`. Do not silently revise the spec or plan during execution; stop and return to the relevant workflow when repository evidence invalidates the approved artifact.
 
 - Execute steps in order. Do not skip, reorder, merge, or "optimize" steps. Step N+1 happens after step N is verified complete.
 - "Similar" and "equivalent" are forbidden reasoning for combining or skipping steps. If the plan lists them separately, they are separate.
@@ -308,7 +308,7 @@ For non-trivial implementation/control-surface work, the operative implementatio
 
 Exceptions: purely analytical or advisory tasks where there is nothing to run or show.
 
-For non-trivial implementation or control-surface changes, verification evidence is necessary but not sufficient. Do not claim final acceptance, move to the next implementation unit, commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
+For non-trivial implementation or semantic control-surface changes, verification evidence is necessary but not sufficient. Do not claim final acceptance, move to the next implementation unit, commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
 </done_means_proven>
 
@@ -320,7 +320,7 @@ Before finalizing:
 - Check formatting: did you return the requested structure?
 - Check completeness: did you cover each requested deliverable or clearly mark blockers?
 - Check action safety: was permission required before any external, destructive, or high-impact step?
-- For non-trivial implementation/control-surface work: did independent implementation review produce an accepting verdict, or is the remaining acceptance risk explicitly authorized by the user?
+- For non-trivial implementation or semantic control-surface work: did independent implementation review produce an accepting verdict, or is the remaining acceptance risk explicitly authorized by the user?
 - Verification during execution is for control flow: determine whether more work is required.
 - Do not convert intermediate verification into an automatic user-facing checkpoint.
 - Use verification to continue iterating unless the task is complete or genuinely blocked.
@@ -542,7 +542,7 @@ The coder implements and verifies. The coder does not author the canonical spec,
 
 ## implementation review
 
-Use `implementation-review-workflow` for non-trivial implementation/control-surface changes after coder execution and before claiming acceptance, moving to the next implementation unit, committing, opening a PR, or deploying.
+Use `implementation-review-workflow` for non-trivial implementation or semantic control-surface changes after implementation and before claiming acceptance, moving to the next implementation unit, committing, opening a PR, or deploying.
 
 The review workflow owns caller-side review behavior: deciding whether review is required, building the review packet, dispatching `implementation-reviewer`, interpreting the verdict, tracking findings across re-review, and deciding whether the work is accepted, blocked, or must return to coder.
 

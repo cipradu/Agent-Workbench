@@ -182,7 +182,7 @@ Completion criterion: no known scenario fails for the same reason twice.
 
 ## Step 10 — Verify Quality and Portability
 
-Use [Portable Requirements](references/portable-requirements.md), [Testing Skills](references/testing-skills.md), and [Quality Checks](references/quality-checks.md).
+Use [Pressure Tests](references/pressure-tests.md) when testing or improving this skill itself. Use [Portable Requirements](references/portable-requirements.md), [Testing Skills](references/testing-skills.md), and [Quality Checks](references/quality-checks.md).
 
 Completion criterion: metadata is valid, references are one-level, description is trigger-focused, harness-specific assumptions are absent from the portable core, hard gates pass, diagnostics are labeled, and tests prove behavior improved.
 

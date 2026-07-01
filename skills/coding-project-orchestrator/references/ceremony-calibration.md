@@ -183,11 +183,14 @@ Verification is insufficient when:
 
 ## Review Calibration
 
+First classify text edits by semantic effect. Non-semantic typo, formatting, grammar, comment, or wording cleanup does not require independent review when it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify those edits with diff/readback evidence and report the non-semantic basis.
+
 Independent review is required when:
 
 - implementation is non-trivial;
 - changed artifacts affect runtime behavior, public contracts, persistent state, permissions, generated outputs, commands, agents, skills, rules, prompts, templates, or workflow/control surfaces;
+- a control-surface text edit changes or could plausibly change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior;
 - acceptance depends on more than the implementer's own claim;
 - prior findings, failed checks, or user-facing risk exist.
 
-Review depth scales with risk. Direct work can still need review when the changed surface controls future behavior.
+Review depth scales with risk. Direct work can still need review when the changed surface controls future behavior. Narrow semantic control-surface edits usually fit quick review; changes to gates, mandatory behavior, review requirements, delegation, ownership boundaries, public contracts, permissions, external mutation, or cross-skill workflow behavior require standard or deep review.

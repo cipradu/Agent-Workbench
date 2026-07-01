@@ -27,3 +27,9 @@ temp/
 .codex/
 .claude/
 .opencode/
+
+# Root harness instruction overrides
+/AGENTS.md
+/CLAUDE.md
+docs/skill-analysis/
+docs/references/
