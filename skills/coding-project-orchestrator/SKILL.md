@@ -1,6 +1,6 @@
 ---
 name: coding-project-orchestrator
-description: Use for coding-project work in a real repository, including features, bugs, refactors, product or engineering definition, architecture, implementation, ADRs, or review, when deciding the right discovery, diagnosis, planning, delegation, verification, or review path before acting.
+description: Use before acting on real-repository coding-project work when the correct workflow, current source authority, ceremony level, downstream owner, or acceptance gate must be chosen. Trigger on features, bugs, refactors, specs/plans, architecture, implementation, reviews, agents/skills/rules, source-control, external sync, or any request where missing truth, blast radius, verification, or ownership is unclear.
 ---
 
 # Coding Project Orchestrator
@@ -70,7 +70,7 @@ Use [Work Classification](references/work-classification.md) for detailed signal
 
 Minimum checks:
 
-- Source truth: Are the source artifacts, review comments, prior plans, docs, current files, and absence claims current, canonical, and strong enough for routing?
+- Current source authority: Are the source artifacts, review comments, prior plans, docs, current files, and absence claims current, canonical, and strong enough for routing?
 - Product truth: Is the product/workflow problem, audience, scope, or success evidence missing?
 - Problem truth: Is something broken or disputed without a known cause?
 - Engineering truth: Are required behavior, constraints, invariants, authority, contracts, or acceptance evidence missing?
@@ -122,6 +122,8 @@ Failure output: `Rejected: workflow choice is not justified against risk, uncert
 
 Select the workstream from evidence, then load the owning downstream skill before producing that artifact.
 
+When a downstream owner applies, route to that owner or build the handoff; do not author the downstream artifact from this skill.
+
 | Workstream                    | Use when                                                                                                                                             | Owning skill or action                                     |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
 | Discussion or design analysis | User wants reasoning, comparison, critique, or explanation only                                                                                      | Answer directly; do not mutate                             |
@@ -139,7 +141,7 @@ Select the workstream from evidence, then load the owning downstream skill befor
 | Execution planning            | Approved engineering truth must become implementation units, dependencies, verification, and handoff                                                 | `create-implementation-plan`                               |
 | Direct implementation         | The direct-work criteria in Step 3 all pass                                                                                                          | Implement within scope, verify, then review if required    |
 | Delegated implementation      | An approved plan unit is ready and isolated execution is useful                                                                                      | dispatch the configured coder only with a complete handoff |
-| Implementation review         | Non-trivial implementation or control-surface artifacts changed                                                                                      | `implementation-review-workflow`                           |
+| Implementation review         | Non-trivial implementation artifacts changed, semantic control-surface artifacts changed, review findings are being resolved, or acceptance depends on independent judgment | `implementation-review-workflow`                           |
 | Project continuity            | A project continuity artifact exists or is required, and meaningful work is starting, resuming, pausing, blocked, accepted, merged, or closed        | `project-continuity`                                       |
 | Pattern capture               | Implementation, review, ADR/spec/plan, or codebase evidence shows a concrete recurring implementation approach or future convention signal           | `create-implementation-pattern`                            |
 | Decision capture              | A significant lasting technical decision has been made                                                                                               | `create-project-adr`                                       |
@@ -287,3 +289,7 @@ For execution turns, the downstream skill or implementation workflow owns its ow
 ## Pressure Tests
 
 Use [Pressure Tests](references/pressure-tests.md) to validate changes to this skill. Do not weaken this skill by taste; add or revise gates only when pressure scenarios show a real loophole.
+
+## Maintenance
+
+When downstream workflow skills or ownership boundaries are added, removed, renamed, narrowed, or broadened, update this skill's workstream table, artifact-boundary ownership map, handoff gates, and pressure tests together. A stale orchestrator routes work to the wrong owner even when each downstream skill is individually correct.

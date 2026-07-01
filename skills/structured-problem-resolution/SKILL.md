@@ -1,6 +1,6 @@
 ---
 name: structured-problem-resolution
-description: Use when any software problem, failure signal, review feedback, bug report, human or AI suggestion, failed fix, or unexplained behavior needs diagnosis before action. Trigger on failing tests, runtime errors, build errors, broken commands, unexpected behavior, performance issues, flaky behavior, regressions, code review comments, suggested fixes, "this doesn't work", "why is this happening", "fix this error", or repeated failed attempts. Requires signal evaluation, evidence gathering, current research for drift-prone external facts, hypothesis testing, impact analysis, precise fix, and verification; prevents sycophantic agreement, blind implementation, model-memory fixes, and guess-and-check debugging.
+description: Use before acting on any troubleshooting or failure signal or proposed diagnosis/fix, including broken or unexpected behavior, failed tests/builds/commands, runtime errors, performance/flaky/regression issues, review/bug-report/human/AI claims, repeated failed attempts, or drift-prone library/API/runtime behavior. Mandatory before diagnosis or fixes; turn signals into current evidence, hypotheses, impact analysis, and verified resolution.
 ---
 
 # Structured Problem Resolution
@@ -23,7 +23,6 @@ Do not use this skill as the primary workflow when:
 
 - the user wants product definition, an engineering spec, an implementation plan, architecture design, an ADR, or a code review rather than diagnosis;
 - the desired behavior is unknown and needs product/spec clarification before a defect can be defined;
-- the work is a clearly mechanical typo, missing import, syntax error, or formatting-only issue where the exact mechanism and one-line fix are already proven; use the Obvious branch and still verify;
 - the issue has already been diagnosed with evidence and the remaining work is non-trivial implementation planning or architecture decision-making;
 - the request is purely explanatory and does not involve a failure, disputed signal, suggested fix, or unresolved cause.
 
@@ -170,13 +169,15 @@ See [signal-evaluation.md](references/signal-evaluation.md) for detailed pattern
 
 Not every problem needs the same level of investigation. Before diving in, assess what you're dealing with.
 
+Triage is execution routing after this skill has loaded. Obvious cases still use this skill: choose the Obvious branch, make the direct fix, and verify. They do not require the full investigation loop or scratch file unless the first direct fix fails or the mechanism is not actually proven.
+
 ### Obvious (seconds)
 
 The signal tells you exactly what's wrong and the fix is unambiguous.
 
-**Signals:** Clear error like `NameError: name 'foob' is not defined`, `SyntaxError`, missing import. One-line fix. You can explain the exact mechanism of the failure.
+**Signals:** Clear mechanical typo, missing import, syntax error, formatting-only issue, or clear error like `NameError: name 'foob' is not defined`. One-line fix. You can explain the exact mechanism of the failure without reading surrounding code.
 
-**Action:** Fix it directly. No process needed. But if your "obvious" fix doesn't work on the first try, upgrade to Simple.
+**Action:** Fix it directly and verify. No full investigation workflow or scratch file is needed. But if your "obvious" fix doesn't work on the first try, upgrade to Simple.
 
 ### Simple (minutes)
 
@@ -321,7 +322,7 @@ Many issues — especially those involving libraries, frameworks, version upgrad
 
 **The bias you're fighting:** There is a strong pull toward figuring things out from first principles — reading code, forming theories, running experiments. This feels productive but is often catastrophically wasteful. The error message you're staring at may have a documented upstream fix. The library bug you're trying to work around may have a GitHub issue with a specific version boundary. Your training data may describe old behavior. Check before acting.
 
-**Structural enforcement:** Research/evidence results must be recorded in the scratch file before you proceed to Step 4 or make any source edits. The scratch file must contain current external findings when external behavior matters, or local evidence plus the reason external research is not relevant when the issue is purely local. Skipping this step is a gate violation, same as skipping the scratch file itself. There is no shortcut past this gate.
+**Structural enforcement for non-Obvious investigations:** After triage selects Simple, Complex, or Architectural, research/evidence results must be recorded in the scratch file before you proceed to Step 4 or make any source edits. The scratch file must contain current external findings when external behavior matters, or local evidence plus the reason external research is not relevant when the issue is purely local. Skipping this step is a gate violation, same as skipping the scratch file itself. Obvious cases bypass this gate only while the exact mechanism is proven, the fix is one line, and verification follows immediately; if the first fix fails, upgrade out of Obvious and satisfy the gate.
 
 ### Step 4: Test (gather evidence for or against)
 
@@ -414,7 +415,7 @@ Practical starting points for common scenarios. See [techniques.md](references/t
 
 ## Phase 4: Fix with Impact Analysis
 
-**Gate 2 is active here.** You have a confirmed hypothesis and a proposed fix. Before you write a single line of fix code, the impact analysis section of the scratch file must be filled in. This is where 60% of regressions are prevented — not by testing after the fact, but by thinking before the change. "I think this is it" is not impact analysis. Trace the callers. Check the contracts. Identify what else touches the code you're about to change. Write it down. Then — and only then — make the edit.
+**For non-Obvious fixes, Gate 2 is active here.** You have a confirmed hypothesis and a proposed fix. Before you write a single line of non-Obvious fix code, the impact analysis section of the scratch file must be filled in. This is where 60% of regressions are prevented — not by testing after the fact, but by thinking before the change. "I think this is it" is not impact analysis. Trace the callers. Check the contracts. Identify what else touches the code you're about to change. Write it down. Then — and only then — make the edit.
 
 ### Fix at the Source, Not the Symptom
 
@@ -594,21 +595,21 @@ Investigation requires writing your reasoning down — not in the conversation w
 
 ### The Gate Rule
 
-There are two edit gates plus two trust conditions. All are non-negotiable.
+For non-Obvious investigations, there are two edit gates plus two trust conditions. All are non-negotiable. Obvious cases use the Phase 2 Obvious branch instead: make the direct fix, verify, and upgrade immediately if the first fix fails or the mechanism is not actually proven.
 
-**Gate 1 — Investigation gate (before any source interaction):**
-**You may not edit source files until you have created the scratch file, written your initial hypothesis, AND recorded your research/evidence results (Step 3).** The three conditions are: (1) scratch file exists, (2) hypothesis is written, (3) current external research is recorded when drift-prone external behavior matters, or local evidence is recorded with a reason external/current research is not relevant. If the signal came from an issue, PR, review, ticket, incident, or thread, the scratch file must also record that the complete available context and latest update were read, or record why they are unavailable. All conditions must be satisfied before any source edit. Diagnostic additions (print/log statements for observation) are exempt — observation is free, changes are not.
+**Gate 1 — Investigation gate (before non-Obvious source edits):**
+**When triage selects Simple, Complex, or Architectural, you may not edit source files until you have created the scratch file, written your initial hypothesis, AND recorded your research/evidence results (Step 3).** The three conditions are: (1) scratch file exists, (2) hypothesis is written, (3) current external research is recorded when drift-prone external behavior matters, or local evidence is recorded with a reason external/current research is not relevant. If the signal came from an issue, PR, review, ticket, incident, or thread, the scratch file must also record that the complete available context and latest update were read, or record why they are unavailable. All conditions must be satisfied before any non-Obvious source edit. Diagnostic additions (print/log statements for observation) are exempt — observation is free, changes are not.
 
 For vague, stale, resumed, external-artifact, media, review/ticket, or multi-item signals, Gate 1 also requires the scratch file to preserve diagnostic scope, source provenance, stale-context classification, and review/ticket metadata where applicable. Use `not applicable` when the field does not apply; do not delete the field.
 
-**Feedback-loop condition (before testing hypotheses):**
-**You may not treat a hypothesis as tested or a fix as verified until the scratch file names the feedback loop or explains why no loop can currently be built.** The scratch entry must state the loop command/artifact, what symptom it can catch, whether it is deterministic or intermittent with a measured reproduction rate, and why it reaches the real bug path. If the loop is weak, flaky, manual, or partial, record that limitation and improve it before trusting the result. A passing nearby test is not evidence unless it exercises the user's actual symptom or the minimized form of the same failure mechanism.
+**Feedback-loop condition (before testing non-Obvious hypotheses):**
+**For non-Obvious investigations, you may not treat a hypothesis as tested or a fix as verified until the scratch file names the feedback loop or explains why no loop can currently be built.** The scratch entry must state the loop command/artifact, what symptom it can catch, whether it is deterministic or intermittent with a measured reproduction rate, and why it reaches the real bug path. If the loop is weak, flaky, manual, or partial, record that limitation and improve it before trusting the result. A passing nearby test is not evidence unless it exercises the user's actual symptom or the minimized form of the same failure mechanism.
 
-**Environment and causal-chain condition (before trusting a hypothesis):**
-**You may not treat a hypothesis as credible until the scratch file records environment sanity, the bad-state transition, assumption audit, causal chain, and predictions for uncertain links.** If one of those fields is unknown, the next investigation action is to verify it, narrow the uncertainty, or record why it is currently unknowable. A fix attempt that contradicts the prediction invalidates or refines the hypothesis; it does not authorize another variant of the same guess.
+**Environment and causal-chain condition (before trusting a non-Obvious hypothesis):**
+**For non-Obvious investigations, you may not treat a hypothesis as credible until the scratch file records environment sanity, the bad-state transition, assumption audit, causal chain, and predictions for uncertain links.** If one of those fields is unknown, the next investigation action is to verify it, narrow the uncertainty, or record why it is currently unknowable. A fix attempt that contradicts the prediction invalidates or refines the hypothesis; it does not authorize another variant of the same guess.
 
-**Gate 2 — Fix gate (before applying the fix):**
-**You may not apply the fix until impact analysis is written in the scratch file.** Once you have a confirmed hypothesis and a proposed fix, you must write the impact analysis — callers affected, contracts changed, regression risk, edge cases — BEFORE you write fix code. This is what prevents "I think this is it, let me try it" followed by a worse situation. If you cannot articulate what your fix affects, you do not understand it well enough to apply it.
+**Gate 2 — Fix gate (before applying a non-Obvious fix):**
+**For non-Obvious investigations, you may not apply the fix until impact analysis is written in the scratch file.** Once you have a confirmed hypothesis and a proposed fix, you must write the impact analysis — callers affected, contracts changed, regression risk, edge cases — BEFORE you write fix code. This is what prevents "I think this is it, let me try it" followed by a worse situation. If you cannot articulate what your fix affects, you do not understand it well enough to apply it.
 
 Concise investigation notes are allowed. Missing required scratch fields are not. Brevity means short entries inside the required fields, not deleting thread/context, environment sanity, bad-state transition, assumption audit, causal chain, predictions, research/evidence, or impact-analysis fields.
 
@@ -691,7 +692,7 @@ Hypothesis 1: [specific theory]
   Absence claims checked: [no repro/no callers/no similar bug/no external research/no residual risk claims + search space checked]
   Status: confirmed / disproven / untested
 
-Research / evidence check (REQUIRED — gate condition before any source edits):
+Research / evidence check (REQUIRED — gate condition before non-Obvious source edits):
   External/current research required? [yes/no + why]
   Search/source 1: [what you searched/read/inspected] → [what you found or "no results"]
   Search/source 2: [what you searched/read/inspected] → [what you found or "no results"]
@@ -740,7 +741,7 @@ Update the file as you progress through investigation. This is your working docu
 
 ### Why the File Matters
 
-- **Gates premature action** — you cannot skip to fixing because the file must exist, hypothesis must be written, AND research/evidence must be recorded before source edits
+- **Gates premature action** — for non-Obvious work, you cannot skip to fixing because the file must exist, hypothesis must be written, AND research/evidence must be recorded before source edits
 - **Forces complete signal intake** — issue, PR, review, ticket, and incident signals must include the full available thread and latest update, not just a title or summary
 - **Forces a real feedback loop** — hypotheses and fixes must be tested against the actual symptom or a minimized reproduction, not a nearby green check
 - **Forces environment sanity and causal proof** — the scratch file must show the right code/environment is being exercised and that the hypothesis explains the bad-state transition
@@ -862,8 +863,8 @@ These signals mean your current approach isn't working:
 - **Optional tool treated as blocker** — if a missing optional tool is being treated as the root cause or as a reason to stop while another evidence path exists, reclassify it as an optional capability gap and continue with the valid loop.
 - **No feedback loop** — if you cannot trigger the symptom or compare before/after behavior, stop improving code and improve the loop or ask for the missing artifact/access. A hypothesis without a signal is not testable.
 - **Evidence provenance missing** — if logs, metrics, traces, screenshots, recordings, generated reports, or external artifacts lack source, time window, freshness, or redaction status, record those facts before treating them as evidence.
-- **No research/evidence recorded** — if you are about to edit source files or test a hypothesis by modifying code and you have not recorded current external research or local evidence, STOP. Go back to Step 3. If external behavior is involved, search current sources. If the issue is purely local, record the local evidence and why external/current research is not relevant. No exceptions.
-- **No impact analysis written** — if you are about to apply a fix and the impact analysis section of the scratch file is empty, STOP. You do not understand your fix well enough. Trace the callers, check the contracts, identify edge cases. Write it in the scratch file. Then apply. Every time you skip this, you end up in a worse spot than where you started.
+- **No research/evidence recorded** — in non-Obvious investigations, if you are about to edit source files or test a hypothesis by modifying code and you have not recorded current external research or local evidence, STOP. Go back to Step 3. If external behavior is involved, search current sources. If the issue is purely local, record the local evidence and why external/current research is not relevant. Obvious one-line fixes are the only exception; verify immediately and upgrade if the first fix fails.
+- **No impact analysis written** — in non-Obvious investigations, if you are about to apply a fix and the impact analysis section of the scratch file is empty, STOP. You do not understand your fix well enough. Trace the callers, check the contracts, identify edge cases. Write it in the scratch file. Then apply. Obvious one-line fixes are the only exception; verify immediately and upgrade if the first fix fails.
 - **External mutation ambiguous** — if a command/API may have partially written state, read back the authoritative target before retrying or claiming completion.
 - **Metric or screenshot treated as proof** — if success rests on one faster run, one passing flaky run, a screenshot, hot reload, or user satisfaction without causal-chain evidence and guardrails, keep investigating.
 - **Causal-chain gap** — if the hypothesis cannot explain trigger to symptom with observable intermediate states, do not fix yet. Turn the unknown link into a prediction and test it.
@@ -909,65 +910,65 @@ See [cognitive-traps.md](references/cognitive-traps.md) for detailed description
 
 ### Situation → First Move
 
-| Situation                               | First Move                                         |
-| --------------------------------------- | -------------------------------------------------- |
-| Clear error message, obvious fix        | Fix directly                                       |
-| Issue/review/ticket reference           | Read the complete available thread and latest update |
-| Vague or solution-framed signal         | Write the diagnostic scope checkpoint                |
-| Stale scratch/prior fix/session context | Reconcile against current code/runtime/latest thread |
-| Error points to general area            | Read surrounding code, understand data flow        |
-| No reliable reproduction                | Build or sharpen the feedback loop                 |
-| Environment-dependent failure           | Verify branch/version/deps/runtime/config/services |
-| Missing optional tool                   | Classify as optional gap unless the loop requires it |
-| Don't know where the problem is         | Binary search (code or commits)                    |
-| Know where, not why                     | Trace backward from failure point                  |
-| Hypothesis has an uncertain link        | State the prediction that would prove or disprove it |
-| Intermittent failure                    | Identify what differs between pass and fail        |
-| Works locally, fails elsewhere          | Diff the environments                              |
-| Performance problem                     | Measure and profile before guessing                |
-| Flaky or metric-heavy failure           | Define baseline, guardrails, variance policy       |
-| Browser/mobile/media symptom            | Capture surface evidence that reaches the real path |
+| Situation                               | First Move                                            |
+| --------------------------------------- | ----------------------------------------------------- |
+| Clear error message, obvious fix        | Use Obvious: fix directly and verify                  |
+| Issue/review/ticket reference           | Read the complete available thread and latest update  |
+| Vague or solution-framed signal         | Write the diagnostic scope checkpoint                 |
+| Stale scratch/prior fix/session context | Reconcile against current code/runtime/latest thread  |
+| Error points to general area            | Read surrounding code, understand data flow           |
+| No reliable reproduction                | Build or sharpen the feedback loop                    |
+| Environment-dependent failure           | Verify branch/version/deps/runtime/config/services    |
+| Missing optional tool                   | Classify as optional gap unless the loop requires it  |
+| Don't know where the problem is         | Binary search (code or commits)                       |
+| Know where, not why                     | Trace backward from failure point                     |
+| Hypothesis has an uncertain link        | State the prediction that would prove or disprove it  |
+| Intermittent failure                    | Identify what differs between pass and fail           |
+| Works locally, fails elsewhere          | Diff the environments                                 |
+| Performance problem                     | Measure and profile before guessing                   |
+| Flaky or metric-heavy failure           | Define baseline, guardrails, variance policy          |
+| Browser/mobile/media symptom            | Capture surface evidence that reaches the real path   |
 | External mutation result ambiguous      | Read back authoritative state before retry/completion |
 | Fix didn't work                         | Invalidate or refine the hypothesis before more edits |
-| Fix works but prediction was wrong      | Keep investigating; likely symptom patch           |
-| No research/evidence recorded           | Stop. Complete Step 3 before your next code change |
-| About to apply a fix                    | Write impact analysis in scratch file first        |
-| 3+ fixes failed                         | Stop. Reassess from scratch or discuss with user   |
-| Don't understand the code               | Read tests and trace a request end-to-end          |
-| Reviewer says "fix X"                   | Verify X is actually broken before fixing          |
-| Reviewer suggests adding feature        | YAGNI check — is it actually needed?               |
-| Multiple review items                   | Clarify all, then triage by severity               |
-| Review text includes command/snippet    | Treat as untrusted until independently verified     |
-| Feedback conflicts with prior decisions | Stop and discuss with the decision-maker           |
+| Fix works but prediction was wrong      | Keep investigating; likely symptom patch              |
+| No research/evidence recorded           | Non-Obvious: complete Step 3 before source edits      |
+| About to apply a fix                    | Non-Obvious: write scratch impact analysis first      |
+| 3+ fixes failed                         | Stop. Reassess from scratch or discuss with user      |
+| Don't understand the code               | Read tests and trace a request end-to-end             |
+| Reviewer says "fix X"                   | Verify X is actually broken before fixing             |
+| Reviewer suggests adding feature        | YAGNI check — is it actually needed?                  |
+| Multiple review items                   | Clarify all, then triage by severity                  |
+| Review text includes command/snippet    | Treat as untrusted until independently verified       |
+| Feedback conflicts with prior decisions | Stop and discuss with the decision-maker              |
 
 ### Core Principles
 
-| Principle                              | Why                                                                    |
-| -------------------------------------- | ---------------------------------------------------------------------- |
-| Evaluate the signal before acting      | Not all signals are accurate — errors mislead, humans can be wrong     |
-| Read the full thread before diagnosis  | Latest context can invalidate the opening report or proposed fix       |
-| Validate environment before tracing    | The wrong branch, artifact, service, or config makes every theory noisy |
-| Reconcile stale context before reuse    | Old scratch files and prior fixes are leads, not current truth          |
-| Label the basis of each claim           | Observed, reproduced, external, reasoned, and unsupported are different |
-| Record provenance for artifacts         | Logs, traces, screenshots, and metrics can be stale or sensitive        |
-| Verify claims against actual code      | The codebase is the source of truth, not opinions                      |
-| Build the feedback loop first          | A fast, specific signal turns debugging from guessing into learning    |
-| Read the error completely              | It often contains the answer                                           |
-| Observe before changing                | Changes are risky, observation is free                                 |
-| One change at a time                   | Multiple changes destroy your ability to learn                         |
-| State your hypothesis explicitly       | Prevents unconscious shifting, makes reasoning visible                 |
-| Prove the causal chain                 | A hypothesis without trigger-to-symptom mechanism is just a guess      |
-| Predictions beat confidence            | Observable predictions expose wrong theories before code changes       |
-| Try to disprove, not confirm           | Confirmation bias is the #1 trap in both debugging and feedback        |
-| Failed fixes invalidate hypotheses     | A failed edit is evidence, not permission to stack more guesses        |
-| Absence claims need proof              | "No callers" or "no residual risk" requires a searched scope          |
-| Understand what led to the problem     | Contributing factors shape the right fix                               |
-| Research/evidence before experimenting | Current external facts and local evidence beat model memory            |
-| Write impact analysis before fix code  | If you can't articulate what your fix affects, you don't understand it |
-| Analyze fix impact before applying     | A fix that breaks other things isn't a fix                             |
-| Read back ambiguous external state     | Command success or failure can both hide the real target state          |
-| Screenshots and metrics are bounded evidence | Visual improvement or scalar wins do not prove root cause          |
-| Fix at the source, not the symptom     | Symptom fixes move problems, they don't solve them                     |
-| Respond with actions, not performance  | "Fixed in [location]" beats "Great point!"                             |
-| Track what you've tried                | Prevents circular investigation                                        |
-| Know when to escalate                  | Diminishing returns are real — escalate, don't thrash                  |
+| Principle                                    | Why                                                                     |
+| -------------------------------------------- | ----------------------------------------------------------------------- |
+| Evaluate the signal before acting            | Not all signals are accurate — errors mislead, humans can be wrong      |
+| Read the full thread before diagnosis        | Latest context can invalidate the opening report or proposed fix        |
+| Validate environment before tracing          | The wrong branch, artifact, service, or config makes every theory noisy |
+| Reconcile stale context before reuse         | Old scratch files and prior fixes are leads, not current truth          |
+| Label the basis of each claim                | Observed, reproduced, external, reasoned, and unsupported are different |
+| Record provenance for artifacts              | Logs, traces, screenshots, and metrics can be stale or sensitive        |
+| Verify claims against actual code            | The codebase is the source of truth, not opinions                       |
+| Build the feedback loop first                | A fast, specific signal turns debugging from guessing into learning     |
+| Read the error completely                    | It often contains the answer                                            |
+| Observe before changing                      | Changes are risky, observation is free                                  |
+| One change at a time                         | Multiple changes destroy your ability to learn                          |
+| State your hypothesis explicitly             | Prevents unconscious shifting, makes reasoning visible                  |
+| Prove the causal chain                       | A hypothesis without trigger-to-symptom mechanism is just a guess       |
+| Predictions beat confidence                  | Observable predictions expose wrong theories before code changes        |
+| Try to disprove, not confirm                 | Confirmation bias is the #1 trap in both debugging and feedback         |
+| Failed fixes invalidate hypotheses           | A failed edit is evidence, not permission to stack more guesses         |
+| Absence claims need proof                    | "No callers" or "no residual risk" requires a searched scope            |
+| Understand what led to the problem           | Contributing factors shape the right fix                                |
+| Research/evidence before experimenting       | Current external facts and local evidence beat model memory             |
+| Write impact analysis before fix code        | If you can't articulate what your fix affects, you don't understand it  |
+| Analyze fix impact before applying           | A fix that breaks other things isn't a fix                              |
+| Read back ambiguous external state           | Command success or failure can both hide the real target state          |
+| Screenshots and metrics are bounded evidence | Visual improvement or scalar wins do not prove root cause               |
+| Fix at the source, not the symptom           | Symptom fixes move problems, they don't solve them                      |
+| Respond with actions, not performance        | "Fixed in [location]" beats "Great point!"                              |
+| Track what you've tried                      | Prevents circular investigation                                         |
+| Know when to escalate                        | Diminishing returns are real — escalate, don't thrash                   |

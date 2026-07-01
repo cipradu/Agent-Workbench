@@ -18,7 +18,7 @@ Trigger on meaningful changes to:
 
 ## Do Not Use
 
-Do not use for pure discussion, research-only answers, design review before implementation, no-file advisory work, or truly trivial typo/comment edits outside control surfaces.
+Do not dispatch independent review for pure discussion, research-only answers, design review before implementation, no-file advisory work, or non-semantic typo, formatting, grammar, comment, or wording cleanup that cannot change behavior. If a control-artifact text edit may change behavior, use the semantic text edit classifier before choosing review depth.
 
 ## Iron Law
 
@@ -127,13 +127,18 @@ Default to `re_review` when prior findings exist and code, config, artifact, tes
 
 Request the reviewer depth that matches risk. Review depth controls effort, not whether the review gate exists.
 
+First classify whether a control-artifact text edit changes behavior:
+
+- No independent review required: typo, formatting, grammar, comment, or wording cleanup that cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify by inspecting the diff/readback and report the non-semantic basis.
+- Review required: any text edit that changes or could plausibly change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior.
+
 | Depth      | Use when                                                                                                                                                                                        | Caller behavior                                                                                        |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `quick`    | Low-risk, narrow changes with no runtime/security/public-contract/data/migration/dependency effect, including trivial control-artifact wording when behavior is unchanged                       | Request `quick`, state why the risk is low, and still pass the changed files and verification evidence |
+| `quick`    | Low-risk, narrow semantic changes with no runtime/security/public-contract/data/migration/dependency effect, including trigger or routing wording that clarifies existing intent without changing gates or ownership boundaries | Request `quick`, state why the risk is low, and still pass the changed files and verification evidence |
 | `standard` | Normal implementation changes, tests/config/docs-as-control changes, or ordinary re-review                                                                                                      | Request `standard` unless quick/deep is clearly justified                                              |
 | `deep`     | Broad/high-risk surfaces: auth/authz, security, billing, migrations, data models, public APIs, dependencies, concurrency, performance-sensitive paths, release/deploy, generated artifacts, control surfaces, optimization harnesses, or repeated failed fixes | Request `deep`, name the risk surfaces, and expect stronger evidence/escalation                        |
 
-Do not exempt control-surface changes merely because they are small. Route low-risk control-surface changes to `quick` with a narrow packet and explicit risk rationale.
+Do not exempt semantic control-surface changes merely because they are small. Route low-risk semantic control-surface changes to `quick` with a narrow packet and explicit risk rationale. Use `standard` or `deep` when the change affects mandatory behavior, stop conditions, review requirements, delegation, ownership boundaries, public contracts, permissions, external mutation, or cross-skill workflow behavior.
 
 Depth should follow content shape and risk surface, not file count alone. Name relevant shapes in the packet: runtime code, tests-only, migration/schema, public API/contract, security/auth, dependency/config, generated artifact, docs-as-control, skill/agent/rule/prompt, frontend/UI, performance/concurrency, optimization output, refactor/simplification, review-fix rework, or artifact-only review. Use the review-packet reference for shape-specific evidence.
 
