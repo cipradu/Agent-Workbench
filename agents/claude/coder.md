@@ -695,6 +695,7 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <field>Pattern capture: concrete reusable implementation-pattern signals observed, or <literal>none observed</literal>. Do not create pattern artifacts.</field>
 <field>Verification: exact commands run, exact output or durable output paths, outcomes, checks not run and why.</field>
 <field>Prior review state: prior reviewer report or finding registry when this is a review-fix execution; otherwise <literal>none</literal>.</field>
+<field>Review-fix evidence: for review-fix execution, include prior finding IDs targeted, pre-fix checkpoint when available, fix-introduced diff or exact changed-file delta, per-finding disposition, fix-diff self-review result, and verification rerun after the fixes.</field>
 <field>Known limits: assumptions, blockers, unavailable tools, environment limits.</field>
 </required_packet_fields>
 <rules>
@@ -702,6 +703,7 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <rule>Do not dispatch <literal>implementation-reviewer</literal> yourself unless the caller explicitly asks the coder to own review dispatch.</rule>
 <rule>Do not ask the reviewer to fix anything.</rule>
 <rule>Do not include chain-of-thought or raw conversation history in the review packet.</rule>
+<rule>For review-fix execution, do not make the reviewer infer the fix from the full branch diff alone when a fix-introduced diff or checkpoint can be recovered.</rule>
 </rules>
 </review_handoff_contract>
 
@@ -716,6 +718,7 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <check>Did the work reveal any concrete reusable implementation-pattern signal, and is that reported as a signal rather than a created artifact?</check>
 <check>Were diagnostics followed up?</check>
 <check>Did required verification pass?</check>
+<check>If this is review-fix execution, did the fix-introduced diff get inspected for duplicate helper/policy drift, broadened contract, information-only patches, and verification freshness?</check>
 <check>Is the review packet complete enough for independent review?</check>
 <check>Are there residual blockers or risks the user must know?</check>
 </required_checks>

@@ -52,7 +52,7 @@ If you cannot perform one of these jobs, stop and report the exact missing input
 
 ## Reference Loading
 
-Keep routine packets compact. Load [Review Packet Reference](references/review-packet.md) before dispatch when the review involves plan-backed work, bug fixes, optimization output, simplification/refactor work, generated artifacts, local-only or sensitive evidence, UI/runtime/manual evidence, dogfood evidence, multi-artifact evidence, untrusted external feedback, complex re-review, or residual-risk handoff.
+Keep routine packets compact. Load [Review Packet Reference](references/review-packet.md) before dispatch when the review involves plan-backed work, bug fixes, optimization output, simplification/refactor work, generated artifacts, local-only or sensitive evidence, UI/runtime/manual evidence, dogfood evidence, multi-artifact evidence, untrusted external feedback, prior PR/review comments, review-fix diff evidence, high-risk validation expectations, complex re-review, or residual-risk handoff.
 
 Use [Pressure Tests](references/pressure-tests.md) when changing this skill, changing reviewer contracts, investigating a review-control failure, or deciding whether a proposed workflow shortcut weakens the review gate.
 
@@ -69,6 +69,7 @@ Required fields:
 | Repository             | Resolved absolute repo/worktree path plus current branch, worktree name, or target checkout identity when known                                                    |
 | Review cycle           | `first_pass`, `resumed_review`, or `re_review`                                                                                                                     |
 | Review depth           | Requested depth: `quick`, `standard`, or `deep`, with risk rationale                                                                                               |
+| Review focus           | Selected semantic lanes or risk surfaces, skipped lanes with rationale, prior external-feedback handling when applicable, and independent-validation expectation    |
 | Scope evidence         | Review mode, diff source, changed files, untracked-file handling, stale-scope risk, and non-target boundary                                                        |
 | Base/head refs         | Base and head identifiers for branch, range, or PR review when known; otherwise `unknown` with reason                                                              |
 | Spec/plan              | Approved spec/plan paths or `none`, with status if the artifact is draft, stale, partial, or only background                                                       |
@@ -83,6 +84,8 @@ Required fields:
 | Known limits           | Assumptions, blockers, unavailable tools, environment limits, unresolved user decisions, and acceptance impact                                                      |
 
 Working-tree review must include untracked files unless the caller explicitly excludes them with rationale and acceptance impact in the packet. The caller supplies the best-known diff/current-files inventory; the reviewer owns canonical diff validation and may override stale or incomplete scope, but must report that override. Re-review must include the prior reviewer report or stable finding registry. If prior state cannot be recovered, do not pretend reconciliation is possible; dispatch only when the gap is named, the reviewer is asked to judge the consequence, and the final report will not claim prior findings were resolved. Do not require or search for a reviewer scratchpad unless the prior reviewer explicitly emitted a durable scratchpad path.
+
+When PR comments, review threads, issue feedback, or other external feedback are relevant to acceptance, include the source, retrieval status, and whether the reviewer should verify addressed/unaddressed state. If prior external feedback is out of scope, say so explicitly; do not let the reviewer infer it from missing context.
 
 Packet claims need evidence labels:
 
@@ -142,6 +145,8 @@ Do not exempt semantic control-surface changes merely because they are small. Ro
 
 Depth should follow content shape and risk surface, not file count alone. Name relevant shapes in the packet: runtime code, tests-only, migration/schema, public API/contract, security/auth, dependency/config, generated artifact, docs-as-control, skill/agent/rule/prompt, frontend/UI, performance/concurrency, optimization output, refactor/simplification, review-fix rework, or artifact-only review. Use the review-packet reference for shape-specific evidence.
 
+For `standard` and `deep` packets, request explicit lane selection: which semantic lanes the reviewer included, which were skipped, and why. For `deep` packets or high-risk findings involving security, public contracts, migrations/data, concurrency, release/deploy, or repeated failed fixes, request independent validation of surviving P0/P1/blocking findings when a fresh-context validator capability is available. If that capability is unavailable, the reviewer must report the missing validation path and its acceptance impact instead of implying the finding was independently confirmed.
+
 ## Gate 3 — Dispatch the Reviewer
 
 Dispatch the `implementation-reviewer` agent with this shape. Keep it short, explicit, and evidence-based.
@@ -159,17 +164,23 @@ Constraints:
 - Preserve directive constraints, background context, and source-basis labels; do not turn background context into acceptance criteria.
 - Preserve prior finding IDs on re-review.
 - Use at least the depth the risk surface requires; the requested depth is a floor you may lower only with explicit risk justification, and report any escalation or downgrade.
+- Report the semantic lanes included and skipped, with rationale.
 - Treat the caller's changed-file list/diff as best-known input; validate canonical scope independently and report stale or incomplete scope.
 - Compare or report current change and review-input fingerprints when available.
+- For confidence 75/100 findings and all P0/P1 findings, include the direct `first_evidence` quote, command output, or rule quote that makes the finding true.
+- For high-risk or deep-review findings, attempt independent validation when a fresh-context validator is available; otherwise report the missing validation as a coverage gap or escalation input.
+- Verify prior PR/review comments or external feedback only when the packet supplies that source or explicitly asks the reviewer to retrieve it with read-only tools.
 - Report concrete implementation-pattern capture signals as signals only; do not create or update pattern artifacts.
 - Return the implementation-reviewer structured report.
 
 Acceptance Criteria:
 - Verdict is explicit.
 - Findings have stable IDs and evidence.
-- Findings include severity/blocking status, confidence or evidence strength when the reviewer contract uses it, verification need, pre-existing status, suggested resolution, and residual risk when applicable.
+- Findings include severity/blocking status, confidence or evidence strength when the reviewer contract uses it, `first_evidence` for high-confidence/high-severity findings, verification need, pre-existing status, suggested resolution, and residual risk when applicable.
 - Commands run/skipped/blocked are reported.
 - Prior findings are reconciled when prior state is supplied.
+- Prior external feedback is checked or explicitly marked not supplied/not applicable.
+- Independent validation status is reported when high-risk validation was requested or triggered by the reviewer.
 - Pattern-capture signals are reported as concrete candidates or `none`.
 - Coverage gaps and residual risks are explicit.
 ```
@@ -201,13 +212,13 @@ The verdict controls the next action:
 
 If the reviewer ignores packet scope, loses prior IDs, fails to report commands/checks, omits prior finding reconciliation, omits escalation/anchoring fields, or returns unsupported conclusions, treat the review as incomplete and re-dispatch once with the specific structural defect corrected. If the same structural defect repeats, stop and escalate instead of redispatching again.
 
-Also treat the review as incomplete when the report omits stable finding IDs, severity/blocking status, evidence, affected location or artifact, verification need, pre-existing classification, active versus resolved status, or residual-risk impact for a finding that depends on those fields. Severity, confidence, and P-tier labels inform verdict interpretation but never replace the verdict, depth adequacy check, escalation handling, anchoring check, active finding reconciliation, or loop guard.
+Also treat the review as incomplete when the report omits stable finding IDs, severity/blocking status, evidence, affected location or artifact, `first_evidence` for confidence 75/100 or P0/P1 findings, verification need, pre-existing classification, active versus resolved status, or residual-risk impact for a finding that depends on those fields. Severity, confidence, and P-tier labels inform verdict interpretation but never replace the verdict, depth adequacy check, escalation handling, anchoring check, active finding reconciliation, or loop guard.
 
 When matching findings across re-review, prefer stable IDs. If an ID is missing or superseded, match only when root cause, lane, affected requirement or contract, location or affected surface, and evidence overlap show it is the same finding. Root/dependent grouping can help fix sequencing, but groups do not replace finding IDs or become an apply queue.
 
 If the reviewer returns `ESCALATION_RECOMMENDATION` other than `none`, or `ANCHORING_AND_BIAS` reports material/present/unresolved anchoring risk, include that in the caller report. Do not claim unqualified completion until the escalation is handled or the user explicitly accepts the residual risk.
 
-Before acting on `ACCEPT` or `ACCEPT_WITH_NITS`, confirm the reviewer's reported `DEPTH.selected` is at least the depth the risk surface required (Gate 2.5). If the reviewer ran a lower depth than the risk required, treat the review as under-powered: do not claim completion; re-dispatch at the required depth with the risk surfaces named, or escalate.
+Before acting on `ACCEPT` or `ACCEPT_WITH_NITS`, confirm the reviewer's reported `DEPTH.selected` is at least the depth the risk surface required (Gate 2.5). If the reviewer ran a lower depth than the risk required, treat the review as under-powered: do not claim completion; re-dispatch at the required depth with the risk surfaces named, or escalate. If high-risk independent validation was requested or triggered and the report omits validation status, treat the review as structurally incomplete; if validation was unavailable, preserve it as a coverage gap or escalation input rather than as confirmed safety.
 
 ## Gate 4.5 — Handle Pattern-Capture Signals
 
@@ -246,12 +257,13 @@ When findings are returned or the verdict is `INCONCLUSIVE`:
 3. Group active findings by file, artifact, or tightly coupled fix path only for handoff clarity; do not merge IDs.
 4. Give implementers stable finding IDs, evidence, suggested resolution or reason none was supplied, expected verification, and non-target boundaries. Do not ask fix owners to perform the independent acceptance review.
 5. Track per-finding disposition before re-review: `fixed`, `fixed-differently`, `not-addressing`, `declined`, or `needs-human`, with reason and evidence.
-6. If implementation changed, gather a fresh changed-file inventory, untracked-file handling, verification evidence, and fingerprints, then dispatch as `re_review` with prior review state and loop state.
-7. If implementation did not change but missing evidence, blocked checks, prior state, or scope clarification changed, dispatch as `re_review` with refreshed evidence and loop state.
-8. After multiple fixes, run aggregate validation appropriate to the touched surface instead of validating each fix in isolation only.
-9. Confirm there is a material code, artifact, config, test, verification, evidence, prior-state, fingerprint, or scope change since the last review before any re-dispatch.
-10. Require `PRIOR_FINDING_RECONCILIATION` when prior findings exist.
-11. Do not call a finding fixed unless the reviewer reports it resolved, superseded, or non-blocking with evidence.
+6. For review-fix execution, preserve the pre-fix checkpoint when available, gather the fix-introduced diff or exact changed-file delta, and include the fix-diff self-review result before re-review. Do not make the reviewer infer the fix from the full branch diff alone when a narrower fix delta can be recovered.
+7. If implementation changed, gather a fresh changed-file inventory, untracked-file handling, verification evidence, and fingerprints, then dispatch as `re_review` with prior review state and loop state.
+8. If implementation did not change but missing evidence, blocked checks, prior state, or scope clarification changed, dispatch as `re_review` with refreshed evidence and loop state.
+9. After multiple fixes, run aggregate validation appropriate to the touched surface instead of validating each fix in isolation only.
+10. Confirm there is a material code, artifact, config, test, verification, evidence, prior-state, fingerprint, or scope change since the last review before any re-dispatch.
+11. Require `PRIOR_FINDING_RECONCILIATION` when prior findings exist.
+12. Do not call a finding fixed unless the reviewer reports it resolved, superseded, or non-blocking with evidence.
 
 Resolved IDs are never reused for new findings.
 
@@ -334,10 +346,13 @@ When review gates allow progress, report:
 - reviewer verdict;
 - review cycle;
 - review depth selected, and whether it met the depth the risk required;
+- semantic lanes included and skipped, with the high-risk validation status when applicable;
 - repo/worktree target identity and diff source reviewed;
 - current change fingerprint and review-input fingerprint, or why unavailable;
 - active blocking finding count and any active non-blocking finding IDs/titles;
 - prior finding reconciliation status, if applicable;
+- prior external feedback status: not supplied, not applicable, checked, or blocked;
+- high-confidence evidence-gate status: satisfied, downgraded, missing, or not applicable;
 - pattern-capture status: none, routed to `create-implementation-pattern`, deferred with reason, or blocked;
 - project-continuity status: not applicable, updated, deferred with reason, or blocked;
 - accepted residual-risk durable route, or why no durable sink was in scope;

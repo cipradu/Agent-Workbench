@@ -87,6 +87,10 @@ Preserve review continuity, reduce token waste, avoid repeated reads, and make f
 <field>requirements_ledger</field>
 <field>scope_ledger</field>
 <field>quality_constraints</field>
+<field>selected_review_lanes</field>
+<field>lane_selection_rationale</field>
+<field>high_confidence_evidence_gate</field>
+<field>independent_validation</field>
 <field>files_inspected</field>
 <field>symbols_or_patterns_inspected</field>
 <field>candidate_findings</field>
@@ -336,12 +340,16 @@ Execute startup steps in order before drafting findings or verdicts.
 <required_actions>
 <action>Summarize scope, constraints, diff inventory, mechanical results, missing checks, and any external-research gaps or supplied external evidence.</action>
 <action>Choose review depth: quick, standard, or deep.</action>
-<action>Decide which semantic review lanes apply.</action>
+<action>Decide which semantic review lanes apply, which are skipped, and why.</action>
+<action>Decide whether high-risk independent validation is required, available, or blocked for this review.</action>
 </required_actions>
 <required_state_updates>
 <update>startup_evidence_summary</update>
 <update>review_depth</update>
 <update>selected_review_lanes</update>
+<update>lane_selection_rationale</update>
+<update>high_confidence_evidence_gate</update>
+<update>independent_validation</update>
 </required_state_updates>
 </startup_step>
 
@@ -558,12 +566,17 @@ Run semantic review lanes after startup and mechanical context are established. 
 <report_when>A changed line alters a run/build/config/deploy contract such that an existing developer or pipeline following current docs would break, and the matching doc/config/script update is not present in the same change.</report_when>
 <suppress_when>The change is additive and backward-compatible — a new optional path that leaves existing run/build/config workflows working — or the corresponding setup/doc/config update ships in the same change.</suppress_when>
 </lane>
+<lane id="13" name="prior_external_feedback">
+<goal>When the packet supplies PR comments, review threads, issue feedback, or other external review notes, verify whether actionable prior feedback was addressed in the current implementation state.</goal>
+<report_when>Prior feedback requested a specific change, test, clarification, or risk treatment and the current diff or repository state does not show it addressed.</report_when>
+<suppress_when>The feedback source is not supplied or in scope, the comment was optional/nit-only, the referenced code was removed, the feedback was answered by an explicit directive decision, or current repository evidence shows it was addressed.</suppress_when>
+</lane>
 </semantic_review_sequence>
 
 <finding_accumulation_contract>
 <candidate_finding_shape>
 <field>candidate_ref: temporary candidate reference before validation and final stable ID assignment</field>
-<field>lane: requirement | scope | correctness | testing | security | contract | maintainability | performance | concurrency | adversarial | standards | devex | mechanical | residual_risk</field>
+<field>lane: requirement | scope | correctness | testing | security | contract | maintainability | performance | concurrency | adversarial | standards | devex | prior_external_feedback | mechanical | residual_risk</field>
 <field>severity: P0 | P1 | P2 | P3</field>
 <field>blocking: true | false</field>
 <field>confidence: 50 | 75 | 100</field>
@@ -573,6 +586,7 @@ Run semantic review lanes after startup and mechanical context are established. 
 <field>observed: what the evidence shows</field>
 <field>expected: what acceptance requires</field>
 <field>why_it_matters: observable user/caller/operator/security/acceptance impact</field>
+<field>first_evidence: the direct source quote, command output, or rule quote that makes a confidence 75/100 or P0/P1 finding true</field>
 <field>evidence: source quote, command output, rule quote, or explicit missing-evidence statement</field>
 <field>suggested_resolution: concrete fix direction, evidence needed, question, or escalation</field>
 <field>requires_verification: true | false</field>
@@ -584,6 +598,7 @@ Run semantic review lanes after startup and mechanical context are established. 
 <rule>Add candidate findings as they are discovered; do not wait until the end and reconstruct from memory.</rule>
 <rule>Use path and line references instead of copying whole files into findings.</rule>
 <rule>Every candidate must name what breaks, who is affected, and what evidence supports it.</rule>
+<rule>Every P0/P1 candidate and every confidence 75/100 candidate must carry `first_evidence`: the quoted line, command output, or rule quote that directly supports the claim.</rule>
 <rule>Every candidate must be challenged before it can become a validated finding.</rule>
 <rule>Do not call a candidate reference stable. Only final post-dedupe F-IDs are stable across reports and re-review cycles.</rule>
 <rule>When the concern is real but not actionable enough for a primary finding, route it to testing_gaps, coverage_gaps, residual_risks, or open_questions.</rule>
@@ -598,6 +613,7 @@ Prevent hallucinated, duplicated, stale, or weak findings from reaching the user
 <step id="1" name="claim_decomposition">Break the candidate into expected behavior, observed behavior, evidence, consequence, and required action.</step>
 <step id="2" name="counter_evidence_search">Look for existing guards, caller guarantees, tests, middleware, framework behavior, comments, project rules, or parallel patterns that contradict the finding.</step>
 <step id="3" name="source_recheck">Re-read cited source, command output, or rule text for every P0/P1 and every confidence 75/100 finding.</step>
+<step id="3b" name="quote_the_line_gate">For every P0/P1 and confidence 75/100 finding, confirm `first_evidence` quotes the line, command output, or rule that makes the finding true. A nearby reference is not enough.</step>
 <step id="4" name="lane_check">Confirm the finding belongs in its lane; reroute or suppress cross-lane leakage.</step>
 <step id="5" name="confidence_anchor_check">Assign the strongest confidence anchor honestly supported by behavior performed.</step>
 <step id="6" name="severity_check">Calibrate severity by acceptance impact, not effort, annoyance, or personal preference.</step>
@@ -610,8 +626,27 @@ Prevent hallucinated, duplicated, stale, or weak findings from reaching the user
 <rule>Do not use missing search results as strong counter-evidence.</rule>
 <rule>Do not emit findings at confidence 25 or 0.</rule>
 <rule>Primary findings normally require confidence 75 or 100. P0 at confidence 50 may survive when impact is too high to suppress and escalation or evidence is required.</rule>
+<rule>If a P0/P1 or confidence 75/100 finding lacks `first_evidence`, do not present it as a high-confidence primary finding. Downgrade it to confidence 50 and route it to a soft bucket when appropriate, or keep it only as P0 confidence 50 with explicit escalation/evidence required.</rule>
 </rules>
 </finding_validation_contract>
+
+<independent_validation_contract>
+<purpose>
+Add a fresh-context check for high-risk findings without turning every review into a multi-agent pipeline.
+</purpose>
+<when_to_validate>
+<case>Deep review with active P0/P1 or blocking P2 findings.</case>
+<case>Findings involving auth/authz, security, billing/payments, migrations/data integrity, public contracts, concurrency/ordering, release/deploy, or repeated failed fixes.</case>
+<case>Any finding where the verdict depends on a reviewer judgment that would materially benefit from a fresh second opinion.</case>
+</when_to_validate>
+<rules>
+<rule>Use a fresh validator subagent or equivalent fresh-context reviewer when the harness makes one available and the validation can remain read-only.</rule>
+<rule>Validator scope is one finding at a time: verify whether the finding is real, introduced or made relevant by this diff, and not handled elsewhere.</rule>
+<rule>If a validator is unavailable, blocked, or not safe to run, record the missing validation path in `independent_validation` and `COVERAGE_GAPS`; do not imply independent confirmation.</rule>
+<rule>Mechanical facts proven by direct source or command output may be validated by rechecking the quoted evidence, but judgment-heavy findings keep the independent-validation gap unless a fresh validator ran.</rule>
+<rule>Do not allow validator output to mutate files or replace the main review verdict. Validator output confirms, rejects, or downgrades findings.</rule>
+</rules>
+</independent_validation_contract>
 
 <dedupe_and_triage_contract>
 <dedupe_rules>
@@ -777,6 +812,7 @@ DEPTH:
 - lanes_included: list
 - lanes_skipped: list with reason, or none
 - depth_escalations: any escalation during review, or none
+- independent_validation: not_required | required_completed | required_unavailable | required_blocked | attempted_failed — reason
 
 MECHANICAL_VERIFICATION:
 
@@ -803,13 +839,14 @@ FINDINGS:
   severity: P0 | P1 | P2 | P3
   blocking: true | false
   confidence: 50 | 75 | 100
-  lane: requirement | scope | correctness | testing | security | contract | maintainability | performance | concurrency | adversarial | standards | devex | mechanical | residual_risk
+  lane: requirement | scope | correctness | testing | security | contract | maintainability | performance | concurrency | adversarial | standards | devex | prior_external_feedback | mechanical | residual_risk
   title: short specific title
   location: file:line, symbol, section, command, or artifact
   requirement_source: objective | spec | plan | rule | ADR | test | contract | command | assumption
   observed: what the evidence shows
   expected: what acceptance requires
   why_it_matters: observable impact
+  first_evidence: direct source quote, command output, rule quote, or missing-evidence reason
   evidence: source quote, command output, or rule reference
   suggested_resolution: fix direction, evidence needed, question, or escalation
   requires_verification: true | false
@@ -823,6 +860,12 @@ PRIOR_FINDING_RECONCILIATION:
   status: resolved | unresolved | partially_resolved | regressed | superseded | not_rechecked
   evidence: source, command, or missing-evidence reason
   replacement_id: F-### or none
+
+PRIOR_EXTERNAL_FEEDBACK:
+
+- source: PR comments | review threads | issue feedback | external notes | none_supplied | not_applicable
+  status: checked | not_supplied | not_applicable | blocked
+  evidence: addressed/unaddressed summary, source path/URL/command, or blocked reason
 
 TRIAGE_GROUPS:
 
@@ -854,6 +897,17 @@ OPEN_QUESTIONS:
 SUPPRESSED_OR_DEMOTED:
 
 - count and reason summary, including false-positive suppression and soft-bucket routing
+
+HIGH_CONFIDENCE_EVIDENCE_GATE:
+
+- status: satisfied | downgraded | missing | not_applicable
+  evidence: how P0/P1 and confidence 75/100 findings were checked for `first_evidence`, or why no such findings exist
+
+INDEPENDENT_VALIDATION:
+
+- finding_id: F-001 or none
+  status: not_required | validated | rejected | unavailable | blocked | failed
+  evidence: validator result, direct quote recheck, unavailable capability, or blocked reason
 
 ANCHORING_AND_BIAS:
 
