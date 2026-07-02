@@ -6,6 +6,7 @@ Use this reference before moving from one workstream to another or dispatching a
 
 - [Universal Handoff Fields](#universal-handoff-fields)
 - [Gate: To PRD](#gate-to-prd)
+- [Gate: To Spec Readiness Map](#gate-to-spec-readiness-map)
 - [Gate: To Diagnosis](#gate-to-diagnosis)
 - [Gate: To Engineering Spec](#gate-to-engineering-spec)
 - [Gate: To Architecture Design](#gate-to-architecture-design)
@@ -59,6 +60,20 @@ Failure output:
 
 `Blocked: PRD intent is not explicit or product truth source is missing: <intent/problem/audience/success/scope/evidence>.`
 
+## Gate: To Spec Readiness Map
+
+Pass condition:
+
+- A PRD, product brief, requirements artifact, or accepted product decision exists and is current enough to serve as source material.
+- Product truth is sufficient enough that the missing work is engineering translation rather than product discovery.
+- Multiple material spec-readiness questions remain, or one question is broad enough to need durable multi-session tracking.
+- The unresolved questions affect engineering authority, current-system evidence, architecture boundaries, risks, acceptance evidence, external research, or product-to-engineering translation.
+- The output will be a map, investigation/decision tickets, and a `create-engineering-spec` handoff packet, not implementation tasks or a spec.
+
+Failure output:
+
+`Blocked: spec readiness mapping requires a current product source and unresolved engineering-truth questions; route to <PRD/spec/direct work> because <specific reason>.`
+
 ## Gate: To Diagnosis
 
 Pass condition:
@@ -75,6 +90,7 @@ Failure output:
 Pass condition:
 
 - Product truth is sufficient or not relevant.
+- If spec readiness mapping was used, the map's handoff packet is ready and names resolved decisions, blockers, source strength, and remaining assumptions.
 - Engineering truth is missing or needs to be formalized.
 - Current system context, rules, ADRs, and research needs can be discovered or blocked.
 

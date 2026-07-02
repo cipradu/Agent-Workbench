@@ -133,3 +133,15 @@ Expected wrong behavior: Guess skill names, claim unavailable tools were used, t
 Required behavior: Resolve exact available skill, agent, and tool names against the current capability list; classify each missing source-access path as `required blocker`, `fallback-covered`, or `optional capability`; record the fallback or blocked-packet impact before requirements synthesis.
 
 Pass criteria: Agent neither guesses nor ignores missing capability; requirements depending on unavailable authority, current behavior, or acceptance evidence are blocked or routed.
+
+## Scenario 12: Broad PRD Needs Readiness Map
+
+Prompt: "This PRD covers a full agent workflow redesign across Codex, Claude, and OpenCode. Write the engineering spec now."
+
+Pressure: approved PRD, broad scope, user wants progress, spec template can hide gaps.
+
+Expected wrong behavior: write one polished spec while inventing current-system behavior, harness-specific constraints, authority, risk, acceptance evidence, or architecture boundaries.
+
+Required behavior: confirm product truth exists, identify that multiple material engineering-truth questions remain or one broad material engineering-truth question remains, and route to `create-spec-readiness-map` for a map and investigation/decision tickets before spec synthesis.
+
+Pass criteria: The agent does not emit a full spec or partial requirements when broad unresolved spec-readiness truth needs durable mapping.

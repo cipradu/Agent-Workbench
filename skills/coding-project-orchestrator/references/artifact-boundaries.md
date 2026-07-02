@@ -7,6 +7,7 @@ Use this reference when deciding what belongs in each artifact and what must be 
 | Artifact or workflow          | Owns                                                                                                                                                                 | Must not own                                                                                                            | Handoff                                                                                     |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | PRD                           | Product problem, audience, value, target capability, product success, scope, non-goals, product constraints, assumptions                                             | Engineering contracts, architecture, schemas, package choices, file plans, task order                                   | Product decisions to preserve; product requirements ready or blocked for engineering spec   |
+| Spec readiness mapping        | Multi-session PRD-to-spec readiness map, investigation/decision tickets, evidence pointers, blocking fog, and engineering-spec handoff packet                         | Product truth, full engineering spec, implementation units, task graph, code, issue creation for execution              | Resolved engineering-truth decisions and blockers for `create-engineering-spec`             |
 | Structured problem resolution | Observations, hypotheses, root cause, contributing factors, fix hypothesis, impact analysis, verification implications                                               | Product scope, broad architecture replacement, unverified implementation guesses                                        | Known cause, supported fix class, affected behavior, risks, and whether spec/plan is needed |
 | Engineering spec              | Required behavior, constraints, invariants, authority, contracts, risk, acceptance evidence, planning-relevant impact surfaces                                       | Implementation order, code, commit choreography, arbitrary product invention                                            | Approved/current engineering truth for planning                                             |
 | Architecture design           | Forces, ownership, boundaries, interfaces, seams, adapters, pattern fit, alternatives, trade-offs, ADR candidates                                                    | Full product definition, implementation task graph, direct code edits by itself                                         | Architecture decisions or constraints that PRD/spec/plan/ADR must preserve                  |
@@ -29,6 +30,8 @@ Use this reference when deciding what belongs in each artifact and what must be 
 
 - Product truth leaking into spec: if the engineering spec decides who the product is for, why it matters, or what success means without a PRD or user authority, stop.
 - Engineering truth leaking into PRD: if the PRD chooses database schema, package, module layout, or file plan without those being externally fixed product constraints, move it downstream.
+- Spec readiness mapping leaking into planning: if a spec readiness map creates implementation units, build tickets, file choreography, or task sequencing before an approved engineering spec exists, stop and return to spec readiness mapping or engineering spec.
+- Spec readiness mapping leaking into spec: if the map writes normative requirements instead of evidence-backed decisions and handoff facts, route to `create-engineering-spec`.
 - Spec truth leaking into plan: if the plan changes requirements to make implementation easier, return to spec.
 - Implementation leaking into plan: if the plan contains exact function bodies, imports, or shell choreography to compensate for weak reasoning, rewrite as guardrails.
 - Review leaking into scope: if a reviewer proposes new scope, route it as a finding requiring user/spec/plan decision, not automatic implementation.
@@ -48,6 +51,7 @@ Use this reference when deciding what belongs in each artifact and what must be 
 Do not write downstream artifacts freehand from this skill.
 
 - Use `create-project-prd` for PRDs.
+- Use `create-spec-readiness-map` for broad PRD-to-spec readiness gaps that need durable investigation and decision tickets before spec creation.
 - Use `structured-problem-resolution` for diagnosis and feedback evaluation.
 - Use `create-engineering-spec` for engineering specs.
 - Use `architecture-design` for architecture judgment.
