@@ -59,6 +59,13 @@ Before invoking any skill or subagent, classify the request:
 
 The "1% chance a skill applies" rule only applies after this routing gate.
 
+Skill loading gate:
+
+- Before producing code, artifacts, plans, reviews, specs, docs, rules, prompts, skills, templates, or other workflow/control-surface output, identify the owning skill or state that no owning skill exists.
+- Load the owning skill before producing the output it governs. At each task boundary or phase boundary, including a new artifact type, workflow stage, implementation step, review step, or source-control follow-through, repeat this check.
+- Classification is not completion. `coding-project-orchestrator` selects the workstream; it does not replace loading the downstream skill that owns the artifact or action.
+- If a relevant skill is missing, stale, unavailable, or cannot be applied cleanly, say so explicitly and continue only with the best available local authority.
+
 Capability type rule:
 
 - Skills are procedural workflows loaded with the Skill tool.
