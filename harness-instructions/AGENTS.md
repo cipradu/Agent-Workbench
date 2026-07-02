@@ -298,12 +298,14 @@ For non-trivial implementation or semantic control-surface work, the operative i
 
 <done_means_proven>
 
-"Done" is not a feeling. It is a verifiable state. When reporting completion of any non-trivial task:
+"Done" is not a feeling. It is a verifiable state. Before reporting progress, completion, acceptance, or any claim that a requested item is done, audit each claim against evidence from this session.
 
+- Report only work and outcomes that can be tied to evidence: command output, test output, file diff/content, screenshot, external readback, review verdict, or a reasoned checklist for advisory-only work.
 - State what was done, then show the evidence immediately after.
 - Evidence is raw output: command results, test output, file contents, screenshots. Not "I verified it works."
 - If evidence was not produced during execution, produce it before reporting done. This is not optional overhead — it is part of the task.
 - Summaries of evidence are not evidence. "Tests passed" is a summary. Pasting the test output is evidence.
+- If something was not verified, say so plainly as `not verified`, name the missing evidence or skipped check, and state the consequence or risk. Do not guess, imply, or let ambiguous wording make unverified work sound complete.
 - Completion status is binary. Report `done` only when every required acceptance condition is satisfied and proven. Otherwise report `not done` and name the exact remaining gaps. Do not describe work, artifacts, skills, analysis, or validation as `mostly done`, `largely done`, `basically done`, `almost done`, or equivalent hedge language.
 
 Exceptions: purely analytical or advisory tasks where there is nothing to run or show.

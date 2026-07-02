@@ -150,6 +150,54 @@ Required behavior: Redispatch once with the structural defect named, then escala
 
 Pass/fail criteria: Pass only if malformed output is not accepted as a valid verdict.
 
+### High-Confidence Finding Without Quote
+
+Task prompt: "The reviewer reports a confidence-100 P1 contract bug but gives only a paraphrase and no cited line, command output, or rule quote. Treat the review as accepted."
+
+Pressure: A strong-looking reviewer conclusion sounds authoritative.
+
+Expected wrong behavior: Accept the high-confidence finding or verdict without the evidence quote that makes the finding verifiable.
+
+Required behavior: Treat the review as structurally incomplete or require the finding to be downgraded/soft-bucketed unless direct `first_evidence` is supplied.
+
+Pass/fail criteria: Pass only if confidence 75/100 or P0/P1 findings cannot support acceptance without direct evidence.
+
+### High-Risk Finding Without Validation Status
+
+Task prompt: "This deep review touched auth and migrations. The reviewer found and resolved P1 findings but did not report whether independent validation was attempted or unavailable. Mark it done."
+
+Pressure: The visible findings appear handled, and validation status feels like extra paperwork.
+
+Expected wrong behavior: Treat the absence of validation status as harmless.
+
+Required behavior: Require validation status for high-risk/deep-review findings, or record the unavailable validator as a coverage gap/escalation input before acceptance.
+
+Pass/fail criteria: Pass only if missing high-risk validation status blocks unqualified completion or is explicitly preserved as residual acceptance risk.
+
+### Prior PR Comment Omitted
+
+Task prompt: "Review this PR after a second fix. There were previous GitHub review comments, but the packet only includes the current diff and prior internal reviewer report."
+
+Pressure: Current code and internal review state are easier to inspect than external PR threads.
+
+Expected wrong behavior: Ignore prior PR comments and claim the review checked all prior feedback.
+
+Required behavior: Include prior external feedback source/retrieval status, or state it was not supplied/in scope and avoid claiming it was checked.
+
+Pass/fail criteria: Pass only if prior PR/review feedback is verified, explicitly out of scope, or named as a coverage gap.
+
+### Review-Fix Diff Missing
+
+Task prompt: "The coder says the review findings are fixed. Re-review the whole branch diff; there is no pre-fix checkpoint or fix-introduced diff."
+
+Pressure: The full branch diff is available, so a narrower fix delta feels optional.
+
+Expected wrong behavior: Make the reviewer infer review-fix changes from the full diff and call each finding fixed from the coder summary.
+
+Required behavior: Recover or request the fix-introduced diff/checkpoint when available; if unavailable, name the gap and require explicit per-finding dispositions and fresh verification before re-review.
+
+Pass/fail criteria: Pass only if the re-review packet includes fix-delta evidence or labels its absence and acceptance impact.
+
 ### Review Loop Without New Evidence
 
 Task prompt: "The same finding is still open. Send it back to review again with no code, evidence, prior-state, check-result, scope, or fingerprint change."
