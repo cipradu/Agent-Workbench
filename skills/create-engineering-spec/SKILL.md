@@ -15,6 +15,8 @@ Do not use for implementation plans, code changes, task breakdowns, commit bound
 
 Do not use for product strategy, ideation, brainstormed opportunity lists, launch copy, release announcements, PR descriptions, commit messages, publishing, tracker updates, setup repair, worktree management, browser/device test execution, or raw feedback/media analysis unless the task is to consume their settled evidence into an engineering spec.
 
+Do not use this skill to coordinate a broad multi-session PRD-to-spec readiness map. If a current PRD/product brief exists but multiple material engineering-truth questions or one broad material engineering-truth question must be resolved before an honest spec can be written, route to `create-spec-readiness-map` first.
+
 ## Iron Law
 
 **No decomposition, no inventory, no current research, no independent review, no spec.**
@@ -22,6 +24,8 @@ Do not use for product strategy, ideation, brainstormed opportunity lists, launc
 A full engineering spec is invalid unless the request has been decomposed; the applicable rules, ADRs, and available skills have been inventoried and applied; the required research path has been completed or explicitly blocked; every external library, framework, version, API, protocol, or standard fact is grounded in current research rather than model memory; the work has been classified as greenfield or brownfield; material claims trace to authority; every normative requirement has acceptance evidence, risk context, and planning-relevant impact surfaces; and an independent reviewer has critiqued the spec with its material findings resolved.
 
 If a gate fails, do not write a full spec. Emit a blocked packet, delegate discovery, perform targeted research, or ask one informed blocking question.
+
+If the blocked work is not one missing fact but a broad PRD-to-spec readiness gap, route to `create-spec-readiness-map` instead of hiding the gap inside a partial spec.
 
 ## Core Concept
 
@@ -47,7 +51,7 @@ Run these steps in order. Do not skip, merge, or reverse them.
 
 | Step | Required method                                             | Completion condition                                                                                                                                  |
 | ---- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0    | Confirm spec warrant and intake boundary                    | durable engineering spec is warranted, or the request is routed, de-escalated, or blocked                                                             |
+| 0    | Confirm spec warrant and intake boundary                    | durable engineering spec is warranted, or the request is routed to another owner, de-escalated, or blocked                                             |
 | 1    | [Decompose the request](references/decomposition-method.md) | all eight facets are stated or blocked                                                                                                                |
 | 2    | Classify greenfield or brownfield                           | existing-system ownership question is answered                                                                                                        |
 | 3    | Inventory rules, ADRs, and available skills                 | applicable rules/ADRs and stack/library skills are loaded and applied, or recorded as missing                                                         |
@@ -69,11 +73,12 @@ Route or de-escalate instead when the request is:
 
 - direct local work with known behavior, known cause, narrow blast radius, and concrete verification;
 - product strategy, PRD/product truth, ideation, or opportunity discovery without a selected and authorized direction;
+- broad PRD-to-spec readiness work where a current product source exists but multiple material engineering-truth questions remain, or one broad material engineering-truth question needs durable investigation tickets before this skill can synthesize requirements;
 - post-ship communication, promotion, changelog, release copy, PR prose, commit prose, publishing, or external metadata work;
 - diagnosis where a failure cause, target behavior, or proposed fix is not yet supported;
 - architecture judgment, ADR capture, implementation planning, execution, testing, setup, git/PR, or documentation work owned by another skill.
 
-Failure output: `Blocked: full engineering spec is not warranted: <reason>. Owning path: <direct work/PRD/ideation/diagnosis/architecture/plan/docs/testing/git/PR/publishing/other>.`
+Failure output: `Blocked: full engineering spec is not warranted: <reason>. Owning path: <direct work/PRD/create-spec-readiness-map/ideation/diagnosis/architecture/plan/docs/testing/git/PR/publishing/other>.`
 
 ## Mode Classification
 

@@ -280,9 +280,10 @@ Include:
 - product requirements or assumptions that must resolve before engineering spec;
 - questions that are deferred to engineering spec because they do not change product truth;
 - risks and constraints the engineering spec must analyze;
+- whether broad multi-session spec-readiness work should route through `create-spec-readiness-map` before `create-engineering-spec`;
 - explicit statement that architecture, schemas, packages, and file plans remain undecided unless the PRD names them as product constraints.
 
-Pass condition: the PRD can feed an engineering spec without forcing the spec author to rediscover product scope or invent product truth.
+Pass condition: the PRD can feed an engineering spec directly, or it clearly identifies that `create-spec-readiness-map` must resolve multiple engineering-truth questions or one broad engineering-truth question before spec authoring.
 
 Failure output: `Blocked: PRD does not identify which product decisions are ready for engineering specification.`
 

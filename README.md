@@ -50,7 +50,7 @@ This repository currently has no public `docs/` tree. The README is the front do
 Current skill groups include:
 
 - Orchestration and workflow: `coding-project-orchestrator`, `project-rules`, `project-continuity`, and `implementation-review-workflow`.
-- Product and engineering artifacts: `create-project-prd`, `create-engineering-spec`, `create-implementation-plan`, `create-project-adr`, `create-implementation-pattern`, `create-documentation`, `create-readme`, and `create-skills`.
+- Product and engineering artifacts: `create-project-prd`, `create-spec-readiness-map`, `create-engineering-spec`, `create-implementation-plan`, `create-project-adr`, `create-implementation-pattern`, `create-documentation`, `create-readme`, and `create-skills`.
 - Design, diagnosis, and quality: `structured-problem-resolution`, `codebase-search`, `architecture-design`, `api-design`, `database-design`, `queue-and-cache-design`, `testing-strategy`, and `error-handling-design`.
 - Git workflow: `git-commit`, `git-pull-request`, and `git-resolve-conflicts`.
 

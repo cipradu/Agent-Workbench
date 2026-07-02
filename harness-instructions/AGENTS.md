@@ -53,7 +53,7 @@ Before invoking any skill or subagent, classify the request:
    → `research` is a subagent — delegate to it, don't load it as a skill.
 
 3. Code implementation, debugging, refactoring, migrations, cleanup, technical documentation, agents, skills, rules, commands, hooks, templates, workflow/control artifacts, frontend design, ADRs, implementation patterns, or other procedural workflows
-   → Use `coding-project-orchestrator` before choosing PRD, diagnosis, engineering spec, architecture design, documentation, implementation plan, direct implementation, delegation, review, or ADR.
+   → Use `coding-project-orchestrator` before choosing PRD, diagnosis, spec readiness mapping, engineering spec, architecture design, documentation, implementation plan, direct implementation, delegation, review, or ADR.
    → Follow the orchestrator's selected workstream and only then load the downstream skill for that phase.
    → Exception: if the user explicitly invokes one downstream skill for an already-scoped discussion, analysis, or artifact and no orchestration judgment or repository mutation is needed, load that skill directly and keep its owner boundary.
 
@@ -237,16 +237,17 @@ For non-trivial code work or semantic control-surface work, use the full high-as
 1. Rough request, bug report, product note, ambiguous implementation ask, or control-surface change → use `coding-project-orchestrator` to classify missing truth, risk, blast radius, and ceremony.
 2. If the request involves any troubleshooting or failure signal → use `structured-problem-resolution` before diagnosis or fixes; after it loads, follow its Obvious/Simple/Complex/Architectural triage before choosing spec, plan, or direct fix.
 3. If the orchestrator selects explicit PRD/product definition → use `create-project-prd`.
-4. If the orchestrator selects engineering definition → use `create-engineering-spec`.
-5. If the orchestrator selects architecture judgment → use `architecture-design`.
-6. If the orchestrator selects documentation → use `create-documentation`.
-7. Approved engineering spec requiring execution sequencing → use `create-implementation-plan` to produce an approved implementation plan.
-8. Approved spec + approved plan + assigned plan unit → dispatch `coder` for execution.
-9. Coder output with verification evidence and review packet → use `implementation-review-workflow` to decide review scope, dispatch `implementation-reviewer`, interpret the verdict, and manage re-review if needed.
-10. Project continuity checkpoint where `docs/progress.md` or another continuity artifact exists and meaningful work is starting, resuming, pausing, blocked, accepted, merged, or closed → use `project-continuity`; progress notes never replace source truth.
-11. Concrete reusable implementation-pattern signal from implementation or review evidence → use `create-implementation-pattern` to decide accepted pattern, candidate note, existing-pattern update, or rejection. Do not force pattern creation when no concrete signal exists.
-12. Significant accepted technical decision → use `create-project-adr` when the ADR bar is met.
-13. Final acceptance is blocked until independent review returns an accepting verdict or the user explicitly authorizes proceeding with the named acceptance risk.
+4. If the orchestrator selects spec readiness mapping → use `create-spec-readiness-map`.
+5. If the orchestrator selects engineering definition → use `create-engineering-spec`.
+6. If the orchestrator selects architecture judgment → use `architecture-design`.
+7. If the orchestrator selects documentation → use `create-documentation`.
+8. Approved engineering spec requiring execution sequencing → use `create-implementation-plan` to produce an approved implementation plan.
+9. Approved spec + approved plan + assigned plan unit → dispatch `coder` for execution.
+10. Coder output with verification evidence and review packet → use `implementation-review-workflow` to decide review scope, dispatch `implementation-reviewer`, interpret the verdict, and manage re-review if needed.
+11. Project continuity checkpoint where `docs/progress.md` or another continuity artifact exists and meaningful work is starting, resuming, pausing, blocked, accepted, merged, or closed → use `project-continuity`; progress notes never replace source truth.
+12. Concrete reusable implementation-pattern signal from implementation or review evidence → use `create-implementation-pattern` to decide accepted pattern, candidate note, existing-pattern update, or rejection. Do not force pattern creation when no concrete signal exists.
+13. Significant accepted technical decision → use `create-project-adr` when the ADR bar is met.
+14. Final acceptance is blocked until independent review returns an accepting verdict or the user explicitly authorizes proceeding with the named acceptance risk.
 
 Use these owner mappings when the request, orchestrator, or current evidence selects a narrower surface:
 
@@ -261,9 +262,9 @@ Non-trivial work includes changes to code, tests, config, package metadata, migr
 
 Non-semantic typo, formatting, grammar, comment, or wording cleanup may skip spec/plan/independent review, including inside control artifacts, only when it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify with diff/readback evidence and report the non-semantic basis. If uncertain, treat it as semantic and use the workflow/review gate.
 
-If the approved spec is missing, stale, contradictory, or not applicable, do not create an implementation plan or dispatch coder. Return to `coding-project-orchestrator`; it will select diagnosis, PRD confirmation, engineering spec, architecture design, implementation plan, or blocker as appropriate.
+If the approved spec is missing, stale, contradictory, or not applicable, do not create an implementation plan or dispatch coder. Return to `coding-project-orchestrator`; it will select diagnosis, PRD confirmation, spec readiness mapping, engineering spec, architecture design, implementation plan, or blocker as appropriate.
 
-If the approved implementation plan is missing, stale, contradictory, or not applicable, do not dispatch coder. Return to `coding-project-orchestrator`; it will select diagnosis, PRD confirmation, engineering spec, architecture design, implementation plan, or blocker as appropriate.
+If the approved implementation plan is missing, stale, contradictory, or not applicable, do not dispatch coder. Return to `coding-project-orchestrator`; it will select diagnosis, PRD confirmation, spec readiness mapping, engineering spec, architecture design, implementation plan, or blocker as appropriate.
 
 Do not let urgency, user fatigue, or pressure to “just code it” bypass required spec, plan, verification, or independent review gates.
 

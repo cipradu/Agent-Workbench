@@ -33,6 +33,7 @@ Preserve these boundaries:
 - product truth describes what should exist, for whom, why, and with what success evidence;
 - problem truth describes what is happening, why it is happening, and what fix hypothesis is supported;
 - engineering truth describes required behavior, constraints, invariants, authority, contracts, risks, and acceptance evidence;
+- spec readiness mapping describes unresolved engineering-truth questions between a PRD/product brief and a future engineering spec when the gap is too broad for one honest spec pass;
 - architecture judgment describes ownership, boundaries, seams, adapters, patterns, and trade-offs;
 - execution strategy describes units, dependencies, blast radius, verification, approvals, and re-plan triggers;
 - implementation changes code, tests, docs, config, schemas, commands, agents, skills, rules, or other artifacts;
@@ -74,6 +75,7 @@ Minimum checks:
 - Product truth: Is the product/workflow problem, audience, scope, or success evidence missing?
 - Problem truth: Is something broken or disputed without a known cause?
 - Engineering truth: Are required behavior, constraints, invariants, authority, contracts, or acceptance evidence missing?
+- Spec-readiness truth: Does a PRD/product brief exist, but the path to one engineering spec is blocked by multiple unresolved engineering-truth questions or one broad question that needs durable investigation tickets?
 - Architecture truth: Are ownership, boundaries, seams, adapters, or trade-offs unresolved?
 - Execution truth: Are units, dependencies, blast radius, verification, or re-plan triggers missing?
 - Project-adjacent action truth: Is the request actually for option discovery, runtime inspection, setup/tooling health, read-only reporting, post-ship drafting, external collaboration sync, or source-control/PR follow-through rather than code or durable product/engineering truth?
@@ -129,6 +131,7 @@ When a downstream owner applies, route to that owner or build the handoff; do no
 | Discussion or design analysis | User wants reasoning, comparison, critique, or explanation only                                                                                      | Answer directly; do not mutate                             |
 | Diagnosis                     | Something is failing, surprising, disputed, or root cause is unknown                                                                                 | `structured-problem-resolution`                            |
 | Product definition            | Explicit PRD, project-definition, or product-definition intent exists, and product/workflow truth must be defined                                    | `create-project-prd`                                       |
+| Spec readiness mapping        | A PRD/product brief or equivalent product source exists, but one engineering spec would require resolving multiple material engineering-truth questions or one broad material question across sessions | `create-spec-readiness-map`                               |
 | Engineering definition        | Required behavior, constraints, invariants, authority, contracts, risks, or acceptance evidence must be defined                                      | `create-engineering-spec`                                  |
 | Architecture judgment         | Ownership, boundaries, seams, adapters, patterns, or trade-offs shape the answer                                                                     | `architecture-design`                                      |
 | Documentation                 | Reader-facing technical docs, tutorials, how-to guides, reference docs, explanations, API docs, runbooks, or docs updates must be created or revised | `create-documentation`                                     |
@@ -158,6 +161,7 @@ Rules:
 
 - Do not put implementation order, file choreography, package choices, or schemas into a PRD unless they are externally fixed product constraints.
 - Do not let an engineering spec invent product truth.
+- Do not let spec readiness mapping create implementation tasks, replace the engineering spec, or rewrite the PRD.
 - Do not let an implementation plan change spec truth.
 - Do not treat architecture analysis as an implementation plan.
 - Do not let documentation invent product truth, engineering truth, architecture decisions, or execution order.

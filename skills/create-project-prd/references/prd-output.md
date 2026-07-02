@@ -109,6 +109,8 @@ Synthesis confirmation: Confirmed | Not required | Assumptions only | Blocked
 
 ### Ready for engineering spec
 
+### Route through spec readiness mapping
+
 ### Resolve before engineering spec
 
 ### Deferred to engineering spec
@@ -256,6 +258,8 @@ Synthesis confirmation: Confirmed | Not required | Assumptions only | Blocked
 ### Product-Domain Model To Preserve Or Refine
 
 ### Requirements Ready For Engineering Spec
+
+### Route Through Spec Readiness Mapping
 
 ### Product Questions To Resolve Before Engineering Spec
 
