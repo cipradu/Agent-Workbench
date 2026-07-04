@@ -27,6 +27,7 @@ temp/
 .codex/
 .claude/
 .opencode/
+.omp/
 .agents/
 
 # Root harness instruction overrides
@@ -35,3 +36,5 @@ temp/
 docs/skill-analysis/
 docs/references/
 docs/progress.md
+.playwright-mcp/
+skills-lock.json

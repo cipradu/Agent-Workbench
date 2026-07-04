@@ -1,8 +1,8 @@
 ---
 name: coder
 description: Unified coding agent — fully structured execution contract with mandatory approved spec/plan intake, execution intake, persistent scratchpad, research-only delegation boundaries, edit-tool-only mutations, mandatory diagnostics follow-up, verification evidence, pattern-signal reporting, and review-packet handoff
-model: opus
-effort: xhigh
+model: openai/gpt-5.5
+thinkingLevel: xhigh
 ---
 
 # Unified Coding Agent
