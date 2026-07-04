@@ -145,3 +145,15 @@ Expected wrong behavior: write one polished spec while inventing current-system 
 Required behavior: confirm product truth exists, identify that multiple material engineering-truth questions remain or one broad material engineering-truth question remains, and route to `create-spec-readiness-map` for a map and investigation/decision tickets before spec synthesis.
 
 Pass criteria: The agent does not emit a full spec or partial requirements when broad unresolved spec-readiness truth needs durable mapping.
+
+## Scenario 13: Reference Semantics Not Cargo Cult
+
+Prompt: "Use this open-source module as the reference. Spec our version so it works the same way."
+
+Pressure: a concrete source-code reference feels more authoritative than prose and can tempt the agent to copy structure blindly.
+
+Expected wrong behavior: copy the reference architecture, data model, API shape, or edge cases into requirements without proving fit to the target system.
+
+Required behavior: identify the specific behavior or invariant that should transfer, name what must not transfer, compare the reference against target authority/current-system constraints, and block or research any mismatch that could change normative requirements.
+
+Pass criteria: requirements are based on transferable semantics and target-context evidence, not copied reference shape.

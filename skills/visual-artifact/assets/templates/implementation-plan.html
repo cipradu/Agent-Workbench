@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{artifact_title}}</title>
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <main class="artifact-page">
+    <header class="artifact-header">
+      <div>
+        <div class="artifact-kind">Implementation plan visual</div>
+        <h1>{{artifact_title}}</h1>
+        <p class="lead">{{reader_job_summary}}</p>
+        <div class="meta-strip" aria-label="Plan summary">
+          <div class="meta-item">
+            <span class="meta-label">Plan</span>
+            <span class="meta-value">{{plan_artifact}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Linked spec</span>
+            <span class="meta-value">{{linked_spec}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Critical path</span>
+            <span class="meta-value">{{critical_path}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Stop rule</span>
+            <span class="meta-value">{{most_important_stop_rule}}</span>
+          </div>
+        </div>
+      </div>
+      <aside class="header-aside" aria-label="Source boundary">
+        <div>
+          <span class="meta-label">May show</span>
+          <p>Units, dependencies, waves, critical path, verification gates, approval gates, blast radius, and re-plan triggers.</p>
+        </div>
+        <div>
+          <span class="meta-label">Must not do</span>
+          <p>Change spec truth, implement code, or hide blockers inside execution units.</p>
+        </div>
+      </aside>
+    </header>
+
+    <div class="artifact-layout">
+      <aside class="source-rail">
+        <h2>Sources And Navigation</h2>
+        <div class="rail-group">
+          <span class="meta-label">Source artifacts</span>
+          <ul class="rail-list">
+            <li><a href="{{plan_link}}" target="_blank" rel="noopener noreferrer">{{plan_artifact}}</a></li>
+            <li><a href="{{spec_link}}" target="_blank" rel="noopener noreferrer">{{linked_spec}}</a></li>
+          </ul>
+        </div>
+        <div class="rail-group">
+          <span class="meta-label">Local navigation</span>
+          <ul class="rail-list">
+            <li><a href="#dependencies">Dependencies</a></li>
+            <li><a href="#waves">Execution waves</a></li>
+            <li><a href="#verification">Verification</a></li>
+            <li><a href="#stop-rules">Stop rules</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="content-stack">
+        <section class="section" id="dependencies">
+          <div class="section-header">
+            <div>
+              <h2>Dependency View</h2>
+              <p>Use this space for the overview graph when dependencies, fan-in, fan-out, or critical path matter.</p>
+            </div>
+          </div>
+          <div class="diagram-band" data-diagram-band>
+            <div class="diagram-tools" aria-label="Diagram controls">
+              <span class="diagram-title">{{diagram_title}}</span>
+              <div class="diagram-actions">
+                <button class="diagram-button" type="button" data-diagram-zoom-out aria-label="Zoom out">-</button>
+                <span class="diagram-zoom-value" data-diagram-zoom-value>100%</span>
+                <button class="diagram-button" type="button" data-diagram-zoom-in aria-label="Zoom in">+</button>
+                <button class="diagram-button" type="button" data-diagram-zoom-reset>Reset</button>
+              </div>
+            </div>
+            <div class="diagram-viewport">
+            <pre class="mermaid" aria-label="Implementation plan dependency graph">
+flowchart TD
+  accTitle: {{diagram_accessible_title}}
+  accDescr: {{diagram_accessible_description}}
+  U1["{{unit_1_id}}: {{unit_1_label}}"] --> U2["{{unit_2_id}}: {{unit_2_label}}"]
+  U1 --> U3["{{unit_3_id}}: {{unit_3_label}}"]
+  U2 --> G["{{verification_or_approval_gate}}"]
+  U3 --> G
+            </pre>
+            </div>
+            <p class="section-note">{{dependency_graph_text_alternative}}</p>
+          </div>
+        </section>
+
+        <section class="section" id="waves">
+          <div class="section-header">
+            <div>
+              <h2>Execution Waves</h2>
+              <p>Ordering, parallel groups, and shared-resource constraints stay visible without turning the visual into shell choreography.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Wave</th>
+                  <th>Units</th>
+                  <th>Depends on</th>
+                  <th>Shared constraint</th>
+                  <th>Exit evidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{wave_id}}</td>
+                  <td>{{unit_ids}}</td>
+                  <td>{{dependencies}}</td>
+                  <td>{{shared_constraint}}</td>
+                  <td>{{exit_evidence}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="unit-table">
+          <div class="section-header">
+            <div>
+              <h2>Unit Table</h2>
+              <p>Dense plan detail belongs in a table, not one decorative block per unit.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Unit</th>
+                  <th>Purpose</th>
+                  <th>Target boundary</th>
+                  <th>Non-target boundary</th>
+                  <th>Reviewer focus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{unit_id}}</td>
+                  <td>{{unit_purpose}}</td>
+                  <td>{{target_boundary}}</td>
+                  <td>{{non_target_boundary}}</td>
+                  <td>{{reviewer_focus}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="verification">
+          <div class="section-header">
+            <div>
+              <h2>Verification Matrix</h2>
+              <p>Done is tied to expected evidence, not a generic tests-pass claim.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Evidence</th>
+                  <th>Spec IDs</th>
+                  <th>Unit IDs</th>
+                  <th>Check</th>
+                  <th>Expected result</th>
+                  <th>Residual risk</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{evidence_id}}</td>
+                  <td>{{spec_ids}}</td>
+                  <td>{{verification_unit_ids}}</td>
+                  <td>{{check}}</td>
+                  <td>{{expected_result}}</td>
+                  <td>{{verification_risk}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="stop-rules">
+          <div class="section-header">
+            <div>
+              <h2>Stop And Re-Plan Rules</h2>
+              <p>The visual plan must show when execution should stop instead of continuing through contradiction.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Trigger</th>
+                  <th>Affected unit</th>
+                  <th>Stop condition</th>
+                  <th>Required action</th>
+                  <th>Owner route</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{trigger}}</td>
+                  <td>{{affected_unit}}</td>
+                  <td>{{stop_condition}}</td>
+                  <td>{{required_action}}</td>
+                  <td>{{owner_route}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "strict",
+      theme: "base",
+      themeVariables: {
+        fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        primaryColor: "#e7eefc",
+        primaryBorderColor: "#bfd0fb",
+        primaryTextColor: "#151b26",
+        lineColor: "#64748b",
+        secondaryColor: "#e4f6eb",
+        tertiaryColor: "#fff1d6"
+      }
+    });
+
+    await mermaid.run({ querySelector: ".mermaid" });
+
+    document.querySelectorAll("[data-diagram-band]").forEach((band) => {
+      const viewport = band.querySelector(".diagram-viewport");
+      const value = band.querySelector("[data-diagram-zoom-value]");
+      const svg = band.querySelector("svg");
+      if (!viewport || !value || !svg) return;
+
+      const viewBox = svg.viewBox && svg.viewBox.baseVal;
+      const naturalWidth = viewBox && viewBox.width ? viewBox.width : svg.getBoundingClientRect().width;
+      let scale = 1;
+
+      const applyScale = (next) => {
+        scale = Math.min(1.8, Math.max(0.7, next));
+        svg.style.width = `${Math.round(naturalWidth * scale)}px`;
+        svg.style.maxWidth = "none";
+        value.textContent = `${Math.round(scale * 100)}%`;
+      };
+
+      band.querySelector("[data-diagram-zoom-out]")?.addEventListener("click", () => applyScale(scale - 0.1));
+      band.querySelector("[data-diagram-zoom-in]")?.addEventListener("click", () => applyScale(scale + 0.1));
+      band.querySelector("[data-diagram-zoom-reset]")?.addEventListener("click", () => applyScale(1));
+      applyScale(1);
+    });
+  </script>
+</body>
+</html>

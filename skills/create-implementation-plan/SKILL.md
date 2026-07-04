@@ -307,7 +307,7 @@ Each unit must include:
 - approach logic: detailed implementation reasoning without code;
 - technical design: optional high-level sketch, state model, protocol outline, or diagram description when prose alone would leave the approach ambiguous;
 - dependencies: prior units, external decisions, data prerequisites, migrations, or approvals;
-- implementation-time unknowns that are non-blocking, with resolution method and re-plan trigger;
+- implementation-time unknowns that are non-blocking, with resolution method and re-plan trigger; blockers must stop the plan before unit drafting;
 - workspace/isolation requirement and shared-resource conflicts;
 - blast radius: what can break and why;
 - test scenarios: specific input/action/expected outcome cases for behavior-bearing units, including happy path, edge case, error/failure path, integration chain, external leg, and true end state when applicable; use `Test expectation: none — <reason>` only for non-behavioral units;
@@ -334,6 +334,7 @@ For AI Agent or Hybrid mode, define re-plan triggers. Execution must stop when:
 - a library/API behaves differently from the researched source;
 - verification fails for a non-trivial reason;
 - a new dependency, data contract, migration, or approval need appears;
+- a planned key technical decision, public interface, high-level design shape, or acceptance evidence becomes invalid;
 - implementation would change spec truth or broaden scope;
 - verification tooling, runtime, credential, simulator/device, browser, external system, or human verifier is unavailable;
 - a bug-fix regression cannot reproduce, fails for a different reason, or contradicts the planned causal chain;
@@ -353,6 +354,7 @@ Before finalizing the draft, run these plan-shape audits:
 - **Research integration audit:** every external research decision is recorded, requested-but-unavailable research is visible, and every load-bearing external finding appears in the decision, risk, verification, approval, or re-plan section it affected.
 - **High-level technical design audit:** include a high-level technical design section or unit-level technical design note when the plan includes three or more interacting components, protocol steps, state transitions, decision branches, data-flow stages, mode/flag combinations, generated surfaces, DSL/API shape, or another non-obvious structure that prose alone would obscure. The design aid must clarify the plan without becoming implementation code.
 - **Load-bearing decision audit:** every material planning choice is in the Key Technical Decisions section or explicitly marked as none beyond direct spec decomposition.
+- **Decision review surface audit:** when the plan contains decisions a user, reviewer, or executor is likely to tweak before code exists, surface them in the Plan Summary before the unit graph. Typical surfaces are data model or state shape, public interface, user-facing flow, architecture boundary, migration or rollout approach, test posture, verification environment, workspace/isolation choice, and any load-bearing rejected path.
 - **No-process-exhaust audit:** keep source paths, decisions, evidence, status, and review state; remove phase logs, "I read X then Y" narration, post-generation menu prose, tool plumbing, or implementation-progress narration.
 - **Status meaning audit:** plan status means planning disposition or readiness, not execution progress; unit status means planned, deferred, or already satisfied, not in-progress implementation tracking.
 - **Scope creep audit:** tangential cleanup, adjacent refactors, and "while we are here" improvements discovered during research go to deferred follow-up unless the approved spec explicitly includes them.
@@ -459,6 +461,8 @@ When a gate fails, do not improvise a shorter packet and do not emit the full pl
 | “The ideation artifact already did the thinking.”     | Ideas, rankings, and rationale are not approved engineering truth.                             | Block or trace through the approved spec before planning units.   |
 | “The old reviewed plan is still fine.”                | Plans go stale when specs, ADRs, code, dependencies, verification, or review state change.     | Run freshness and document-set reconciliation before execution.   |
 | “The reviewer said to add a task.”                    | Review findings are signals, not scope authority.                                             | Map to spec/evidence, choose a disposition, and re-review.        |
+| “Implementation notes should capture everything.”      | Free-form notes become a diary and duplicate source truth.                                     | Require notes only for deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers, and close them out through plan/review/continuity owners. |
+| “The unit graph is what reviewers need first.”         | Some plans have expensive-to-change decisions that should be reviewed before task sequencing.  | Surface high-leverage decision areas in the summary and keep the task graph as execution detail. |
 | “The metric improved, so the plan is good.”           | Proxy gains can violate the real requirement.                                                  | Protect hard gates, fixtures, source truth, and degenerate cases. |
 | “The PR is open, so the plan is ready.”               | Source-control state is packaging evidence, not planning evidence.                             | Preserve plan status and review gates in downstream handoff.      |
 
@@ -479,6 +483,7 @@ When a gate fails, do not improvise a shorter packet and do not emit the full pl
 - Unit lacks cause, effect, blast radius, or verification.
 - TDD preference is unspecified and no blocking question was asked.
 - Unit lacks an explicit test posture.
+- Implementation-time unknowns include blockers or lack a resolution method and re-plan trigger.
 - Behavior-bearing unit lacks specific test scenarios with input, action, and expected outcome.
 - TDD is enabled but the plan lacks behavior-facing seams or red-capable tests.
 - Library guidance names a brand but not package/version/pattern/source.
@@ -513,6 +518,7 @@ Before calling a plan ready:
 - Library/version guidance is current and specific where needed.
 - Smallest safe path was chosen with rejected alternatives explained.
 - Load-bearing planning decisions are indexed, or none beyond direct spec decomposition were found.
+- High-leverage decisions that reviewers should inspect first are surfaced in the Plan Summary.
 - Units are stable, dependency-ordered, and bite-sized enough for execution and review.
 - High-level technical design is included when the plan structure needs it.
 - Every behavior-bearing unit has input/action/expected test scenarios.

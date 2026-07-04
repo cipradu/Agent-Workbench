@@ -280,7 +280,7 @@ Synthesis confirmation: Confirmed | Not required | Assumptions only | Blocked
 ```markdown
 PRD-REQ-001 - short requirement name
 Priority: Must | Should | Could | Won't
-Source: explicit product authority | approved product doc | stakeholder decision | research | support | analytics | feedback | dogfood | incident | strategy | vocabulary source | implementation evidence | prior learning | assumption
+Source: explicit product authority | approved product doc | stakeholder decision | research | support | analytics | feedback | dogfood | incident | reference/prototype reaction | tacit product signal | strategy | vocabulary source | implementation evidence | prior learning | assumption
 Statement: product behavior or product constraint
 Rationale: why this exists and which goal it supports
 Product acceptance criteria: observable product-level evidence
@@ -298,7 +298,7 @@ Use when source authority, freshness, or conflict affects PRD claims.
 ```markdown
 | Source / claim | Authority class | Freshness / status | Product relevance | PRD action |
 | -------------- | --------------- | ------------------ | ----------------- | ---------- |
-|                | explicit product authority / product evidence / product constraint / vocabulary source / implementation evidence / prior learning / inference / stale-conflicting-noise | current / stale / superseded / conflicting / unavailable | problem / audience / domain model / success / requirement / scope / assumption / handoff | use as fact / use as evidence / mark assumption / block / reject / route elsewhere |
+|                | explicit product authority / product evidence / product constraint / vocabulary source / reference-prototype reaction / tacit product signal / implementation evidence / prior learning / inference / stale-conflicting-noise | current / stale / superseded / conflicting / unavailable | problem / audience / domain model / success / requirement / scope / assumption / handoff | use as fact / use as evidence / mark assumption / block / reject / route elsewhere |
 ```
 
 ## Targeted Revision Summary
@@ -450,6 +450,7 @@ Before presenting a compact or full PRD, verify:
 - Output depth is justified and no section is padded for ceremony.
 - Material inferred scope was confirmed or is clearly marked as an assumption.
 - Source material is classified by authority, freshness, and product relevance before being used as fact.
+- Reference/prototype reactions and tacit product signals are classified before they become requirements.
 - Existing PRD collisions, stale assumptions, or source conflicts are resolved, blocked, or surfaced.
 - Agent, tool, automation, generated artifact, or shared workspace actors are modeled when they are product-visible.
 - Commit, PR, review, publishing, runtime, analytics, and promotion state is not used as product approval.
@@ -471,5 +472,6 @@ Before presenting a compact or full PRD, verify:
 | Overloaded product terms left undefined          | Resolve the term from sources, ask one focused question, or mark it as a blocker/open ambiguity.               |
 | Product-domain model is only a term list         | Add the actors, workflows, lifecycle states, product-visible events, and product rules needed by requirements. |
 | Source signals blended as facts                  | Add source authority/freshness classification or move unsupported claims to assumptions/blockers.              |
+| Reference/prototype reaction copied as requirement | Extract the product-facing implication, classify authority, and confirm or mark as assumption/blocker.         |
 | Existing PRD overwritten by implication          | Use targeted revision, amendment, supersession, or blocked stale-PRD packet.                                   |
 | Review or dogfood finding becomes requirement    | Use a review/feedback signal packet and classify product implication before changing requirements.             |

@@ -43,6 +43,10 @@ The manifest is not acceptance. It helps the reviewer understand available proof
 
 Include approved spec/plan paths and status, relevant requirement or unit IDs, target and non-target boundaries, accepted assumptions, open questions, known deviations from the plan, planned verification versus verification actually run, and any plan-compliance risks. Do not paste the whole plan when targeted paths and IDs are enough.
 
+### Post-Implementation Explainer
+
+Use for complex, plan-backed, long-running, multi-artifact, or control-surface work when a reviewer needs orientation before inspecting evidence. Include the original objective, major decisions, plan deviations, changed behavior, verification evidence, residual risks, and reviewer focus. Keep it concise and evidence-linked. Do not use the explainer as acceptance evidence, and do not replace the diff, changed-file inventory, verification output, or spec/plan references.
+
 ### Bug Fixes
 
 Include original symptom, reproduction or incident evidence, diagnosed root-cause chain, failed hypotheses or prior attempts when relevant, the failing-path test or equivalent proof, and why the fix addresses the cause rather than only the symptom. Missing reproduction or unresolved cause should be a coverage gap or blocker, not hidden behind green unrelated tests.

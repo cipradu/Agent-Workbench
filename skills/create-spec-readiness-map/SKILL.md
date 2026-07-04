@@ -13,6 +13,8 @@ Use when the source artifact is too broad, cross-cutting, multi-domain, research
 
 Use when the work needs durable multi-session coordination for spec readiness: unresolved authority, current-system facts, architecture boundaries, risk constraints, acceptance evidence, external research, or product-to-engineering translation questions.
 
+Use when the orchestrator routes a blindspot pass, unknown-unknown pass, hidden-risk pass, or "I don't know what I don't know" request here because a product source exists and broad PRD-to-spec readiness is the uncertainty owner.
+
 ## Do Not Use
 
 Do not use when product truth is still missing. Route to `create-project-prd` or ask for the missing product decision instead.
@@ -101,6 +103,8 @@ Classify every missing item into one of these outcomes:
 - `route-out`: another owner must resolve it before this map can progress.
 - `no-op`: it sounds useful but does not affect engineering spec readiness.
 
+When doing an unknown-discovery or blindspot pass, map uncertainty into the existing outcomes instead of creating a new artifact shape: known source facts become source truth, known open questions become tickets when sharp, tacit product/domain expectations route to PRD or user authority when they affect product truth, suspected unknown unknowns become Fog until consequence and an evidence path can be stated, and broad categories become no-op unless they can change the future engineering spec.
+
 Use these ticket types:
 
 - `source-authority`: rules, ADRs, existing specs, policies, owners, or source precedence.
@@ -137,6 +141,8 @@ Create one ticket per sharp question. A ticket question is sharp when the answer
 Do not create tickets for fog. Fog becomes tickets only after another ticket makes the question precise.
 
 For each ticket, record status, type, blockers, source, question, evidence needed, owner route, and expected spec impact. Use dependency order when numbering tickets. A blocked ticket may be created if the question is sharp but depends on another ticket.
+
+For blindspot-derived tickets or fog, record the suspected blind spot, evidence already found, evidence missing, why it matters, source strength or confidence, resolution method, and expected spec impact. If those cannot be stated, keep it as Fog or reject it as a no-op instead of creating a generic ticket.
 
 Completion criterion: open tickets cover the current frontier, blocked tickets have explicit blockers, and the map's Fog contains only non-sharp uncertainty.
 
@@ -234,6 +240,7 @@ For spec handoff, output:
 | "The PRD is detailed, so write the spec now." | Detailed product truth can still hide missing engineering authority, risk, current-system, or acceptance evidence. | Run the warrant check; use this skill only when missing truth is multi-ticket or multi-session. |
 | "Break the PRD into build chunks." | Build chunks belong after an approved engineering spec. | Create investigation and decision tickets only. |
 | "Put every unknown into tickets." | Fog that cannot be phrased precisely becomes noisy fake work. | Ticket sharp questions; keep non-sharp uncertainty in Fog. |
+| "A blindspot pass means list every risk." | Broad risk lists do not create spec readiness unless each item has consequence and an evidence path. | Classify by ticket, Fog, route-out, or no-op; require evidence needed, owner route, and spec impact for every ticket. |
 | "Resolve several related tickets together." | Combined resolution hides evidence boundaries and makes review harder. | Resolve one ticket per session. |
 | "The map should contain all details for convenience." | Duplicated decisions drift. | Keep details in tickets; map only points. |
 | "A product ambiguity can be decided by engineering." | That leaks product truth into spec work. | Route product ambiguity back to PRD/user authority. |
@@ -244,6 +251,7 @@ For spec handoff, output:
 
 - The first output is a spec, task list, file plan, or implementation unit.
 - The map has tickets named like "Build backend", "Create UI", or "Add tests".
+- A blindspot pass produces a generic risk list instead of tickets, Fog, route-out items, or no-ops tied to spec impact.
 - The PRD is being rewritten inside the map.
 - A ticket resolution lacks evidence or source strength.
 - Fog is silently dropped instead of resolved, narrowed, or carried as a blocker.

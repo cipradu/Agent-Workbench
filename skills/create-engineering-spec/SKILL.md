@@ -154,6 +154,10 @@ Source confidence:
 
 Before writing requirements, separate input into stated/source-backed facts, accepted decisions, inferences, background context, non-scope, blockers, and deferred questions. Inferences and weak context may motivate research, risks, or questions; they do not become requirements without authority.
 
+Run a map-versus-territory check before requirements synthesis: identify where the request, PRD, prior spec, reference artifact, example, or domain note may not match current system behavior, current external/library reality, authority ownership, tacit domain constraints, or acceptance evidence. If the mismatch is narrow and answerable inside this spec pass, resolve it through research or source discovery. If it is broad enough to require multiple tickets or durable multi-session tracking from an existing product source, route to `create-spec-readiness-map`.
+
+When using a reference artifact, source-code example, prototype, screenshot, external implementation, or comparable system as input, state what property transfers, what does not transfer, and what target-context difference matters before it can support a requirement. References are semantic evidence, not permission to cargo-cult architecture, UI shape, data contracts, or implementation details.
+
 Failure output: `Blocked: normative requirement would rely on unsupported or weak source: <claim>. Needed authority: <source or owner>.`
 
 ## Failure, Feedback, And Raw Evidence
@@ -288,6 +292,7 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 | “The reviewer found it, so apply it.”                          | Review findings are evidence to resolve, not automatic truth.                                     | Use finding dispositions and preserve scope, authority, and artifact boundary.                                         |
 | “The PRD already modeled the domain, so the spec can skip it.” | Product-domain modeling is input, not an engineering-domain model.                                | Preserve or refine PRD terms, map them to engineering concepts, and surface current/target conflicts.                   |
 | “The domain terms are obvious.”                                | Obvious terms are often where product, operations, and implementation meanings diverge.           | Reconcile terms against sources and probe with scenarios.                                                               |
+| “The reference shows the answer.”                              | References show possible semantics in another context; they do not transfer wholesale.            | State the transferable property, non-transferable parts, target-context difference, and authority before writing a requirement. |
 
 ## Red Flags — Stop Before Full Spec
 
@@ -300,6 +305,8 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 - Domain terms are overloaded, contradicted by source material, or used as data concepts without clarified meaning.
 - PRD/product-domain terms are silently lost, renamed, or replaced without source evidence.
 - Current implementation contradicts PRD/product truth and the conflict is not surfaced.
+- A reference, prototype, screenshot, external implementation, or source-code example supports a requirement without transfer and non-transfer boundaries.
+- A broad unknown-discovery result is hidden inside a partial spec instead of routing to `create-spec-readiness-map`.
 - The spec invents APIs, packages, state machines, or data contracts.
 - Scope grows from an ideal solution instead of the stated problem, appetite, and authority.
 - A new capability is added without saying what it displaces, consumes, defers, or why it is mandatory.
@@ -334,6 +341,7 @@ When a red flag appears, return to the relevant gate or emit the blocked packet.
 - Risk register covers required dimensions or gives reasoned no-impact entries.
 - Requirements have IDs, source classes, acceptance evidence, risk mapping, and planning-relevant impact surfaces.
 - Material sources have scope and confidence labels; weak context and inferences do not support normative requirements.
+- Reference artifacts state what transfers, what does not transfer, and what target-context difference matters before supporting requirements.
 - Failure-derived requirements trace to supported root cause, accepted target behavior, or visible blocker.
 - Acceptance evidence identifies modality, hard gates versus diagnostics, blocked checks, and degenerate-gate constraints where relevant.
 - Stable IDs are preserved across revisions or lifecycle changes are recorded.

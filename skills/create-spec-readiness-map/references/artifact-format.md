@@ -37,7 +37,7 @@ Spec target: <expected spec title or unknown>
 
 ## Fog
 
-- <Unclear area that matters but cannot yet be phrased as a sharp ticket question. Include why it is deferred and what could make it sharp.>
+- <Unclear area that matters but cannot yet be phrased as a sharp ticket question. Include suspected blind spot, evidence already found, evidence missing, why it matters, why it is deferred, and what could make it sharp.>
 
 ## Handoff Readiness
 
@@ -139,6 +139,8 @@ A question is ticket-ready only when all are true:
 - The owner route is known or can be discovered without answering the ticket first.
 
 If any item fails, keep it in Fog.
+
+Generic categories such as security, performance, data, accessibility, or integration do not pass the sharpness test by themselves. Blindspot-derived tickets still need a one-sentence question, named evidence, owner route, and expected spec impact.
 
 ## Status Meanings
 

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{artifact_title}}</title>
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <main class="artifact-page">
+    <header class="artifact-header">
+      <div>
+        <div class="artifact-kind">Implementation result visual</div>
+        <h1>{{artifact_title}}</h1>
+        <p class="lead">{{reader_job_summary}}</p>
+        <div class="meta-strip" aria-label="Result summary">
+          <div class="meta-item">
+            <span class="meta-label">Outcome</span>
+            <span class="meta-value">{{outcome}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Diff source</span>
+            <span class="meta-value">{{diff_source}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Verification</span>
+            <span class="meta-value">{{verification_status}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Review</span>
+            <span class="meta-value">{{review_status}}</span>
+          </div>
+        </div>
+      </div>
+      <aside class="header-aside" aria-label="Source boundary">
+        <div>
+          <span class="meta-label">May show</span>
+          <p>Changed surfaces, deviations, proof, reviewer focus, verdict context, residual risks, and comprehension checks.</p>
+        </div>
+        <div>
+          <span class="meta-label">Must not do</span>
+          <p>Replace tests, replace independent review, or claim done without source evidence.</p>
+        </div>
+      </aside>
+    </header>
+
+    <div class="artifact-layout">
+      <aside class="source-rail">
+        <h2>Sources And Navigation</h2>
+        <div class="rail-group">
+          <span class="meta-label">Source artifacts</span>
+          <ul class="rail-list">
+            <li><a href="{{spec_link}}" target="_blank" rel="noopener noreferrer">{{source_spec}}</a></li>
+            <li><a href="{{plan_link}}" target="_blank" rel="noopener noreferrer">{{source_plan}}</a></li>
+            <li><a href="{{review_link}}" target="_blank" rel="noopener noreferrer">{{review_packet_or_report}}</a></li>
+          </ul>
+        </div>
+        <div class="rail-group">
+          <span class="meta-label">Local navigation</span>
+          <ul class="rail-list">
+            <li><a href="#changed-surfaces">Changed surfaces</a></li>
+            <li><a href="#proof-chain">Proof chain</a></li>
+            <li><a href="#deviations">Deviations</a></li>
+            <li><a href="#comprehension">Comprehension check</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="content-stack">
+        <section class="section" id="changed-surfaces">
+          <div class="section-header">
+            <div>
+              <h2>Changed Surfaces</h2>
+              <p>Impact is summarized by surface and source evidence, not by raw diary narration.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Surface</th>
+                  <th>Change</th>
+                  <th>Source evidence</th>
+                  <th>Non-target preserved</th>
+                  <th>Review focus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{surface}}</td>
+                  <td>{{change_summary}}</td>
+                  <td>{{source_evidence}}</td>
+                  <td>{{non_target_preserved}}</td>
+                  <td>{{review_focus}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="proof-chain">
+          <div class="section-header">
+            <div>
+              <h2>Proof Chain</h2>
+              <p>Verification, review, skipped checks, and residual risk are separated.</p>
+            </div>
+          </div>
+          <div class="wide-band">
+            <ul class="evidence-rail">
+              <li>
+                <span class="evidence-id">{{proof_id}}</span>
+                <span>Claim: {{claim}}. Evidence: {{command_or_review_evidence}}. Status: <span class="status-label" data-tone="{{proof_tone}}">{{proof_status}}</span>. Residual risk: {{residual_risk}}.</span>
+              </li>
+              <li>
+                <span class="evidence-id">{{proof_id_2}}</span>
+                <span>Claim: {{claim_2}}. Evidence: {{command_or_review_evidence_2}}. Status: <span class="status-label" data-tone="{{proof_tone_2}}">{{proof_status_2}}</span>. Residual risk: {{residual_risk_2}}.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section" id="deviations">
+          <div class="section-header">
+            <div>
+              <h2>Deviations</h2>
+              <p>Plan-versus-reality differences keep their owner route instead of becoming hidden source truth.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Plan assumption</th>
+                  <th>Observed reality</th>
+                  <th>Choice made</th>
+                  <th>Evidence</th>
+                  <th>Owner route</th>
+                  <th>Residual risk</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{plan_assumption}}</td>
+                  <td>{{observed_reality}}</td>
+                  <td>{{choice_made}}</td>
+                  <td>{{deviation_evidence}}</td>
+                  <td>{{owner_route}}</td>
+                  <td>{{deviation_risk}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="review-context">
+          <div class="section-header">
+            <div>
+              <h2>Review Context</h2>
+              <p>Orientation for review without replacing the reviewer verdict.</p>
+            </div>
+          </div>
+          <div class="callout" data-tone="{{review_tone}}">
+            <h3>{{review_verdict_or_focus}}</h3>
+            <p>{{review_context}}</p>
+          </div>
+        </section>
+
+        <section class="section" id="comprehension">
+          <div class="section-header">
+            <div>
+              <h2>Comprehension Check</h2>
+              <p>Questions help the human inspect decisions, risk, and proof. They are not acceptance evidence.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Expected answer</th>
+                  <th>Why it matters</th>
+                  <th>Evidence to reread</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{question}}</td>
+                  <td>{{expected_answer}}</td>
+                  <td>{{why_it_matters}}</td>
+                  <td>{{evidence_to_reread}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
