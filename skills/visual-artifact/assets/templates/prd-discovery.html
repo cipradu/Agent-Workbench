@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{artifact_title}}</title>
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <main class="artifact-page">
+    <header class="artifact-header">
+      <div>
+        <div class="artifact-kind">PRD / discovery visual</div>
+        <h1>{{artifact_title}}</h1>
+        <p class="lead">{{reader_job_summary}}</p>
+        <div class="meta-strip" aria-label="Artifact summary">
+          <div class="meta-item">
+            <span class="meta-label">Source truth</span>
+            <span class="meta-value">{{source_artifact}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Inspect first</span>
+            <span class="meta-value">{{inspect_first}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Current status</span>
+            <span class="meta-value">{{status}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Open edge</span>
+            <span class="meta-value">{{unknown_or_out_of_scope}}</span>
+          </div>
+        </div>
+      </div>
+      <aside class="header-aside" aria-label="Source boundary">
+        <div>
+          <span class="meta-label">May show</span>
+          <p>Product problem, actors, workflows, assumptions, options, open questions, and product evidence.</p>
+        </div>
+        <div>
+          <span class="meta-label">Must not do</span>
+          <p>Invent product truth, choose architecture, or create implementation tasks.</p>
+        </div>
+      </aside>
+    </header>
+
+    <div class="artifact-layout">
+      <aside class="source-rail">
+        <h2>Sources And Navigation</h2>
+        <div class="rail-group">
+          <span class="meta-label">Source artifacts</span>
+          <ul class="rail-list">
+            <li><a href="{{source_link}}" target="_blank" rel="noopener noreferrer">{{source_artifact}}</a></li>
+            <li><span>{{supporting_source}}</span></li>
+          </ul>
+        </div>
+        <div class="rail-group">
+          <span class="meta-label">Evidence labels</span>
+          <ul class="rail-list">
+            <li><span><span class="status-label" data-tone="ok">known</span></span></li>
+            <li><span><span class="status-label" data-tone="warn">assumption</span></span></li>
+            <li><span><span class="status-label" data-tone="unknown">unknown</span></span></li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="content-stack">
+        <section class="section" id="product-frame">
+          <div class="section-header">
+            <div>
+              <h2>Product Frame</h2>
+              <p>What the product source claims, who it affects, and what outcome it is trying to create.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <dl class="definition-list">
+              <div>
+                <dt>Problem</dt>
+                <dd>{{product_problem}}</dd>
+              </div>
+              <div>
+                <dt>Actors</dt>
+                <dd>{{actors}}</dd>
+              </div>
+              <div>
+                <dt>Target outcome</dt>
+                <dd>{{target_outcome}}</dd>
+              </div>
+              <div>
+                <dt>Scope boundary</dt>
+                <dd>{{scope_and_non_goals}}</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section class="section" id="knowns-unknowns">
+          <div class="section-header">
+            <div>
+              <h2>Knowns And Unknowns</h2>
+              <p>Facts, assumptions, doubts, and unknown candidates stay separate so weak evidence does not look settled.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Claim or question</th>
+                  <th>Evidence</th>
+                  <th>Consequence</th>
+                  <th>Next action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="status-label" data-tone="ok">known</span></td>
+                  <td>{{known_fact}}</td>
+                  <td>{{known_fact_source}}</td>
+                  <td>{{known_fact_consequence}}</td>
+                  <td>{{known_fact_next_action}}</td>
+                </tr>
+                <tr>
+                  <td><span class="status-label" data-tone="warn">assumption</span></td>
+                  <td>{{assumption}}</td>
+                  <td>{{assumption_source}}</td>
+                  <td>{{assumption_consequence}}</td>
+                  <td>{{assumption_next_action}}</td>
+                </tr>
+                <tr>
+                  <td><span class="status-label" data-tone="unknown">unknown</span></td>
+                  <td>{{unknown_question}}</td>
+                  <td>{{evidence_needed}}</td>
+                  <td>{{unknown_consequence}}</td>
+                  <td>{{unknown_next_action}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="evidence-map">
+          <div class="section-header">
+            <div>
+              <h2>Evidence Map</h2>
+              <p>Material product claims are traceable to source, confidence, and downstream impact.</p>
+            </div>
+          </div>
+          <div class="wide-band">
+            <ul class="evidence-rail">
+              <li>
+                <span class="evidence-id">{{evidence_id}}</span>
+                <span>Claim: {{claim}}. Evidence: {{evidence_source}}. Confidence: {{confidence_label}}. Consequence: {{downstream_consequence}}.</span>
+              </li>
+              <li>
+                <span class="evidence-id">{{evidence_id_2}}</span>
+                <span>Claim: {{claim_2}}. Evidence: {{evidence_source_2}}. Confidence: {{confidence_label_2}}. Consequence: {{downstream_consequence_2}}.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section" id="options">
+          <div class="section-header">
+            <div>
+              <h2>Options Or Prototypes</h2>
+              <p>Alternatives are shown as hypotheses to react to, not as approved requirements.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Option</th>
+                  <th>Tests</th>
+                  <th>Evidence needed</th>
+                  <th>Risk</th>
+                  <th>Decision status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{option_name}}</td>
+                  <td>{{option_hypothesis}}</td>
+                  <td>{{option_evidence_needed}}</td>
+                  <td>{{option_risk}}</td>
+                  <td><span class="status-label" data-tone="info">{{option_status}}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="next-validation">
+          <div class="section-header">
+            <div>
+              <h2>Next Validation Action</h2>
+              <p>The next useful product decision or evidence-gathering step.</p>
+            </div>
+          </div>
+          <div class="callout" data-tone="info">
+            <h3>{{next_validation_title}}</h3>
+            <p>{{next_validation_detail}}</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

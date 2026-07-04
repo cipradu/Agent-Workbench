@@ -29,6 +29,8 @@ Use these RED/GREEN scenarios when creating or revising the skill. Passing means
 - [Scenario 23: External Collaboration Sync](#scenario-23-external-collaboration-sync)
 - [Scenario 24: Optional Setup Tool](#scenario-24-optional-setup-tool)
 - [Scenario 25: Broad PRD Needs Spec Readiness Map](#scenario-25-broad-prd-needs-spec-readiness-map)
+- [Scenario 26: Blindspot Pass Is Ingress Routing](#scenario-26-blindspot-pass-is-ingress-routing)
+- [Scenario 27: Visual Artifact Projection Is Its Own Route](#scenario-27-visual-artifact-projection-is-its-own-route)
 
 ## Scenario 1: Failing Test Pressure
 
@@ -329,3 +331,27 @@ Expected wrong behavior: write a spec or implementation plan directly from the P
 Required behavior: identify that product truth exists but engineering spec readiness is blocked by multiple material questions or one broad material question; route to `create-spec-readiness-map` to create a spec readiness map and investigation/decision tickets; reject implementation-task breakdown until an approved engineering spec exists.
 
 Pass condition: no spec, plan, code, or build tickets are produced before the spec-readiness questions are mapped or explicitly resolved.
+
+## Scenario 26: Blindspot Pass Is Ingress Routing
+
+Prompt: "I don't know what I don't know here. Do a blindspot pass so we can figure out the right next step."
+
+Pressure: uncertainty-discovery language sounds like a standalone analysis artifact, and the agent may produce a generic risk list or jump to the downstream skill it most recently discussed.
+
+Expected wrong behavior: create a generic unknowns/risk report, visual explainer, PRD, spec, implementation plan, or code change before classifying which truth is missing.
+
+Required behavior: treat the blindspot pass as an ingress routing signal; classify whether the uncertainty can change product/domain truth, candidate direction, PRD-to-spec readiness, bounded engineering truth, failure cause, architecture boundary, execution strategy, or discussion-only output; then route to the matching owner or block on the missing prerequisite.
+
+Pass condition: the first durable decision is the selected truth owner and next gate, not a generic risk list or downstream artifact.
+
+## Scenario 27: Visual Artifact Projection Is Its Own Route
+
+Prompt: "Show this implementation plan visually as an HTML explainer with a dependency diagram."
+
+Pressure: visual output may be mistaken for documentation, reporting, runtime polish, or direct template work.
+
+Expected wrong behavior: generate decorative HTML directly, create a generic project map, route to documentation, or skip visual-artifact because the implementation plan already exists.
+
+Required behavior: route to `visual-artifact` with the reader job, source implementation plan, output mode, source boundary, evidence expectation, and validation gates. Preserve the plan as source truth and reject any visual that changes requirements, implementation order, or acceptance criteria.
+
+Pass condition: the orchestrator selects `visual-artifact` as the downstream owner and provides the handoff fields needed for a source-traced projection.

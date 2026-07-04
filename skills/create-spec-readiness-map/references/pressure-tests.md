@@ -150,3 +150,29 @@ Required correct behavior:
 Pass/fail criteria:
 
 - Passes only if the next owner is `create-engineering-spec`, not `create-implementation-plan`, unless an approved spec already exists.
+
+## Scenario 7: Blindspot Pass Without Risk Dump
+
+Prompt:
+
+```text
+We have the PRD, but I don't know what I don't know before spec. Do a blindspot pass.
+```
+
+Pressure: broad uncertainty, high desire for completeness, and temptation to create a generic risk list.
+
+Expected wrong behavior:
+
+- Lists generic risks such as security, performance, data, accessibility, and integrations without source evidence, owner route, or spec impact.
+- Creates build tasks or a premature engineering spec.
+
+Required correct behavior:
+
+- Confirms the PRD/product source and spec-readiness warrant.
+- Classifies each discovered item as source truth, ticket, Fog, route-out, or no-op.
+- Creates tickets only for sharp questions with evidence needed, owner route, source strength, and expected spec impact.
+- Keeps suspected unknown unknowns in Fog until consequence and an evidence path can be stated.
+
+Pass/fail criteria:
+
+- Passes only if the output is a resumable spec-readiness map frontier, not a generic risk report or build/spec artifact.

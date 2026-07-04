@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{artifact_title}}</title>
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <main class="artifact-page">
+    <header class="artifact-header">
+      <div>
+        <div class="artifact-kind">Spec readiness visual</div>
+        <h1>{{artifact_title}}</h1>
+        <p class="lead">{{reader_job_summary}}</p>
+        <div class="meta-strip" aria-label="Readiness summary">
+          <div class="meta-item">
+            <span class="meta-label">Source map</span>
+            <span class="meta-value">{{readiness_map}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Gate</span>
+            <span class="meta-value">{{handoff_gate}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Blocking count</span>
+            <span class="meta-value">{{blocking_count}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Next owner</span>
+            <span class="meta-value">{{next_owner_route}}</span>
+          </div>
+        </div>
+      </div>
+      <aside class="header-aside" aria-label="Source boundary">
+        <div>
+          <span class="meta-label">May show</span>
+          <p>Tickets, Fog, source authority, blockers, evidence needed, owner routes, and handoff readiness.</p>
+        </div>
+        <div>
+          <span class="meta-label">Must not do</span>
+          <p>Create implementation units, write the engineering spec, or hide unknowns behind polish.</p>
+        </div>
+      </aside>
+    </header>
+
+    <div class="artifact-layout">
+      <aside class="source-rail">
+        <h2>Sources And Navigation</h2>
+        <div class="rail-group">
+          <span class="meta-label">Source artifacts</span>
+          <ul class="rail-list">
+            <li><a href="{{readiness_map_link}}" target="_blank" rel="noopener noreferrer">{{readiness_map}}</a></li>
+            <li><a href="{{prd_link}}" target="_blank" rel="noopener noreferrer">{{source_prd}}</a></li>
+          </ul>
+        </div>
+        <div class="rail-group">
+          <span class="meta-label">Local navigation</span>
+          <ul class="rail-list">
+            <li><a href="#readiness-board">Readiness board</a></li>
+            <li><a href="#tickets-and-fog">Tickets and Fog</a></li>
+            <li><a href="#owner-routes">Owner routes</a></li>
+            <li><a href="#handoff">Handoff readiness</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="content-stack">
+        <section class="section" id="readiness-board">
+          <div class="section-header">
+            <div>
+              <h2>Readiness Board</h2>
+              <p>Why the future engineering spec is ready, blocked, or still under investigation.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>Status</th>
+                  <th>Why it matters</th>
+                  <th>Evidence needed</th>
+                  <th>Spec impact</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{area}}</td>
+                  <td><span class="status-label" data-tone="{{status_tone}}">{{status_label}}</span></td>
+                  <td>{{why_it_matters}}</td>
+                  <td>{{evidence_needed}}</td>
+                  <td>{{spec_impact}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="tickets-and-fog">
+          <div class="section-header">
+            <div>
+              <h2>Tickets And Fog</h2>
+              <p>Sharp questions and broad uncertainty are separated so Fog does not become fake task work.</p>
+            </div>
+          </div>
+          <div class="split-two">
+            <div class="panel">
+              <h3>Sharp tickets</h3>
+              <dl class="definition-list">
+                <div>
+                  <dt>{{ticket_id}}</dt>
+                  <dd>{{ticket_question}}<br><span class="status-label" data-tone="info">{{ticket_owner_route}}</span></dd>
+                </div>
+              </dl>
+            </div>
+            <div class="panel">
+              <h3>Fog</h3>
+              <dl class="definition-list">
+                <div>
+                  <dt>{{fog_id}}</dt>
+                  <dd>{{fog_description}}<br><span class="status-label" data-tone="unknown">{{sharpness_condition}}</span></dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="owner-routes">
+          <div class="section-header">
+            <div>
+              <h2>Owner Routes</h2>
+              <p>Each unresolved item points to the workflow that can legitimately resolve it.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Owner route</th>
+                  <th>Required evidence</th>
+                  <th>Exit condition</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{unresolved_item}}</td>
+                  <td>{{owner_route}}</td>
+                  <td>{{required_evidence}}</td>
+                  <td>{{exit_condition}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="handoff">
+          <div class="section-header">
+            <div>
+              <h2>Handoff Readiness</h2>
+              <p>The exact state of the map before engineering spec authoring.</p>
+            </div>
+          </div>
+          <div class="callout" data-tone="{{handoff_tone}}">
+            <h3>{{handoff_status}}</h3>
+            <p>{{handoff_explanation}}</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

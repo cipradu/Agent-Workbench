@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{artifact_title}}</title>
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <main class="artifact-page">
+    <header class="artifact-header">
+      <div>
+        <div class="artifact-kind">Engineering spec visual</div>
+        <h1>{{artifact_title}}</h1>
+        <p class="lead">{{reader_job_summary}}</p>
+        <div class="meta-strip" aria-label="Spec summary">
+          <div class="meta-item">
+            <span class="meta-label">Spec</span>
+            <span class="meta-value">{{spec_artifact}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Mode</span>
+            <span class="meta-value">{{greenfield_or_brownfield}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Inspect first</span>
+            <span class="meta-value">{{inspect_first}}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Acceptance</span>
+            <span class="meta-value">{{acceptance_status}}</span>
+          </div>
+        </div>
+      </div>
+      <aside class="header-aside" aria-label="Source boundary">
+        <div>
+          <span class="meta-label">May show</span>
+          <p>Required behavior, authority, invariants, contracts, risks, and acceptance evidence.</p>
+        </div>
+        <div>
+          <span class="meta-label">Must not do</span>
+          <p>Create task order, change requirements, or imply unrun verification passed.</p>
+        </div>
+      </aside>
+    </header>
+
+    <div class="artifact-layout">
+      <aside class="source-rail">
+        <h2>Sources And Navigation</h2>
+        <div class="rail-group">
+          <span class="meta-label">Source artifacts</span>
+          <ul class="rail-list">
+            <li><a href="{{spec_link}}" target="_blank" rel="noopener noreferrer">{{spec_artifact}}</a></li>
+            <li><a href="{{source_authority_link}}" target="_blank" rel="noopener noreferrer">{{source_authority}}</a></li>
+          </ul>
+        </div>
+        <div class="rail-group">
+          <span class="meta-label">Local navigation</span>
+          <ul class="rail-list">
+            <li><a href="#authority">Authority</a></li>
+            <li><a href="#behavior">Behavior</a></li>
+            <li><a href="#requirements">Requirements</a></li>
+            <li><a href="#acceptance">Acceptance evidence</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="content-stack">
+        <section class="section" id="authority">
+          <div class="section-header">
+            <div>
+              <h2>Source And Authority</h2>
+              <p>What truth the spec inherits and which source wins when sources conflict.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Authority</th>
+                  <th>Owns</th>
+                  <th>Confidence</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{authority_source}}</td>
+                  <td>{{authority_scope}}</td>
+                  <td><span class="status-label" data-tone="{{confidence_tone}}">{{confidence_label}}</span></td>
+                  <td>{{authority_notes}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="behavior">
+          <div class="section-header">
+            <div>
+              <h2>Current Versus Target</h2>
+              <p>Brownfield changes and target behavior are compared without turning the spec into a plan.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Surface</th>
+                  <th>Current</th>
+                  <th>Target</th>
+                  <th>Invariant</th>
+                  <th>Forbidden state</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{surface}}</td>
+                  <td>{{current_behavior}}</td>
+                  <td>{{target_behavior}}</td>
+                  <td>{{invariant}}</td>
+                  <td>{{forbidden_state}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="flow">
+          <div class="section-header">
+            <div>
+              <h2>Flow Or State View</h2>
+              <p>Use a compact diagram only when relationships, sequence, boundaries, or allowed states are the reader question.</p>
+            </div>
+          </div>
+          <div class="diagram-band" data-diagram-band>
+            <div class="diagram-tools" aria-label="Diagram controls">
+              <span class="diagram-title">{{diagram_title}}</span>
+              <div class="diagram-actions">
+                <button class="diagram-button" type="button" data-diagram-zoom-out aria-label="Zoom out">-</button>
+                <span class="diagram-zoom-value" data-diagram-zoom-value>100%</span>
+                <button class="diagram-button" type="button" data-diagram-zoom-in aria-label="Zoom in">+</button>
+                <button class="diagram-button" type="button" data-diagram-zoom-reset>Reset</button>
+              </div>
+            </div>
+            <div class="diagram-viewport">
+            <pre class="mermaid" aria-label="Spec flow or state diagram">
+flowchart TD
+  accTitle: {{diagram_accessible_title}}
+  accDescr: {{diagram_accessible_description}}
+  A["{{source_or_actor}}"] --> B["{{system_boundary}}"]
+  B --> C["{{required_behavior_or_state}}"]
+  C --> D["{{acceptance_evidence}}"]
+            </pre>
+            </div>
+            <p class="section-note">{{diagram_text_alternative}}</p>
+          </div>
+        </section>
+
+        <section class="section" id="requirements">
+          <div class="section-header">
+            <div>
+              <h2>Requirement Traceability</h2>
+              <p>Requirements connect to authority, risk, and proof instead of floating as unverified prose.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Requirement</th>
+                  <th>Authority</th>
+                  <th>Acceptance evidence</th>
+                  <th>Risk</th>
+                  <th>Proof status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{requirement_id}}: {{requirement}}</td>
+                  <td>{{requirement_authority}}</td>
+                  <td>{{acceptance_evidence}}</td>
+                  <td>{{risk_id}}</td>
+                  <td><span class="status-label" data-tone="{{proof_tone}}">{{proof_status}}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="acceptance">
+          <div class="section-header">
+            <div>
+              <h2>Acceptance Evidence</h2>
+              <p>Proof modalities are explicit, including blocked, skipped, manual, or human-only evidence.</p>
+            </div>
+          </div>
+          <div class="wide-band">
+            <ul class="evidence-rail">
+              <li>
+                <span class="evidence-id">{{evidence_id}}</span>
+                <span>Requirements: {{covered_requirements}}. Proof method: {{proof_modality}}. Expected result: {{expected_result}}. Reject degenerate pass when: {{degenerate_pass_to_reject}}.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "strict",
+      theme: "base",
+      themeVariables: {
+        fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        primaryColor: "#e7eefc",
+        primaryBorderColor: "#bfd0fb",
+        primaryTextColor: "#151b26",
+        lineColor: "#64748b",
+        secondaryColor: "#e4f6eb",
+        tertiaryColor: "#fff1d6"
+      }
+    });
+
+    await mermaid.run({ querySelector: ".mermaid" });
+
+    document.querySelectorAll("[data-diagram-band]").forEach((band) => {
+      const viewport = band.querySelector(".diagram-viewport");
+      const value = band.querySelector("[data-diagram-zoom-value]");
+      const svg = band.querySelector("svg");
+      if (!viewport || !value || !svg) return;
+
+      const viewBox = svg.viewBox && svg.viewBox.baseVal;
+      const naturalWidth = viewBox && viewBox.width ? viewBox.width : svg.getBoundingClientRect().width;
+      let scale = 1;
+
+      const applyScale = (next) => {
+        scale = Math.min(1.8, Math.max(0.7, next));
+        svg.style.width = `${Math.round(naturalWidth * scale)}px`;
+        svg.style.maxWidth = "none";
+        value.textContent = `${Math.round(scale * 100)}%`;
+      };
+
+      band.querySelector("[data-diagram-zoom-out]")?.addEventListener("click", () => applyScale(scale - 0.1));
+      band.querySelector("[data-diagram-zoom-in]")?.addEventListener("click", () => applyScale(scale + 0.1));
+      band.querySelector("[data-diagram-zoom-reset]")?.addEventListener("click", () => applyScale(1));
+      applyScale(1);
+    });
+  </script>
+</body>
+</html>

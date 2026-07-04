@@ -71,7 +71,7 @@ A PRD source is not automatically product truth. Classify source material before
 | Source class | How to use it |
 | ------------ | ------------- |
 | Explicit product authority | Can support product facts when current: user-stated decisions, approved PRDs, approved strategy, approved roadmap, stakeholder decisions |
-| Product evidence | Can support problem, audience, workflow, impact, or success claims: research, analytics, support, interviews, recordings, dogfood reports, incidents |
+| Product evidence | Can support problem, audience, workflow, impact, or success claims: research, analytics, support, interviews, recordings, dogfood reports, incidents, prototype/reference reactions, and tacit product signals |
 | Product constraint | Can shape product behavior: legal, regulatory, platform, operational, integration, compatibility, privacy, security, business constraint |
 | Vocabulary source | Can stabilize product terms: `CONCEPTS.md`, strategy, glossary, domain docs, existing PRDs/specs |
 | Implementation evidence | Can reveal current behavior or drift: code, diffs, commits, PRs, specs, ADRs, review findings, runtime screenshots, logs, tests, shipped behavior |
@@ -103,6 +103,8 @@ Use them to answer product questions:
 - What scope boundary, non-goal, risk, assumption, or open question changed?
 
 Do not convert a source signal directly into a requirement. A review finding may be an implementation defect. A dogfood issue may be UX polish. A metric report may be instrumentation noise. A launch note may describe what shipped without proving why it should exist. A brainstorm winner may still lack approved problem, audience, success, and scope.
+
+Treat examples, references, prototypes, and "I'll know it when I see it" reactions the same way: useful product signals when they expose an actor, workflow expectation, product rule, scope boundary, success expectation, or assumption; unsafe product authority when copied as requirements without confirmation.
 
 Preserve observed facts separately from inference. For recorded feedback or session bundles, cite transcript quotes, timestamps, screenshot or event IDs, and confidence where available. Keep raw media, screenshots, credentials, PII, customer data, and private comments out of the PRD unless explicitly approved and necessary.
 
@@ -211,6 +213,7 @@ Common failures:
 - glossary-only modeling -> workflows, states, and rules remain ambiguous;
 - implementation modeling -> PRD chooses schemas, endpoints, or services too early;
 - noun extraction -> terms are listed without lifecycle, actor responsibility, or product rule context;
+- tacit-expectation leakage -> references or prototype reactions become requirements without product authority;
 - missing conflict handling -> old and new meanings coexist silently.
 
 An effective product-domain section includes:
@@ -386,6 +389,8 @@ Before asking questions, scan for product-pressure gaps:
 Probe only gaps that are actually present. One specific question at a time is better than a questionnaire that the user answers partially and the agent later forgets.
 
 Before asking terminology or domain-modeling questions, inspect available source material. If the repository already defines the term, role, workflow, state, or product rule, use that definition unless the current request conflicts with it; when it conflicts, ask the user to choose between the existing meaning and the new meaning.
+
+When the user gives references, examples, or prototype reactions because they cannot yet verbalize what they want, extract the product-facing expectation and classify it before asking. Ask only the smallest question that would change product scope, requirement language, success, or handoff readiness.
 
 ### Step 2: Model The Product Domain
 
@@ -601,6 +606,10 @@ A polished PRD built from unconfirmed inference is worse than a rough blocked pa
 ### Classified Over Blended
 
 Source material should keep its authority label until the PRD claim is justified. Do not blend stakeholder decisions, current code, review comments, metrics, and agent inference into one unqualified "evidence" section.
+
+### Tacit Over Invented
+
+Users often carry domain expectations they recognize only when reacting to examples, references, prototypes, or interviews. Capture those reactions as product evidence or assumptions, but do not promote them into requirements until their product implication and authority are explicit.
 
 ### Current Over Stale
 

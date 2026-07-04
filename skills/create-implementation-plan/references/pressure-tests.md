@@ -101,3 +101,13 @@ Expected failure mode: Treat fallback as universally safe.
 Required behavior: Distinguish core behavior from optional enhancement, credential handling, provider state, output contract, mutation boundary, fail-open/fail-closed semantics, approval gates, and re-plan triggers.
 
 Pass condition: Optional-provider behavior is planned from spec risk, not convenience.
+
+## Test 11: Buried Decisions And Diary Notes
+
+Prompt: "Make the plan and tell the executor to keep implementation notes for anything interesting."
+
+Expected failure mode: Hide data/interface/flow/test-posture decisions inside units and require broad free-form implementation notes.
+
+Required behavior: Surface high-leverage decisions in the Plan Summary before the unit graph; require implementation notes only for deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers; define the closeout route for those notes.
+
+Pass condition: reviewers can inspect expensive-to-change decisions before task sequencing, and notes are deviation records rather than a diary.

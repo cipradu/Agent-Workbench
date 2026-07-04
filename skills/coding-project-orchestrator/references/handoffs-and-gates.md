@@ -11,8 +11,10 @@ Use this reference before moving from one workstream to another or dispatching a
 - [Gate: To Engineering Spec](#gate-to-engineering-spec)
 - [Gate: To Architecture Design](#gate-to-architecture-design)
 - [Gate: To Option Discovery](#gate-to-option-discovery)
+- [Gate: From Unknown-Discovery Routing](#gate-from-unknown-discovery-routing)
 - [Gate: To Runtime Polish Or QA](#gate-to-runtime-polish-or-qa)
 - [Gate: To Operational Or Reporting Owner](#gate-to-operational-or-reporting-owner)
+- [Gate: To Visual Artifact](#gate-to-visual-artifact)
 - [Gate: To Post-Ship Communication Owner](#gate-to-post-ship-communication-owner)
 - [Gate: To Source-Control Or PR Work](#gate-to-source-control-or-pr-work)
 - [Gate: To External Collaboration Or Publishing Sync](#gate-to-external-collaboration-or-publishing-sync)
@@ -121,6 +123,19 @@ Failure output:
 
 `Blocked: option discovery would invent authority or skip required product/spec/architecture truth: <specific gap>.`
 
+## Gate: From Unknown-Discovery Routing
+
+Pass condition:
+
+- The request uses blindspot-pass, unknown-unknown, hidden-risk, help-me-prompt-better, or similar uncertainty-discovery language.
+- The first durable decision classifies the uncertainty by the truth it can change: product/domain/tacit expectation, candidate direction, PRD-to-spec readiness, bounded engineering truth, failure cause, architecture boundary, execution strategy, or discussion-only output.
+- The next step invokes the matching owner gate or blocks on its missing prerequisite.
+- No standalone unknowns artifact, generic risk list, visual explainer, PRD, spec, plan, or code change is produced before owner classification.
+
+Failure output:
+
+`Blocked: unknown-discovery routing must identify the truth owner before producing artifacts or actions: <product/problem/engineering/spec-readiness/architecture/execution/discussion gap>.`
+
 ## Gate: To Runtime Polish Or QA
 
 Pass condition:
@@ -146,6 +161,20 @@ Pass condition:
 Failure output:
 
 `Blocked: reporting handoff lacks owner, read-only source, source window, privacy boundary, or artifact scope: <specific gap>.`
+
+## Gate: To Visual Artifact
+
+Pass condition:
+
+- The user asks to see an existing source visually, or an upstream workflow explicitly asks for a visual projection.
+- The source artifact or source window is named or safely discoverable: PRD, spec-readiness map, engineering spec, implementation plan, review packet, implementation result, diff, notes, or complex technical artifact.
+- The reader job is explicit enough to choose one primary artifact type and output mode: suggestion only, visual-artifact brief, or rendered artifact.
+- The visual output will project source truth only, with source boundary, evidence labels, material-claim traceability, and residual risks preserved.
+- The artifact will not become canonical source truth, acceptance evidence, implementation source, or decorative HTML.
+
+Failure output:
+
+`Blocked: visual artifact handoff lacks reader job, source artifact, output mode, or source-truth boundary: <specific gap>.`
 
 ## Gate: To Post-Ship Communication Owner
 

@@ -103,6 +103,7 @@ Inventory the material that can support product claims:
 - existing PRDs, specs, roadmaps, issues, support tickets, analytics, research notes, user interviews, or customer feedback;
 - existing repository docs that already define the project or product;
 - existing product vocabulary, glossary, context docs, strategy, architecture decisions, or domain docs that constrain product language or product truth;
+- user reactions to examples, references, prototypes, comparable products, interview answers, and tacit domain conventions that reveal product expectations the user may not have written down;
 - business, regulatory, operational, or market constraints supplied by the user or discovered from authoritative sources.
 
 When working in a repository, check for product-relevant local context before drafting: `README`, `ROADMAP`, `STRATEGY.md`, `CONCEPTS.md`, existing PRDs/specs/briefs, issue tracker context, prior learning stores, and ADRs that constrain user-facing behavior. Use this material to preserve vocabulary and product decisions. Do not turn technical docs into product truth unless they state product-facing constraints.
@@ -112,7 +113,7 @@ Read user-named source artifacts fresh when available. If a named source is unav
 Classify each material source before it becomes a PRD claim:
 
 - explicit product authority: user-stated product decision, approved PRD, approved strategy, approved roadmap, or stakeholder decision;
-- product evidence: research, analytics, support evidence, customer feedback, interview evidence, recorded feedback, dogfood/QA report, or incident evidence with affected actor and product consequence;
+- product evidence: research, analytics, support evidence, customer feedback, interview evidence, recorded feedback, dogfood/QA report, incident evidence, reference/prototype reaction, or tacit product signal with affected actor and product consequence;
 - product constraint: legal, regulatory, platform, operational, integration, privacy, security, compatibility, or business constraint that shapes product behavior;
 - vocabulary source: glossary, concepts doc, strategy, domain doc, or existing artifact that defines product language;
 - implementation evidence: current code, diffs, commits, PRs, specs, ADRs, review findings, runtime screenshots, logs, tests, or shipped behavior that may reveal current reality or drift but does not automatically define product truth;
@@ -146,7 +147,7 @@ Use domain precision only where it affects product truth. When source material o
 
 When the product involves agents, assistants, tools, plugins, MCP servers, prompts, automation, generated artifacts, or shared workspaces, model agents as product actors when they can take or mediate user-facing actions. Decide product-level action visibility, context parity, approval expectations, human-only boundaries, generated artifact trust, and shared workspace semantics without choosing tool APIs, prompt internals, schemas, or implementation architecture.
 
-When a product term remains ambiguous, ask one focused question at a time and include the recommended default or likely interpretation. Record unresolved ambiguity as an assumption, blocking question, or deferred question; do not turn it into product truth.
+When a product term, reference, example, prototype reaction, or domain convention suggests tacit product meaning the user has not stated, classify it as evidence or an assumption before using it. Ask one focused decision-changing question at a time and include the recommended default or likely interpretation. Record unresolved ambiguity as an assumption, blocking question, or deferred question; do not turn it into product truth.
 
 Use concrete scenarios to test product boundaries: happy path, failure path, lifecycle transition, handoff, excluded actor, edge case, and authority conflict. If a scenario changes the product meaning of a term, actor, workflow, state, or rule, update the PRD language before requirements become polished.
 
@@ -258,7 +259,7 @@ Use two stages:
 
 The synthesis is not the PRD. It is the last cheap correction point before the PRD lands. Keep it conversational and scope-level; do not include implementation details, file paths, schemas, package names, or task order.
 
-Keep only call-outs a product owner can affirm or redirect without reading code: problem frame, primary actor, product-domain meaning, success definition, material source conflict, scope boundary, non-goal, assumption, or downstream blocker. Do not preview every section. Do not include process narration, research plumbing, implementation units, or decorative findings.
+Keep only call-outs a product owner can affirm or redirect without reading code: problem frame, primary actor, product-domain meaning, tacit/reference-derived product expectation, success definition, material source conflict, scope boundary, non-goal, assumption, or downstream blocker. Do not preview every section. Do not include process narration, research plumbing, implementation units, or decorative findings.
 
 Ask for confirmation before writing when the PRD is full depth, when any product-scope inference is material, or when the user has not already approved the scope. If the user revises the synthesis, integrate the revision and re-present the changed synthesis before writing. A revision is not confirmation.
 
@@ -330,6 +331,7 @@ If a PRD is later committed, included in a PR, or shared for external review, pr
 | "A glossary is enough domain modeling."                | Term definitions without actors, workflows, states, and rules still leave requirements ambiguous. | Model the product-domain concepts needed for the PRD, or block missing pieces. |
 | "The code shows what the product is."                  | Code can show current behavior, drift, or an engineering decision, but not automatic product authority. | Reconcile code against product sources and classify any conflict.              |
 | "A review finding, metric, or dogfood issue is a requirement." | Signals can expose product gaps, but they may also be implementation-only, stale, or out of scope. | Classify the source and tie it to product problem, actor, success, or scope.   |
+| "The user will know it when they see it."        | Tacit preferences, references, and prototype reactions are source signals, not automatic product truth. | Extract the product implication, classify its authority, and confirm or mark it as an assumption/blocker before requirements depend on it. |
 | "This is only a small PRD revision."                   | Narrow edits can silently change approved product truth.                                          | Preserve unaffected sections and re-run affected gates plus handoff impact.    |
 | "This belongs in create-engineering-spec."             | Engineering specs answer different questions.                                                     | Handoff product truth to spec; do not merge artifacts.                         |
 
@@ -346,6 +348,7 @@ Stop before full PRD when:
 - non-goals are missing;
 - assumptions are presented as facts;
 - source signals are blended with product authority;
+- tacit expectations, references, examples, prototype reactions, or interview answers are treated as product facts without authority classification;
 - current code, diffs, commits, PR state, or shipped behavior are treated as approval;
 - metrics can be gamed or lack source, baseline, guardrail, or privacy/no-data semantics;
 - agents, tools, automations, or shared workspace actors are part of the product but absent from the domain model;
@@ -446,3 +449,13 @@ Expected wrong behavior: convert release copy and review findings directly into 
 Required behavior: classify launch and review material as source signals, extract only product-facing problem/audience/success/scope evidence, and block missing product truth.
 
 Pass condition: promotion and review artifacts do not replace PRD gates.
+
+### Tacit Product Expectation
+
+Prompt: "Create a PRD for this dashboard. I know what I want when I see it, and this reference screen is close."
+
+Expected wrong behavior: copy the reference into requirements, infer product scope from taste, or turn visual/prototype reaction into approved product truth.
+
+Required behavior: classify the reference and reaction as product evidence or assumption, extract only the product-facing implication, ask or block on the decision-changing unknown, and leave implementation/design specifics downstream unless they are explicit product constraints.
+
+Pass condition: the PRD preserves tacit product expectations without inventing product authority or copying the reference as a requirement.

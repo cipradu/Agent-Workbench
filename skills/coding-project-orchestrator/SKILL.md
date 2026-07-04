@@ -10,6 +10,7 @@ description: Use before acting on real-repository coding-project work when the c
 - A request involves understanding, changing, debugging, planning, implementing, reviewing, or coordinating software in a repository.
 - It is unclear whether the work should be handled directly, diagnosed first, specified, planned, delegated, reviewed, or recorded as an ADR.
 - The request mentions or implies features, bugs, failures, refactors, migrations, schemas, config, APIs, tests, tools, agents, skills, prompts, templates, workflows, architecture, implementation, or review.
+- The request asks for a blindspot pass, unknown unknowns, hidden risks, "I don't know what I don't know", help prompting better, or similar uncertainty discovery before action.
 - The user asks for speed, says the change is small, provides rough notes, expresses frustration, or asks for a result before the necessary truth is known.
 
 ## Do Not Use This Skill When
@@ -82,6 +83,8 @@ Minimum checks:
 - Continuity truth: Does a project continuity artifact exist, and is current focus, blocker state, or next action needed for safe start, resume, pause, or close?
 - Acceptance truth: Is independent review required before the work can be called done?
 
+Unknown-discovery routing: when the request asks for a blindspot pass, unknown unknowns, hidden risks, help prompting better, or a similar uncertainty pass, do not treat that as a standalone artifact. Classify the uncertainty by the truth it can change: product/domain/tacit user expectations route to product definition, candidate directions route to option discovery, existing PRD-to-spec fog routes to spec readiness mapping, bounded technical authority or acceptance gaps route to engineering definition, unresolved cause routes to diagnosis, ownership or seam uncertainty routes to architecture judgment, and approved-spec execution uncertainty routes to implementation planning.
+
 Completion criterion: the next action is chosen from the kind of truth actually missing and the strength of the evidence available, not from the user's wording alone.
 
 Failure output: `Blocked: cannot choose workflow because missing truth is unresolved or source strength is insufficient: <source/product/problem/engineering/architecture/execution/acceptance>.`
@@ -129,6 +132,7 @@ When a downstream owner applies, route to that owner or build the handoff; do no
 | Workstream                    | Use when                                                                                                                                             | Owning skill or action                                     |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
 | Discussion or design analysis | User wants reasoning, comparison, critique, or explanation only                                                                                      | Answer directly; do not mutate                             |
+| Unknown-discovery routing     | User asks for a blindspot pass, unknown unknowns, hidden risks, help prompting better, or uncertainty discovery before the correct owner is known      | Classify by truth owner; then route to option discovery, PRD, spec readiness, engineering spec, diagnosis, architecture, plan, or discussion |
 | Diagnosis                     | Something is failing, surprising, disputed, or root cause is unknown                                                                                 | `structured-problem-resolution`                            |
 | Product definition            | Explicit PRD, project-definition, or product-definition intent exists, and product/workflow truth must be defined                                    | `create-project-prd`                                       |
 | Spec readiness mapping        | A PRD/product brief or equivalent product source exists, but one engineering spec would require resolving multiple material engineering-truth questions or one broad material question across sessions | `create-spec-readiness-map`                               |
@@ -138,6 +142,7 @@ When a downstream owner applies, route to that owner or build the handoff; do no
 | Option discovery              | User asks for ideas, opportunities, what to improve, or candidate directions before product/spec/plan truth exists                                   | Ground options without turning survivors into requirements |
 | Runtime polish or QA routing  | User asks to run, inspect, dogfood, or polish an already implemented surface                                                                          | Route to the relevant runtime/testing/tool workflow        |
 | Operational/reporting         | User asks for read-only status, recap, pulse, metrics, or generated report output                                                                    | Route to the reporting/data owner or return a handoff/blocker packet |
+| Visual artifact projection    | User asks to see an existing PRD, readiness map, spec, plan, review packet, implementation result, or complex technical artifact visually, as HTML, as a diagram, or as a comprehension report | `visual-artifact`                                         |
 | Post-ship communication       | User asks for launch copy, release notes, social/email copy, demo script, or changelog-style draft grounded in completed work                         | Route to the communication/publishing/docs owner; do not draft or publish from this skill |
 | Source-control or PR handoff  | User asks to commit, push, open/update a PR, resolve PR comments, merge, watch CI, or mutate source-control metadata                                 | Route to git/PR/review-feedback owners with exact action approval |
 | External collaboration sync   | User asks to publish, pull, sync, or update a shared document or external collaboration copy                                                         | Preserve canonical source, sync direction, and mutation scope before routing |
@@ -252,6 +257,7 @@ Stop and report the blocker instead of proceeding when:
 | "They said ship it, so commit/push/PR is implied." | Source-control and external mutations are separate actions with separate risks. | Separate implementation acceptance from commit, push, PR, merge, CI, and external metadata scope before routing.                                              |
 | "It is just a report or draft."                   | Reports, drafts, local config, and external copies can leak weak truth or mutate durable state. | Classify draft/read-only/local/external action scope, source window, privacy, and canonical truth before proceeding.                                          |
 | "The conversation has the current state."         | Conversation context decays and may not survive the next session.   | Use `project-continuity` when a project continuity artifact exists or checkpoint state needs to persist.                                                     |
+| "They asked for unknowns, so make a risk list."   | Unknown-discovery language is an ingress signal, not an artifact owner. | Classify which truth the unknowns can change, then route to the downstream owner that can resolve or preserve them.                                          |
 | "A useful pattern appeared, so create a pattern." | Pattern capture is a check, not automatic documentation.            | Route concrete recurrence or mandate signals to `create-implementation-pattern`; accept candidate, update, or rejection outcomes.                            |
 | "This is just a skill/rule/template change."      | Control artifacts alter future behavior.                            | Treat as implementation/control-surface work and review when non-trivial.                                                                                    |
 | "High assurance means always maximum ceremony."   | Over-processing creates drag and stale artifacts.                   | Use the lightest sufficient workflow, with explicit escalation when risk or uncertainty requires it.                                                         |
@@ -260,6 +266,7 @@ Stop and report the blocker instead of proceeding when:
 
 - The response starts with a downstream artifact before classifying the work.
 - The agent treats "feature", "bug", "refactor", or "review" as enough classification.
+- The agent treats "blindspot pass", "unknown unknowns", or "hidden risks" as enough classification instead of routing by the truth that could change.
 - A PRD, spec, or plan is produced while blocking questions are hidden in prose.
 - A polished spec, plan, ADR, review report, doc, or progress note is accepted without checking authority and currentness.
 - A generated report, runtime screenshot, launch log, PR body, release draft, or external document copy is treated as source truth without source-window and authority checks.

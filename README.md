@@ -4,7 +4,7 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, database/API/error/testing design, diagnosis, and git commit/PR/conflict discipline.
+This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, database/API/error/testing design, diagnosis, and git commit/PR/conflict discipline.
 
 No packaged installer, exporter, or validator is included yet. For now, assets are copied manually into the projects or harness locations that should use them.
 
@@ -39,7 +39,7 @@ harness-instructions/
 skills/
 ```
 
-This repository currently has no public `docs/` tree. The README is the front door for the asset set.
+This repository currently has no public tracked `docs/` tree. Local ignored `docs/` material may exist for references, skill analysis, or project progress notes. Local `.agents/` material may exist for disposable visual artifacts or project-local skill experiments, but the reusable source assets live under tracked top-level directories. The README is the front door for the asset set.
 
 ## Repository Areas
 
@@ -50,9 +50,11 @@ This repository currently has no public `docs/` tree. The README is the front do
 Current skill groups include:
 
 - Orchestration and workflow: `coding-project-orchestrator`, `project-rules`, `project-continuity`, and `implementation-review-workflow`.
-- Product and engineering artifacts: `create-project-prd`, `create-spec-readiness-map`, `create-engineering-spec`, `create-implementation-plan`, `create-project-adr`, `create-implementation-pattern`, `create-documentation`, `create-readme`, and `create-skills`.
+- Product and engineering artifacts: `create-project-prd`, `create-spec-readiness-map`, `create-engineering-spec`, `create-implementation-plan`, `create-project-adr`, `create-implementation-pattern`, `create-documentation`, `create-readme`, `create-skills`, and `visual-artifact`.
 - Design, diagnosis, and quality: `structured-problem-resolution`, `codebase-search`, `architecture-design`, `api-design`, `database-design`, `queue-and-cache-design`, `testing-strategy`, and `error-handling-design`.
 - Git workflow: `git-commit`, `git-pull-request`, and `git-resolve-conflicts`.
+
+`visual-artifact` creates source-traced HTML projections for existing PRDs, spec-readiness maps, engineering specs, implementation plans, review packets, implementation results, or complex technical artifacts. It uses Mermaid for diagrams by default, keeps evidence and source ownership visible, opens source/evidence links in new tabs, keeps in-page navigation local to the artifact, and writes disposable project-local outputs under `.agents/visual-artifacts/` unless another output path is explicitly chosen.
 
 ### Agents
 

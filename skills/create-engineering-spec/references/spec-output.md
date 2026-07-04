@@ -272,3 +272,7 @@ Mode: Greenfield | Brownfield
 
 ## Durable Residuals
 ```
+
+## Output Checklist Addendum
+
+Before presenting a full spec, confirm that any reference artifact, source-code example, prototype, screenshot, external implementation, or comparable system used as evidence states what property transfers, what does not transfer, and what target-context difference matters. If that cannot be stated, the reference may remain background context but must not support a normative requirement.

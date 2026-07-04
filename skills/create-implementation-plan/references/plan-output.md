@@ -60,6 +60,8 @@ Reviewer status: Not reviewed | Review requested | Reviewed | Rejected
 
 ### Objective
 
+### High-Leverage Decisions To Review First
+
 ### What Will Change
 
 ### What Will Not Change
@@ -201,7 +203,7 @@ Execution note:
 Approach logic:
 Technical design:
 Dependencies:
-Implementation-time unknowns:
+Implementation-time unknowns: non-blocking unknowns only, with resolution method and re-plan trigger; blockers must not appear as executable unit work
 Workspace / isolation requirement:
 Verification environment:
 Agent/workflow facets:
@@ -263,6 +265,7 @@ For each category: applicable | not applicable with evidence-backed reason.
 - quality constraints:
 - implementation units:
 - implementation-time unknowns:
+- implementation notes requirement:
 - verification environment preflights:
 - verification commands/checks:
 - approval gates:
@@ -277,6 +280,7 @@ For each category: applicable | not applicable with evidence-backed reason.
 - Run the unit verification exactly as specified and capture evidence before claiming the unit is done.
 - Honor approval gates before touching gated surfaces.
 - Stop and re-plan when any re-plan trigger fires.
+- Keep implementation notes only when execution hits a plan deviation, edge case, conservative choice, new material unknown, or re-plan trigger. Close each note out by routing it to the plan, review packet, continuity artifact, ADR/pattern candidate, or final residual risk instead of leaving a diary.
 - Do not change spec truth, broaden scope, or edit tests/verification artifacts outside the unit's stated posture and approval path.
 
 ## 16. Reviewer Brief
@@ -308,6 +312,7 @@ Disposition: addressed | addressed differently | not addressing | declined | nee
 - [ ] Research/discovery evidence supports every implementation claim.
 - [ ] External research routing is recorded, and requested-but-unavailable research is visible.
 - [ ] Load-bearing external findings are integrated into decisions, risks, verification, approval gates, or re-plan triggers.
+- [ ] High-leverage decisions that need user, executor, or reviewer attention are surfaced in the Plan Summary before the unit graph.
 - [ ] Smallest safe path is justified.
 - [ ] Key Technical Decisions are indexed, or no material decisions beyond direct spec decomposition exist.
 - [ ] High-Level Technical Design is present when the plan structure needs it, or intentionally omitted because prose is sufficient.
@@ -353,7 +358,7 @@ Execution note: test-first | characterization-first | acceptance-first | migrati
 Approach logic: detailed implementation reasoning without code
 Technical design: optional high-level sketch, state model, protocol outline, or diagram description when prose alone would leave the approach ambiguous
 Dependencies: unit IDs, approvals, migrations, data prerequisites, external decisions
-Implementation-time unknowns: non-blocking unknowns, resolution method, and re-plan trigger
+Implementation-time unknowns: non-blocking unknowns only, resolution method, and re-plan trigger; blockers belong in the blocked packet or re-plan route
 Workspace / isolation requirement: current checkout | existing isolated workspace | separate workspace required | no special isolation
 Verification environment: preflight, required tool/runtime, known automation limits, manual evidence fallback, cleanup
 Agent/workflow facets: action parity, context parity, shared workspace, approval boundary, lifecycle/recovery, agent-native verification when relevant

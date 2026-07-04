@@ -218,12 +218,15 @@ Allowed resume-critical links and summaries include:
 
 - active PRD, engineering spec, implementation plan, ADR, or implementation-pattern path;
 - implementation review report, verdict, active finding IDs, residual-risk sink, or re-review status after the review owner produced it;
+- implementation-note closeout after reconciliation, limited to unresolved deviation, active blocker, accepted residual risk, next action, or source artifact update needed;
 - verification command output path, test run identifier, or relevant failure summary;
 - branch, commit, worktree, PR number, or CI state when that state is already in scope and affects resume;
 - dogfood, optimization, polish, product-pulse, proof, or generated-report path when another workflow produced it and its state affects resume;
 - local runtime context such as command source, working directory, port, log path, or ignored scratch path only when the next session needs it.
 
 Do not create, validate, publish, update, or copy these artifacts from this skill. Link to their durable source and summarize only the state needed to resume.
+
+Do not copy raw implementation notes into continuity. If notes mention deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers, first route durable truth to the owning plan, review packet, ADR/pattern candidate, spec/PRD owner, or final residual-risk report. Continuity records only the resulting resume-critical state.
 
 ## Blocker And Next-Action Precision
 
@@ -324,12 +327,14 @@ Stop instead of updating when:
 | "No one asked for progress."                    | If the project has a continuity convention and a meaningful checkpoint changed, updating continuity is part of closing the work.                                |
 | "I checked progress, so I should write something." | A checked artifact that is already current should produce `no-write checked`, not churn.                                                                        |
 | "The report has all the details."               | Continuity links reports and records resume-critical state. Reports keep their own details and truth.                                                           |
+| "The implementation notes have everything."     | Notes are working evidence, not current-state control. Reconcile them to the owning artifact and record only resume-critical blocker, residual risk, next action, or source update state. |
 
 ## Red Flags
 
 - The agent starts work from chat memory while `docs/progress.md` exists.
 - The agent updates progress before verification or review and marks work complete prematurely.
 - The artifact becomes a command log, diary, or copied final answer.
+- Raw implementation notes are copied instead of reconciling deviations, blockers, residual risks, and next actions to their owners.
 - The next action is vague, such as "continue implementation" or "finish cleanup."
 - Blockers are listed without an unblocking action.
 - Stale progress is silently trusted despite conflicting git/spec/review evidence.
