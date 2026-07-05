@@ -36,11 +36,12 @@ agents/
 harness-instructions/
   claude/
   codex/
+  omp/
   opencode/
 skills/
 ```
 
-This repository currently has no public tracked `docs/` tree. Local ignored `docs/` material may exist for references, skill analysis, or project progress notes. Local `.agents/` material may exist for disposable visual artifacts or project-local skill experiments, but the reusable source assets live under tracked top-level directories. The README is the front door for the asset set.
+This repository currently has no public tracked `docs/` tree. Local ignored `docs/` material may exist for references, skill analysis, or project progress notes. Local `.agents/`, `.claude/`, `.codex/`, `.opencode/`, and `.omp/` material may exist for disposable outputs, project-local experiments, or deployed harness copies, but the reusable source assets live under tracked top-level directories. Treat untracked working files as local experiments until they are intentionally committed.
 
 ## Repository Areas
 
@@ -63,11 +64,32 @@ Current skill groups include:
 
 Each harness may need a different file format, but the role intent should stay aligned across Codex, Claude, OpenCode, and Oh My Pi.
 
+The committed agent source formats are:
+
+| Harness | Source files | Format | User/global target used in this setup |
+| --- | --- | --- | --- |
+| Claude | `agents/claude/*.md` | Markdown agent files with YAML front matter | `~/.claude/agents/` |
+| Codex | `agents/codex/*.toml` | TOML agent definitions | `~/.codex/agents/` |
+| OpenCode | tracked `agents/opencode/*.md` | Markdown agent files with OpenCode front matter | `~/.config/opencode/agents/` |
+| Oh My Pi | `agents/omp/*.md` | Direct Markdown task-agent files with YAML front matter | `~/.omp/agent/agents/` |
+
 `agents/omp/` stores Oh My Pi task-agent source files. OMP agents are direct Markdown files with YAML front matter and prompt body. The source files use the required `name` and `description` contract; `coder` and `implementation-reviewer` also pin their verified OMP `model` and `thinkingLevel` fields. Add other optional OMP fields such as tool allowlists only after verifying the exact field and value shape against current OMP source or runtime behavior. Do not copy Claude, Codex, or OpenCode metadata across without adapting it.
 
 ### Harness Instructions
 
 `harness-instructions/` holds durable operating instructions that sit at a project boundary. These files define routing, delegation, safety gates, artifact attribution rules, workflow expectations, and completion discipline.
+
+The harness instruction sources and current user/global targets are:
+
+| Harness | Source file | User/global target |
+| --- | --- | --- |
+| Portable base | `harness-instructions/AGENTS.md` | Source template only; adapt through a harness-specific file before deployment when the harness has different tool or agent semantics |
+| Claude | `harness-instructions/claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| Codex | `harness-instructions/codex/AGENTS.md` | `~/.codex/AGENTS.md` |
+| OpenCode | `harness-instructions/opencode/AGENTS.md` | `~/.config/opencode/AGENTS.md` |
+| Oh My Pi | `harness-instructions/omp/AGENTS.md` | `~/.omp/agent/AGENTS.md` |
+
+Root-level `AGENTS.md` and `CLAUDE.md` files in working projects are ignored here because they are local harness instruction overrides, not reusable source assets for this repository.
 
 ## How To Use
 
@@ -79,7 +101,22 @@ Copy assets selectively. This repository does not provide an installer, so use t
 4. Keep project-specific rules in the target project unless the rule is broadly reusable.
 5. Validate behavior with pressure scenarios before trusting a new or changed skill.
 
-The generic `harness-instructions/AGENTS.md` is a portable source file. Use the harness-specific instruction file when deploying to Claude, Codex, OpenCode, or Oh My Pi.
+Skill deployment is manual. The shared skill source is `skills/`. In this setup, shared agent skills are copied to `~/.agents/skills/`, Claude Code skills are copied to `~/.claude/skills/`, and Codex-native skills may be copied to `~/.codex/skills/` when the Codex surface should load them directly. Do not rely on symlinked Claude skills unless you have verified that Claude Code loads them in the target environment.
+
+The generic `harness-instructions/AGENTS.md` is a portable source file. Use the harness-specific instruction file when deploying to Claude, Codex, OpenCode, or Oh My Pi because each harness has different tool-calling, skill-loading, and task-agent semantics.
+
+Global copy targets for current committed agent and harness sources:
+
+```text
+agents/claude/*.md                    -> ~/.claude/agents/
+agents/codex/*.toml                   -> ~/.codex/agents/
+agents/opencode/*.md                  -> ~/.config/opencode/agents/
+agents/omp/*.md                       -> ~/.omp/agent/agents/
+harness-instructions/claude/CLAUDE.md -> ~/.claude/CLAUDE.md
+harness-instructions/codex/AGENTS.md  -> ~/.codex/AGENTS.md
+harness-instructions/opencode/AGENTS.md -> ~/.config/opencode/AGENTS.md
+harness-instructions/omp/AGENTS.md    -> ~/.omp/agent/AGENTS.md
+```
 
 For Oh My Pi, deploy direct Markdown agent files from `agents/omp/*.md`:
 
@@ -96,6 +133,7 @@ This project draws inspiration from the following public work:
 - [mattpocock/skills](https://github.com/mattpocock/skills), for focused, behavior-oriented skill examples.
 - [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin), for planning, review, and structured execution workflows.
 - [github/awesome-copilot](https://github.com/github/awesome-copilot), for a broad catalog of Copilot instructions, agents, prompts, and skill examples.
+- [Thariq (@trq212), "A Field Guide to Fable: Finding Your Unknowns"](https://x.com/trq212/article/2073100352921215386), for the known/unknowns framing and HTML artifact patterns that informed the visual artifact workflow.
 
 ## License
 
