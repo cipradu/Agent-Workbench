@@ -36,5 +36,7 @@ temp/
 docs/skill-analysis/
 docs/references/
 docs/progress.md
+docs/plans/
+docs/specs/
 .playwright-mcp/
 skills-lock.json
