@@ -64,6 +64,19 @@ Finding the root cause is only half the job. A fix that solves the immediate pro
 
 Every resolution starts with a signal — something that tells you attention is needed. The signal might be an error message, a failing test, a code review comment, a bug report, or a human's opinion about your code. How you receive and evaluate that signal determines everything that follows.
 
+### Reference Retrieval (Conditional)
+
+Before relying on detailed guidance in a reference, evaluate every row below. Select and read each independently applicable reference before its listed decision; matching multiple rows requires multiple selections. Load only applicable references. For a non-Obvious runtime diagnosis with no matching operational row, record `none applicable` in `Reference selection`. The Phase 2 Obvious direct path requires neither a reference nor a scratch record.
+
+| Trigger | Select and read | Required before |
+| --- | --- | --- |
+| A review, ticket, bug report, vague or solution-framed signal, or multi-item feedback needs detailed evaluation | [signal-evaluation.md](references/signal-evaluation.md) | Phase 1 detailed review/ticket/vague/multi-item evaluation |
+| An investigation needs a detailed diagnostic technique beyond this skill's quick reference, including intermittent, environment-dependent, or performance work | [techniques.md](references/techniques.md) | Phase 3 choosing or applying that detailed technique |
+| A prior failed fix, speed/authority pressure, anchoring, deference, or thrashing could affect the next hypothesis or fix decision | [cognitive-traps.md](references/cognitive-traps.md) | The pressure-affected hypothesis or fix decision |
+| Testing, validating, or revising this skill itself | [test-report.md](references/test-report.md) | Testing, validating, or revising this skill; determining maintenance evidence or pressure scenarios |
+
+`test-report.md` is maintenance evidence only: maintenance is not a runtime diagnosis branch, and every non-Obvious runtime diagnosis explicitly leaves `test-report.md` unselected. Record every selected path and its individual trigger basis in the non-Obvious scratch file; record `none applicable` only when no runtime trigger applies.
+
 The critical discipline: **treat every signal as a hypothesis to verify, not an instruction to follow.** This applies equally to error messages (which can be misleading) and human feedback (which can be wrong).
 
 ### Error Messages and Test Failures
@@ -161,7 +174,7 @@ For vague, multi-item, media-backed, review/ticket, or solution-framed signals, 
 
 If a human signal is vague, quote the exact weak phrase and ask one observation-seeking question when the answer materially changes the next diagnostic action. If the answer remains unavailable, record the uncertainty and the next evidence artifact needed rather than converting pressure into edits.
 
-See [signal-evaluation.md](references/signal-evaluation.md) for detailed patterns on evaluating different signal types, multi-item feedback handling, the four-axis evaluation framework, and the push-back framework.
+When the Phase 1 selector row applies, read [signal-evaluation.md](references/signal-evaluation.md) before detailed evaluation; it contains the patterns for signal types, multi-item feedback, the four-axis evaluation framework, and push-back.
 
 ---
 
@@ -216,6 +229,8 @@ If your "Obvious" fix doesn't work on the first try, you were wrong about the cl
 ## Phase 3: Investigate
 
 This is the core loop. The discipline: **understand before you change.**
+
+Before a pressure-affected hypothesis or fix decision, select and read [cognitive-traps.md](references/cognitive-traps.md) when its selector row applies. Do not defer that read until after the decision.
 
 ### Step 1: Observe (what is actually happening?)
 
@@ -369,7 +384,7 @@ For feedback-driven problems: Was the reviewer identifying a one-off issue or a 
 
 ### Techniques by Situation
 
-Practical starting points for common scenarios. See [techniques.md](references/techniques.md) for detailed walkthroughs.
+Practical starting points for common scenarios. When the Phase 3 selector row applies, select and read [techniques.md](references/techniques.md) before choosing or applying its detailed technique.
 
 **"I don't know where the problem is"**
 
@@ -600,6 +615,8 @@ For non-Obvious investigations, there are two edit gates plus two trust conditio
 **Gate 1 — Investigation gate (before non-Obvious source edits):**
 **When triage selects Simple, Complex, or Architectural, you may not edit source files until you have created the scratch file, written your initial hypothesis, AND recorded your research/evidence results (Step 3).** The three conditions are: (1) scratch file exists, (2) hypothesis is written, (3) current external research is recorded when drift-prone external behavior matters, or local evidence is recorded with a reason external/current research is not relevant. If the signal came from an issue, PR, review, ticket, incident, or thread, the scratch file must also record that the complete available context and latest update were read, or record why they are unavailable. All conditions must be satisfied before any non-Obvious source edit. Diagnostic additions (print/log statements for observation) are exempt — observation is free, changes are not.
 
+Gate 1 also requires `Reference selection`: selected paths and each independent trigger basis, or `none applicable` when no runtime trigger applies. Read every selected reference before its dependent decision; scratch creation or recording must not defer that read.
+
 For vague, stale, resumed, external-artifact, media, review/ticket, or multi-item signals, Gate 1 also requires the scratch file to preserve diagnostic scope, source provenance, stale-context classification, and review/ticket metadata where applicable. Use `not applicable` when the field does not apply; do not delete the field.
 
 **Feedback-loop condition (before testing non-Obvious hypotheses):**
@@ -613,7 +630,7 @@ For vague, stale, resumed, external-artifact, media, review/ticket, or multi-ite
 
 Concise investigation notes are allowed. Missing required scratch fields are not. Brevity means short entries inside the required fields, not deleting thread/context, environment sanity, bad-state transition, assumption audit, causal chain, predictions, research/evidence, or impact-analysis fields.
 
-**Scratch validity check:** Before treating Gate 1, the feedback-loop condition, or the environment/causal-chain condition as satisfied, confirm the scratch file contains these literal labels: `Diagnostic scope`, `Evidence provenance`, `Stale/resumed context`, `Thread/context read?`, `Latest update considered`, `Environment sanity`, `Environment-health classification`, `Branch/version/dependencies/runtime checked`, `Config/env/services/artifacts/test-target checked`, `Bad-state transition`, `Last known valid state`, `First observed invalid state`, `Hypothesis basis`, `Alternative hypotheses`, `Assumption audit`, `Causal chain`, `Predictions`, `Prediction result`, `Invalidated/refined by`, `Absence claims checked`, `Impact analysis`, `Interaction-chain impact`, `External mutation/readback`, and `Handoff/residual status`. A missing label means the scratch file is incomplete, even when the answer is intentionally concise.
+**Scratch validity check:** Before treating Gate 1, the feedback-loop condition, or the environment/causal-chain condition as satisfied, confirm the scratch file contains these literal labels: `Diagnostic scope`, `Reference selection`, `Evidence provenance`, `Stale/resumed context`, `Thread/context read?`, `Latest update considered`, `Environment sanity`, `Environment-health classification`, `Branch/version/dependencies/runtime checked`, `Config/env/services/artifacts/test-target checked`, `Bad-state transition`, `Last known valid state`, `First observed invalid state`, `Hypothesis basis`, `Alternative hypotheses`, `Assumption audit`, `Causal chain`, `Predictions`, `Prediction result`, `Invalidated/refined by`, `Absence claims checked`, `Impact analysis`, `Interaction-chain impact`, `External mutation/readback`, and `Handoff/residual status`. A missing label means the scratch file is incomplete, even when the answer is intentionally concise.
 
 ### Create the File
 
@@ -640,6 +657,8 @@ Diagnostic scope:
   - Agent inference: [inference + basis label, or none]
   - Out of scope: [adjacent complaints or downstream workflow requests]
   - Missing fact that changes next action: [one fact or none]
+
+Reference selection: [selected reference paths + individual trigger basis; or `none applicable` when no runtime trigger applies]
 
 Signal evaluation:
   - Source trust level: [high/medium/low]
@@ -902,7 +921,7 @@ The most common traps in problem resolution:
 | Deference under pressure | Skipping verification to seem responsive                      | The 5 minutes verifying is always cheaper than the debugging after |
 | Review auto-apply        | Clearing feedback as a queue instead of verifying claims      | Keep stable IDs, dispositions, and evidence per item               |
 
-See [cognitive-traps.md](references/cognitive-traps.md) for detailed descriptions and countermeasures for each trap, including the thrashing pattern and traps specific to receiving external feedback.
+The Phase 3 selector requires [cognitive-traps.md](references/cognitive-traps.md) before a pressure-affected hypothesis or fix decision; it contains detailed countermeasures, including thrashing and external-feedback traps.
 
 ---
 
