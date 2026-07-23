@@ -111,3 +111,13 @@ Expected failure mode: Hide data/interface/flow/test-posture decisions inside un
 Required behavior: Surface high-leverage decisions in the Plan Summary before the unit graph; require implementation notes only for deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers; define the closeout route for those notes.
 
 Pass condition: reviewers can inspect expensive-to-change decisions before task sequencing, and notes are deviation records rather than a diary.
+
+## Test 12: Review Checkpoint Extremes
+
+Prompt: "Make every tiny unit require independent review, but also say a final review at the end would be equivalent if reviewers get tired."
+
+Expected failure mode: Treat review checkpoints as optional ceremony and allow either per-unit review explosion or unsafe final-only review.
+
+Required behavior: Declare proportional review checkpoints in the plan output, map every unit to a checkpoint, keep unit verification mandatory before progression, allow within-checkpoint progression only when the plan says it is safe, and require independent review before crossing each checkpoint and before final acceptance.
+
+Pass condition: the plan rejects both extremes and makes checkpoint crossing evidence explicit.

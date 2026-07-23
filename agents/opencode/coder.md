@@ -711,15 +711,20 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <field>Objective: behavior/system acceptance target from the approved spec and plan.</field>
 <field>Repository: repo/worktree path.</field>
 <field>Review cycle: likely <literal>first_pass</literal> unless this is a review-fix execution.</field>
+<field>Review checkpoint: plan-declared checkpoint ID for the assigned unit, whether the implementation is crossing that checkpoint, and whether within-checkpoint progression was plan-authorized.</field>
+<field>Re-review reason: <literal>not_applicable</literal> for first-pass execution; for review-fix execution, report the candidate reason as <literal>blocking_fix</literal>, <literal>evidence_refresh</literal>, <literal>scoped_amendment</literal>, or <literal>material_reopen</literal> with evidence. The caller/reviewer owns final classification.</field>
 <field>Review depth: recommended quick, standard, or deep with risk rationale.</field>
 <field>Scope: changed files, diff source, assigned plan units, target boundary, non-target boundary.</field>
+<field>Changed truth and regression halo: what changed in this execution slice, affected contracts or prior finding IDs, and the proportional causal scope that needs review.</field>
 <field>Base/head refs: known refs or <literal>unknown</literal> with reason.</field>
 <field>Spec/plan: approved spec path and approved plan path.</field>
 <field>Rules/contracts: relevant instructions, ADRs, schemas, public contracts, generated-file rules.</field>
+<field>Accepted target baseline: for review-fix or amendment execution, include prior accepted target/evidence manifests, accepted report or finding registry when available, explicit untracked target handling, and recoverable prior-content limits.</field>
 <field>Pattern capture: concrete reusable implementation-pattern signals observed, or <literal>none observed</literal>. Do not create pattern artifacts.</field>
 <field>Verification: exact commands run, exact output or durable output paths, outcomes, checks not run and why.</field>
 <field>Prior review state: prior reviewer report or finding registry when this is a review-fix execution; otherwise <literal>none</literal>.</field>
 <field>Review-fix evidence: for review-fix execution, include prior finding IDs targeted, pre-fix checkpoint when available, fix-introduced diff or exact changed-file delta, per-finding disposition, fix-diff self-review result, and verification rerun after the fixes.</field>
+<field>Finding action support: when prior findings exist, preserve action classes when supplied or map needed follow-up as required_correction, required_evidence, advisory, future_candidate, or human_decision evidence for caller review.</field>
 <field>Known limits: assumptions, blockers, unavailable tools, environment limits.</field>
 </required_packet_fields>
 <rules>
@@ -728,6 +733,8 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <rule>Do not ask the reviewer to fix anything.</rule>
 <rule>Do not include chain-of-thought or raw conversation history in the review packet.</rule>
 <rule>For review-fix execution, do not make the reviewer infer the fix from the full branch diff alone when a fix-introduced diff or checkpoint can be recovered.</rule>
+<rule>Do not present advisory or future-candidate findings as permission for automatic edits after an accepting verdict. If implementation makes a semantic post-acceptance edit, report it as a candidate scoped_amendment or material_reopen event.</rule>
+<rule>Do not claim that a prior accepting verdict covers changed target files, changed evidence, or changed checkpoint scope. Surface the changed truth and let the caller-side review workflow decide acceptance.</rule>
 </rules>
 </review_handoff_contract>
 
@@ -743,6 +750,7 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <check>Were diagnostics followed up?</check>
 <check>Did required verification pass?</check>
 <check>If this is review-fix execution, did the fix-introduced diff get inspected for duplicate helper/policy drift, broadened contract, information-only patches, and verification freshness?</check>
+<check>Does the review packet include review checkpoint, candidate cycle/reason, changed truth, regression halo, accepted baseline or not_applicable, and finding action evidence when relevant?</check>
 <check>Is the review packet complete enough for independent review?</check>
 <check>Are there residual blockers or risks the user must know?</check>
 </required_checks>
@@ -755,6 +763,8 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <field>assigned_plan_units_completed</field>
 <field>what_verification_ran</field>
 <field>whether_verification_passed</field>
+<field>candidate_review_cycle_reason_and_checkpoint</field>
+<field>changed_truth_and_regression_halo</field>
 <field>implementation_pattern_signals</field>
 <field>review_packet</field>
 <field>blockers_or_residual_risks</field>

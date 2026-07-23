@@ -307,7 +307,7 @@ For non-trivial implementation or semantic control-surface work, the operative i
 
 Exceptions: purely analytical or advisory tasks where there is nothing to run or show.
 
-For non-trivial implementation or semantic control-surface changes, verification evidence is necessary but not sufficient. Do not claim final acceptance, move to the next implementation unit, commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
+For non-trivial implementation or semantic control-surface changes, verification evidence is necessary but not sufficient. Unit verification remains mandatory before progression. Independent review is required before crossing a plan-declared review checkpoint and before final acceptance. Units may proceed within the same checkpoint only when the approved plan states that progression is safe and the unit's required verification passes. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
 </done_means_proven>
 
@@ -548,7 +548,7 @@ The coder implements and verifies. The coder does not author the canonical spec,
 
 ## implementation review
 
-Use `implementation-review-workflow` for non-trivial implementation or semantic control-surface changes after implementation and before claiming acceptance, moving to the next implementation unit, committing, opening a PR, or deploying.
+Use `implementation-review-workflow` for non-trivial implementation or semantic control-surface changes after implementation and before checkpoint crossing, final acceptance, committing, opening a PR, or deploying.
 
 The review workflow owns caller-side review behavior: deciding whether review is required, building the review packet, dispatching `implementation-reviewer`, interpreting the verdict, tracking findings across re-review, and deciding whether the work is accepted, blocked, or must return to coder.
 
