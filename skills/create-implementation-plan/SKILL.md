@@ -289,11 +289,14 @@ Reject paths that improve a proxy while weakening the real requirement, such as 
 
 Break work into bite-sized implementation units only after the previous gates pass. Many tasks are acceptable when the dependency graph requires them. Fewer vague tasks are not better.
 
-Each unit must be independently understandable and typically independently reviewable. Use stable IDs such as `UNIT-001`; never renumber existing units during revision.
+Each unit must be independently understandable and assigned to a plan-declared review checkpoint. Use stable IDs such as `UNIT-001`; never renumber existing units during revision. Independent review is required before crossing a checkpoint and before final acceptance, not automatically after every unit. Within-checkpoint progression is allowed only when the plan explicitly states it is safe and the completed unit's required verification passed.
+
+Define review checkpoints by acceptance risk and change coupling, not by convenience. Use a checkpoint before public-contract, security, data/persistence, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-owner boundaries. Reject both extremes: per-unit review explosion when a checkpoint can safely cover several tightly coupled units, and a single final-only checkpoint when intermediate changes cross a material risk boundary.
 
 Each unit must include:
 
 - spec requirements covered;
+- review checkpoint ID and whether completing the unit crosses that checkpoint;
 - cause: why this unit exists;
 - effect: what exists after completion;
 - current evidence: files/docs/research proving current state;
@@ -325,7 +328,9 @@ Manual, screenshot, log, demo, or audit evidence is acceptable only when it is m
 
 When TDD is enabled for a unit, verification must follow [TDD Planning](references/tdd-planning.md): behavior-facing seam, one red-capable test, minimal implementation, green verification, refactor after green, and independent verification for spec-critical or high-risk behavior. Same-agent TDD is a feedback loop, not independent proof.
 
-Define approval gates for high-risk surfaces: data contracts, migrations, external APIs, auth, secrets, permissions, audit trails, production rollout, generated artifacts, CI/CD, dependency additions, and scope changes.
+Define review checkpoint gates and approval gates separately. Review checkpoints control when independent implementation review is required. Approval gates control human or owner authorization for high-risk surfaces such as data contracts, migrations, external APIs, auth, secrets, permissions, audit trails, production rollout, generated artifacts, CI/CD, dependency additions, and scope changes.
+
+Every plan must include a Review Checkpoint Summary that names each checkpoint, units covered, crossing rule, independent-review requirement, within-checkpoint progression rule, required verification before progression, and re-plan triggers. Units may proceed within the same checkpoint only when the plan says that progression is safe and the unit's required verification passes. The plan must state `not applicable` only when the implementation has no executable units because it is blocked or already satisfied.
 
 For AI Agent or Hybrid mode, define re-plan triggers. Execution must stop when:
 
@@ -357,6 +362,7 @@ Before finalizing the draft, run these plan-shape audits:
 - **Decision review surface audit:** when the plan contains decisions a user, reviewer, or executor is likely to tweak before code exists, surface them in the Plan Summary before the unit graph. Typical surfaces are data model or state shape, public interface, user-facing flow, architecture boundary, migration or rollout approach, test posture, verification environment, workspace/isolation choice, and any load-bearing rejected path.
 - **No-process-exhaust audit:** keep source paths, decisions, evidence, status, and review state; remove phase logs, "I read X then Y" narration, post-generation menu prose, tool plumbing, or implementation-progress narration.
 - **Status meaning audit:** plan status means planning disposition or readiness, not execution progress; unit status means planned, deferred, or already satisfied, not in-progress implementation tracking.
+- **Review checkpoint audit:** every unit has a checkpoint ID, checkpoint crossings are explicit, within-checkpoint progression is justified, unit verification remains mandatory before progression, and independent review is required before crossing the checkpoint and before final acceptance.
 - **Scope creep audit:** tangential cleanup, adjacent refactors, and "while we are here" improvements discovered during research go to deferred follow-up unless the approved spec explicitly includes them.
 
 ## Step 12 — Independent Plan Review
@@ -384,6 +390,7 @@ Reviewer must validate:
 - library/version guidance is current and specific wherever libraries affect implementation;
 - smaller safe paths were considered before rebuild/new abstraction;
 - unit dependency order is valid;
+- review checkpoints are proportional to acceptance risk, do not force unnecessary per-unit review, and do not hide material boundaries behind final-only review;
 - cause/effect and blast radius are present per unit;
 - TDD/test posture decisions are explicit, justified, and aligned with the spec and risk;
 - external research was required, skipped, narrowed, or unavailable for defensible reasons, and load-bearing findings are integrated into decisions rather than parked in an appendix;
@@ -422,6 +429,8 @@ Findings that require new product behavior, altered spec truth, architecture dec
 
 When a plan outcome feeds implementation, commits, PRs, publishing, external review surfaces, documentation, or ADR capture, hand off the plan path, linked spec, spec slug, plan status, review state, freshness classification, blockers, source authority classes, load-bearing decisions, unit graph, verification matrix, approval gates, re-plan triggers, workspace/isolation assumptions, and residual risks.
 
+Also hand off the review checkpoint summary, current checkpoint, assigned unit checkpoint, whether the next action crosses a checkpoint, and the rule for within-checkpoint progression. If a legacy plan lacks checkpoint fields, amend or conservatively classify checkpoints before further execution; do not invent permission to cross a material boundary from a legacy final-review-only plan.
+
 Do not include git commands, branch creation, staging, pushes, PR mutation, CI watching, tracker filing, browser/Xcode operation, setup repair, worktree creation, publishing API calls, or shipping mechanics. Those owners consume planning evidence without changing plan truth.
 
 If a shareable human-review surface is explicitly requested, publish or copy the saved local plan only through the appropriate publishing workflow. The local plan remains canonical. Shared-doc comments or edits are feedback until explicitly pulled into the local plan and passed through revision and review.
@@ -449,6 +458,8 @@ When a gate fails, do not improvise a shorter packet and do not emit the full pl
 | “I know this library.”                                | Training memory is stale and incomplete.                                                       | Use skills or authoritative docs.                                 |
 | “Just rebuild it cleanly.”                            | Rebuilds create unnecessary blast radius.                                                      | Prove smaller paths fail first.                                   |
 | “Review can happen during implementation.”            | Plan defects are cheapest before code.                                                         | Run independent plan review before readiness.                     |
+| “Review after every unit is safest.”                   | Per-unit review can create churn when tightly coupled units are inside one declared checkpoint. | Use proportional checkpoints and keep unit verification mandatory. |
+| “One final review is enough.”                          | Material boundaries can be crossed before final acceptance.                                     | Add checkpoints before public-contract, data, security, permission, generated, or high-risk boundaries. |
 | “Cause/effect is too much detail.”                    | It exposes why a unit exists and what breaks.                                                  | Include cause/effect per unit.                                    |
 | “Verification can be figured out later.”              | Later verification becomes wishful thinking.                                                   | Define evidence before execution.                                 |
 | “TDD is either all-or-nothing.”                       | TDD applies where behavior seams make it useful; other units still need concrete verification. | Resolve TDD mode and assign a posture per unit.                   |
@@ -480,7 +491,9 @@ When a gate fails, do not improvise a shorter packet and do not emit the full pl
 - Rules, ADRs, or prior decisions were assumed instead of read.
 - Plan jumps to rebuild without evaluating smaller paths.
 - Units are vague, oversized, unordered, or missing dependencies.
-- Unit lacks cause, effect, blast radius, or verification.
+- Unit lacks review checkpoint, cause, effect, blast radius, or verification.
+- Plan allows crossing a checkpoint without independent review.
+- Plan allows within-checkpoint progression without required unit verification.
 - TDD preference is unspecified and no blocking question was asked.
 - Unit lacks an explicit test posture.
 - Implementation-time unknowns include blockers or lack a resolution method and re-plan trigger.
@@ -520,6 +533,7 @@ Before calling a plan ready:
 - Load-bearing planning decisions are indexed, or none beyond direct spec decomposition were found.
 - High-leverage decisions that reviewers should inspect first are surfaced in the Plan Summary.
 - Units are stable, dependency-ordered, and bite-sized enough for execution and review.
+- Review checkpoints are declared, proportional, and mapped to units; checkpoint crossings and within-checkpoint progression rules are explicit.
 - High-level technical design is included when the plan structure needs it.
 - Every behavior-bearing unit has input/action/expected test scenarios.
 - Every unit has cause/effect, current evidence, target/non-target boundary, quality constraints, blast radius, verification, and reviewer focus.

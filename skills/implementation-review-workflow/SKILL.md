@@ -22,7 +22,9 @@ Do not dispatch independent review for pure discussion, research-only answers, d
 
 ## Iron Law
 
-For non-trivial implementation work, do not claim completion, move to the next implementation unit, commit, open a PR, or hand off as accepted until independent review has produced an accepting verdict. If review is blocked, stop and report the blocked review; do not proceed as accepted unless the user explicitly authorizes proceeding with the named acceptance risk.
+For non-trivial implementation work, unit verification remains mandatory before progression. Independent review is required before crossing a plan-declared review checkpoint and before final acceptance. Units may proceed within the same checkpoint only when the approved plan states that progression is safe and the unit's required verification passes.
+
+Do not commit, open a PR, deploy, or hand off work as accepted until the applicable review checkpoint has an accepting verdict. If review is blocked, stop and report the blocked review; do not proceed as accepted unless the user explicitly authorizes proceeding with the named acceptance risk.
 
 Self-review, coder reports, green tests, and confidence are not substitutes. They are packet inputs.
 
@@ -33,6 +35,8 @@ This skill controls the **caller side** of implementation review.
 The `implementation-reviewer` agent owns review judgment. This skill owns the behavior that makes that judgment useful: deciding when review is required, building the evidence packet, dispatching without contamination, respecting the verdict, and preserving finding identity across re-review.
 
 Review evidence is not acceptance. Specs, plans, tests, screenshots, logs, dogfood reports, optimization metrics, prior learnings, green CI, and implementer summaries are packet inputs until the independent reviewer returns an accepting verdict at adequate depth and the caller enforces it.
+
+The loop reviews the changed truth, not the whole history by default. Re-review scope starts from the accepted target baseline plus the proportional causal halo of the new change: affected files, contracts, evidence, prior findings, and likely dependents, not merely the edited lines and not the entire repository unless the change makes that necessary.
 
 Review may surface implementation-pattern capture signals, but the reviewer does not create pattern artifacts. The caller routes concrete signals to `create-implementation-pattern` after verdict handling; `accepted`, `candidate`, `update existing`, and `rejected` are all valid outcomes.
 
@@ -68,6 +72,8 @@ Required fields:
 | Acceptance frame       | Directive constraints, caller inferences, non-target boundaries, unresolved review gaps, and explicitly excluded actions                                           |
 | Repository             | Resolved absolute repo/worktree path plus current branch, worktree name, or target checkout identity when known                                                    |
 | Review cycle           | `first_pass`, `resumed_review`, or `re_review`                                                                                                                     |
+| Review checkpoint      | Plan-declared checkpoint ID or `not_declared`, current unit(s), whether this dispatch crosses the checkpoint, and whether within-checkpoint progression is allowed  |
+| Re-review reason       | `not_applicable` outside `re_review`; otherwise exactly one of `blocking_fix`, `evidence_refresh`, `scoped_amendment`, or `material_reopen`                         |
 | Review depth           | Requested depth: `quick`, `standard`, or `deep`, with risk rationale                                                                                               |
 | Review focus           | Selected semantic lanes or risk surfaces, skipped lanes with rationale, prior external-feedback handling when applicable, and independent-validation expectation    |
 | Scope evidence         | Review mode, diff source, changed files, untracked-file handling, stale-scope risk, and non-target boundary                                                        |
@@ -80,10 +86,17 @@ Required fields:
 | Verification           | Exact commands run, exact output or durable output paths, freshness relative to the current change, outcomes, checks not run and why                               |
 | Prior review state     | Prior reviewer report, stable finding registry, reconciliation section, and task/session ID when available; otherwise `none`                                       |
 | Freshness/fingerprints | Current change fingerprint and current review-input fingerprint when available; otherwise `unknown` with reason                                                    |
+| Accepted target baseline | For re-review, the path-scoped prior accepted target identity: accepted verdict, target paths, evidence paths, manifest or explicit snapshot source, and known limits |
+| Changed truth and halo | What changed since the accepted baseline or prior review, the proportional causal scope to re-check, and why broader or narrower scope is justified                 |
+| Finding action policy  | The finding action classes expected in reviewer output: `required_correction`, `required_evidence`, `advisory`, `future_candidate`, or `human_decision`             |
 | Evidence manifest      | Optional for simple reviews; required when evidence spans generated artifacts, screenshots, logs, metrics, reports, local-only files, or other multi-artifact proof |
 | Known limits           | Assumptions, blockers, unavailable tools, environment limits, unresolved user decisions, and acceptance impact                                                      |
 
-Working-tree review must include untracked files unless the caller explicitly excludes them with rationale and acceptance impact in the packet. The caller supplies the best-known diff/current-files inventory; the reviewer owns canonical diff validation and may override stale or incomplete scope, but must report that override. Re-review must include the prior reviewer report or stable finding registry. If prior state cannot be recovered, do not pretend reconciliation is possible; dispatch only when the gap is named, the reviewer is asked to judge the consequence, and the final report will not claim prior findings were resolved. Do not require or search for a reviewer scratchpad unless the prior reviewer explicitly emitted a durable scratchpad path.
+Working-tree review must include untracked files unless the caller explicitly excludes them with rationale and acceptance impact in the packet. Accepted target identity is path-scoped: include untracked files only when they are target artifacts, review evidence, or otherwise acceptance-relevant. Unrelated local files such as progress notes, scratchpads, or ignored experiments are not silently part of the accepted target; name their exclusion when they are visible and could be confused with target state. The caller supplies the best-known diff/current-files inventory; the reviewer owns canonical diff validation and may override stale or incomplete scope, but must report that override.
+
+Re-review must include the prior reviewer report or stable finding registry. If prior state cannot be recovered, do not pretend reconciliation is possible; dispatch only when the gap is named, the reviewer is asked to judge the consequence, and the final report will not claim prior findings were resolved. Do not require or search for a reviewer scratchpad unless the prior reviewer explicitly emitted a durable scratchpad path. Hashes and manifests are useful identity evidence, not proof of semantics; pair them with path lists, accepted verdict state, and known exclusions.
+
+Non-semantic carry-forward is available only from a named parent accepted baseline and a new derived non-semantic baseline. The packet must include mandatory before and after path manifests, exact delta, classifier rationale covering every protected semantic dimension, mechanical proof/readback, explicit untracked decisions, a new derived baseline identity or fingerprint linked to the parent, recoverable prior-content limits, and a bounded disclosure that semantic acceptance is carried forward only for that exact proven delta. If any proof is missing or any semantic dimension is uncertain, classify the change as semantic and route it to `scoped_amendment` or `material_reopen` at the depth required by risk.
 
 When PR comments, review threads, issue feedback, or other external feedback are relevant to acceptance, include the source, retrieval status, and whether the reviewer should verify addressed/unaddressed state. If prior external feedback is out of scope, say so explicitly; do not let the reviewer infer it from missing context.
 
@@ -128,13 +141,26 @@ Choose one cycle before dispatch:
 
 Default to `re_review` when prior findings exist and code, config, artifact, tests, implementation files, verification evidence, blocked-check results, prior-state input, scope, change fingerprint, or review-input fingerprint changed. Use `resumed_review` only when continuing the same review with no material new inputs and unchanged fingerprints. Never reuse an old accepting verdict for a changed implementation or evidence state.
 
+For `re_review`, choose exactly one reason and put it in the packet:
+
+| Re-review reason   | Use when                                                                                                                                            | Required scope behavior                                                                                                                                  |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `blocking_fix`     | Implementation, tests, config, artifacts, or control text changed to resolve one or more blocking findings                                          | Review the fix delta, reconciled prior finding IDs, required verification, and proportional causal halo for regressions or new contradictions             |
+| `evidence_refresh` | Implementation target is unchanged, but verification output, blocked-check results, recovered prior state, manifests, or other review evidence changed | Review freshness, adequacy, and target identity of the evidence; do not reopen unrelated accepted implementation semantics unless the evidence contradicts them |
+| `scoped_amendment` | A post-acceptance or post-review semantic change is intentionally limited to a named target subset and does not alter plan/spec truth or checkpoint scope | Review the amended paths, affected contracts, associated evidence, and proportional causal halo; preserve unrelated accepted findings and baseline identity |
+| `material_reopen`  | The change alters spec/plan truth, target boundary, checkpoint scope, public contract, architecture, security posture, data behavior, or other material acceptance basis | Treat the prior accepting verdict as insufficient for the changed state and perform broader review or re-plan according to the material surface             |
+
+Use `not_applicable` as the `re_review_reason` for `first_pass` and `resumed_review`; do not overload it inside `re_review`. A caller may escalate the reason to a broader one when evidence shows the supplied reason is too narrow, but must not downgrade material evidence into a narrower reason for convenience.
+
+Material reopen triggers include changed spec or plan requirements, changed checkpoint boundary, added/removed target files outside the accepted baseline, public-contract/API behavior changes, security/authorization/permission changes, migration or persistence changes, new dependency or generated-surface behavior, verification evidence that contradicts the accepted implementation, or repeated blocking-fix regressions. Evidence-only refresh is valid only when the implementation target is unchanged and the new evidence can be tied to the same accepted target identity. For legacy normalization, recover only evidence-supported checkpoint, reason, baseline, and finding identity fields; label anything else as unknown or a known limit.
+
 ## Gate 2.5 — Select Review Depth
 
 Request the reviewer depth that matches risk. Review depth controls effort, not whether the review gate exists.
 
 First classify whether a control-artifact text edit changes behavior:
 
-- No independent review required: typo, formatting, grammar, comment, or wording cleanup that cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify by inspecting the diff/readback and report the non-semantic basis.
+- No independent review required: typo, formatting, grammar, comment, or wording cleanup that cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior, and whose non-semantic carry-forward bundle satisfies the parent-baseline, before/after manifest, exact-delta, classifier-rationale, proof/readback, untracked-decision, derived-identity, prior-content-limit, and bounded-disclosure requirements above.
 - Review required: any text edit that changes or could plausibly change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior.
 
 | Depth      | Use when                                                                                                                                                                                        | Caller behavior                                                                                        |
@@ -165,10 +191,13 @@ Constraints:
 - Treat implementer claims, prior findings, external comments, generated reports, and packet inferences as hypotheses until verified.
 - Preserve directive constraints, background context, and source-basis labels; do not turn background context into acceptance criteria.
 - Preserve prior finding IDs on re-review.
+- Require `re_review_reason` and accepted target baseline on re-review; require `not_applicable` outside re-review.
 - Use at least the depth the risk surface requires; the requested depth is a floor you may lower only with explicit risk justification, and report any escalation or downgrade.
 - Report the semantic lanes included and skipped, with rationale.
 - Treat the caller's changed-file list/diff as best-known input; validate canonical scope independently and report stale or incomplete scope.
 - Compare or report current change and review-input fingerprints when available.
+- Review the changed truth plus proportional causal halo, not only edited lines and not unrelated accepted history unless material triggers require it.
+- Classify every finding action as `required_correction`, `required_evidence`, `advisory`, `future_candidate`, or `human_decision`.
 - For confidence 75/100 findings and all P0/P1 findings, include the direct `first_evidence` quote, command output, or rule quote that makes the finding true.
 - For high-risk or deep-review findings, attempt independent validation when a fresh-context validator is available; otherwise report the missing validation as a coverage gap or escalation input.
 - Verify prior PR/review comments or external feedback only when the packet supplies that source or explicitly asks the reviewer to retrieve it with read-only tools.
@@ -178,9 +207,10 @@ Constraints:
 Acceptance Criteria:
 - Verdict is explicit.
 - Findings have stable IDs and evidence.
-- Findings include severity/blocking status, confidence or evidence strength when the reviewer contract uses it, `first_evidence` for high-confidence/high-severity findings, verification need, pre-existing status, suggested resolution, and residual risk when applicable.
+- Findings include severity/blocking status, action class, confidence or evidence strength when the reviewer contract uses it, `first_evidence` for high-confidence/high-severity findings, verification need, pre-existing status, suggested resolution, and residual risk when applicable.
 - Commands run/skipped/blocked are reported.
-- Prior findings are reconciled when prior state is supplied.
+- Prior findings are reconciled when prior state is supplied, including stable ID preservation and same-root-cause matching.
+- Review checkpoint, `re_review_reason`, accepted target baseline, changed truth, and regression halo are reported when applicable.
 - Prior external feedback is checked or explicitly marked not supplied/not applicable.
 - Independent validation status is reported when high-risk validation was requested or triggered by the reviewer.
 - Pattern-capture signals are reported as concrete candidates or `none`.
@@ -202,12 +232,22 @@ Do not substitute self-review or a generic reviewer as equivalent.
 
 ## Gate 4 — Interpret the Verdict
 
+Finding actions do not override blocking truth:
+
+- `required_correction`: code, tests, config, generated artifacts, control text, or documentation-as-control must change before acceptance.
+- `required_evidence`: target may be correct, but required proof is missing, stale, blocked, or contradicted before acceptance.
+- `advisory`: accepted non-blocking nit or residual risk that does not invalidate the reviewed state.
+- `future_candidate`: out-of-scope or later improvement candidate that must not be auto-applied inside the accepted review loop.
+- `human_decision`: an owner decision is required; it blocks acceptance only when the decision is necessary to satisfy a requirement, hard criterion, invariant, contract, or required evidence.
+
+The blocking rule is biconditional: any unresolved requirement, hard criterion, invariant, contract, or required evidence gap is blocking and incompatible with `ACCEPT` or `ACCEPT_WITH_NITS`, regardless of the action label. Conversely, advisory or future-candidate findings do not authorize automatic edits after an accepting verdict.
+
 The verdict controls the next action:
 
 | Verdict            | Allowed caller action                                                                                                                                                                        |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ACCEPT`           | Claim completion with reviewer evidence — only if `ESCALATION_RECOMMENDATION` is `none` and no anchoring risk is flagged; otherwise apply the escalation rule below first.                   |
-| `ACCEPT_WITH_NITS` | Claim completion only while reporting non-blocking nits, residual risks, and skipped/non-material checks; also surface any `ESCALATION_RECOMMENDATION` or anchoring risk per the rule below. |
+| `ACCEPT`           | Treat the active review loop for the reviewed state as terminal with reviewer evidence — only if `ESCALATION_RECOMMENDATION` is `none` and no anchoring risk is flagged; otherwise apply the escalation rule below first. |
+| `ACCEPT_WITH_NITS` | Treat the active review loop as terminal for the reviewed state while reporting non-blocking nits, residual risks, and skipped/non-material checks; also surface any `ESCALATION_RECOMMENDATION` or anchoring risk per the rule below. |
 | `REQUEST_CHANGES`  | Do not claim completion. Fix or delegate fixes, then run `re_review` only after a material code, artifact, or evidence change.                                                               |
 | `REJECT`           | Stop acceptance. Re-plan or escalate.                                                                                                                                                        |
 | `INCONCLUSIVE`     | Do not claim completion. Gather missing evidence or run blocked checks, then dispatch `re_review` even when implementation state is unchanged; escalate when evidence cannot be obtained.    |
@@ -252,20 +292,23 @@ When accepted residual risk, non-blocking findings, skipped checks, or material 
 
 ## Gate 5 — Re-Review Loop
 
-When findings are returned or the verdict is `INCONCLUSIVE`:
+When the verdict is `ACCEPT` or `ACCEPT_WITH_NITS`, the active review loop for the reviewed state ends. Do not turn advisory, future-candidate, or accepted residual-risk findings into automatic edits. If the owner chooses to make a semantic post-acceptance edit, classify it as a new review event: `scoped_amendment` when it stays within the accepted target and causal halo, or `material_reopen` when it changes the acceptance basis.
+
+When the verdict is `REQUEST_CHANGES`, `REJECT`, or `INCONCLUSIVE`, or when the owner explicitly decides to amend accepted work:
 
 1. Preserve the reviewer report and stable finding IDs.
-2. Record loop state: review cycle number, active blocking IDs, non-blocking IDs, findings targeted for fix, evidence missing, and blocked checks.
+2. Record loop state: review cycle number, review checkpoint, re-review reason, active blocking IDs, non-blocking IDs, findings targeted for fix, evidence missing, and blocked checks.
 3. Group active findings by file, artifact, or tightly coupled fix path only for handoff clarity; do not merge IDs.
-4. Give implementers stable finding IDs, evidence, suggested resolution or reason none was supplied, expected verification, and non-target boundaries. Do not ask fix owners to perform the independent acceptance review.
+4. Give implementers stable finding IDs, action class, evidence, suggested resolution or reason none was supplied, expected verification, and non-target boundaries. Do not ask fix owners to perform the independent acceptance review.
 5. Track per-finding disposition before re-review: `fixed`, `fixed-differently`, `not-addressing`, `declined`, or `needs-human`, with reason and evidence.
 6. For review-fix execution, preserve the pre-fix checkpoint when available, gather the fix-introduced diff or exact changed-file delta, and include the fix-diff self-review result before re-review. Do not make the reviewer infer the fix from the full branch diff alone when a narrower fix delta can be recovered.
-7. If implementation changed, gather a fresh changed-file inventory, untracked-file handling, verification evidence, and fingerprints, then dispatch as `re_review` with prior review state and loop state.
-8. If implementation did not change but missing evidence, blocked checks, prior state, or scope clarification changed, dispatch as `re_review` with refreshed evidence and loop state.
-9. After multiple fixes, run aggregate validation appropriate to the touched surface instead of validating each fix in isolation only.
-10. Confirm there is a material code, artifact, config, test, verification, evidence, prior-state, fingerprint, or scope change since the last review before any re-dispatch.
-11. Require `PRIOR_FINDING_RECONCILIATION` when prior findings exist.
-12. Do not call a finding fixed unless the reviewer reports it resolved, superseded, or non-blocking with evidence.
+7. If implementation changed to address blocking findings, gather a fresh changed-file inventory, untracked-file handling, verification evidence, fingerprints, accepted target baseline, and proportional causal halo, then dispatch as `re_review` with `re_review_reason: blocking_fix`.
+8. If implementation did not change but missing evidence, blocked checks, prior state, manifests, or scope clarification changed, dispatch as `re_review` with `re_review_reason: evidence_refresh`.
+9. If implementation changed after an accepting verdict because the owner elected a limited semantic amendment, dispatch as `re_review` with `re_review_reason: scoped_amendment` or `material_reopen` based on the materiality rules above.
+10. After multiple fixes, run aggregate validation appropriate to the touched surface instead of validating each fix in isolation only.
+11. Confirm there is a material code, artifact, config, test, verification, evidence, prior-state, fingerprint, or scope change since the last review before any re-dispatch.
+12. Require `PRIOR_FINDING_RECONCILIATION` when prior findings exist.
+13. Do not call a finding fixed unless the reviewer reports it resolved, superseded, or non-blocking with evidence.
 
 Resolved IDs are never reused for new findings.
 
@@ -349,10 +392,14 @@ When review gates allow progress, report:
 
 - reviewer verdict;
 - review cycle;
+- review checkpoint and whether this report crosses it;
+- re-review reason: `not_applicable`, `blocking_fix`, `evidence_refresh`, `scoped_amendment`, or `material_reopen`;
 - review depth selected, and whether it met the depth the risk required;
 - semantic lanes included and skipped, with the high-risk validation status when applicable;
 - repo/worktree target identity and diff source reviewed;
 - current change fingerprint and review-input fingerprint, or why unavailable;
+- accepted target baseline identity, manifest/snapshot status, explicit untracked target handling, and any recoverable prior-content limits;
+- changed-truth summary and proportional regression halo reviewed;
 - active blocking finding count and any active non-blocking finding IDs/titles;
 - prior finding reconciliation status, if applicable;
 - prior external feedback status: not supplied, not applicable, checked, or blocked;

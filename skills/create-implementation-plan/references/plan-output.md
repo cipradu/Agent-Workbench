@@ -51,6 +51,7 @@ Risk tier: Standard | High Assurance
 TDD mode: TDD accepted | TDD rejected | Mixed postures
 External research: Not required | Required — implementation-guidance | Required — landscape/option-discovery | Required — mixed | Requested but unavailable
 Load-bearing external research: Yes | No | Not applicable
+Review checkpoints: Declared | Not applicable — blocked/already satisfied only
 Workspace / isolation requirement:
 Created local time: YYYY-MM-DD HH:mm
 Author:
@@ -180,15 +181,22 @@ Include only when material. Use this section for component relationships, protoc
 
 ## 10. Implementation Unit Graph
 
+### Review Checkpoint Summary
+
+| Checkpoint ID | Units covered | Crossing occurs before | Independent review required? | Within-checkpoint progression rule | Required verification before progression | Re-plan triggers |
+| ------------- | ------------- | ---------------------- | ----------------------------- | ---------------------------------- | ---------------------------------------- | ---------------- |
+
 ### Unit Summary
 
-| Unit | Name | Spec IDs | Depends on | Parallel group | Risk | Test posture | Status |
-| ---- | ---- | -------- | ---------- | -------------- | ---- | ------------ | ------ |
+| Unit | Name | Spec IDs | Depends on | Review checkpoint | Parallel group | Risk | Test posture | Status |
+| ---- | ---- | -------- | ---------- | ----------------- | -------------- | ---- | ------------ | ------ |
 
 ### UNIT-001 — short unit name
 
 Status: Planned | Deferred | Already satisfied
 Spec IDs:
+Review checkpoint:
+Checkpoint crossing: does this unit complete or cross a checkpoint? If yes, name the independent-review requirement before crossing.
 Cause:
 Effect:
 Current evidence:
@@ -252,6 +260,9 @@ For each category: applicable | not applicable with evidence-backed reason.
 - linked spec:
 - plan file:
 - repo/root:
+- review checkpoint summary:
+- assigned unit checkpoint:
+- checkpoint crossing rule:
 - workspace / isolation requirement:
 - instruction files and rules applied:
 - ADRs applied:

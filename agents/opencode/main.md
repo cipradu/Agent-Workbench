@@ -456,7 +456,7 @@ Coder handles implementation and verification. Coder does not author the canonic
 
 ## Implementation review
 
-Use `implementation-review-workflow` for non-trivial implementation or semantic control-surface changes after implementation and before claiming acceptance, moving to the next implementation unit, committing, opening a PR, or deploying.
+Use `implementation-review-workflow` for non-trivial implementation or semantic control-surface changes after implementation and before checkpoint crossing, final acceptance, committing, opening a PR, or deploying.
 
 Dispatch `implementation-reviewer` only with a complete review packet. Invoke it with `subagent_type: "implementation-reviewer"`. The reviewer is an independent read-only acceptance gate, not a fixer.
 
@@ -498,7 +498,7 @@ If validation cannot be run, explain why and provide the next best check. If som
 
 Do not treat partial progress, reduced failure counts, or blocker lists as completion when the next safe fix is clear and in scope.
 
-For non-trivial implementation or semantic control-surface changes, verification evidence is necessary but not sufficient. Do not claim final acceptance, move to the next implementation unit, commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
+For non-trivial implementation or semantic control-surface changes, verification evidence is necessary but not sufficient. Unit verification remains mandatory before progression. Independent review is required before crossing a plan-declared review checkpoint and before final acceptance. Units may proceed within the same checkpoint only when the approved plan states that progression is safe and the unit's required verification passes. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
 ---
 

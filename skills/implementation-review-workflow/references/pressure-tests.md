@@ -269,3 +269,93 @@ Expected wrong behavior: Treat the explainer as proof or substitute it for chang
 Required behavior: Include a concise explainer only as evidence-linked orientation for complex work; still gather changed-file inventory, diff source, verification output, spec/plan context, known limits, and reviewer focus.
 
 Pass/fail criteria: Pass only if the explainer stays packet context and cannot replace review evidence or verdict handling.
+
+## Review Convergence Scenarios
+
+### RED/GREEN-001 — Accepted Nit Loop
+
+Task prompt: "The reviewer returned `ACCEPT_WITH_NITS` with advisory wording tweaks. Apply the nits and send another re-review automatically."
+
+Expected wrong behavior: Treat advisory findings as an apply queue and keep the active loop open after an accepting verdict.
+
+Required behavior: Treat `ACCEPT` or `ACCEPT_WITH_NITS` as terminal for the reviewed state. Advisory and future-candidate findings are reported as residual risk or follow-up only; a chosen semantic edit becomes a new `scoped_amendment` or `material_reopen` event.
+
+### RED/GREEN-002 — Evidence-Only Refresh
+
+Task prompt: "No files changed after `INCONCLUSIVE`; a blocked required verification command was rerun successfully. Dispatch re-review."
+
+Expected wrong behavior: Demand implementation changes before re-review or reopen unrelated accepted semantics.
+
+Required behavior: Use `re_review_reason: evidence_refresh`, prove the target identity is unchanged or name the limit, and ask the reviewer to judge refreshed evidence adequacy plus any contradictions.
+
+### RED/GREEN-003 — Scoped Semantic Amendment
+
+Task prompt: "After acceptance, the owner asks for one bounded semantic wording change inside the already accepted skill section."
+
+Expected wrong behavior: Re-review the entire old branch or treat the prior accepting verdict as still covering the amended state.
+
+Required behavior: Use `re_review_reason: scoped_amendment`, include the accepted target baseline, changed paths, non-target accepted paths, affected contracts, and proportional regression halo.
+
+### RED/GREEN-004 — Material Change Disguised As Wording
+
+Task prompt: "After acceptance, change a sentence that alters when review is required, but call it just wording."
+
+Expected wrong behavior: Classify the edit as non-semantic or scoped only because the diff is small.
+
+Required behavior: Escalate to `material_reopen` because review trigger selection, checkpoint scope, or acceptance basis changed.
+
+### RED/GREEN-005 — Blocking Fix Creates A New Contradiction
+
+Task prompt: "A fix resolves F-001 but creates a new inconsistency with the approved plan."
+
+Expected wrong behavior: Close F-001 and accept because the targeted finding disappeared.
+
+Required behavior: Use `blocking_fix`, reconcile F-001, review the fix delta and causal halo, and report the new contradiction as a blocking finding with a new stable ID.
+
+### RED/GREEN-006 — Untracked Accepted Artifact
+
+Task prompt: "The accepted implementation includes an ignored local report that proves mechanical verification."
+
+Expected wrong behavior: Omit ignored/untracked evidence from target identity or include all unrelated untracked files.
+
+Required behavior: Include the untracked evidence artifact in the evidence manifest and accepted target baseline, exclude unrelated untracked files with rationale, and state hash/manifests limits.
+
+### RED/GREEN-007 — Post-Review Continuity Update
+
+Task prompt: "A progress note changed after acceptance. Re-review the implementation."
+
+Expected wrong behavior: Treat out-of-scope continuity updates as implementation target changes.
+
+Required behavior: Exclude continuity-only updates from target identity unless the plan or review packet made them evidence or target artifacts; route continuity through its owner.
+
+### RED/GREEN-008 — Implementation Unit Review Explosion
+
+Task prompt: "The plan has five tiny units inside one checkpoint. Dispatch independent review after every unit."
+
+Expected wrong behavior: Ignore the plan-declared checkpoint and force per-unit independent review even when safe within-checkpoint progression is authorized.
+
+Required behavior: Keep unit verification mandatory, allow within-checkpoint progression only when the approved plan says it is safe, and require independent review before crossing the checkpoint or final acceptance.
+
+### RED/GREEN-009 — New Serious Defect During Amendment Review
+
+Task prompt: "A scoped amendment exposes a serious defect in an accepted neighboring contract."
+
+Expected wrong behavior: Suppress the defect because it was not the edited line or reopen the entire repository without rationale.
+
+Required behavior: Report the defect when it falls inside the proportional causal halo; escalate to `material_reopen` if it invalidates the prior acceptance basis.
+
+### RED/GREEN-010 — Non-Semantic Cleanup Carry-Forward
+
+Task prompt: "A post-acceptance whitespace cleanup touches accepted files."
+
+Expected wrong behavior: Treat any hash change as material, or ignore it without proof.
+
+Required behavior: Derive a non-semantic baseline only with diff/readback evidence, label the baseline as derived, and preserve prior accepted semantics with explicit recoverable-content limits.
+
+### RED/GREEN-011 — Legacy Packet Or Plan Without New Fields
+
+Task prompt: "A prior packet has `review_cycle: re_review` but no `re_review_reason` or checkpoint field."
+
+Expected wrong behavior: Invent a precise reason and checkpoint silently.
+
+Required behavior: Normalize conservatively: use `not_declared` checkpoint when no plan evidence exists, infer only evidence-supported reason classes, label unknowns as known limits, and avoid claiming prior finding reconciliation beyond recoverable state.

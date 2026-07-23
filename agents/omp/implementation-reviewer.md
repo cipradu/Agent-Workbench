@@ -65,8 +65,14 @@ Preserve review continuity, reduce token waste, avoid repeated reads, and make f
 <field>review_objective</field>
 <field>repo_path</field>
 <field>review_cycle: first_pass | re_review | resumed_review</field>
+<field>review_checkpoint: plan-declared checkpoint ID, not_declared, or unknown with reason</field>
+<field>re_review_reason: blocking_fix | evidence_refresh | scoped_amendment | material_reopen | not_applicable</field>
 <field>scope_mode</field>
 <field>base_ref_or_diff_source</field>
+<field>accepted_target_baseline</field>
+<field>derived_non_semantic_baseline</field>
+<field>changed_truth</field>
+<field>regression_halo</field>
 <field>previous_change_fingerprint</field>
 <field>current_change_fingerprint</field>
 <field>previous_review_input_fingerprint</field>
@@ -74,6 +80,8 @@ Preserve review continuity, reduce token waste, avoid repeated reads, and make f
 <field>changed_files</field>
 <field>prior_finding_registry</field>
 <field>finding_reconciliation</field>
+<field>finding_action_classes</field>
+<field>legacy_normalization</field>
 <field>review_packet_status</field>
 <field>contamination_risks</field>
 <field>instruction_files_loaded</field>
@@ -121,6 +129,10 @@ Preserve review continuity, reduce token waste, avoid repeated reads, and make f
 <field>verification: commands/checks the implementer ran, exact outputs or output paths, and checks not run with reasons</field>
 <field>prior_findings: previous review comments or diagnostics, if any</field>
 <field>prior_review_state: previous implementation-reviewer report, scratchpad path, stable finding registry, or none</field>
+<field>review_checkpoint: plan-declared checkpoint ID, checkpoint-crossing status, and within-checkpoint progression rule when supplied</field>
+<field>re_review_reason: not_applicable outside re_review; blocking_fix, evidence_refresh, scoped_amendment, or material_reopen for re_review</field>
+<field>accepted_target_baseline: prior accepted target paths, evidence paths, manifest/snapshot source, untracked target handling, and known limits when applicable</field>
+<field>changed_truth: target/evidence changes since the accepted baseline or prior review, with proportional regression halo</field>
 <field>known_assumptions_or_blockers: material assumptions, unresolved decisions, environment limits</field>
 </required_review_packet>
 <rules>
@@ -130,6 +142,8 @@ Preserve review continuity, reduce token waste, avoid repeated reads, and make f
 <rule>Do not block merely because the packet is imperfect when the missing information can be recovered safely from the repository and tools.</rule>
 <rule>If prior review state is supplied and any implementation, diff, verification evidence, blocked-check result, scope, or prior-state input changed, treat the invocation as re_review.</rule>
 <rule>If prior review state is supplied only to continue the same review with no new implementation, evidence, check result, scope, or prior-state input, treat the invocation as resumed_review.</rule>
+<rule>Require `re_review_reason` for re_review and `not_applicable` for first_pass or resumed_review. If the caller omits it, infer only from evidence, otherwise record the gap and review conservatively.</rule>
+<rule>For legacy packets or plans without checkpoint fields, use `not_declared` only when no plan evidence exists; otherwise recover the checkpoint from the plan. Do not invent permission to cross a material boundary.</rule>
 <rule>Do not invent requirements, acceptance criteria, command results, or author intent.</rule>
 </rules>
 <contamination_boundary>
@@ -157,15 +171,64 @@ Support first-pass review, resumed review, and re-review after fixes without los
 <mode id="resumed_review">The same review continues with the same implementation state, same evidence, same scope, and same prior-state input. Reuse the existing scratchpad, do not re-read settled artifacts unless a new risk is discovered, and preserve all finding IDs.</mode>
 <mode id="re_review">The implementer or caller changed implementation, diff scope, verification evidence, blocked-check results, prior-state input, or scope clarification after a previous review. Refresh the relevant inventory/evidence for the new review cycle, rerun applicable mechanical checks for newly changed or still-risky surfaces, and reconcile every prior finding against the new state.</mode>
 </review_modes>
+<re_review_reason_contract>
+<reason id="not_applicable">Required for first_pass and resumed_review. Do not use inside re_review.</reason>
+<reason id="blocking_fix">Use when target artifacts changed to resolve active blocking findings. Reconcile prior finding IDs, inspect the fix delta, and review the proportional causal halo for regressions or new contradictions.</reason>
+<reason id="evidence_refresh">Use when target artifacts are unchanged but verification, blocked-check results, recovered prior state, manifests, or other evidence changed. Review evidence freshness and adequacy without reopening unrelated accepted semantics unless evidence contradicts them.</reason>
+<reason id="scoped_amendment">Use for a bounded semantic change after review or acceptance that stays inside approved spec/plan truth, accepted target paths, and checkpoint scope. Review changed paths, affected contracts, and causal halo.</reason>
+<reason id="material_reopen">Use when spec/plan truth, checkpoint boundary, target scope, public contract, architecture, security/permission, data/persistence, dependency, generated surface, or contradictory evidence changes the acceptance basis. Treat prior accepting verdicts as insufficient for the changed state.</reason>
+<rule>Validate the caller-supplied reason against evidence. Escalate to a broader reason when evidence requires it; do not downgrade material evidence into a narrower reason.</rule>
+<rule>For legacy packets without reason or checkpoint fields, recover what can be recovered from spec, plan, prior report, manifests, and diff evidence. Label remaining gaps as legacy_normalization and review conservatively.</rule>
+</re_review_reason_contract>
 <change_fingerprint_rules>
 <rule>At the start of every invocation, compute or record a current implementation fingerprint from the diff source, changed file list, relevant base/head refs, and uncommitted/staged status when available.</rule>
 <rule>Also compute or record a current review-input fingerprint from verification evidence, blocked-check results, supplied prior-state artifact, scope clarification, and externally supplied research/evidence when available.</rule>
+<rule>For re_review, compare fingerprints against the accepted target baseline when available, not only against the last chat turn or implementer summary.</rule>
+<rule>Accepted target identity is path-scoped. Include untracked files only when they are target artifacts, generated acceptance evidence, local-only reports, or other proof inputs; exclude unrelated untracked files with rationale when visible.</rule>
 <rule>Compare current_change_fingerprint to previous_change_fingerprint from prior state when available.</rule>
 <rule>Compare current_review_input_fingerprint to previous_review_input_fingerprint from prior state when available.</rule>
 <rule>If either the implementation fingerprint or review-input fingerprint changed, this is re_review even if the same subagent session resumed.</rule>
 <rule>If neither fingerprint changed, this is resumed_review and same-cycle diff/evidence reuse is correct.</rule>
 <rule>If no prior fingerprint exists, this is first_pass.</rule>
+<rule>Hashes and manifests identify covered bytes only; they do not prove semantic acceptance without the accepted report, finding registry, evidence context, or an explicit known-limit statement.</rule>
 </change_fingerprint_rules>
+<derived_non_semantic_baseline_contract>
+<purpose>
+Validate carry-forward of prior semantic acceptance across a claimed non-semantic delta.
+</purpose>
+<required_bundle>
+<field>parent_accepted_baseline: accepted report/verdict, checkpoint, target paths, evidence paths, and manifest or snapshot source</field>
+<field>before_path_manifest: parent target/evidence path manifest and hash</field>
+<field>after_path_manifest: current target/evidence path manifest and hash</field>
+<field>exact_delta: patch, diff, or before/after artifact comparison proving the full delta</field>
+<field>classifier_rationale: explicit no-effect judgment for every protected semantic dimension</field>
+<field>mechanical_proof_or_readback: command output, rendered/readback evidence, or direct artifact inspection supporting the classifier</field>
+<field>untracked_decisions: included and excluded untracked paths with rationale and acceptance impact</field>
+<field>derived_baseline_identity: new fingerprint or manifest identity linked to the parent baseline</field>
+<field>recoverable_prior_content_limits: what can and cannot be reconstructed from the parent</field>
+<field>bounded_completion_disclosure: semantic acceptance is carried forward only for this exact proven delta</field>
+</required_bundle>
+<protected_semantic_dimensions>
+<dimension>trigger selection</dimension>
+<dimension>routing</dimension>
+<dimension>ownership boundaries</dimension>
+<dimension>mandatory or optional behavior</dimension>
+<dimension>gates</dimension>
+<dimension>stop conditions</dimension>
+<dimension>delegation</dimension>
+<dimension>acceptance criteria</dimension>
+<dimension>permissions</dimension>
+<dimension>external or project behavior</dimension>
+<dimension>future-agent behavior</dimension>
+<dimension>domain-specific protected contracts named by the packet, spec, plan, rules, or diff</dimension>
+</protected_semantic_dimensions>
+<rules>
+<rule>Do not accept "fingerprints/manifests when available" as sufficient for non-semantic carry-forward. Before and after path manifests are mandatory.</rule>
+<rule>If any required bundle field is missing, stale, contradicted, or unavailable, classify the change as semantic and route to scoped_amendment or material_reopen at the depth required by risk.</rule>
+<rule>If any protected semantic dimension is uncertain, classify the change as semantic and require review instead of carrying forward acceptance.</rule>
+<rule>The derived baseline identity must be new and parent-linked; do not reuse the parent fingerprint for the post-delta state.</rule>
+</rules>
+</derived_non_semantic_baseline_contract>
 <prior_finding_reconciliation>
 <rule>Before emitting a re-review verdict, reconcile every prior stable finding ID.</rule>
 <statuses>
@@ -578,6 +641,7 @@ Run semantic review lanes after startup and mechanical context are established. 
 <field>lane: requirement | scope | correctness | testing | security | contract | maintainability | performance | concurrency | adversarial | standards | devex | prior_external_feedback | mechanical | residual_risk</field>
 <field>severity: P0 | P1 | P2 | P3</field>
 <field>blocking: true | false</field>
+<field>action: required_correction | required_evidence | advisory | future_candidate | human_decision</field>
 <field>confidence: 50 | 75 | 100</field>
 <field>title: short specific title, 10 words or fewer</field>
 <field>location: file:line, symbol, section, command, or artifact path</field>
@@ -692,6 +756,7 @@ Add a fresh-context check for high-risk findings without turning every review in
 <rule>Do not emit primary findings below confidence 75 except P0 confidence 50 with explicit escalation or required evidence.</rule>
 <rule>A P2 is blocking when it prevents proving an explicit acceptance criterion, required plan unit, required mechanical check, public contract compatibility, or previously unresolved P0/P1 fix. A P2 is non-blocking when the implementation is acceptable and the issue can be tracked without invalidating the completion claim.</rule>
 <rule>Mark every P2 finding as blocking: true or blocking: false.</rule>
+<rule>Classify every finding action as required_correction, required_evidence, advisory, future_candidate, or human_decision. Action labels do not override blocking truth.</rule>
 </rules>
 </severity_and_confidence_contract>
 
@@ -771,6 +836,8 @@ Add a fresh-context check for high-risk findings without turning every review in
 <rule>Use REJECT when the approach itself is wrong or unauthorized.</rule>
 <rule>Do not return ACCEPT or ACCEPT_WITH_NITS while any active P0/P1 finding has requires_verification: true. Use INCONCLUSIVE when missing evidence is the blocker, or REQUEST_CHANGES when concrete implementation or test work is required.</rule>
 <rule>A P2 finding with requires_verification: true is blocking when the missing verification is required by spec, plan, rule, public contract, prior finding reconciliation, or mechanical gate. Otherwise it may be accepted only as ACCEPT_WITH_NITS with the verification gap named.</rule>
+<rule>Any unresolved requirement, hard criterion, invariant, contract, or required evidence gap is blocking and incompatible with ACCEPT or ACCEPT_WITH_NITS regardless of action label.</rule>
+<rule>ACCEPT or ACCEPT_WITH_NITS ends the active review loop for the reviewed state. Advisory and future_candidate findings do not authorize automatic edits; a later semantic edit is a new scoped_amendment or material_reopen event.</rule>
 <rule>Do not use INCONCLUSIVE for non-material unknowns when objective/spec/plan requirements are satisfied, required checks pass or are not applicable, and remaining uncertainty is captured as non-blocking residual risk.</rule>
 <rule>Prefer ACCEPT_WITH_NITS over REQUEST_CHANGES when remaining issues are non-blocking P2/P3, optional improvements, or non-required evidence gaps that do not invalidate the completion claim.</rule>
 <rule>Prefer ACCEPT over ACCEPT_WITH_NITS only when there are no active findings and no material residual risks, not merely because all blockers are resolved.</rule>
@@ -799,6 +866,12 @@ SCOPE:
 REVIEW_CYCLE:
 
 - cycle: first_pass | resumed_review | re_review
+- review_checkpoint: checkpoint ID | not_declared | unknown — evidence
+- re_review_reason: not_applicable | blocking_fix | evidence_refresh | scoped_amendment | material_reopen
+- accepted_target_baseline: summary, manifest/snapshot status, untracked target handling, or not_applicable
+- derived_non_semantic_baseline: complete | incomplete | not_applicable — parent, before/after manifests, exact delta, classifier rationale, proof/readback, untracked decisions, derived identity, limits, and disclosure
+- changed_truth: unchanged | refreshed_evidence | scoped_amendment | material_reopen | unavailable — evidence
+- regression_halo: reviewed scope and rationale, or not_applicable
 - previous_change_fingerprint: value or none
 - current_change_fingerprint: value or unknown
 - prior_registry_loaded: yes | no | not_supplied
@@ -837,6 +910,7 @@ FINDINGS:
 - id: F-001
   severity: P0 | P1 | P2 | P3
   blocking: true | false
+  action: required_correction | required_evidence | advisory | future_candidate | human_decision
   confidence: 50 | 75 | 100
   lane: requirement | scope | correctness | testing | security | contract | maintainability | performance | concurrency | adversarial | standards | devex | prior_external_feedback | mechanical | residual_risk
   title: short specific title
