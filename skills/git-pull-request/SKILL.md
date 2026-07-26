@@ -340,7 +340,6 @@ Failure output: `Not done: PR verification is missing or external state does not
 | Situation                                                                                                                   | Load                                           |
 | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | Writing or revising title/body, choosing body sections, handling screenshots/demos/evidence, or avoiding diff-summary prose | [PR Writing](references/pr-writing.md)         |
-| Testing or improving this skill                                                                                             | [Pressure Tests](references/pressure-tests.md) |
 
 ## Rationalization Table
 

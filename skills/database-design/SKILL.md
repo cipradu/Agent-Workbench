@@ -239,7 +239,6 @@ When blocked, emit the failure output from the failed step and name the smallest
 | Go `database/sql`, `sqlx`, or `pgx`                                                                                                 | [Go Database Access](references/go-database.md)                            |
 | PostgreSQL-specific table design, indexing, MVCC, VACUUM, extensions, RLS, replication, backup, or `CREATE INDEX CONCURRENTLY`      | [PostgreSQL](references/postgres.md)                                       |
 | MySQL or MariaDB-specific schema, InnoDB, clustered primary keys, online DDL, gap locks, read replicas, or version-dependent syntax | [MySQL And MariaDB](references/mysql.md)                                   |
-| Testing or improving this skill                                                                                                     | [Pressure Tests](references/pressure-tests.md)                             |
 
 ## ADR Handoff
 

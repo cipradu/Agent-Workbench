@@ -262,4 +262,3 @@ For spec handoff, output:
 ## References
 
 - Use `references/artifact-format.md` for the map, ticket, and handoff formats.
-- Use `references/pressure-tests.md` when testing or revising this skill.

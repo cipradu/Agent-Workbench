@@ -44,6 +44,14 @@ GREEN proof should come from a fresh, isolated agent/session where possible. Sel
 
 A GREEN result is not proof if the scenario no longer exercises the original failure, if required references are skipped, or if success depends on hidden conversation context. Passing behavior must use the same criteria as RED unless the criteria revision is explicit and rerun.
 
+## Evaluator and Target Context
+
+Evaluator data and target runtime context have different owners. The evaluator may read pressure scenarios, expected wrong behavior, required behavior, pass/fail criteria, and prior verdict records. The target receives only the task prompt plus allowed runtime skill context.
+
+Do not provide expected behavior, selector inventories, pass/fail criteria, evaluator notes, or verdict records to the target session. Do not ask the target to read evaluator data. If the target reads evaluator data anyway, the scenario fails even when the final answer looks correct.
+
+For reference-selection tests, record the exact prompt, the target-visible context description, each runtime reference the target selected, the selector reason it gave, the target-reported read record, and the evaluator verdict. A generic reference-loading prompt passes only when the target evaluates selectors and leaves unmatched operational references unread. An explicit exhaustive runtime-reference audit passes only when the target reads all deployable operational references and no evaluator data.
+
 ## REFACTOR — Close Loopholes
 
 When the agent finds a new shortcut:
@@ -78,6 +86,9 @@ GREEN result:
   Pass/fail:
   Criteria revisions:
   References or gates used:
+  Target-visible context:
+  Target read record:
+  Evaluator verdict:
 
 Refactor changes:
 

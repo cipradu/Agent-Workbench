@@ -6,7 +6,7 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, database/API/error/testing design, diagnosis, and git commit/PR/conflict discipline.
 
-No packaged installer, exporter, or validator is included yet. For now, assets are copied manually into the projects or harness locations that should use them.
+No packaged installer, exporter, or validator is included yet. For now, deployable assets are copied manually into the projects or harness locations that should use them.
 
 ## What This Is
 
@@ -38,6 +38,8 @@ harness-instructions/
   codex/
   omp/
   opencode/
+evals/
+  skills/
 skills/
 ```
 
@@ -48,6 +50,8 @@ This repository currently has no public tracked `docs/` tree. Local ignored `doc
 ### Skills
 
 `skills/` holds reusable procedures for recurring agent work. Skills should teach durable behavior, include clear use and non-use boundaries, and avoid project-specific assumptions unless the skill is intentionally scoped.
+
+`skills/<name>/` is deployable runtime skill source: each package contains its `SKILL.md` plus any operational references selected by that skill. Repository-only evaluator assets for skills live under `evals/skills/<name>/`; those files hold pressure scenarios, criteria, and evaluation evidence or reports, not runtime skill context.
 
 Current skill groups include:
 
@@ -95,13 +99,15 @@ Root-level `AGENTS.md` and `CLAUDE.md` files in working projects are ignored her
 
 Copy assets selectively. This repository does not provide an installer, so use the locations your target harness or project already reads:
 
-1. Copy the relevant `skills/` directories into the target harness skill directory.
+1. Copy the relevant `skills/<name>/` directories into the target harness skill directory.
 2. Copy the matching specialist agent definitions from `agents/<harness>/`.
 3. Copy the relevant project instruction file from `harness-instructions/` or `harness-instructions/<harness>/`.
 4. Keep project-specific rules in the target project unless the rule is broadly reusable.
 5. Validate behavior with pressure scenarios before trusting a new or changed skill.
 
-Skill deployment is manual. The shared skill source is `skills/`. In this setup, shared agent skills are copied to `~/.agents/skills/`, Claude Code skills are copied to `~/.claude/skills/`, and Codex-native skills may be copied to `~/.codex/skills/` when the Codex surface should load them directly. Do not rely on symlinked Claude skills unless you have verified that Claude Code loads them in the target environment.
+Skill deployment is manual. Deploy skill packages from the selected `skills/<name>/` directory only; do not copy `evals/skills/<name>/` into installed skill locations. In this setup, shared agent skills are copied to `~/.agents/skills/`, Claude Code skills are copied to `~/.claude/skills/`, and Codex-native skills may be copied to `~/.codex/skills/` when the Codex surface should load them directly. Do not rely on symlinked Claude skills unless you have verified that Claude Code loads them in the target environment.
+
+Evaluation may use evaluator assets under `evals/skills/<name>/`, but runtime targets receive only the task prompt and permitted runtime skill context; they do not receive or read evaluator scenarios, criteria, or reports.
 
 The generic `harness-instructions/AGENTS.md` is a portable source file. Use the harness-specific instruction file when deploying to Claude, Codex, OpenCode, or Oh My Pi because each harness has different tool-calling, skill-loading, and task-agent semantics.
 

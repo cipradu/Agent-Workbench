@@ -277,7 +277,6 @@ When blocked, emit the failure output from the failed step and name the smallest
 | OpenAPI 3.1, operation IDs, examples, generated clients, mocks, contract tests, drift checks                                      | [OpenAPI Contract Design](references/openapi.md)                       |
 | GraphQL schema, queries, mutations, connections, nullability, N+1, depth/complexity, introspection, deprecation                   | [GraphQL Contract Design](references/graphql.md)                       |
 | Authn/z, BOLA/IDOR, mass assignment, CORS, rate limits, resource exhaustion, sensitive data, SSRF, unsafe third-party consumption | [Security And Abuse Controls](references/security-and-abuse.md)        |
-| Testing or improving this skill                                                                                                   | [Pressure Tests](references/pressure-tests.md)                         |
 
 ## ADR Handoff
 

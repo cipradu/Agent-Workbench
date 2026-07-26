@@ -285,7 +285,3 @@ For any visual artifact request, report:
 - residual risks or owner routes.
 
 For a visual-artifact brief without rendering, report the same fields but mark `Rendered: no` and name the blocking gate.
-
-## Pressure Tests
-
-Use [Pressure Tests](references/pressure-tests.md) when changing this skill, validating a new visual-artifact branch, investigating a failed visual artifact, or deciding whether the skill is ready to deploy.

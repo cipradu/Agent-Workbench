@@ -297,10 +297,6 @@ For orchestration-only turns, report:
 
 For execution turns, the downstream skill or implementation workflow owns its own output contract. This skill still owns the final check that the chosen path matched the real work.
 
-## Pressure Tests
-
-Use [Pressure Tests](references/pressure-tests.md) to validate changes to this skill. Do not weaken this skill by taste; add or revise gates only when pressure scenarios show a real loophole.
-
 ## Maintenance
 
 When downstream workflow skills or ownership boundaries are added, removed, renamed, narrowed, or broadened, update this skill's workstream table, artifact-boundary ownership map, handoff gates, and pressure tests together. A stale orchestrator routes work to the wrong owner even when each downstream skill is individually correct.

@@ -285,7 +285,3 @@ Testing gaps:
 Residual risk:
 Recommended correction:
 ```
-
-## Pressure Tests
-
-Use [Pressure Tests](references/pressure-tests.md) when testing or improving this skill.

@@ -37,6 +37,22 @@ Every skill spends attention. A skill exposed for autonomous discovery spends tr
 
 A description or reference pointer is not a label; it is a trigger condition. If important reference material is missed, sharpen the pointer before copying the whole reference inline. If a line does not change behavior under pressure, delete it. If a line is only useful for one branch, move it behind a one-level reference. If repeated wording is carrying one idea, collapse it into a stable leading concept instead of restating the same rule.
 
+## Runtime References and Evaluator Data
+
+Evaluator scenarios, expected wrong behavior, required behavior, pass/fail criteria, and verdict records are not runtime guidance. Keep evaluator data outside deployable runtime references, and do not load or expose it during ordinary skill use or target-agent runs.
+
+Before reading references, evaluate these operational selectors exactly:
+
+| Trigger | Select and read | Required before |
+| --- | --- | --- |
+| Choosing or materially revising the skill type | [Skill Types](references/skill-types.md) | Step 4 or any type-shaping edit |
+| Creating or materially revising skill files | [Skill Design Brief](references/design-brief.md) | Step 6 and before Step 7 file edits |
+| Designing, running, or reporting RED/GREEN skill evidence | [Testing Skills](references/testing-skills.md) | Step 5, Step 8, skill-behavior debugging evidence, or test-only mode |
+| Accepting a new, materially revised, or portability-sensitive skill | [Portable Requirements](references/portable-requirements.md) | Step 10 portability verification |
+| Accepting any new or revised skill | [Quality Checks](references/quality-checks.md) | Step 10 quality verification and handoff readiness |
+
+A generic request to load references means evaluate the selectors and load only the matching operational references. It is not permission to read every file in the references directory. An explicit exhaustive audit of deployable runtime references loads all five operational references above; evaluator data remains outside runtime-reference scope.
+
 ## Mandatory Sequence
 
 Run these steps in order. Do not write `SKILL.md` first. If any step's completion condition is unmet, stop and report `Blocked at Step N`, the missing evidence, and the next required action. If the user asks to skip inventory, RED scenarios, or GREEN testing, refuse to write or ship the skill until the missing gate is completed or reported as blocked.
@@ -182,7 +198,7 @@ Completion criterion: no known scenario fails for the same reason twice.
 
 ## Step 10 — Verify Quality and Portability
 
-Use [Pressure Tests](references/pressure-tests.md) when testing or improving this skill itself. Use [Portable Requirements](references/portable-requirements.md), [Testing Skills](references/testing-skills.md), and [Quality Checks](references/quality-checks.md).
+When testing or improving this skill itself, the evaluator owns pressure scenarios and criteria outside the deployable runtime references. Target sessions use the prompt plus allowed runtime skill context only. Use [Portable Requirements](references/portable-requirements.md), [Testing Skills](references/testing-skills.md), and [Quality Checks](references/quality-checks.md).
 
 Completion criterion: metadata is valid, references are one-level, description is trigger-focused, harness-specific assumptions are absent from the portable core, hard gates pass, diagnostics are labeled, and tests prove behavior improved.
 

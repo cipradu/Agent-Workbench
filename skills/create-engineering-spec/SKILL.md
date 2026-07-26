@@ -351,7 +351,3 @@ When a red flag appears, return to the relevant gate or emit the blocked packet.
 - Blocking questions are unresolved only if status remains blocked or Draft.
 - An independent reviewer critiqued the spec and every valid material finding is resolved; otherwise the spec is blocked or marked Proposed.
 - The spec contains no implementation order, task list, file edit choreography, commit boundary, or implementation code.
-
-## Skill Quality Rule
-
-Do not change this skill by taste. Use [Pressure Tests](references/pressure-tests.md) before accepting changes. Baseline without the change where feasible, test with the change, and add rationalization counters only for observed failures.

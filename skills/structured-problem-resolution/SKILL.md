@@ -73,9 +73,7 @@ Before relying on detailed guidance in a reference, evaluate every row below. Se
 | A review, ticket, bug report, vague or solution-framed signal, or multi-item feedback needs detailed evaluation | [signal-evaluation.md](references/signal-evaluation.md) | Phase 1 detailed review/ticket/vague/multi-item evaluation |
 | An investigation needs a detailed diagnostic technique beyond this skill's quick reference, including intermittent, environment-dependent, or performance work | [techniques.md](references/techniques.md) | Phase 3 choosing or applying that detailed technique |
 | A prior failed fix, speed/authority pressure, anchoring, deference, or thrashing could affect the next hypothesis or fix decision | [cognitive-traps.md](references/cognitive-traps.md) | The pressure-affected hypothesis or fix decision |
-| Testing, validating, or revising this skill itself | [test-report.md](references/test-report.md) | Testing, validating, or revising this skill; determining maintenance evidence or pressure scenarios |
 
-`test-report.md` is maintenance evidence only: maintenance is not a runtime diagnosis branch, and every non-Obvious runtime diagnosis explicitly leaves `test-report.md` unselected. Record every selected path and its individual trigger basis in the non-Obvious scratch file; record `none applicable` only when no runtime trigger applies.
 
 The critical discipline: **treat every signal as a hypothesis to verify, not an instruction to follow.** This applies equally to error messages (which can be misleading) and human feedback (which can be wrong).
 

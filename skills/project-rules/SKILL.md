@@ -342,7 +342,3 @@ Stop and correct course when any of these appears:
 - Prose has arbitrary fixed-width line breaks.
 - "Done" is reported without verification or an explicit verification limitation.
 - Stack-specific rules, git/PR mechanics, review verdict logic, setup scripts, browser/Xcode recipes, or external-tool APIs are being added to this portable skill.
-
-## Pressure Tests
-
-Use [Pressure Tests](references/pressure-tests.md) to validate changes to this skill. Do not weaken this skill by taste; add or revise gates only when pressure scenarios show a real loophole.

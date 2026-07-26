@@ -71,7 +71,7 @@ If the same content wants to be both an ADR and a pattern, split it: the ADR rec
 8. Anchor the pattern in examples and invariants. Include real project examples when available, expected shape, required properties, and what would violate the pattern.
 9. Choose the output state: accepted/proven pattern, candidate pattern, update existing pattern, refresh/deprecate existing pattern, rejected/not-a-pattern, or none observed.
 10. Confirm durable-pattern warrant. Write or update an artifact only when future implementers or reviewers need preserved reusable guidance, or when the surrounding workflow explicitly calls for a durable artifact. If no project convention exists and the user asked for a file, use `docs/patterns/{descriptive-slug}.md` and state that this is a new convention.
-11. Validate the result against the quality gate and pressure tests before presenting it as complete.
+11. Validate the result against this skill's `## Quality Gate`, and preserve the mandatory evaluator-owned pressure-validation handoff outside the runtime target context before any pattern is accepted or presented as complete; evaluator scenarios and criteria must not be loaded by the runtime target.
 
 Failure output: `Blocked: pattern output state cannot be chosen because <recurrence/mandate/force match/source evidence/existing artifact/artifact boundary> is unresolved.`
 
@@ -253,7 +253,3 @@ Use domain skills such as `api-design`, `database-design`, `queue-and-cache-desi
 | "The plan named this pattern."                               | A planned approach can guide one implementation without becoming durable doctrine. Treat it as evidence to evaluate.                |
 | "External best practice is enough."                          | External prior art informs local adaptation but does not prove local recurrence or mandate.                                         |
 | "No file means no result."                                   | `none observed`, candidate, rejection, and decision summaries are successful outcomes when they prevent junk doctrine.              |
-
-## Pressure Tests
-
-Use `references/pressure-tests.md` when validating this skill or testing a draft pattern against common failure modes.

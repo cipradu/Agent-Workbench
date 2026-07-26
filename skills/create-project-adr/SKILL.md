@@ -227,7 +227,6 @@ Load only the reference needed for the current task:
 - Read [ADR Principles](references/adr-principles.md) when deciding whether a decision deserves an ADR, handling immutability, splitting decision clusters, or linking code/docs to ADRs.
 - Read [ADR Template](references/adr-template.md) when drafting, revising, or validating ADR structure and section content.
 - Read [ADR Variants](references/adr-variants.md) when the project already uses Y-statements, MADR, or another ADR variant, or when choosing a format for a project with no convention.
-- Read [Pressure Tests](references/pressure-tests.md) when testing changes to this skill.
 
 ## Rationalization Table
 
@@ -259,7 +258,3 @@ Load only the reference needed for the current task:
 - The ADR changes product scope, spec truth, or plan order instead of preserving a technical decision.
 - An accepted ADR is edited to say something materially different from what was accepted.
 - The file creates a new documentation convention without saying so.
-
-## Pressure Tests
-
-Use [Pressure Tests](references/pressure-tests.md) when testing changes to this skill. Do not weaken the ADR bar, one-decision rule, project convention check, or immutability discipline to make a scenario pass.
