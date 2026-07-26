@@ -355,7 +355,3 @@ Before reporting completion of a continuity update:
 ## Revision Guard
 
 Future edits must preserve the Iron Law, applicability gate, source-truth reconciliation, narrow-update behavior, anti-diary boundary, sensitive-data boundary, and the rule that continuity links workflow artifacts instead of owning them.
-
-## Pressure Tests
-
-Use [Pressure Tests](references/pressure-tests.md) when validating this skill or checking future revisions.

@@ -77,7 +77,7 @@ Failure output: `Blocked: README target or audience is unclear, and guessing wou
 
 ### 2. Inventory Source Truth
 
-Read the repository before writing. Use [Source Inventory](references/source-inventory.md) for the files and signals to inspect.
+Read the repository before writing. Use [Source Inventory](references/source-inventory.md) when the repository evidence set still needs identification or classification. Do not load it merely to restate a complete explicit authoritative inventory supplied by an applicable authority; bare supplied assertions and partial inventories still require it.
 
 Rules:
 
@@ -163,7 +163,7 @@ Failure output: `Rejected: README draft is unsupported, bloated, generic, or mis
 
 ### 6. Apply Platform Constraints
 
-Load [Platform Notes](references/platform-notes.md) when the README target is GitHub, a package registry, a docs renderer, a public repository, or a private/internal repository with limited disclosure.
+Do not load [Platform Notes](references/platform-notes.md) when the complete applicable renderer, distribution, and disclosure constraint set is explicit and authoritative; validating against already-supplied constraints is not itself a trigger. Otherwise load it when any applicable constraint class is missing, incomplete, conflicting, or needs determination. A target label such as GitHub, registry, public, private, or internal alone is not a complete constraint set.
 
 Rules:
 
@@ -225,11 +225,10 @@ When handing README work to commit, PR, or external review workflows, preserve t
 
 | Situation                                                                                           | Load                                                 |
 | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| Deciding what repository evidence to inspect                                                        | [Source Inventory](references/source-inventory.md)   |
+| Identifying or classifying the repository evidence set before writing, refreshing, or auditing; do not load merely to restate a complete explicit authoritative inventory supplied by an applicable authority, but a bare supplied assertion or partial inventory still requires it | [Source Inventory](references/source-inventory.md)   |
 | Choosing sections by project type or renderer                                                       | [Section Selector](references/section-selector.md)   |
 | Checking claims, links, prose, duplication, placeholders, and sensitive content                     | [Quality Checklist](references/quality-checklist.md) |
-| README targets GitHub, package registries, public repos, private/internal repos, or mixed renderers | [Platform Notes](references/platform-notes.md)       |
-| Testing or improving this skill, or validating new gates against realistic pressure                  | [Pressure Tests](references/pressure-tests.md)       |
+| Do not load when the complete applicable renderer, distribution, and disclosure constraint set is explicit and authoritative; validation against those already-supplied constraints is not itself a trigger. Otherwise load when any applicable constraint class is missing, incomplete, conflicting, or needs determination; a target label alone is not a complete constraint set | [Platform Notes](references/platform-notes.md)       |
 
 ## Rationalization Table
 

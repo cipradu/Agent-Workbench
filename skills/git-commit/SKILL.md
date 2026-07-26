@@ -355,7 +355,6 @@ Failure output: `Not done: commit verification is missing or the working tree st
 | Situation                                                                                                           | Load                                                     |
 | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
 | Need to choose Conventional Commit type/scope, ticket-prefix style, body content, footers, or anti-pattern handling | [Message Conventions](references/message-conventions.md) |
-| Testing or improving this skill                                                                                     | [Pressure Tests](references/pressure-tests.md)           |
 
 ## Rationalization Table
 

@@ -34,11 +34,6 @@ Resolve intent, not markers. Every conflict resolution must be grounded in the p
 
 A conflict is competing history, not a text-editing inconvenience. Conflict markers show where Git stopped; they do not explain why either side changed. The job is to recover intent, choose the smallest correct integration, verify behavior, and leave the repository in a clear Git state.
 
-## Reference Loading
-
-- Read [references/pressure-tests.md](references/pressure-tests.md) when improving or testing this skill.
-- During live conflict work, read only the relevant pressure-test section when the conflict matches a listed pressure case, such as rebase side reversal, generated artifacts, delete/modify moved responsibility, workflow-owned delegated merges, local/sensitive files, optimization experiment conflicts, UI/dogfood conflicts, or failed continuation.
-
 ## Operating Process
 
 Run these steps in order. Do not skip from conflict markers directly to editing.
@@ -342,7 +337,3 @@ When blocked on a decision, ask one targeted question for the specific path or d
 - Conflict markers remain in source, snapshots, docs, or generated output.
 - The operation is continued with unresolved paths, skipped material checks, or unexplained verification gaps.
 - A merge/rebase/cherry-pick is completed and then pushed without separate push/PR authorization.
-
-## Pressure Tests
-
-Use [references/pressure-tests.md](references/pressure-tests.md) to test this skill. The pressure suite covers speed, rebase ambiguity, generated artifacts, strategy shortcuts, stash-pop hidden work, delete/modify moved responsibility, workflow-owned delegated merges, local/sensitive artifacts, UI/dogfood verification, optimization evidence, failed continuation, and completion pressure.

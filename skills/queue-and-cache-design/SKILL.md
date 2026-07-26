@@ -238,12 +238,6 @@ For queue/cache design or review, include:
 
 When blocked, emit the failure output from the failed step and name the smallest missing fact or verification action.
 
-## Reference Loading
-
-| Situation                       | Load                                           |
-| ------------------------------- | ---------------------------------------------- |
-| Testing or improving this skill | [Pressure Tests](references/pressure-tests.md) |
-
 ## Related Skill Handoffs
 
 - Use `database-design` when durable relational integrity, schema, transactions, migrations, indexes, or ORM behavior owns the decision.

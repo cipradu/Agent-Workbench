@@ -22,6 +22,8 @@ temp/
 # Local/private evaluation material
 **/eval/
 **/evals/
+!/evals/
+!/evals/**
 
 # Local harness/runtime state
 .codex/

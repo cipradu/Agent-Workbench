@@ -545,10 +545,6 @@ Before calling a plan ready:
 - Independent reviewer approved the plan or the plan remains blocked/proposed.
 - The plan contains no implementation code, unapproved scope, or invented spec truth.
 
-## Pressure Tests
-
-Use [Pressure Tests](references/pressure-tests.md) when testing changes to this skill. Do not weaken the spec-first gate or independent review gate to make scenarios pass.
-
 ## Final Rule
 
 The plan is not a document that sounds organized. It is the evidence-backed dependency graph that proves implementation can start safely. If the evidence is missing, the correct output is blocked, not polished.

@@ -167,7 +167,7 @@ Failure output: `Rejected: documentation type is template-driven or mixed withou
 
 ### 4. Inventory Source Truth
 
-Load [Source Inventory](references/source-inventory.md) before drafting or materially revising docs.
+Load [Source Inventory](references/source-inventory.md) before drafting or materially revising docs. For validation-only review or audit, load it only when source evidence still needs identification or classification; do not load it merely to restate a complete explicit authoritative inventory supplied by an applicable authority.
 
 Rules:
 
@@ -274,10 +274,9 @@ Final response for documentation creation or update must include:
 | Situation                                                                                               | Load                                                           |
 | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | Choosing tutorial/how-to/reference/explanation/troubleshooting/migration/API/architecture/runbook shape | [Document Type Selector](references/document-type-selector.md) |
-| Deciding what evidence to inspect before writing                                                        | [Source Inventory](references/source-inventory.md)             |
+| Identifying or classifying source evidence for drafting, material revision, validation, review, or audit; do not load merely to restate a complete explicit authoritative source inventory supplied by an applicable authority | [Source Inventory](references/source-inventory.md)             |
 | Checking accuracy, accessibility, examples, links, freshness, and boundaries                            | [Quality Checklist](references/quality-checklist.md)           |
 | Reviewing/auditing existing docs, stale doc sets, generated docs, or high-risk docs                     | [Quality Checklist](references/quality-checklist.md)           |
-| Testing or improving this skill                                                                         | [Pressure Tests](references/pressure-tests.md)                 |
 
 ## Related Skill Handoffs
 
@@ -328,7 +327,3 @@ Stop and fix before completion when:
 - source-control, PR, release, publishing, setup, browser/device, or tracker mechanics are performed as if they were documentation work;
 - inaccessible Markdown patterns remain;
 - placeholders, TODOs, stale screenshots, dead links, fake badges, or attribution footers remain.
-
-## Skill Quality Rule
-
-Do not change this skill by taste. Run pressure tests first. Baseline without the change, test with the change, and add rationalization counters only for observed failures.

@@ -264,7 +264,6 @@ Failure output: `Not done: error-handling evidence is missing or unsafe: <specif
 | Mapping lower-level exceptions, dependency failures, validation-library failures, and unknown errors     | [Exception Mapping](references/exception-mapping.md)               |
 | Fallbacks, graceful degradation, error aggregation, cleanup, rollback, compensation, dead-letter records | [Recovery And Degradation](references/recovery-and-degradation.md) |
 | Logging, redaction, correlation IDs, stack traces, support lookup, public/private message split          | [Logging And Redaction](references/logging-and-redaction.md)       |
-| Testing or improving this skill                                                                          | [Pressure Tests](references/pressure-tests.md)                     |
 
 ## Rationalization Table
 
@@ -336,7 +335,3 @@ Retry/recovery/cleanup assessment:
 Verification gaps:
 Recommended correction:
 ```
-
-## Pressure Tests
-
-Use [Pressure Tests](references/pressure-tests.md) when testing or improving this skill.

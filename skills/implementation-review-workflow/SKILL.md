@@ -58,8 +58,6 @@ If you cannot perform one of these jobs, stop and report the exact missing input
 
 Keep routine packets compact. Load [Review Packet Reference](references/review-packet.md) before dispatch when the review involves plan-backed work, bug fixes, optimization output, simplification/refactor work, generated artifacts, local-only or sensitive evidence, UI/runtime/manual evidence, dogfood evidence, multi-artifact evidence, untrusted external feedback, prior PR/review comments, review-fix diff evidence, high-risk validation expectations, complex re-review, or residual-risk handoff.
 
-Use [Pressure Tests](references/pressure-tests.md) when changing this skill, changing reviewer contracts, investigating a review-control failure, or deciding whether a proposed workflow shortcut weakens the review gate.
-
 ## Gate 1 — Build the Review Packet
 
 Before dispatch, create a compact packet. Prefer paths over pasted content. Never paste raw conversation history or implementer chain-of-thought.

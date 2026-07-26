@@ -66,6 +66,9 @@ Skill loading gate:
 - Classification is not completion. `coding-project-orchestrator` selects the workstream; it does not replace loading the downstream skill that owns the artifact or action.
 - If a relevant skill is missing, stale, unavailable, or cannot be applied cleanly, say so explicitly and continue only with the best available local authority.
 - In this file, "use `<skill-name>`" means: read `skill://<skill-name>` with OMP's read tool, then follow the skill. If the skill references internal files, read them through `skill://<skill-name>/<relative-path>`.
+- When a skill instructs you to read references, evaluate every operational selector declared by that skill and read only the operational `skill://<name>/<relative-path>` references whose selectors match the current task; a generic instruction to "read the references" is not permission for directory-wide `skill://` enumeration.
+- Only an explicit exhaustive runtime-reference audit authorizes reading every operational `skill://<name>/<relative-path>` reference declared by the skill, and that audit remains runtime-scoped: evaluator assets are excluded.
+- Evaluator assets under `evals/skills/<name>/` are used only when evaluation or testing of the skill is explicitly in scope. The evaluator owns prompts, criteria, and verdicts; an OMP task-agent target receives only the task prompt and permitted runtime skill context and must not receive or read evaluator assets.
 
 Capability type rule:
 

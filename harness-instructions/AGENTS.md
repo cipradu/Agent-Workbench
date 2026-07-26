@@ -65,6 +65,9 @@ Skill loading gate:
 - Load the owning skill before producing the output it governs. At each task boundary or phase boundary, including a new artifact type, workflow stage, implementation step, review step, or source-control follow-through, repeat this check.
 - Classification is not completion. `coding-project-orchestrator` selects the workstream; it does not replace loading the downstream skill that owns the artifact or action.
 - If a relevant skill is missing, stale, unavailable, or cannot be applied cleanly, say so explicitly and continue only with the best available local authority.
+- When a skill instructs you to load or read references, evaluate every operational selector declared by that skill and load or read only the operational references whose selectors match the current task; a generic instruction to "load the references" or "read the references" is not permission for directory-wide enumeration.
+- Only an explicit exhaustive runtime-reference audit authorizes loading or reading every operational reference declared by the skill, and that audit remains runtime-scoped: evaluator assets are excluded.
+- Evaluator assets under `evals/skills/<name>/` are used only when evaluation or testing of the skill is explicitly in scope. The evaluator owns prompts, criteria, and verdicts; a runtime target receives only the task prompt and permitted runtime skill context and must not receive or read evaluator assets.
 
 Capability type rule:
 
