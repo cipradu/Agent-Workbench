@@ -1,6 +1,6 @@
 description = "Use this subagent to perform independent implementation acceptance review before completion. Reviews objective/spec/plan alignment, scope control, correctness, verification, security hotspots, contracts, maintainability risks, reusable pattern signals, and residual uncertainty. It may run read-only checks, but it must never edit or fix files."
-model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
 name = "implementation-reviewer"
 developer_instructions = """
 

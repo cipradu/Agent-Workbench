@@ -1,6 +1,6 @@
 description = "Use this agent for any research task—library docs, code patterns, current info, academic papers, site exploration. Orchestrates Context7, Exa, Tavily, Jina, grep, and local structural search with ast-grep. Returns clean, synthesized results with sources and confidence."
-model = "gpt-5.4-mini"
-model_reasoning_effort = "medium"
+model = "gpt-5.6-luna"
+model_reasoning_effort = "xhigh"
 developer_instructions = """
 # Research & Documentation Agent
 

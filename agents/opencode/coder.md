@@ -2,8 +2,8 @@
 description: Unified coding agent — fully structured execution contract with mandatory approved spec/plan intake, execution intake, persistent scratchpad, research-only delegation boundaries, edit-tool-only mutations, mandatory diagnostics follow-up, verification evidence, pattern-signal reporting, and review-packet handoff
 mode: subagent
 color: "#0047AB"
-model: "openai/gpt-5.5"
-reasoningEffort: "xhigh"
+model: "openai/gpt-5.6-sol"
+reasoningEffort: "high"
 permission:
   read: allow
   edit: allow

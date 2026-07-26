@@ -1,6 +1,6 @@
 description = 'Unified coding agent — fully structured execution contract with mandatory approved spec/plan intake, execution intake, persistent scratchpad, research-only delegation boundaries, edit-tool-only mutations, mandatory diagnostics follow-up, verification evidence, pattern-signal reporting, and review-packet handoff'
-model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
 name = "coder"
 developer_instructions = """
 

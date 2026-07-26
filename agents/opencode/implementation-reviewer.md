@@ -2,8 +2,8 @@
 description: Use this subagent to perform independent implementation acceptance review before completion. Reviews objective/spec/plan alignment, scope control, correctness, verification, security hotspots, contracts, maintainability risks, reusable pattern signals, and residual uncertainty. It may run read-only checks, but it must never edit or fix files.
 mode: subagent
 color: "#7C3AED"
-model: "openai/gpt-5.5"
-reasoningEffort: "xhigh"
+model: "openai/gpt-5.6-sol"
+reasoningEffort: "high"
 permission:
   webfetch: deny
   websearch: deny
