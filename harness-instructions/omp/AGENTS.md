@@ -196,6 +196,19 @@ Do not suspend or weaken these rules because of urgency, user confidence, user t
 - Use delegation to preserve focus. Do not keep work in the main context if a specialist agent is clearly better suited.
   </tool_persistence_rules>
 
+<harness_tool_discipline>
+
+- Prefer the harness's native tools for routine operations they directly support. Do not recreate native read, search, edit, or patch capabilities with shell commands or ad hoc scripts merely out of habit or convenience.
+- For hand-authored source, tests, configuration, documentation, prompts, rules, and similar files, use the harness's structured file-editing tool for ordinary creation, modification, and deletion whenever it can express the change.
+- Do not use shell redirection, heredocs, `sed -i`, `perl -pi`, write-back `awk`, or inline or ad hoc Python, Node, Ruby, or similar scripts to mutate those files when a native editing tool is available.
+- Commands may write files when the command is the established owner of the transformation, including repository-provided formatters, generators, migrations, package managers, codemods, and other project tooling. Read-only inspection, builds, tests, diagnostics, and version-control inspection remain normal command uses.
+- A custom mutating script is a last resort for a genuinely bulk, mechanical transformation that native editing tools cannot reasonably express. It must be inspectable and reproducible, name exact target paths, fail closed on unexpected targets or match counts, and use structure-aware tooling instead of regex when changing structured code.
+- Run each non-native mutation as its own visible tool call. Do not hide file writes inside a broad command chain. Do not run one against files containing unrelated uncommitted changes unless it has a precise recovery path.
+- If a mutation affects unexpected content, stop and recover the known preimage before trying again. Do not layer another broad rewrite over uncertain state.
+- A successful structured edit proves that edit was applied. A successful mutating command proves only that the command ran; verify its resulting delta at the end of the logical unit.
+
+</harness_tool_discipline>
+
 <dependency_checks>
 
 - Before taking an action, check whether prerequisite discovery, lookup, or context resolution is needed.
