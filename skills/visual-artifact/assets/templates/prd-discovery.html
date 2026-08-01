@@ -13,7 +13,26 @@
         <div class="artifact-kind">PRD / discovery visual</div>
         <h1>{{artifact_title}}</h1>
         <p class="lead">{{reader_job_summary}}</p>
-        <div class="meta-strip" aria-label="Artifact summary">
+        <!--
+          L1 ANSWER BAND (strata layer 1: the answer, always visible).
+          Fill 3-8 cells with load-bearing facts COMPUTED from the information model
+          (guidance default). Typical cells: actor count, workflow count, assumption count,
+          open-question count, evidence strength. Every number computed from source truth,
+          or labeled `estimated`, or the cell omitted. OMIT the whole band only when the
+          information model is trivially small (<3 computable facts).
+        -->
+        <div class="answer-band">
+          <div class="answer-cell"><span class="answer-num">{{actor_count}}</span><span class="answer-lbl">actors</span></div>
+          <div class="answer-cell"><span class="answer-num">{{workflow_count}}</span><span class="answer-lbl">workflows</span></div>
+          <div class="answer-cell"><span class="answer-num">{{assumption_count}}</span><span class="answer-lbl">assumptions</span></div>
+          <div class="answer-cell"><span class="answer-num">{{open_question_count}}</span><span class="answer-lbl">open questions</span></div>
+        </div>
+        <div class="band-note">
+          <div class="note-cell"><strong>Source truth:</strong> {{source_artifact}}</div>
+          <div class="note-cell"><strong>Inspect first:</strong> {{inspect_first}}</div>
+          <div class="note-cell"><strong>Unknown / out of scope:</strong> {{unknown_or_out_of_scope}}</div>
+        </div>
+        <div class="meta-strip">
           <div class="meta-item">
             <span class="meta-label">Source truth</span>
             <span class="meta-value">{{source_artifact}}</span>
@@ -62,6 +81,16 @@
             <li><span><span class="status-label" data-tone="unknown">unknown</span></span></li>
           </ul>
         </div>
+        <div class="rail-group">
+          <span class="meta-label">Local navigation</span>
+          <ul class="rail-list">
+            <li><a href="#product-frame">Product frame</a></li>
+            <li><a href="#knowns-unknowns">Knowns and unknowns</a></li>
+            <li><a href="#assumptions-matrix">Assumptions matrix</a></li>
+            <li><a href="#options">Options</a></li>
+            <li><a href="#next-validation">Next validation</a></li>
+          </ul>
+        </div>
       </aside>
 
       <div class="content-stack">
@@ -98,11 +127,11 @@
           <div class="section-header">
             <div>
               <h2>Knowns And Unknowns</h2>
-              <p>Facts, assumptions, doubts, and unknown candidates stay separate so weak evidence does not look settled.</p>
+              <p>Facts, assumptions, doubts, and unknown candidates stay separate so weak evidence does not look settled. Certainty rides the border of each status chip: solid = verified, dashed = inferred.</p>
             </div>
           </div>
           <div class="table-wrap">
-            <table>
+            <table class="trace-table">
               <thead>
                 <tr>
                   <th>Category</th>
@@ -114,21 +143,21 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="status-label" data-tone="ok">known</span></td>
+                  <td><span class="status-label" data-tone="ok" data-cert="solid">known</span></td>
                   <td>{{known_fact}}</td>
                   <td>{{known_fact_source}}</td>
                   <td>{{known_fact_consequence}}</td>
                   <td>{{known_fact_next_action}}</td>
                 </tr>
                 <tr>
-                  <td><span class="status-label" data-tone="warn">assumption</span></td>
+                  <td><span class="status-label" data-tone="warn" data-cert="inferred">assumption</span></td>
                   <td>{{assumption}}</td>
                   <td>{{assumption_source}}</td>
                   <td>{{assumption_consequence}}</td>
                   <td>{{assumption_next_action}}</td>
                 </tr>
                 <tr>
-                  <td><span class="status-label" data-tone="unknown">unknown</span></td>
+                  <td><span class="status-label" data-tone="unknown" data-cert="inferred">unknown</span></td>
                   <td>{{unknown_question}}</td>
                   <td>{{evidence_needed}}</td>
                   <td>{{unknown_consequence}}</td>
@@ -137,6 +166,29 @@
               </tbody>
             </table>
           </div>
+          <div class="legend"><span>color = category</span><span>border = certainty: solid = verified, dashed = inferred</span></div>
+        </section>
+
+        <!--
+          OPTIONAL: ASSUMPTIONS DATA MATRIX.
+          Use when assumptions × evidence-strength cells form a dense two-axis grid
+          at or above the row guidance default (>6 rows). Chips carry values.
+          Omit the whole section otherwise — absent from the HTML, not CSS-hidden.
+        -->
+        <section class="section" id="assumptions-matrix">
+          <div class="section-header">
+            <div>
+              <h2>{{assumptions_matrix_title}}</h2>
+              <p>Axes: assumptions (rows) × evidence strength (columns). {{assumptions_matrix_summary}}</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-matrix">
+              <thead><tr><th>assumption</th>{{evidence_strength_columns}}</tr></thead>
+              <tbody>{{assumptions_matrix_rows}}</tbody>
+            </table>
+          </div>
+          <div class="legend">{{assumptions_matrix_legend}}</div>
         </section>
 
         <section class="section" id="evidence-map">

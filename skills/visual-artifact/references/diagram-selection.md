@@ -25,6 +25,8 @@ Use inline SVG, Canvas, custom HTML drawings, or generated images only by justif
 | What is unknown? | Matrix plus callouts; Mermaid `mindmap` only for discovery hierarchy | Owners, evidence, confidence, and consequence matter | Graph would hide evidence |
 | What was verified? | Evidence rail or trace table | Claims need proof links | Diagram would imply unsupported certainty |
 | What is scheduled or phased? | Mermaid `gantt` only when time matters; execution-wave table otherwise | Time, milestones, or phase order is the point | Dependencies matter more than calendar time |
+| What is the chronology or sequence? | `.sequence-band` tick band with status markers | Sequence/timing is a reader question (plan waves, result timelines, phase order) | Sequence is incidental; PRD-type artifacts normally omit |
+| How do dense two-axis data compare? | `.data-matrix` chips carrying values | Two categorical axes + one value cell, at or above the row guidance default (>6 rows); comparison, coverage, or status is the question | Sparse matrices, multi-value cells, 3+ axes, or ≤6 rows → use a table |
 | How do alternatives compare? | Option matrix, or Mermaid `quadrantChart` for two-axis placement | Trade-offs are comparable | Options are not commensurable |
 | What surrounds the system? | Mermaid `flowchart`, or C4 by verified exception | Actors, systems, and external dependencies matter | Reader needs internal detail instead |
 | Where does it run? | Topology table, Mermaid `architecture-beta` only when verified | Environment, nodes, regions, devices, or runtime boundaries matter | Runtime location is not a decision surface |

@@ -10,36 +10,36 @@
   <main class="artifact-page">
     <header class="artifact-header">
       <div>
-        <div class="artifact-kind">Implementation result visual</div>
+        <div class="artifact-kind">{{artifact_kind}}</div>
         <h1>{{artifact_title}}</h1>
         <p class="lead">{{reader_job_summary}}</p>
-        <div class="meta-strip" aria-label="Result summary">
-          <div class="meta-item">
-            <span class="meta-label">Outcome</span>
-            <span class="meta-value">{{outcome}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Diff source</span>
-            <span class="meta-value">{{diff_source}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Verification</span>
-            <span class="meta-value">{{verification_status}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Review</span>
-            <span class="meta-value">{{review_status}}</span>
-          </div>
+        <!--
+          L1 ANSWER BAND (strata layer 1: the answer, always visible).
+          Fill 3-8 cells with load-bearing facts COMPUTED from the information model
+          (guidance default, not a hard gate). Every displayed number must be computed
+          from source truth, or labeled `estimated`, or the cell omitted.
+          OMIT the whole band only when the information model is trivially small
+          (<3 computable facts) — do not render it empty or with filler.
+        -->
+        <div class="answer-band">
+          <div class="answer-cell"><span class="answer-num">{{fact_1_value}}</span><span class="answer-lbl">{{fact_1_label}}</span></div>
+          <div class="answer-cell"><span class="answer-num">{{fact_2_value}}</span><span class="answer-lbl">{{fact_2_label}}</span></div>
+          <div class="answer-cell"><span class="answer-num">{{fact_3_value}}</span><span class="answer-lbl">{{fact_3_label}}</span></div>
+        </div>
+        <div class="band-note">
+          <div class="note-cell"><strong>What happened:</strong> {{one_line_summary}}</div>
+          <div class="note-cell"><strong>Inspect first:</strong> {{inspect_first}}</div>
+          <div class="note-cell"><strong>Unknown / out of scope:</strong> {{unknown_status}}</div>
         </div>
       </div>
-      <aside class="header-aside" aria-label="Source boundary">
+      <aside class="header-aside" aria-label="Projection boundary">
         <div>
           <span class="meta-label">May show</span>
-          <p>Changed surfaces, deviations, proof, reviewer focus, verdict context, residual risks, and comprehension checks.</p>
+          <p>{{may_show_summary}}</p>
         </div>
         <div>
           <span class="meta-label">Must not do</span>
-          <p>Replace tests, replace independent review, or claim done without source evidence.</p>
+          <p>{{must_not_do_summary}}</p>
         </div>
       </aside>
     </header>
@@ -50,23 +50,70 @@
         <div class="rail-group">
           <span class="meta-label">Source artifacts</span>
           <ul class="rail-list">
-            <li><a href="{{spec_link}}" target="_blank" rel="noopener noreferrer">{{source_spec}}</a></li>
-            <li><a href="{{plan_link}}" target="_blank" rel="noopener noreferrer">{{source_plan}}</a></li>
-            <li><a href="{{review_link}}" target="_blank" rel="noopener noreferrer">{{review_packet_or_report}}</a></li>
+            <li><a href="{{source_1_link}}" target="_blank" rel="noopener noreferrer">{{source_1_label}}</a></li>
+            <li><a href="{{source_2_link}}" target="_blank" rel="noopener noreferrer">{{source_2_label}}</a></li>
           </ul>
         </div>
         <div class="rail-group">
           <span class="meta-label">Local navigation</span>
           <ul class="rail-list">
+            <li><a href="#sequence">Sequence</a></li>
+            <li><a href="#matrix">Matrix</a></li>
             <li><a href="#changed-surfaces">Changed surfaces</a></li>
-            <li><a href="#proof-chain">Proof chain</a></li>
             <li><a href="#deviations">Deviations</a></li>
+            <li><a href="#proof-chain">Proof chain</a></li>
             <li><a href="#comprehension">Comprehension check</a></li>
           </ul>
         </div>
       </aside>
 
       <div class="content-stack">
+
+        <!--
+          OPTIONAL: SEQUENCE BAND (strata layer 2).
+          Use only when chronology/sequence is a reader question (session timelines,
+          phase order). Omit the whole section otherwise — absent from the HTML,
+          not CSS-hidden. Ticks: <div class="sb-tick" data-tone="risk|warn" style="left:X%;height:Ypx" title="..."><span>label</span></div>
+        -->
+        <section class="section" id="sequence">
+          <div class="section-header">
+            <div>
+              <h2>{{sequence_title}}</h2>
+              <p>{{sequence_summary}}</p>
+            </div>
+          </div>
+          <div class="sequence-band">
+            <div class="axis"></div>
+            <!-- sb-tick elements here -->
+          </div>
+          <div class="sequence-band-labels">{{sequence_axis_labels}}</div>
+          <div class="legend">{{sequence_legend}}</div>
+        </section>
+
+        <!--
+          OPTIONAL: DATA MATRIX (strata layer 2).
+          Use only when the information model has two categorical axes + one value cell
+          at or above the row guidance default (>6 rows). Chips carry values, never
+          color alone. Omit the whole section otherwise. State the two axes in the summary.
+        -->
+        <section class="section" id="matrix">
+          <div class="section-header">
+            <div>
+              <h2>{{matrix_title}}</h2>
+              <p>{{matrix_axes_summary}}</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-matrix">
+              <thead><tr><th>{{matrix_row_header}}</th>{{matrix_column_headers}}</tr></thead>
+              <tbody>{{matrix_rows}}</tbody>
+              <tfoot>{{matrix_footer_optional}}</tfoot>
+            </table>
+          </div>
+          <div class="legend">{{matrix_legend}}</div>
+        </section>
+
+        <!-- L2: what changed -->
         <section class="section" id="changed-surfaces">
           <div class="section-header">
             <div>
@@ -98,6 +145,57 @@
           </div>
         </section>
 
+        <!--
+          L2: DEVIATIONS AS TRACE TABLE.
+          Status is two-channel: color = valence (resolved / rule-defined / open),
+          border style = certainty (solid = verified, dashed = inferred via data-cert="inferred").
+          The legend states both channels in text. Omit the section when no deviations exist.
+        -->
+        <section class="section" id="deviations">
+          <div class="section-header">
+            <div>
+              <h2>Deviations</h2>
+              <p>{{deviations_summary}}</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="trace-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Trigger / cause</th>
+                  <th>Origin</th>
+                  <th>Cost</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{item}}</td>
+                  <td>{{trigger_or_cause}}</td>
+                  <td>{{origin}}</td>
+                  <td>{{cost}}</td>
+                  <td><span class="status-label" data-tone="{{status_tone}}" data-cert="{{status_cert}}">{{status_text}}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="legend">{{status_legend_two_channel}}</div>
+        </section>
+
+        <!--
+          OPTIONAL: FILTER BUTTONS for dense-entry sections (>10 homogeneous entries,
+          guidance default). Progressive enhancement: the inline script below filters
+          rows carrying data-tone by the pressed button's data-filter value; without
+          JavaScript the full list stays visible. Buttons need type="button".
+          Omit the buttons (and the script) when at or below the threshold.
+        -->
+        <div class="filters" role="group" aria-label="Entry filter">
+          <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-btn" type="button" data-filter="{{tone_1}}" aria-pressed="false">{{tone_1_label}}</button>
+        </div>
+
+        <!-- L2/L3 boundary: proof and verification -->
         <section class="section" id="proof-chain">
           <div class="section-header">
             <div>
@@ -111,47 +209,11 @@
                 <span class="evidence-id">{{proof_id}}</span>
                 <span>Claim: {{claim}}. Evidence: {{command_or_review_evidence}}. Status: <span class="status-label" data-tone="{{proof_tone}}">{{proof_status}}</span>. Residual risk: {{residual_risk}}.</span>
               </li>
-              <li>
-                <span class="evidence-id">{{proof_id_2}}</span>
-                <span>Claim: {{claim_2}}. Evidence: {{command_or_review_evidence_2}}. Status: <span class="status-label" data-tone="{{proof_tone_2}}">{{proof_status_2}}</span>. Residual risk: {{residual_risk_2}}.</span>
-              </li>
             </ul>
           </div>
         </section>
 
-        <section class="section" id="deviations">
-          <div class="section-header">
-            <div>
-              <h2>Deviations</h2>
-              <p>Plan-versus-reality differences keep their owner route instead of becoming hidden source truth.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Plan assumption</th>
-                  <th>Observed reality</th>
-                  <th>Choice made</th>
-                  <th>Evidence</th>
-                  <th>Owner route</th>
-                  <th>Residual risk</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{plan_assumption}}</td>
-                  <td>{{observed_reality}}</td>
-                  <td>{{choice_made}}</td>
-                  <td>{{deviation_evidence}}</td>
-                  <td>{{owner_route}}</td>
-                  <td>{{deviation_risk}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
+        <!-- L3: review context and verdict framing -->
         <section class="section" id="review-context">
           <div class="section-header">
             <div>
@@ -165,36 +227,58 @@
           </div>
         </section>
 
+        <!--
+          L3: COMPREHENSION CHECK as click-to-reveal.
+          Question visible; expected answer and why-it-matters hidden until opened.
+          Omit the section when there are no questions. Never acceptance evidence.
+        -->
         <section class="section" id="comprehension">
           <div class="section-header">
             <div>
               <h2>Comprehension Check</h2>
-              <p>Questions help the human inspect decisions, risk, and proof. They are not acceptance evidence.</p>
+              <p>For confidence, not acceptance evidence. Try to answer before opening.</p>
             </div>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Question</th>
-                  <th>Expected answer</th>
-                  <th>Why it matters</th>
-                  <th>Evidence to reread</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{question}}</td>
-                  <td>{{expected_answer}}</td>
-                  <td>{{why_it_matters}}</td>
-                  <td>{{evidence_to_reread}}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="reveal-check">
+            <details>
+              <summary>{{question_1}}</summary>
+              <p><strong>Expected answer:</strong> {{expected_answer_1}}</p>
+              <p class="section-note"><strong>Why it matters:</strong> {{why_it_matters_1}}</p>
+            </details>
           </div>
         </section>
+
+        <!-- L3: next action -->
+        <section class="section" id="next-action">
+          <div class="section-header">
+            <div>
+              <h2>Next Valid Action</h2>
+              <p>Projection note: the source artifacts stay canonical; this page only points.</p>
+            </div>
+          </div>
+          <div class="callout" data-tone="info">
+            <p>{{next_action}}</p>
+          </div>
+        </section>
+
       </div>
     </div>
   </main>
+
+  <!-- Mermaid setup: include only when a rendered Mermaid diagram exists. Small Mermaid may render unframed; dense inspection content uses .diagram-band with zoom controls. -->
+
+  <!-- Filter mechanism: include only when filter buttons are rendered. Rows must carry data-tone; buttons carry data-filter. -->
+  <script>
+    for (const btn of document.querySelectorAll(".filter-btn")) {
+      btn.addEventListener("click", () => {
+        for (const b of document.querySelectorAll(".filter-btn")) b.setAttribute("aria-pressed", "false");
+        btn.setAttribute("aria-pressed", "true");
+        const f = btn.dataset.filter;
+        for (const row of document.querySelectorAll("tr[data-tone]")) {
+          row.style.display = (f === "all" || row.dataset.tone === f) ? "" : "none";
+        }
+      });
+    }
+  </script>
 </body>
 </html>

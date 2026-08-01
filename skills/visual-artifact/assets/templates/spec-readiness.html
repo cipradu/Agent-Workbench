@@ -13,7 +13,24 @@
         <div class="artifact-kind">Spec readiness visual</div>
         <h1>{{artifact_title}}</h1>
         <p class="lead">{{reader_job_summary}}</p>
-        <div class="meta-strip" aria-label="Readiness summary">
+        <!--
+          L1 ANSWER BAND (strata layer 1). Typical cells: sharp-ticket count, Fog count,
+          blocker count, evidence-needed count, handoff status. Computed from the
+          readiness map, or labeled `estimated`, or omitted. OMIT the whole band only
+          when the model is trivially small (<3 computable facts).
+        -->
+        <div class="answer-band">
+          <div class="answer-cell"><span class="answer-num">{{ticket_count}}</span><span class="answer-lbl">sharp tickets</span></div>
+          <div class="answer-cell"><span class="answer-num">{{fog_count}}</span><span class="answer-lbl">fog items</span></div>
+          <div class="answer-cell"><span class="answer-num">{{blocker_count}}</span><span class="answer-lbl">blockers</span></div>
+          <div class="answer-cell"><span class="answer-num">{{handoff_status_short}}</span><span class="answer-lbl">handoff status</span></div>
+        </div>
+        <div class="band-note">
+          <div class="note-cell"><strong>Source map:</strong> {{readiness_map}}</div>
+          <div class="note-cell"><strong>Inspect first:</strong> {{inspect_first}}</div>
+          <div class="note-cell"><strong>Next owner:</strong> {{next_owner_route}}</div>
+        </div>
+        <div class="meta-strip">
           <div class="meta-item">
             <span class="meta-label">Source map</span>
             <span class="meta-value">{{readiness_map}}</span>
@@ -70,7 +87,7 @@
           <div class="section-header">
             <div>
               <h2>Readiness Board</h2>
-              <p>Why the future engineering spec is ready, blocked, or still under investigation.</p>
+              <p>Why the future engineering spec is ready, blocked, or still under investigation. When areas exceed the row guidance default (>6), render this board as a <code>.data-matrix</code> with areas × readiness status cells.</p>
             </div>
           </div>
           <div class="table-wrap">
@@ -87,7 +104,7 @@
               <tbody>
                 <tr>
                   <td>{{area}}</td>
-                  <td><span class="status-label" data-tone="{{status_tone}}">{{status_label}}</span></td>
+                  <td><span class="status-label" data-tone="{{status_tone}}" data-cert="{{status_cert}}">{{status_label}}</span></td>
                   <td>{{why_it_matters}}</td>
                   <td>{{evidence_needed}}</td>
                   <td>{{spec_impact}}</td>
@@ -95,6 +112,30 @@
               </tbody>
             </table>
           </div>
+          <div class="legend"><span>color = readiness valence</span><span>border = certainty: solid = verified, dashed = inferred</span></div>
+        </section>
+
+        <!--
+          OPTIONAL: READINESS DATA MATRIX (areas × readiness status).
+          Use when assessed areas meet the row guidance default (>6 rows): one row per
+          area, one chip per readiness state, the assessed state marked. Below the
+          threshold, keep the readiness-board table and omit this section —
+          absent from the HTML, not CSS-hidden.
+        -->
+        <section class="section" id="readiness-matrix">
+          <div class="section-header">
+            <div>
+              <h2>{{readiness_matrix_title}}</h2>
+              <p>Axes: areas (rows) × readiness status (columns). {{readiness_matrix_summary}}</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-matrix">
+              <thead><tr><th>area</th>{{readiness_status_columns}}</tr></thead>
+              <tbody>{{readiness_matrix_rows}}</tbody>
+            </table>
+          </div>
+          <div class="legend">{{readiness_matrix_legend}}</div>
         </section>
 
         <section class="section" id="tickets-and-fog">
@@ -130,17 +171,18 @@
           <div class="section-header">
             <div>
               <h2>Owner Routes</h2>
-              <p>Each unresolved item points to the workflow that can legitimately resolve it.</p>
+              <p>Each unresolved item points to the workflow that can legitimately resolve it. Status is two-channel: color = valence, border = certainty (solid = verified, dashed = inferred).</p>
             </div>
           </div>
           <div class="table-wrap">
-            <table>
+            <table class="trace-table">
               <thead>
                 <tr>
                   <th>Item</th>
                   <th>Owner route</th>
                   <th>Required evidence</th>
                   <th>Exit condition</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -149,10 +191,12 @@
                   <td>{{owner_route}}</td>
                   <td>{{required_evidence}}</td>
                   <td>{{exit_condition}}</td>
+                  <td><span class="status-label" data-tone="{{item_status_tone}}" data-cert="{{item_status_cert}}">{{item_status}}</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <div class="legend"><span>color = valence</span><span>border = certainty: solid = verified, dashed = inferred</span></div>
         </section>
 
         <section class="section" id="handoff">

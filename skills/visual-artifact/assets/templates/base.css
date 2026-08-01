@@ -660,3 +660,291 @@ summary {
     justify-content: start;
   }
 }
+
+/* ==========================================================================
+   Density primitives (template density upgrade, 2026-07)
+   Additive only. Selection rules: references/template-system.md.
+   ========================================================================== */
+
+/* Answer band: load-bearing computed facts + notes, first viewport. */
+.answer-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.answer-cell {
+  padding: 14px 16px;
+  border-left: 1px solid var(--line);
+}
+
+.answer-cell:first-child {
+  border-left: 0;
+}
+
+.answer-num {
+  display: block;
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.answer-lbl {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.band-note {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.note-cell {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.note-cell b,
+.note-cell strong {
+  color: var(--ink);
+}
+
+/* Data matrix: two categorical axes + one value cell. Chips carry values. */
+.data-matrix {
+  min-width: 720px;
+}
+
+.data-matrix th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface-subtle);
+}
+
+.data-matrix td:first-child,
+.data-matrix th[scope="row"] {
+  position: sticky;
+  left: 0;
+  background: var(--surface);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.dm-cell {
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.dm-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.dm-chip[data-tone="ok"] {
+  border-color: #b9e4c8;
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.dm-chip[data-tone="warn"] {
+  border-color: #f2d391;
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+.dm-chip[data-tone="risk"] {
+  border-color: #f3b7b1;
+  background: var(--risk-soft);
+  color: var(--risk);
+}
+
+.dm-chip[data-tone="info"] {
+  border-color: #bfd0fb;
+  background: var(--info-soft);
+  color: var(--info);
+}
+
+.dm-chip[data-tone="unknown"] {
+  border-color: #d1c8fb;
+  background: var(--unknown-soft);
+  color: var(--unknown);
+}
+
+.dm-avg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 22px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+/* Sequence band: ticks on a linear axis with status markers. */
+.sequence-band {
+  position: relative;
+  min-height: 96px;
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fbfcfe;
+}
+
+.sequence-band .axis {
+  position: absolute;
+  right: 0;
+  bottom: 22px;
+  left: 0;
+  border-top: 1px solid var(--line-strong);
+}
+
+.sb-tick {
+  position: absolute;
+  bottom: 22px;
+  width: 5px;
+  margin-left: -2px;
+  border-radius: 2px 2px 0 0;
+  background: var(--accent);
+}
+
+.sb-tick > span {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.62rem;
+  transform: translateX(-50%);
+}
+
+.sb-tick[data-tone="risk"] {
+  background: var(--risk);
+}
+
+.sb-tick[data-tone="risk"] > span {
+  color: var(--risk);
+  font-weight: 700;
+}
+
+.sb-tick[data-tone="warn"] {
+  background: var(--warn);
+}
+
+.sb-tick[data-tone="warn"] > span {
+  color: var(--warn);
+  font-weight: 700;
+}
+
+.sequence-band-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.75rem;
+}
+
+/* Trace table: two-channel status — color = valence, border style = certainty. */
+.trace-table .status-label[data-cert="inferred"] {
+  border-style: dashed;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend .sw {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* Filter buttons for dense-entry ledgers (progressive enhancement). */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 4px;
+}
+
+.filter-btn {
+  padding: 5px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.filter-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Reveal comprehension check (click-to-reveal expected answers). */
+.reveal-check details {
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.reveal-check summary {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reveal-check details p {
+  margin: 8px 0 0;
+}
+
+@media (max-width: 900px) {
+  .answer-band {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

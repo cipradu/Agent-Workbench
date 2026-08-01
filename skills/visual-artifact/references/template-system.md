@@ -38,6 +38,18 @@ Use `assets/templates/base.css` as the design system. For a delivered HTML artif
 
 If a template or rendered artifact contains Mermaid, include Mermaid setup from [Mermaid Diagrams](mermaid-diagrams.md). Mermaid source belongs in `<pre class="mermaid">` inside `.diagram-band`.
 
+## Density Primitives And Selection Rules
+
+The template family carries density primitives (`.answer-band`, `.data-matrix` + `.dm-chip`, `.sequence-band` + `.sb-tick`, `.trace-table`, `.filter-btn`, `.reveal-check`). Each has a when-condition that MUST be checked at render time. Primitives not meeting their condition are omitted — absent from the HTML, not CSS-hidden.
+
+1. **Answer band (always default):** the first viewport carries an answer band of load-bearing facts (guidance default: 3–8 cells) plus what-happened / inspect-first / unknown-out-of-scope notes. Omit the whole band only when the information model is trivially small (fewer than 3 computable facts).
+2. **Data-matrix-when:** use `.data-matrix` only when the information model has two categorical axes and one value cell, at or above the row guidance default (>6 rows). Fallbacks: sparse matrices (many empty cells), multi-value cells, or 3+ axes → use tables or multiple small matrices instead.
+3. **Sequence-band-when:** use `.sequence-band` only when chronology or sequence is a reader question (plan waves, result timelines, phase order). PRD-type artifacts normally omit it.
+4. **Two-channel status:** status carries two channels — color = valence (ok/warn/risk/info/unknown), border style = certainty (`data-cert="solid"` = verified, `data-cert="inferred"` = inferred/dashed). Every trace table and every status-using section states both channels in a text legend.
+5. **Computed-numbers:** every number in an answer band, data-matrix, or trace table is computed from the artifact's information model at render time, or the cell is labeled `estimated`, or omitted. Never retype numbers from memory or summary. Sample renders ship a source-to-number manifest (fact → source → computed value) covering every displayed derived number; per-cell verbatim source fields trace by construction and do not need per-cell manifest rows.
+6. **Mermaid-vs-density:** relationships (flow, dependency, state, topology) use Mermaid per [Diagram Selection](diagram-selection.md); data questions (comparison, coverage, status, chronology) use density primitives. Small Mermaid diagrams may render unframed; dense inspection content uses the standard `.diagram-band` with zoom controls.
+7. **Omission and exhaustion:** empty slots are omitted, never rendered empty and never CSS-hidden — per primitive: no filter buttons at or below the ledger threshold (guidance default: >10 homogeneous entries), no reveal check without questions, no trace table without deviations/unknowns, no data-matrix/sequence-band without their data shapes, no answer band under the trivially-small condition. The primitive list above is exhaustive: new primitives enter only by amending this reference (and the diagram-selection representation matrix where applicable).
+
 ## Template Adaptation
 
 Before editing the template, map the information model to the template sections:
@@ -112,9 +124,15 @@ Before reporting a rendered artifact ready:
 - no material claim appears only in a diagram;
 - Mermaid is used for diagram source unless a non-Mermaid exception is stated;
 - Mermaid diagrams include setup when rendered in HTML;
-- Mermaid diagrams use the standard `.diagram-band` / `.diagram-tools` / `.diagram-viewport` structure unless the diagram is deliberately omitted;
+- Mermaid diagrams use the standard `.diagram-band` / `.diagram-tools` / `.diagram-viewport` structure unless the diagram is deliberately omitted or small enough to render unframed;
 - rendered diagrams are centered at normal scale and can grow or scroll when zoomed;
-- first viewport answers the reader job;
+- first viewport answers the reader job AND carries the answer band (unless the trivially-small omission condition holds);
+- every number in an answer band, data-matrix, or trace table is computed from source truth, or labeled `estimated`, or omitted — and sample renders ship a source-to-number manifest covering every displayed derived number;
+- data-matrices state their two axes in an adjacent note and meet the row guidance default or fall back to tables;
+- sequence bands exist only when chronology/sequence is a reader question;
+- trace tables and status sections use two-channel status with a text legend for both channels;
+- filter buttons exist only above the ledger threshold, have `type="button"`, and the full list is visible without JavaScript;
+- omitted primitives are absent from the HTML, not CSS-hidden, and no empty frames or headers remain;
 - all status colors have text labels;
 - desktop width uses the page, while prose remains readable;
 - desktop titles and section summaries wrap naturally in the available content column instead of breaking early because of fixed measures;

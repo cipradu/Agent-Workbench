@@ -13,7 +13,24 @@
         <div class="artifact-kind">Implementation plan visual</div>
         <h1>{{artifact_title}}</h1>
         <p class="lead">{{reader_job_summary}}</p>
-        <div class="meta-strip" aria-label="Plan summary">
+        <!--
+          L1 ANSWER BAND (strata layer 1). Typical cells: unit count, wave count,
+          verification-gate count, critical-path length, re-plan trigger count.
+          Computed from the plan, or labeled `estimated`, or omitted. OMIT the whole
+          band only when the model is trivially small (<3 computable facts).
+        -->
+        <div class="answer-band">
+          <div class="answer-cell"><span class="answer-num">{{unit_count}}</span><span class="answer-lbl">units</span></div>
+          <div class="answer-cell"><span class="answer-num">{{wave_count}}</span><span class="answer-lbl">waves</span></div>
+          <div class="answer-cell"><span class="answer-num">{{gate_count}}</span><span class="answer-lbl">verification gates</span></div>
+          <div class="answer-cell"><span class="answer-num">{{critical_path_length}}</span><span class="answer-lbl">critical path</span></div>
+        </div>
+        <div class="band-note">
+          <div class="note-cell"><strong>Plan:</strong> {{plan_artifact}}</div>
+          <div class="note-cell"><strong>Inspect first:</strong> {{inspect_first}}</div>
+          <div class="note-cell"><strong>Stop rule:</strong> {{most_important_stop_rule}}</div>
+        </div>
+        <div class="meta-strip">
           <div class="meta-item">
             <span class="meta-label">Plan</span>
             <span class="meta-value">{{plan_artifact}}</span>
@@ -58,6 +75,7 @@
           <span class="meta-label">Local navigation</span>
           <ul class="rail-list">
             <li><a href="#dependencies">Dependencies</a></li>
+            <li><a href="#wave-band">Wave order</a></li>
             <li><a href="#waves">Execution waves</a></li>
             <li><a href="#verification">Verification</a></li>
             <li><a href="#stop-rules">Stop rules</a></li>
@@ -70,11 +88,11 @@
           <div class="section-header">
             <div>
               <h2>Dependency View</h2>
-              <p>Use this space for the overview graph when dependencies, fan-in, fan-out, or critical path matter.</p>
+              <p>Use this space for the overview graph when dependencies, fan-in, fan-out, or critical path matter. Small diagrams may render unframed; dense inspection uses the zoomable band. Omit the section otherwise.</p>
             </div>
           </div>
           <div class="diagram-band" data-diagram-band>
-            <div class="diagram-tools" aria-label="Diagram controls">
+            <div class="diagram-tools">
               <span class="diagram-title">{{diagram_title}}</span>
               <div class="diagram-actions">
                 <button class="diagram-button" type="button" data-diagram-zoom-out aria-label="Zoom out">-</button>
@@ -84,7 +102,7 @@
               </div>
             </div>
             <div class="diagram-viewport">
-            <pre class="mermaid" aria-label="Implementation plan dependency graph">
+            <pre class="mermaid">
 flowchart TD
   accTitle: {{diagram_accessible_title}}
   accDescr: {{diagram_accessible_description}}
@@ -96,6 +114,27 @@ flowchart TD
             </div>
             <p class="section-note">{{dependency_graph_text_alternative}}</p>
           </div>
+        </section>
+
+        <!--
+          OPTIONAL: WAVE-ORDER SEQUENCE BAND.
+          Use when wave/phase order is a reader question: one tick per wave or checkpoint,
+          status tones for blocked/current/done. Omit the whole section otherwise —
+          absent from the HTML, not CSS-hidden.
+        -->
+        <section class="section" id="wave-band">
+          <div class="section-header">
+            <div>
+              <h2>{{wave_band_title}}</h2>
+              <p>{{wave_band_summary}}</p>
+            </div>
+          </div>
+          <div class="sequence-band">
+            <div class="axis"></div>
+            <!-- sb-tick elements here, one per wave/checkpoint -->
+          </div>
+          <div class="sequence-band-labels">{{wave_band_axis_labels}}</div>
+          <div class="legend">{{wave_band_legend}}</div>
         </section>
 
         <section class="section" id="waves">
@@ -127,6 +166,27 @@ flowchart TD
               </tbody>
             </table>
           </div>
+        </section>
+
+        <!--
+          OPTIONAL: UNITS × GATES DATA MATRIX.
+          Use when units × verification-gates cells form a dense two-axis grid at or
+          above the row guidance default (>6 rows). Otherwise keep the unit table below.
+        -->
+        <section class="section" id="units-matrix">
+          <div class="section-header">
+            <div>
+              <h2>{{units_matrix_title}}</h2>
+              <p>Axes: units (rows) × verification gates (columns). {{units_matrix_summary}}</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-matrix">
+              <thead><tr><th>unit</th>{{gate_columns}}</tr></thead>
+              <tbody>{{units_matrix_rows}}</tbody>
+            </table>
+          </div>
+          <div class="legend">{{units_matrix_legend}}</div>
         </section>
 
         <section class="section" id="unit-table">
@@ -197,11 +257,11 @@ flowchart TD
           <div class="section-header">
             <div>
               <h2>Stop And Re-Plan Rules</h2>
-              <p>The visual plan must show when execution should stop instead of continuing through contradiction.</p>
+              <p>The visual plan must show when execution should stop instead of continuing through contradiction. Trigger status is two-channel: color = valence, border = certainty (solid = verified, dashed = inferred).</p>
             </div>
           </div>
           <div class="table-wrap">
-            <table>
+            <table class="trace-table">
               <thead>
                 <tr>
                   <th>Trigger</th>
@@ -209,6 +269,7 @@ flowchart TD
                   <th>Stop condition</th>
                   <th>Required action</th>
                   <th>Owner route</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -218,10 +279,12 @@ flowchart TD
                   <td>{{stop_condition}}</td>
                   <td>{{required_action}}</td>
                   <td>{{owner_route}}</td>
+                  <td><span class="status-label" data-tone="{{trigger_status_tone}}" data-cert="{{trigger_status_cert}}">{{trigger_status}}</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <div class="legend"><span>color = valence</span><span>border = certainty: solid = verified, dashed = inferred</span></div>
         </section>
       </div>
     </div>
@@ -252,8 +315,7 @@ flowchart TD
       const svg = band.querySelector("svg");
       if (!viewport || !value || !svg) return;
 
-      const viewBox = svg.viewBox && svg.viewBox.baseVal;
-      const naturalWidth = viewBox && viewBox.width ? viewBox.width : svg.getBoundingClientRect().width;
+      const naturalWidth = svg.viewBox ? svg.viewBox.baseVal.width : svg.getBoundingClientRect().width;
       let scale = 1;
 
       const applyScale = (next) => {

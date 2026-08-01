@@ -40,5 +40,6 @@ docs/references/
 docs/progress.md
 docs/plans/
 docs/specs/
+docs/adr/
 .playwright-mcp/
 skills-lock.json
