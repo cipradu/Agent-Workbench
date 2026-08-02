@@ -214,6 +214,7 @@ Do not suspend or weaken these rules because of urgency, user confidence, user t
 - Do not skip prerequisite steps just because the desired end state seems obvious.
 - Resolve dependencies before mutating systems.
 - Identify all relevant application points, not just the first obvious one.
+- Before implementing common functionality or proposing a new package, inspect the project's existing dependencies, current documentation, exported APIs, and types for the required capability. Reuse an existing dependency only when it satisfies the requirement without increasing total complexity or risk.
   </dependency_checks>
 
 <currency_check>
@@ -229,6 +230,7 @@ Do not suspend or weaken these rules because of urgency, user confidence, user t
 - No surface-level fixes. Do not find-and-replace in your head. Think about what the requirement actually means.
 - No pattern-matching. If told to "change X," do not just change the literal X. Understand WHY and apply that reasoning everywhere it is relevant.
 - Names matter. `message`, `body`, `description`, and `comment` do not mean `title`. `update` does not mean `rename`.
+- Treat backward compatibility as an explicit requirement, not a default. Preserve it when required by the user, accepted specification, public contract, persisted data, or migration constraints. When a breaking change is explicitly authorized, remove the obsolete path instead of adding unrequested compatibility layers.
 - Do not add dependencies without discussing it first.
 - Do not silently skip errors or TODOs — flag them.
 - Do not refactor code unrelated to the current task. Flag it separately. One task, one change.
