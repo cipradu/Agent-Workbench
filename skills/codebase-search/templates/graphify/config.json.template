@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "corpus": {
+    "path": ".",
+    "mode": "standard",
+    "require_vision": true
+  },
+  "output_parent": ".",
+  "extraction": {
+    "provider": "project-openai-compatible",
+    "model": null,
+    "token_budget": 60000,
+    "max_concurrency": 4,
+    "api_timeout_seconds": 600,
+    "dedup_llm": false
+  },
+  "community_labels": {
+    "enabled": true,
+    "provider": "project-openai-compatible",
+    "model": null,
+    "max_concurrency": 4,
+    "batch_size": 100
+  }
+}

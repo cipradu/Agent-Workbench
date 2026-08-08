@@ -132,8 +132,7 @@ Execution intake, validation, implementation, diagnostics, and verification happ
 <field>assigned_plan_units</field>
 <field>instruction_files_loaded</field>
 <field>skills_loaded</field>
-<field>codeindex_config_status</field>
-<field>codeindex_usage_decision</field>
+<field>search_tooling_status</field>
 <field>codebase_findings</field>
 <field>research_findings</field>
 <field>reuse_points</field>
@@ -230,7 +229,6 @@ For every non-trivial task, you must execute the startup sequence in order.
     <startup_step id="4" name="load_execution_skills">
       <required_actions>
         <action>Load <literal>codebase-search</literal>.</action>
-        <action>Load <literal>codeindex</literal> when repository instructions require it or the assigned implementation slice benefits from configured semantic orientation.</action>
         <action>Load <literal>structured-problem-resolution</literal> when the task involves debugging, feedback evaluation, failing checks, unclear blast radius, or codebase conflict analysis.</action>
         <action>For each logical dependency component, determine which repo-specific skills are required, relevant, or useful.</action>
         <action>Load repo-specific skills required by the task decomposition and repository instructions.</action>
@@ -270,7 +268,6 @@ For every non-trivial task, you must execute the startup sequence in order.
         <category name="skill_capabilities">
           <capability>codebase-search</capability>
           <capability>structured-problem-resolution_when_required</capability>
-          <capability>codeindex_when_required_by_repo_or_plan</capability>
         </category>
         <category name="agent_capabilities">
           <capability>research_subagent_when_startup_research_is_required</capability>
@@ -300,16 +297,13 @@ For every non-trivial task, you must execute the startup sequence in order.
 
     <startup_step id="6" name="validate_codebase_against_plan">
       <required_actions>
-        <action>Validate the assigned plan unit against the current codebase using the loaded <literal>codebase-search</literal> skill and <literal>codeindex</literal> when required or useful.</action>
-        <action>Use <literal>codebase-search</literal> as the routing contract for choosing semantic, exact, structural, and type-aware search paths.</action>
-        <action>Use the loaded <literal>codeindex</literal> skill to resolve configuration, verify availability, choose commands, select output modes, handle freshness/staleness, and place artifacts.</action>
-        <action>Determine whether <literal>codeindex</literal> is configured and usable for the active repository.</action>
-        <action>If <literal>codeindex</literal> is configured and usable, use it as the primary orientation layer before broad manual file walking, repeated grep, or speculative source reading, except where <literal>codebase-search</literal> routes the task to exact-string, structural, or type-aware tools first.</action>
-        <action>If repository instructions provide exact <literal>codeindex</literal> command forms, config paths, executable paths, timeouts, artifact locations, or review rituals, follow those instructions and the loaded <literal>codeindex</literal> skill verbatim.</action>
-        <action>If <literal>codeindex</literal> is unavailable, unconfigured, stale beyond safe use, or misconfigured, record the status and the reason before falling back.</action>
-        <action>Fall back to non-codeindex discovery only when <literal>codeindex</literal> is not configured/usable and repository instructions do not make it mandatory.</action>
-        <action>Stop immediately if repository instructions make <literal>codeindex</literal> mandatory and its configuration or availability check fails.</action>
-        <action>Search semantically, exactly, structurally, and type-aware as routed by the loaded skills.</action>
+        <action>Validate the assigned plan unit against the current codebase using the loaded <literal>codebase-search</literal> skill.</action>
+        <action>Use <literal>codebase-search</literal> as the routing contract for choosing graph, exact, structural, and type-aware search paths.</action>
+        <action>For unknown-location, cross-file, or impact questions, prefer the skill's graph-backed discovery before broad manual file walking, repeated grep, or speculative source reading, except where the skill routes the task to exact-string, structural, or type-aware tools first.</action>
+        <action>Follow the loaded <literal>codebase-search</literal> skill for graph tool availability, freshness, lifecycle authorization, and fallback decisions; record the resulting search tooling status and the reason for any fallback.</action>
+        <action>If repository instructions provide exact search tool command forms, config paths, timeouts, or artifact locations, follow those instructions verbatim.</action>
+        <action>Stop immediately if repository instructions make a specific search tool mandatory and its configuration or availability check fails.</action>
+        <action>Search by graph, exact, structural, and type-aware paths as routed by the loaded skills.</action>
         <action>Read actual files before making claims.</action>
         <action>Determine whether the requested behavior already exists.</action>
         <action>Determine whether the task is partial or net new.</action>
@@ -323,10 +317,7 @@ For every non-trivial task, you must execute the startup sequence in order.
         <rule>If implementation must change files outside the plan's target boundary, stop and request plan revision or caller approval.</rule>
       </required_rules>
       <required_scratchpad_updates>
-        <update>codeindex_config_path</update>
-        <update>codeindex_config_status</update>
-        <update>codeindex_usage_decision</update>
-        <update>codeindex_commands_run</update>
+        <update>search_tooling_status</update>
         <update>files_inspected</update>
         <update>symbols_inspected</update>
         <update>implementation_status_findings</update>
@@ -548,7 +539,7 @@ For every non-trivial task, you must execute the startup sequence in order.
 <rule>Identify all relevant application points, not just the first obvious one.</rule>
 <rule>Do not treat a task as local just because the first edit appears local.</rule>
 <rule>Do not assume low blast radius without checking.</rule>
-<rule>When <literal>codeindex</literal> is configured and usable, use its <literal>impact</literal> workflow for known-symbol blast radius before refactors or shared-contract changes, then verify against source and exact/type-aware references as required by <literal>codebase-search</literal>.</rule>
+<rule>Before refactors or shared-contract changes, use the impact-search routing of <literal>codebase-search</literal> for known-symbol blast radius, then verify against source and exact/type-aware references as that skill requires.</rule>
 </rules>
 </blast_radius_protocol>
 
@@ -685,7 +676,6 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <mandatory_steps>
 <step>Run every verification step required by the approved plan for the assigned unit.</step>
 <step>Run every repository-mandated verification step.</step>
-<step>When <literal>codeindex</literal> is configured and usable, run the appropriate <literal>codeindex review</literal> workflow selected by the loaded <literal>codeindex</literal> skill and repository instructions before signaling readiness.</step>
 <step>Run all required tests.</step>
 <step>Run all required lint checks.</step>
 <step>Run all required type, build, and repo-specific checks.</step>

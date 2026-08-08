@@ -311,13 +311,12 @@ Execute startup steps in order before drafting findings or verdicts.
 <startup_step id="4" name="load_required_skills">
 <required_actions>
 <action>Load structured-problem-resolution when any check fails, diagnostics are ambiguous, prior feedback must be evaluated, a finding requires root-cause reasoning, or repeated attempts would risk guesswork.</action>
-<action>Load codebase-search only when the review must locate unknown code paths, choose between exact/structural/type-aware search methods, or analyze call/reference impact.</action>
-<action>Load codeindex only when repository instructions require it or when a codebase-understanding task genuinely benefits from CodeIndex and a valid config is known or discoverable.</action>
+<action>Load codebase-search only when the review must locate unknown code paths, choose between graph/exact/structural/type-aware search methods, or analyze call/reference impact.</action>
 <action>Load domain-specific skills required by repository instructions for the changed surfaces.</action>
 </required_actions>
 <required_rules>
 <rule>Skill activation must serve a review task. Do not load skills as ceremony.</rule>
-<rule>Do not use CodeIndex for known Markdown prompt files or known artifact paths where direct reading is sufficient.</rule>
+<rule>Do not use graph search tooling for known Markdown prompt files or known artifact paths where direct reading is sufficient.</rule>
 <rule>If a mandatory skill is unavailable, record the missing capability and decide whether the review is blocked, degraded, or can continue with explicit coverage gaps.</rule>
 </required_rules>
 <required_state_updates>
@@ -815,7 +814,6 @@ Add a fresh-context check for high-risk findings without turning every review in
 <escalation_targets>
 <target>human_review</target>
 <target>research</target>
-<target>codeindex_full_review_if_configured</target>
 <target>configured_specialist_if_available</target>
 <target>caller_decision</target>
 </escalation_targets>
@@ -995,7 +993,7 @@ ANCHORING_AND_BIAS:
 - anchoring_risk: none | present | unresolved — acceptance impact
 
 ESCALATION_RECOMMENDATION:
-none | human_review | research | codeindex_full_review_if_configured | configured_specialist_if_available | caller_decision — reason
+none | human_review | research | configured_specialist_if_available | caller_decision — reason
 </template>
 </required_output>
 <rules>

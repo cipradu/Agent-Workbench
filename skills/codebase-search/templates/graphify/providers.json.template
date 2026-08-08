@@ -1,0 +1,14 @@
+{
+  "project-openai-compatible": {
+    "base_url": "<OPENAI_COMPATIBLE_V1_ENDPOINT>",
+    "default_model": "<MODEL_ID>",
+    "env_key": "GRAPHIFY_PROJECT_OPENAI_API_KEY",
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "temperature": 0,
+    "max_tokens": 16384,
+    "vision": true
+  }
+}
