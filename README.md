@@ -4,9 +4,9 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository contains curated `agents/`, `skills/`, and `harness-instructions/` assets. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, database/API/error/testing design, diagnosis, and git commit/PR/conflict discipline.
+This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, Python engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
 
-No packaged installer, exporter, or validator is included yet. For now, deployable assets are copied manually into the projects or harness locations that should use them.
+Skills can be installed directly from this repository with the public `skills` CLI (see [Install Skills With The Skills CLI](#install-skills-with-the-skills-cli)). Agents and harness instructions are copied manually into the harness locations that should use them; this repository ships no installer, exporter, or validator of its own.
 
 ## What This Is
 
@@ -51,7 +51,7 @@ This repository currently has no public tracked `docs/` tree. Local ignored `doc
 
 `skills/` holds reusable procedures for recurring agent work. Skills should teach durable behavior, include clear use and non-use boundaries, and avoid project-specific assumptions unless the skill is intentionally scoped.
 
-`skills/<name>/` is deployable runtime skill source: each package contains its `SKILL.md` plus any operational references selected by that skill. Repository-only evaluator assets for skills live under `evals/skills/<name>/`; those files hold pressure scenarios, criteria, and evaluation evidence or reports, not runtime skill context.
+`skills/<name>/` is deployable runtime skill source: each package contains its `SKILL.md` plus any operational references, scripts, templates, or assets the skill declares. Repository-only evaluator assets for skills live under `evals/skills/<name>/`; those files hold pressure scenarios, criteria, and evaluation evidence or reports, not runtime skill context.
 
 Current skill groups include:
 
@@ -59,7 +59,10 @@ Current skill groups include:
 - Product and engineering artifacts: `create-project-prd`, `create-spec-readiness-map`, `create-engineering-spec`, `create-implementation-plan`, `create-project-adr`, `create-implementation-pattern`, `create-documentation`, `create-readme`, `create-skills`, and `visual-artifact`.
 - Design, diagnosis, and quality: `structured-problem-resolution`, `codebase-search`, `architecture-design`, `api-design`, `database-design`, `queue-and-cache-design`, `testing-strategy`, and `error-handling-design`.
 - Engineering mechanics and team memory: `python-engineering` and `hindsight-memory`.
+- External integrations: `microsoft365`.
 - Git workflow: `git-commit`, `git-pull-request`, and `git-resolve-conflicts`.
+
+`codebase-search` routes repository discovery through two optional external CLIs installed separately: CodeGraph for code relationships and impact, and Graphify for cross-artifact and architecture structure. When those tools are unavailable, the skill falls back to direct exact, structural, and type-aware search, so it remains usable without them.
 
 `visual-artifact` creates source-traced HTML projections for existing PRDs, spec-readiness maps, engineering specs, implementation plans, review packets, implementation results, or complex technical artifacts. It uses Mermaid for diagrams by default, keeps evidence and source ownership visible, opens source/evidence links in new tabs, keeps in-page navigation local to the artifact, and writes disposable project-local outputs under `.agents/visual-artifacts/` unless another output path is explicitly chosen.
 
@@ -96,9 +99,28 @@ The harness instruction sources and current user/global targets are:
 
 Root-level `AGENTS.md` and `CLAUDE.md` files in working projects are ignored here because they are local harness instruction overrides, not reusable source assets for this repository.
 
-## How To Use
+## Install Skills With The Skills CLI
 
-Copy assets selectively. This repository does not provide an installer, so use the locations your target harness or project already reads:
+Skills in this repository follow the `skills/<name>/SKILL.md` package layout that the open-source [`skills` CLI](https://github.com/vercel-labs/skills) from [skills.sh](https://www.skills.sh/) discovers automatically, so they can be installed straight from GitHub without any registration:
+
+```bash
+# Interactive: pick target agents and skills
+npx skills add cipradu/Agent-Workbench
+
+# Install specific skills only
+npx skills add cipradu/Agent-Workbench --skill codebase-search --skill git-commit
+
+# List available skills without installing
+npx skills add cipradu/Agent-Workbench --list
+```
+
+The CLI supports 70+ agents (Claude Code, Codex, Cursor, OpenCode, and others), selected interactively or with `-a`/`--agent`. It installs per-project by default and globally with `-g`; installed skills are symlinked by default, with `--copy` available for independent copies. Manage installed skills with `npx skills update` and `npx skills remove`. The CLI collects anonymous usage telemetry by default; set `DISABLE_TELEMETRY=1` to opt out.
+
+Agents and harness instructions are not covered by the skills CLI. Copy those manually as described below.
+
+## Manual Copy
+
+Copy assets selectively into the locations your target harness or project already reads:
 
 1. Copy the relevant `skills/<name>/` directories into the target harness skill directory.
 2. Copy the matching specialist agent definitions from `agents/<harness>/`.
@@ -106,7 +128,7 @@ Copy assets selectively. This repository does not provide an installer, so use t
 4. Keep project-specific rules in the target project unless the rule is broadly reusable.
 5. Validate behavior with pressure scenarios before trusting a new or changed skill.
 
-Skill deployment is manual. Deploy skill packages from the selected `skills/<name>/` directory only; do not copy `evals/skills/<name>/` into installed skill locations. In this setup, shared agent skills are copied to `~/.agents/skills/`, Claude Code skills are copied to `~/.claude/skills/`, and Codex-native skills may be copied to `~/.codex/skills/` when the Codex surface should load them directly. Do not rely on symlinked Claude skills unless you have verified that Claude Code loads them in the target environment.
+Skill deployment by copy uses the selected `skills/<name>/` directory only; do not copy `evals/skills/<name>/` into installed skill locations. In this setup, shared agent skills are copied to `~/.agents/skills/`, Claude Code skills are copied to `~/.claude/skills/`, and Codex-native skills may be copied to `~/.codex/skills/` when the Codex surface should load them directly. Do not rely on symlinked Claude skills unless you have verified that Claude Code loads them in the target environment.
 
 Evaluation may use evaluator assets under `evals/skills/<name>/`, but runtime targets receive only the task prompt and permitted runtime skill context; they do not receive or read evaluator scenarios, criteria, or reports.
 
