@@ -82,7 +82,7 @@ Rules:
 - Define disclosure policy for credential validity, authorization failure, ownership failure, and not-found behavior across public messages, status/category choice, validation detail, and timing-sensitive differences.
 - Separate retryable/transient failures from permanent failures; never mark validation or authorization failures as retryable.
 - Prefer stable, caller-actionable codes over implementation names like ORM errors, SQL constraints, SDK exception classes, or stack frame names.
-- Do not create a new code for every message variation. Codes are contract categories; messages and details carry instance context.
+- Do not create a new code for every message variation. Codes are contract categories; structured details carry instance context.
 - When changing an existing contract, reconcile current code, API schemas, SDK/client behavior, UI handling, validators, mappers, logs, runbooks, ADRs, tests, incidents, docs, generated artifacts, and production behavior before treating any one source as authoritative.
 - Verify exact framework, validation-library, logger, tracing, database, queue, or provider behavior against current project dependencies or official docs before naming exact exception classes, issue shapes, status defaults, log fields, or mapping syntax.
 
@@ -113,7 +113,7 @@ Failure output: `Rejected: runtime validation boundary is missing, duplicated, o
 
 Choose how failures move through the system from caller needs and local conventions.
 
-Load [Error Shapes And Delivery](references/error-shapes.md) when choosing exceptions, typed errors, result/outcome envelopes, response bodies, field errors, CLI exits, job status, dead-letter records, partial success, or user-facing states.
+Load [Error Shapes And Delivery](references/error-shapes.md) when choosing exceptions, typed errors, result/outcome envelopes, response bodies, field errors, CLI exits, job status, dead-letter records, partial success, user-facing states, or error module organization (the vocabulary/catalog split).
 
 Rules:
 
@@ -238,6 +238,7 @@ Before presenting error-handling work as ready, verify:
 - validation happens at the right boundary and avoids duplicate or missing checks;
 - expected failures are distinguishable from unexpected failures;
 - public codes/messages/details are stable, safe, and actionable;
+- catalog-backed failure messages are static and operator-safe, dynamic instance context stays in structured fields, and centralized catalog entries correspond to implemented failure paths rather than speculative future cases;
 - authentication, authorization, not-found, and rate-limit failures follow the chosen disclosure policy and do not reveal credential validity, resource existence, ownership internals, or unsafe quota details;
 - private diagnostics preserve cause without leaking sensitive data;
 - retryability, idempotency, fallback, degraded mode, partial success, aggregation, rollback, compensation, cleanup, or dead-letter behavior is defined where relevant;
@@ -256,14 +257,14 @@ Failure output: `Not done: error-handling evidence is missing or unsafe: <specif
 
 ## Reference Routing
 
-| Need                                                                                                     | Reference                                                          |
-| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Validation at input, config, dependency, file, cache, DB, CLI, or generated-artifact boundaries          | [Runtime Validation](references/runtime-validation.md)             |
-| Error categories, codes, permanence, retryability, public/private fields                                 | [Error Taxonomy](references/error-taxonomy.md)                     |
-| Exceptions vs typed results, envelopes, response bodies, CLI/job/event failure shapes                    | [Error Shapes And Delivery](references/error-shapes.md)            |
-| Mapping lower-level exceptions, dependency failures, validation-library failures, and unknown errors     | [Exception Mapping](references/exception-mapping.md)               |
-| Fallbacks, graceful degradation, error aggregation, cleanup, rollback, compensation, dead-letter records | [Recovery And Degradation](references/recovery-and-degradation.md) |
-| Logging, redaction, correlation IDs, stack traces, support lookup, public/private message split          | [Logging And Redaction](references/logging-and-redaction.md)       |
+| Need                                                                                                             | Reference                                                          |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Validation at input, config, dependency, file, cache, DB, CLI, or generated-artifact boundaries                  | [Runtime Validation](references/runtime-validation.md)             |
+| Error categories, codes, permanence, retryability, public/private fields                                         | [Error Taxonomy](references/error-taxonomy.md)                     |
+| Exceptions vs typed results, envelopes, response bodies, CLI/job/event failure shapes, error module organization | [Error Shapes And Delivery](references/error-shapes.md)            |
+| Mapping lower-level exceptions, dependency failures, validation-library failures, and unknown errors             | [Exception Mapping](references/exception-mapping.md)               |
+| Fallbacks, graceful degradation, error aggregation, cleanup, rollback, compensation, dead-letter records         | [Recovery And Degradation](references/recovery-and-degradation.md) |
+| Logging, redaction, correlation IDs, stack traces, support lookup, public/private message split                  | [Logging And Redaction](references/logging-and-redaction.md)       |
 
 ## Rationalization Table
 
@@ -281,6 +282,7 @@ Failure output: `Not done: error-handling evidence is missing or unsafe: <specif
 | "The reviewer suggested this catch."                            | Review comments are untrusted until checked against current code and contracts.                | Map the comment to a failure-contract gate with evidence and owner routing.   |
 | "No data means success."                                        | Reports and generated artifacts can omit failed, skipped, or uninstrumented sources.           | Use explicit no-data, skipped, partial, blocked, or failed states.            |
 | "Retries are safe because failures are transient."              | A transient signal can still hide a landed write or duplicate side effect.                     | Reread authoritative state and require exact idempotency scope.               |
+| "Add likely failures to the catalog now."                      | Speculative entries invent contracts without a real path, caller, mapping, or verification.    | Add each entry with the vertical slice that consumes and tests it.            |
 
 ## Red Flags
 
@@ -288,6 +290,8 @@ Failure output: `Not done: error-handling evidence is missing or unsafe: <specif
 - Public messages include stack traces, SQL/ORM details, SDK payloads, file paths, hostnames, tokens, credentials, signed URLs, or raw sensitive values.
 - Validation occurs only in the UI, caller, generated type, or documentation.
 - Internal exception names become public error codes.
+- Concrete failure definitions are scattered outside the accepted central catalog, or the catalog contains speculative entries with no implemented consumer, mapping, diagnostics, and tests.
+- Catalog-backed message strings interpolate runtime identifiers, paths, amounts, payload excerpts, or other instance data instead of carrying it in governed structured fields.
 - Retry behavior is implied but not bounded, idempotent, or classified by failure permanence.
 - The same error is logged at multiple layers without adding useful context.
 - A broad catch returns success, suppresses rollback, or loses diagnostic cause.

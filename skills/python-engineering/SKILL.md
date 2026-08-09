@@ -41,7 +41,7 @@ Two failure modes dominate agent-written Python: code written before anyone esta
 
 ## Baseline
 
-Modern professional consensus (flagship projects and maintained templates converge on this; verified 2026-07):
+Modern professional consensus (flagship projects and maintained templates converge on this; verified 2026-07), plus one row explicitly marked house doctrine:
 
 | Axis | Default |
 | --- | --- |
@@ -49,6 +49,7 @@ Modern professional consensus (flagship projects and maintained templates conver
 | Config root | pyproject.toml (PEP 621), all tool config included |
 | Floor | apps ≥3.13; libraries ≥3.11 or ≥3.12; never upper-bound |
 | Layout | src/ for anything built or published |
+| Structure | purpose-grouped packages, declared import-dependency law, guard-enforced — house doctrine, not consensus ([project-structure](references/project-structure.md)) |
 | Lint + format | ruff (both), line length 88, `S` family on |
 | Types | strict checking; pyright (greenfield) or incumbent mypy --strict |
 | Tests | pytest (+ coverage, strict markers, warnings-as-errors) |
@@ -66,7 +67,7 @@ Detect before deciding: pyproject.toml (`[tool.*]`, `requires-python`, build bac
 - Greenfield → the Baseline table governs; load [project-setup](references/project-setup.md) before scaffolding.
 - Improving the incumbent stack (e.g., poetry→uv, black→ruff, adding a type checker) is proposed **separately** and waits for explicit approval — never bundled into a feature task.
 
-Completion criterion: you can name the manager, floor, layout, lint/format/type/test tools that govern this change.
+Completion criterion: you can name the manager, floor, layout, package-structure convention, and lint/format/type/test tools that govern this change.
 
 Failure output: `Blocked: Python baseline unknown: <missing detection or decision>.`
 
@@ -77,6 +78,7 @@ Load only the reference(s) that own the current work — before writing, not aft
 | Load when the work involves | Reference |
 | --- | --- |
 | Project creation, dependencies, layout, versions, pyproject, scripts (PEP 723), workspaces | [project-setup](references/project-setup.md) |
+| Package structure beyond src/: purpose grouping, package front doors, import-dependency law, guard tests for architectural laws | [project-structure](references/project-structure.md) |
 | Ruff config/fix loops, formatting, choosing/configuring a type checker, pre-commit, gate-clean runs | [quality-gates](references/quality-gates.md) |
 | Annotations, typing idioms, generics/Protocols/TypedDict, dataclass vs attrs vs pydantic vs msgspec, py.typed | [typing-and-models](references/typing-and-models.md) |
 | Settings, env vars, secrets loading, .env, startup validation | [configuration](references/configuration.md) |
@@ -100,7 +102,7 @@ Completion criterion: the owning reference(s) are loaded, or the no-route case i
 The five hard gates, in force during all execution:
 
 1. **Baseline gate** (Step 1) — no Python written before the baseline is established.
-2. **Migration-approval gate** — toolchain/stack conversions of an existing project require an explicit, separately-approved proposal. Failure output: `Blocked: toolchain migration needs explicit approval: <proposal>.`
+2. **Migration-approval gate** — toolchain, stack, or package-structure conversions of an existing project require an explicit, separately-approved proposal. Failure output: `Blocked: migration needs explicit approval: <proposal>.`
 3. **Safety gate** — no blocked construct from the [security](references/security.md) table (untrusted pickle/yaml.load/eval/exec, shell=True with interpolation, string-built SQL, disabled TLS, mktemp, random-for-secrets, unguarded extraction/paths, hardcoded secrets) without named justification and explicit user approval; offer the safe alternative first. "It's internal" is not an exemption. Failure output: `Rejected: unsafe construct without approval: <construct> — safe alternative: <alternative>.`
 4. **Measure-before-optimize gate** — performance changes require profile/benchmark evidence before and after ([performance](references/performance.md)); regression reports go to `structured-problem-resolution` first. Failure output: `Rejected: optimization without measurement evidence: profile or benchmark required first.`
 5. **Verification gate** — Step 4; done is gate-clean, and gates are never weakened to pass.

@@ -22,16 +22,24 @@ select = [
   "C4",       # comprehensions
   "S",        # security (bandit family) — see note below
   "RUF",      # ruff-specific
+  "ASYNC",    # blocking calls inside coroutines — house family, see note below
+  "PERF",     # performance lints — house family
+  "PTH",      # pathlib over os.path — house family
 ]
 ignore = ["E501"]               # the formatter owns line length
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101"]           # assert is the point of tests
 
+[tool.ruff.lint.isort]
+known-first-party = ["<package>", "tests"]   # replace <package> with every actual first-party package
+
 [tool.ruff.format]              # defaults are correct; do not fight them
+docstring-code-format = true    # house default: Python examples in docstrings are formatted too
 ```
 
 - The `S` family is deliberately on: it mechanically enforces the dangerous-construct table in the security reference. Flagship projects often run leaner selects; this default trades a small triage cost for catching the highest-consequence mistakes. An `S` finding is fixed or explicitly approved — never silently suppressed.
+- `ASYNC`, `PERF`, `PTH`, the isort first-party block, and `docstring-code-format` are house additions (operator doctrine, proven in one production project and adopted into a second, 2026-08; not external consensus). `ASYNC` catches blocking calls inside coroutines in async codebases, `PTH` keeps filesystem code on `pathlib`, and `PERF` provides low-cost checks for known performance mistakes. They are greenfield defaults; incumbents keep their select list.
 - `D` (docstrings) is opt-in for public-API libraries with a chosen convention. `ANN` stays off — annotation completeness is the type checker's job. `preview` stays off in production configs.
 - Family meanings and rule IDs: docs.astral.sh/ruff/rules (verify IDs there; do not quote from memory).
 

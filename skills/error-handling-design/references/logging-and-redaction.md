@@ -62,6 +62,10 @@ Startup, setup, dev-server, local-tool, or provider-auth diagnostics are example
 
 Prefer not collecting sensitive values over collecting and redacting them.
 
+Redaction by construction (house doctrine — operator convention, proven in one production project and adopted into a second (2026-08); a greenfield default, not external consensus): catalog-backed failure message text consists of static, operator-safe sentences fixed at authoring time. It never interpolates runtime data. Dynamic context such as identifiers, paths, amounts, provider details, and payload excerpts travels only in structured diagnostic fields governed by field-level collection and redaction policy. A message that cannot contain a secret needs no runtime message redaction and stays stable for support matching. Incumbent message conventions remain authoritative until a change is approved.
+
+A static message does not justify a new public code for each wording variation. Create a distinct code when caller action or disclosure differs; otherwise keep the shared code and put distinguishing context in structured fields. Tests should enumerate catalog messages to reject formatting placeholders or interpolation surfaces and should verify that public projections and captured logs exclude sensitive values.
+
 Never log:
 
 - passwords, password reset tokens, API keys, API key headers, `Authorization`, `Cookie`, `Set-Cookie`, bearer tokens, session identifiers, session cookies, private keys, certificates, OAuth codes, one-time passcodes, webhook signing secrets;

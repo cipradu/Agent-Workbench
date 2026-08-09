@@ -19,6 +19,26 @@ Choose the shape from caller needs, protocol, and project convention.
 | CLI exit code plus stderr/stdout | Script or command-line tool is consumed by humans and automation                                       | Keep machine-readable output separate from human diagnostics when needed                    |
 | Sentinel/result state            | Local tools, agents, reports, or pipelines need non-exceptional residual states                        | Distinguish skipped, no data, no sink, deferred, partial, blocked, and failed outcomes      |
 
+## Error Module Organization: The Vocabulary/Catalog Split
+
+House doctrine (operator convention, proven in one production project and adopted into a second (2026-08); a greenfield default, not external consensus): organize error code as a vocabulary/catalog split. An incumbent project's accepted stricter or different organization remains authoritative until a change is approved.
+
+- **Vocabulary**: pure types such as category enums, severity or retryability markers, and frozen base shapes. Vocabulary modules have no dependencies beyond the language and validation library, so every layer may import them without pulling in application behavior.
+- **Catalog**: the concrete failure definitions that consume the vocabulary. Keep the catalog in the errors purpose as the single owner of the project's complete concrete failure set. Each definition carries the stable category and public code, static safe message, and any retryability or disclosure metadata required by the project.
+
+The split keeps the type surface broadly importable while concrete failure contracts remain centralized and enumerable for tests and documentation. It does not require a centralized catalog for unrelated log events, audit actions, or telemetry names; centralize those only when their own owner and evidence justify it. Message text in the error catalog follows the static-message rule in [Logging And Redaction](logging-and-redaction.md).
+
+### Catalog Entries Ship As Vertical Slices
+
+Do not predeclare likely future failures. Add a catalog entry only with the real vertical slice that consumes it:
+
+- an implemented failure path and a receiver whose safe next action or disclosure contract distinguishes the failure;
+- the raising, returning, or mapping site that selects the catalog definition;
+- governed structured diagnostic fields and their redaction policy;
+- tests for the mapping, public projection, private diagnostics, and catalog completeness relevant to that path.
+
+Use one public code per distinct caller action or disclosure contract, not per message variation. Put identifiers, paths, amounts, provider details, and other instance context in structured fields. Remove stale entries when their final consumer disappears; an enumerable catalog is not a backlog of hypothetical contracts.
+
 ## Common Public Shape Fields
 
 Use local convention first. A generic public shape often includes:

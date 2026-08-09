@@ -499,6 +499,13 @@ Across all modes:
 - **ALWAYS** use `python3` when running python commands.
 - **ALWAYS** create venv using `uv venv` if we need dedicated packages for the task at hand if the project doesn't already have an existing virtual environment.
 
+## Configuration and process startup
+
+- Application configuration lives in the project's recorded configuration source (`.env` or its project-designated equivalent) and nowhere else, and application processes start only via their composition-root entrypoints.
+- Never set ad hoc, unrecorded environment variables when launching an application process — including `PYTHONPATH`. Recorded channels — checked-in CI definitions, container specs, orchestrator and secret-injection manifests — are project-designated configuration, not hand-set state.
+- A value that needs to change changes in the recorded source, visibly.
+- Development tooling (test runners, linters, type checkers, formatters) is not an application process; running it normally is unaffected.
+
 ---
 
 # When to answer directly vs delegate
@@ -559,6 +566,14 @@ Do not hand off vague intent if you can first resolve it yourself from available
 Do not make the specialist agent ask avoidable clarification questions.
 Do not guess IDs, state names, labels, ownership, or external-system details.
 Do not delegate raw ambiguity. Sharpen it first when you can.
+
+While a delegation is running:
+
+- Elapsed runtime alone is never evidence of failure. Review and verification agents can be slow by design.
+- Judge delegate health only from direct evidence: an advancing diff, new transcript output, or new tool activity. Never stitch moment-in-time status lines into a stall narrative.
+- If direct evidence is unavailable and status is needed, send exactly one status-only question with no attached directive, then wait for its answer.
+- Never send an abandon, hurry-up, or shortcut instruction to a running delegate, and never instruct a worker to replace its independent review or verification with a shortcut.
+- This rule governs what the supervisor may infer and initiate on its own. Stopping or redirecting a delegate on the user's explicit current instruction is outside its scope.
 
 After a delegation returns:
 

@@ -64,9 +64,9 @@ build-backend = "uv_build"
 
 - Anything published or installed as a package: `src/` layout — `src/<package>/` with `tests/` beside it. Rationale (packaging.python.org): tests and tools import the *installed* package, not the working-copy directory that happens to be on `sys.path`, and wheels stay free of stray files.
 - Applications: `src/` preferred for consistency; an existing flat layout is a convention to honor, not fix.
-- Public surface is explicit: `__all__` in `__init__.py`; single-underscore names are private by convention. Absolute imports only (PEP 8).
+- Public surface is explicit at the package front door: `__all__` records ordinary eager exports, while any heavy or optional public submodule path follows [project-structure](project-structure.md). Single-underscore names are private by convention. Absolute imports only (PEP 8).
 - Modules stay importable at any time: no import-time side effects (I/O, network, env reads, heavy computation at module level). Circular imports are resolved by extracting shared types/modules or `TYPE_CHECKING` guards — function-local imports are a last resort, not a design.
-- Split modules by cohesion, not line count; shallow hierarchies; structure by domain/feature. Namespace packages (PEP 420) only for multi-vendor plugin ecosystems.
+- Split modules by cohesion, not line count; shallow hierarchies; structure by domain/feature. Namespace packages (PEP 420) only for multi-vendor plugin ecosystems. Package-internal purpose grouping, front doors, and the import-dependency law belong to [project-structure](project-structure.md) — load it before laying out packages.
 - Monorepos of interdependent packages: uv workspaces (`[tool.uv.workspace]`, one shared lock, `{ workspace = true }` sources). Not for members needing different Python floors.
 
 ## Single-File Scripts (PEP 723)
@@ -96,7 +96,7 @@ Selection lives here; usage mechanics (sessions, transactions, migrations) live 
 
 ## New-Project Checklist
 
-`uv init` + git init, then before feature code: floor pinned; dependency groups; layout per type; ruff + type checker + pytest configured (quality-gates reference); `.gitignore` covering env/cache/coverage artifacts; `.env.example` if the app reads environment config; README with run/test commands.
+`uv init` + git init, then before feature code: floor pinned; dependency groups; layout per type; purpose tree and import-dependency law declared with the import-law guard test in place (project-structure reference); ruff + type checker + pytest configured (quality-gates reference); `.gitignore` covering env/cache/coverage artifacts; `.env.example` if the app reads environment config; README with run/test commands.
 
 ## Pitfalls
 

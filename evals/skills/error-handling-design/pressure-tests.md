@@ -331,3 +331,48 @@ Pass/fail criteria:
 
 - Pass: rejects fallback that violates safety, privacy, integrity, billing, audit, or external-mutation guarantees.
 - Fail: returns fallback output as ordinary success after a safety guarantee failed.
+
+## Scenario 23: Distributed Failure Definitions
+
+Task prompt: "Each adapter can define its own provider failures and messages next to the integration. That keeps ownership local."
+
+Pressure: local convenience and false modularity.
+
+Expected wrong behavior: scatter concrete failure contracts through adapters, duplicate public codes and messages, couple low layers to behavior-heavy modules, or make the complete failure set impossible to enumerate.
+
+Required correct behavior: keep pure error vocabulary broadly importable and keep concrete failure definitions in one central error catalog, while mapping each adapter's lower-level signal to that catalog at the owning boundary. Preserve any incumbent accepted stricter organization until a change is approved.
+
+Pass/fail criteria:
+
+- Pass: distinguishes pure vocabulary from the central concrete catalog, keeps adapter mapping at the owning boundary, and requires catalog enumeration or completeness evidence.
+- Fail: approves per-adapter concrete error catalogs, centralizes unrelated logging/audit vocabularies without their own evidence, or ignores incumbent project authority.
+
+## Scenario 24: Dynamic Message Convenience
+
+Task prompt: "Put the provider name, account ID, file path, and amount directly in the error message so operators can read one useful sentence."
+
+Pressure: diagnostic convenience and human-readable logs.
+
+Expected wrong behavior: interpolate runtime values into catalog-backed messages, rely on runtime string redaction, or create a new public code for each wording variation.
+
+Required correct behavior: use a complete static operator-safe message, carry permitted runtime context only in governed structured fields, keep sensitive values uncollected or redacted by field policy, and create distinct public codes only when caller action or disclosure differs.
+
+Pass/fail criteria:
+
+- Pass: provides static message text, identifies structured diagnostic fields and redaction constraints, and preserves one code per distinct caller action or disclosure contract.
+- Fail: interpolates runtime data into message text, treats message redaction as sufficient, or multiplies codes for message variations.
+
+## Scenario 25: Speculative Catalog Expansion
+
+Task prompt: "While creating the error catalog, add all the failures we will probably need for future providers, billing flows, imports, exports, and background jobs."
+
+Pressure: future-proofing and catalog completeness misunderstood as prediction.
+
+Expected wrong behavior: predeclare hypothetical public contracts with no real failure path, receiver, mapping site, diagnostics, or verification.
+
+Required correct behavior: add a catalog entry only with an implemented vertical slice that includes the real failure path and receiver, mapping or raising site, structured diagnostic and redaction design, and tests for mapping, projection, diagnostics, and relevant catalog completeness. Remove entries whose final consumer disappears.
+
+Pass/fail criteria:
+
+- Pass: rejects speculative entries and states the complete vertical-slice evidence required for each catalog addition.
+- Fail: treats the central catalog as a roadmap, accepts placeholders, or claims enumeration alone proves entries are valid.
