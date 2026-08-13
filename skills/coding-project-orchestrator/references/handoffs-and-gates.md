@@ -47,6 +47,7 @@ Every handoff should include:
 - External action scope: draft-only, read-only, local file write, generated artifact write, local config/preference write, commit, push, PR create/update, publish, pull/sync, schedule, tracker update, or metadata mutation when applicable.
 - Canonical source and privacy: local authoritative artifact, external copy role, sync direction, source window, sensitive/local-only artifact handling, and explicit permission status when applicable.
 - Stop triggers: conditions that require returning to user, diagnosis, spec, plan, or architecture.
+- Review routing when applicable: dispatch basis, effective authority, exact target, initial proportional regression halo, exact review question, non-goals, evidence-based expansion condition, and completion condition.
 
 If a handoff cannot include these fields, it is not ready.
 
@@ -228,21 +229,23 @@ Failure output:
 
 Pass condition:
 
-- Direct work checklist in `work-classification.md` passes.
+- Direct work checklist in `work-classification.md` passes, including proof that the work is trivial or non-semantic, is bounded configuration replication, or is covered by a separately explicit governing repository direct-edit exception.
+- For a repository-defined direct-edit exception, proof is conjunctive: every condition is enumerated and paired with affirmative authoritative current evidence. Silence, omitted facts, missing risk labels, and agent inference do not count; any unstated, unavailable, ambiguous, uncertain, or inferred condition fails this gate. A review-routing change must affirmatively prove that the exact delta preserves review safeguards.
+- When the candidate is bounded configuration replication, explicit review requests, repository assurance profiles, and automatic high-risk triggers were evaluated first; approved source behavior, target mapping, reversibility, and effective authority are known; deterministic proof covers every acceptance condition; and no extra semantics, authority, reachable data, permission, boundary, persistence, or side effect is introduced.
 - Verification evidence is concrete.
 - Source artifacts are current enough, not contradicted by stronger authority, and any review or feedback signal has been classified before acting.
-- Rough implementation, cleanup, simplification, or refactor work has named likely affected files, relevant tests, behavior-preservation constraints, and safety checks.
+- Rough implementation, cleanup, simplification, or refactor work has named likely affected files, relevant tests, behavior-preservation constraints, and safety checks; those facts do not bypass the full workflow for non-trivial work.
 - Any required review will run after implementation.
 
 Failure output:
 
-`Rejected: direct implementation would require guessing or unapproved scope: <specific reason>.`
+`Rejected: direct implementation lacks a proven trivial/non-semantic classification, bounded configuration classification, or separately explicit governing repository exception with affirmative evidence for every condition: <specific missing or uncertain condition>. Route the normal non-trivial workflow with policy_mandated review when no more specific basis applies.`
 
 ## Gate: To Coder Delegation
 
 Pass condition:
 
-- Approved/current spec and plan unit exist, or the task is explicitly direct and bounded enough for delegation.
+- Approved/current spec and plan unit exist, or current governing repository policy explicitly authorizes the exact direct lane and every boundary condition is proven.
 - Handoff includes objective, context, constraints, target boundary, non-target boundary, source strength, isolation/overlap state, verification ownership, and stop triggers.
 - The coder is not being asked to decide product/spec truth.
 - Parallel or serial execution has been chosen from overlap risk, shared state, verifier availability, and rollback/re-plan triggers.
@@ -255,15 +258,17 @@ Failure output:
 
 Pass condition:
 
-- Changed files or artifacts can be identified, including untracked files.
+- A dispatch basis is recorded: `policy_mandated`, `explicit_user_request`, `automatic_high_risk_trigger`, or `unresolved_material_judgment`. All other non-trivial implementation or semantic control-surface work outside the bounded configuration replication lane uses `policy_mandated` when no more specific basis applies. A fully proven bounded candidate with no basis closes without dispatch.
+- The target type and identity are known. Repository-backed review identifies the checkout, diff/current files, changed paths, and untracked handling. First-pass non-repository configuration review may use named approved source entries, named target entries/configuration artifact, and current exact readback as sufficient semantic identity; require stronger identifiers only when direct evidence shows a collision or ambiguity.
 - Objective and acceptance criteria are known.
+- The packet names objective, exact target, initial proportional regression halo, relevant context, effective authority, approved source truth, completed verification, exact review question, non-goals, evidence-based expansion condition, and completion condition.
 - Source artifact identifiers and currentness are known when the work was driven by a spec, plan, review report, ADR, issue, or external collaboration copy.
-- Verification output or skipped-check rationale is available.
-- Prior review state is available or its absence is explicitly named.
+- The checks performed and current decisive results, or a material skipped-check rationale, are available. Exact commands and output locations are reviewer evidence when available, not a first-pass non-repository caller-side blocker by themselves.
+- Prior review state is supplied when the dispatch is a re-review; a first pass does not require prior-cycle evidence.
 
 Failure output:
 
-`Blocked: implementation review packet is missing <objective/scope/diff/verification/prior state>.`
+`Blocked: implementation review packet is missing <dispatch basis/objective/exact target/target-type identity/initial proportional regression halo/context/effective authority/source truth/completed verification/exact question/non-goals/expansion condition/completion condition/applicable repository diff or configuration readback/applicable re-review state>.`
 
 ## Gate: To Project Continuity
 

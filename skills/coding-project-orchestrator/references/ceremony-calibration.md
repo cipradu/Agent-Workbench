@@ -20,13 +20,25 @@ Use this reference to choose the lightest sufficient workflow. The goal is not m
 
 | Level             | Use when                                                                                                                                                                                | Required behavior                                                                       |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Direct            | Work is local, reversible, understood, and concretely verifiable                                                                                                                        | Implement narrowly, verify, and report evidence                                         |
+| Direct            | Work is trivial or non-semantic, is strict bounded configuration replication, or is covered by a separately explicit governing repository direct-edit exception whose conditions are all proven | Implement only inside the proven lane, verify, and report evidence                      |
 | Diagnostic        | Something is failing or disputed and cause is not proven                                                                                                                                | Run structured problem resolution before choosing fix/spec/plan                         |
 | Definition        | Product or engineering truth is missing                                                                                                                                                 | Confirm explicit PRD/product-definition intent before PRD, or create engineering spec when engineering truth is missing |
 | Planned execution | Implementation has multiple surfaces, dependencies, handoff needs, or meaningful blast radius                                                                                           | Create or use implementation plan before execution                                      |
 | High assurance    | Wrong behavior would be hard to reverse, difficult to detect, broadly impactful, trust-affecting, data-affecting, permission-affecting, externally visible, or control-surface changing | Require stronger discovery, traceability, concrete verification, and independent review |
 
 High assurance is not a domain label. It is a property of consequence, reversibility, detectability, blast radius, and trust.
+
+## Assurance Precedence And Configuration Replication
+
+Before bounded routing, evaluate any explicit review request, repository assurance profile, and automatic high-risk trigger. Profiles may raise assurance; they cannot lower an explicit request or automatic trigger.
+
+Bounded configuration replication is direct only when the authorized source-to-target behavior is exact, reversible, and deterministically provable. The source, target mapping, target scope, and effective authority must be known. An absent or disabled target may become enabled when its post-activation behavior exactly matches approved-source post-activation behavior. Do not compare the enabled source only with the target's pre-activation absence.
+
+Effective authority comes from actual credentials, runtime controls, reachable data, and enforced permissions. Advertised operations are exposure context, not sufficient proof of realized write/admin authority. Disqualify work that adds semantics, authority, data reach, permissions, dependencies, architecture, security boundaries, persistence, or side effects, or that involves regulated/client/production/sensitive data, destructive or hard rollback, migration/persistence, auth/authz/security-boundary design, novel semantic judgment, ambiguous truth, or acceptance direct checks cannot prove. A non-mutating authorized connection check may verify a target; a state-changing check is external mutation.
+
+A fully proven candidate closes without review only when none of these bases applies: `policy_mandated`, `explicit_user_request`, `automatic_high_risk_trigger`, or `unresolved_material_judgment`. All other non-trivial implementation or semantic control-surface work outside the bounded configuration replication lane retains mandatory checkpoint and final review, recorded as `policy_mandated` when no more specific basis applies.
+
+The default route for that other non-trivial work is the full governing spec, plan, coder, unit-verification, checkpoint, and final-review workflow. Small scope, reversibility, exact wording, known files, or concrete verification do not create a direct path. Preserve a different bounded direct-edit exception only when current governing repository policy explicitly defines it and authoritative current evidence affirmatively proves every condition. Proof is conjunctive: enumerate each condition and its evidence. Silence, omitted facts, missing risk labels, or agent inference does not prove a condition. Any unstated, unavailable, ambiguous, uncertain, or inferred condition fails the exception and retains `policy_mandated` review when no more specific basis applies. A review-routing change needs affirmative evidence that the exact delta preserves review safeguards before it can satisfy a non-weakening condition.
 
 ## Calibration Questions
 
@@ -89,6 +101,8 @@ Do not let speed, fewer artifacts, pretty copy, generated reports, screenshots, 
 ## Direct Cleanup Calibration
 
 Cleanup, simplification, and refactor requests are direct only when behavior preservation is provable.
+
+For non-trivial semantic cleanup, proof of preservation is necessary but not sufficient: the current governing repository policy must also explicitly define a bounded direct-edit exception. Otherwise use the full workflow.
 
 Direct cleanup requires:
 
@@ -161,7 +175,7 @@ Use implementation plan when:
 Do not use implementation plan when:
 
 - engineering truth is still unsettled;
-- the work is a direct local change with concrete verification;
+- the work is inside a proven direct lane under current governing repository policy;
 - the plan would be a thin task list with no useful guardrails.
 
 ## Delegation And Verification Calibration
@@ -185,7 +199,7 @@ Verification is insufficient when:
 
 First classify text edits by semantic effect. Non-semantic typo, formatting, grammar, comment, or wording cleanup does not require independent review when it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify those edits with diff/readback evidence and report the non-semantic basis.
 
-Independent review is required when:
+Independent review is required outside the bounded configuration replication lane when:
 
 - implementation is non-trivial;
 - changed artifacts affect runtime behavior, public contracts, persistent state, permissions, generated outputs, commands, agents, skills, rules, prompts, templates, or workflow/control surfaces;
@@ -194,3 +208,5 @@ Independent review is required when:
 - prior findings, failed checks, or user-facing risk exist.
 
 Review depth scales with risk. Direct work can still need review when the changed surface controls future behavior. Narrow semantic control-surface edits usually fit quick review; changes to gates, mandatory behavior, review requirements, delegation, ownership boundaries, public contracts, permissions, external mutation, or cross-skill workflow behavior require standard or deep review.
+
+When review is required, `deep` controls rigor within the exact target and initial causal halo. It does not independently authorize repository-wide, deployment-wide, history-wide, or security-wide audit scope.

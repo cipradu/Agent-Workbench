@@ -28,7 +28,7 @@ Use this reference to classify coding-project work by the truth needed before ac
 | Source-control or PR follow-through | User asks to commit, push, create/update a PR, write/update PR description, resolve PR threads, merge, watch CI, or mutate labels/reviewers/metadata                                                                                                                     | Separate exact action scope and approval; route mechanics to git/PR/review-feedback owners with verification and residuals | Treating commit, push, PR, merge, CI, and metadata mutation as one implied action                       |
 | External collaboration or publishing sync | User asks to publish, pull, sync, update, or reconcile a shared document/collaboration surface with local repo artifacts                                                                                                                                                | Name canonical source, sync direction, mutation scope, external comments status, and downstream owner           | Treating remote edits/comments as accepted source truth, or silently pulling/publishing                 |
 | Execution planning            | Approved/current engineering truth exists and implementation requires units, ordering, dependencies, blast-radius analysis, verification, or handoff                                                                                                                      | Load `create-implementation-plan`                                                                              | Treating a rough request or unresolved spec as an implementation plan                                   |
-| Direct implementation         | Desired behavior and supported cause are known, source truth is current, change is local/reversible, no truth must be invented, affected files/tests/patterns are understood, blast radius is understood, verification is concrete                                        | Implement narrowly, verify, and review if required                                                             | Forcing PRD/spec/plan ceremony for a local, understood, verifiable change, or editing from weak source truth |
+| Direct implementation         | Work is trivial or non-semantic, is strict bounded configuration replication, or current governing repository policy explicitly defines another bounded direct-edit exception; every condition of the applicable lane is proven | Implement only inside that proven lane, verify, and review if its dispatch basis requires it | Inferring a general direct path for non-trivial work from small scope, reversibility, exact wording, known files, or concrete verification |
 | Cleanup or simplification     | User asks to simplify, clean up, refactor, remove duplication, reduce lines, or make code more elegant without changing intended behavior                                                                                                                                 | Resolve exact scope, preserve behavior including errors, ordering, side effects, safety, security, accessibility, and observability, then choose direct work or planned execution by blast radius | Treating line reduction as success, widening scope, or removing guardrails as boilerplate |
 | Delegated implementation      | Approved plan unit is ready, boundary is clear, isolation/overlap/shared-state risks are understood, verifier ownership is named, and isolated execution improves focus or quality                                                                                        | Dispatch coder with complete handoff; do not delegate raw ambiguity                                            | Sending vague "implement this" prompts, asking coder to resolve spec truth, or parallelizing overlapping work |
 | Implementation review         | Non-trivial code artifacts changed, semantic control-surface artifacts changed, review findings are being resolved, or acceptance depends on independent judgment                                                                                                         | Load `implementation-review-workflow`                                                                          | Treating self-review or passing tests as independent acceptance                                         |
@@ -36,9 +36,30 @@ Use this reference to classify coding-project work by the truth needed before ac
 | Pattern capture               | Implementation, review, ADR/spec/plan, or codebase evidence shows a recurring solution shape, repeated convention, inconsistent local approaches to the same problem, or explicit future-use signal                                                                       | Load `create-implementation-pattern` to decide accepted pattern, candidate note, existing update, or rejection | Creating pattern docs after every implementation, or using ADRs to store reusable application guidance  |
 | Decision capture              | A significant technical decision has been made and future readers will need rationale                                                                                                                                                                                     | Load `create-project-adr` after decision is confirmed                                                          | Writing ADRs for tactical choices or using ADRs to decide unsettled questions                           |
 
+## Bounded Configuration Replication
+
+Evaluate an explicit review request, repository assurance profile, and automatic high-risk triggers before this classification. A profile may raise assurance; it cannot lower an explicit request or automatic trigger.
+
+Classify work as bounded configuration replication only when all of these facts are verified:
+
+- the user authorized the exact source-to-target configuration behavior;
+- approved source truth, target mapping, target scope, and reversibility are known;
+- an absent or disabled target may become enabled, but target post-activation behavior must exactly match approved-source post-activation behavior;
+- effective authority is proven from actual credentials, runtime controls, reachable data, and enforced permissions; advertised operations remain exposure context;
+- no additional or newly designed semantics, authority, data reach, permission, dependency, architecture, security boundary, persistence, or side effect is introduced;
+- deterministic checks prove every acceptance condition and leave no material uncertainty; a non-mutating authorized connection check may be verification, while any target-system state change is external mutation.
+
+Reject this classification for regulated, client, production, or sensitive data; destructive or hard-to-reverse work; migration or persistence; new or expanded write/admin authority or sensitive-data reach; authentication, authorization, or security-boundary design; novel behavior requiring semantic judgment; ambiguous source truth or effective authority; or acceptance conditions direct checks cannot prove.
+
+A qualifying candidate dispatches review only for `policy_mandated`, `explicit_user_request`, `automatic_high_risk_trigger`, or `unresolved_material_judgment`. With no basis and complete deterministic evidence, close without review. All other non-trivial implementation or semantic control-surface work outside the bounded configuration replication lane keeps mandatory checkpoint and final review; use `policy_mandated` when no more specific basis applies.
+
+Outside bounded configuration replication, non-trivial implementation and semantic control-surface work uses the full governing spec, plan, coder, unit-verification, checkpoint, and final-review workflow. A separate direct-edit exception applies only when the current governing repository policy explicitly defines it and authoritative current evidence affirmatively proves every condition. Proof is conjunctive: enumerate the conditions and cite evidence for each. Silence, omitted facts, missing risk labels, or agent inference does not prove a condition. If any condition is unstated, unavailable, ambiguous, uncertain, or inferred, the exception fails and the full workflow applies with `policy_mandated` review when no more specific basis exists. For review-routing behavior, a non-weakening condition requires affirmative evidence that the exact delta preserves review safeguards. Do not synthesize the exception from generic direct-work qualities.
+
 ## Direct Work Checklist
 
 Direct work is allowed only when every item is true:
+
+- The work is trivial or non-semantic, qualifies as bounded configuration replication, or current governing repository policy explicitly defines another bounded direct-edit exception and authoritative current evidence affirmatively proves each of its conditions. For all other non-trivial implementation or semantic control-surface work, or when any condition is missing or uncertain, stop this checklist and use the full workflow.
 
 - The requested behavior is explicit enough to verify.
 - For bugs, the root cause is supported by a causal chain or the bug is objectively obvious and single-line.
@@ -50,7 +71,7 @@ Direct work is allowed only when every item is true:
 - A concrete verification command, inspection, or demonstration exists.
 - Required verifiers are available, or unavailable/manual-only checks are explicitly treated as blockers or skipped-check risks.
 - The change does not create new public contracts, persistent state transitions, migrations, generated artifacts, broad refactors, or unresolved compatibility questions.
-- Required review can be done after the change without needing a plan first.
+- The applicable direct lane does not require a spec, plan, coder handoff, checkpoint, or pre-edit review gate that has not been satisfied.
 
 If any item fails, choose diagnosis, explicit PRD/product-definition confirmation, spec, architecture, plan, artifact reconciliation, or review-feedback routing instead.
 
@@ -87,3 +108,5 @@ De-escalate from heavyweight process when:
 - a downstream skill would only restate what is already known and verified.
 
 De-escalation does not remove verification. It removes unnecessary artifact ceremony.
+
+For non-trivial implementation or semantic control-surface work, de-escalation signals do not themselves authorize direct execution. Use bounded configuration replication or a separately explicit governing repository exception; otherwise retain the full workflow.

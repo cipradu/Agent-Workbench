@@ -21,6 +21,49 @@ Label claims by basis:
 
 Do not promote background context into a directive requirement unless a directive source says so. Do not claim absence without file, Git, or tool evidence; use `unknown` or known-limit language when evidence is unavailable.
 
+## Dispatch Basis And Bounded Scope
+
+Do not build or dispatch a review packet until one or more valid bases are recorded:
+
+- `policy_mandated`;
+- `explicit_user_request`;
+- `automatic_high_risk_trigger`;
+- `unresolved_material_judgment`.
+
+For all non-trivial implementation and semantic control-surface work outside bounded configuration replication, the existing checkpoint/final review mandate supplies `policy_mandated` when no more specific basis applies. For a fully proven bounded candidate, complete deterministic evidence with no basis means close without dispatch; configuration, MCP, integration, network, deployment, capability, and security labels do not establish a basis by themselves.
+
+Every dispatched packet must include:
+
+```text
+Dispatch basis:
+Objective:
+Exact target:
+Initial proportional regression halo:
+Relevant context:
+Effective authority:
+Approved source truth:
+Completed verification:
+Exact review question:
+Non-goals:
+Evidence-based expansion condition:
+Completion condition:
+```
+
+Classify target identity before applying identity mechanics:
+
+- `repository_backed`: require the resolved repository/worktree or checkout, applicable branch/range/base/head, diff or current-file source, exact changed paths, untracked-file handling for working-tree review, and freshness tied to that repository state.
+- `non_repository_configuration`: require named approved source entries; named target entries, configuration artifact, or platform objects; and current exact readback or equivalent evidence tied to that target. Treat those semantic names and the readback as sufficient identity unless direct evidence shows a name collision, artifact ambiguity, stale readback, or another concrete identity conflict. Only then require the smallest stronger identifier, such as a platform object ID, environment/account/tenant boundary, version, hash, or canonical snapshot, needed to resolve the ambiguity. Do not require Git checkout, diff, changed paths, untracked handling, base/head refs, or repository path/hash/version mechanics for this target type.
+
+Choose the type from the owner of the reviewable target state. A repository policy governing a platform configuration does not make the target `repository_backed`, and a file-shaped configuration target is repository-backed only when its checkout/diff is the state under review.
+
+Infer `first_pass` when no prior reviewer state applies. Prior-cycle reports, finding registries, accepted baselines, reconciliation data, and a re-review reason are required only for `resumed_review` or `re_review`, not for a first-pass configuration packet.
+
+For a first-pass `non_repository_configuration` packet, the bounded fields above plus named approved source entries, named target entries and their configuration artifact, current exact readback, and risk-required depth are sufficient for readiness when they unambiguously identify the semantic source and target. Require stronger identity only when direct evidence shows a collision or ambiguity. Repository checkout, Git diff, changed paths, untracked handling, base/head refs, path/hash/version mechanics, plan checkpoint, prior-cycle evidence, accepted baseline, and repository fingerprints are inapplicable and must not block dispatch. Exact commands and output locations should be passed as reviewer evidence when available, but their absence does not block caller-side readiness when the packet states the checks performed and their current decisive results.
+
+For each basis, state the exact acceptance claim or unresolved question, why the exact target plus initial halo can answer it, and the consequence of error. Record effective authority as the capability supplied by actual credentials, runtime controls, reachable data, and enforced permissions; advertised operations remain exposure context. Approved source truth is the authorized behavior or governing directive used for comparison. A non-mutating authorized connection check may be completed verification; a connection check that changes target-system state is external mutation.
+
+The initial proportional regression halo is the smallest named set of direct callers, consumers, contracts, runtime paths, or tests whose behavior the exact target can change. Expand only when concrete evidence inside the target or current halo identifies the smallest required added boundary, and record that evidence. `Deep` controls rigor within the accepted scope; it does not independently authorize a repository-wide, deployment-wide, history-wide, or security-wide audit. Return a verdict when the exact review question and applicable acceptance conditions are assessed. A new question or broader audit needs its own valid basis and bounded packet.
+
 ## Evidence Manifest
 
 Use an evidence manifest when proof spans multiple artifacts, local-only files, generated reports, screenshots, logs, metrics, or manual/runtime checks.
@@ -39,9 +82,9 @@ The manifest is not acceptance. It helps the reviewer understand available proof
 
 ## Accepted Target Baseline
 
-Use this when a review depends on prior accepted state, prior findings, or any re-review. The baseline is path-scoped: it identifies the target state that was accepted, not every file in the checkout and not every local note.
+Use this only when a review depends on prior accepted state, prior findings, `resumed_review`, or `re_review`. A first pass does not require a prior baseline. The baseline uses the target type's identity scheme and identifies only the accepted target state.
 
-Required fields:
+For `repository_backed`, use:
 
 ```text
 Accepted target baseline:
@@ -61,6 +104,21 @@ Accepted target baseline:
 Hashes, manifests, and file lists prove identity only for the material they cover. They do not prove semantic correctness by themselves. A hash-only baseline is insufficient when the reviewer must know whether a prior behavior, contract, finding, or evidence claim was accepted; include the report, stable finding registry, or explicit limitation.
 
 Untracked files are included when they are target artifacts, generated acceptance evidence, local-only reports, screenshots, metrics, or other proof inputs. Exclude unrelated untracked files such as progress notes, scratchpads, unrelated skill drafts, caches, or experiments only with a short rationale when they are visible in the working tree.
+
+For `non_repository_configuration`, use:
+
+```text
+Accepted configuration baseline:
+- accepted verdict: ACCEPT | ACCEPT_WITH_NITS | explicit user risk authorization | none
+- accepted review report: path, URL, or none with reason
+- target system identity: platform/system plus environment, account, tenant, or equivalent boundary
+- target configuration identity: exact entries, files, objects, IDs, versions, or canonical readback identifiers
+- approved source identity: source system/configuration plus version, hash, snapshot, or other exact identity
+- accepted readback/evidence snapshot: current-value export, API readback, platform snapshot, logs, or unavailable with reason
+- prior finding registry: path/section or unavailable with reason
+- recoverable prior content: exact prior source/target snapshot or known limits
+- known limits: what the baseline proves and what it cannot prove
+```
 
 When carrying semantic acceptance forward across a non-semantic delta, add a derived non-semantic baseline bundle:
 
@@ -87,16 +145,17 @@ Review scope follows the changed truth plus its proportional causal halo:
 ```text
 Changed truth:
 - change event: first_pass | blocking_fix | evidence_refresh | scoped_amendment | material_reopen | resumed_same_input
-- changed target paths:
+- changed target paths, configuration entries, files, or platform objects:
 - changed evidence paths:
 - prior finding IDs affected:
 - contracts or invariants affected:
-- proportional regression halo:
+- initial proportional regression halo:
+- evidence-based expansion and smallest added boundary:
 - explicit non-target accepted history:
 - reason broader review is required, or reason narrower review is sufficient:
 ```
 
-The halo must cover affected callers, contracts, generated artifacts, verification evidence, prior finding reconciliation, and nearby invariants that could be invalidated by the change. It must not shrink to edited lines when the edit changes a shared policy, prompt contract, public interface, schema, dependency, generated surface, authorization rule, persistence behavior, or checkpoint boundary. It must not expand to the whole repository merely because a prior review exists unless a material reopen trigger justifies that scope.
+The halo must cover affected callers, contracts, generated artifacts, verification evidence, prior finding reconciliation, and nearby invariants that could be invalidated by the change. It must not shrink to edited lines when the edit changes a shared policy, prompt contract, public interface, schema, dependency, generated surface, authorization rule, persistence behavior, or checkpoint boundary. It must not expand to the whole repository merely because a prior review exists. Expansion requires direct evidence inside the target or current halo; a material reopen that changes the acceptance question requires a new valid basis and bounded packet.
 
 ## Reason-Specific Re-Review Supplements
 
@@ -213,7 +272,7 @@ Group findings by file or tightly coupled fix path only for execution clarity. D
 
 Preserve prior IDs. If an ID is missing or superseded, match by the same root cause, review lane, affected requirement or contract, location or affected surface, and overlapping evidence. Do not reuse resolved IDs for new findings. Report root/dependent relationships separately from stable IDs.
 
-Before re-review, gather a fresh changed-file inventory, untracked-file decision, verification output, current change fingerprint, current review-input fingerprint, accepted target baseline, changed-truth/regression halo, `re_review_reason`, and review-fix delta when the previous cycle produced findings. After multiple fixes, include aggregate validation for the combined change.
+Before re-review, gather the target-type-specific delta: fresh changed-file inventory and untracked decision for repository-backed work, or exact configuration/object delta plus current target readback for non-repository configuration. Also gather verification output, current target/change identity, current review-input fingerprint when available, accepted target baseline, changed-truth/regression halo, `re_review_reason`, and review-fix delta when the previous cycle produced findings. After multiple fixes, include aggregate validation for the combined change.
 
 An accepting verdict is terminal for the active review loop of the reviewed state. Advisory and future-candidate findings do not authorize automatic edits. A chosen semantic edit after an accepting verdict is a new classified event: `scoped_amendment` when it stays inside the accepted target and causal halo, or `material_reopen` when it changes the acceptance basis.
 

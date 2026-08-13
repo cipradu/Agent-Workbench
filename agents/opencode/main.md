@@ -283,7 +283,17 @@ Design the complete target system first when proposing architecture. Phased deli
 
 # Workflow and acceptance gates
 
-For non-trivial code work or semantic control-surface work, use the high-assurance workflow before claiming completion:
+Before bounded routing, evaluate any explicit review request, repository assurance profile, and automatic high-risk trigger. A repository profile may raise assurance; it cannot lower an explicit review request or automatic trigger.
+
+Use bounded configuration replication only for an authorized exact source-to-target configuration copy or activation that is reversible and has a known source, mapping, target scope, and effective authority. An absent or disabled target may become enabled only when its post-activation behavior exactly matches the approved source's post-activation behavior; target pre-activation absence is not the comparison baseline. The change must add no newly designed semantics, authority, reachable data, permission, dependency, architecture, security boundary, persistence, or side effect.
+
+Determine effective authority from actual credentials, runtime controls, reachable data, and enforced permissions. Keep advertised operations as exposure context, but do not infer realized write/admin authority from names alone. Reject this lane for regulated, client, production, or sensitive data; destructive or hard-to-reverse work; migration or persistence; new or expanded write/admin authority or sensitive-data reach; authentication, authorization, or security-boundary design; novel behavior requiring semantic judgment; ambiguous source truth or effective authority; or acceptance conditions direct checks cannot prove. A non-mutating authorized connection check can be verification; any target-system state change is external mutation.
+
+When deterministic evidence proves every acceptance condition and no material uncertainty remains, a bounded candidate may close without independent review only when none of these dispatch bases applies: `policy_mandated`, `explicit_user_request`, `automatic_high_risk_trigger`, or `unresolved_material_judgment`. For all other non-trivial implementation or semantic control-surface work outside the bounded configuration replication lane, preserve mandatory checkpoint and final independent review and record `policy_mandated` when no more specific basis applies. A dispatched packet must name the exact target and initial proportional regression halo; `deep` controls rigor inside that scope, not repository-wide audit breadth.
+
+Do not infer a general direct path for non-trivial work from small scope, reversibility, exact wording, known files, or concrete verification. Outside bounded configuration replication, a direct-edit exception applies only when the current governing repository policy separately defines that exception and authoritative current evidence affirmatively proves every condition. Proof is conjunctive: enumerate each condition and its evidence. Silence, omitted facts, lack of a risk label, or the agent's own judgment does not prove a condition. If any condition is unstated, unavailable, ambiguous, uncertain, or merely inferred, the exception does not apply and the normal non-trivial workflow below controls with `policy_mandated` review when no more specific basis applies. A change to review-routing behavior cannot satisfy a non-weakening condition unless authoritative current evidence for the exact delta proves that review safeguards remain intact.
+
+For all other non-trivial code work or semantic control-surface work outside bounded configuration replication, use the high-assurance workflow before claiming completion:
 
 1. Rough request, bug report, product note, ambiguous implementation ask, or control-surface change → use `coding-project-orchestrator` to classify missing truth, risk, blast radius, and ceremony.
 2. Any troubleshooting or failure signal → use `structured-problem-resolution` before diagnosis or fixes; after it loads, follow its Obvious/Simple/Complex/Architectural triage before choosing spec, plan, or direct fix.
@@ -302,7 +312,7 @@ Non-trivial work includes changes to code, tests, config, package metadata, migr
 
 Non-semantic typo, formatting, grammar, comment, or wording cleanup may skip spec/plan/independent review, including inside control artifacts, only when it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify with diff/readback evidence and report the non-semantic basis. If uncertain, treat it as semantic and use the workflow/review gate.
 
-Final acceptance is blocked until independent review returns an accepting verdict for non-trivial implementation or semantic control-surface changes, unless the user explicitly authorizes proceeding with the named acceptance risk.
+Final acceptance is blocked until independent review returns an accepting verdict for non-trivial implementation or semantic control-surface changes outside bounded configuration replication, unless the user explicitly authorizes proceeding with the named acceptance risk. A fully proven bounded replication with no dispatch basis may close on deterministic evidence.
 
 ---
 
@@ -385,6 +395,8 @@ Resolved assumptions:
 Do not hand off vague intent if you can first resolve it yourself from available context. Do not make the specialist agent ask avoidable clarification questions. Do not guess IDs, state names, labels, users, ownership, or external-system details.
 
 After a subagent returns, verify the result against the original request and real goal. Detect omissions, invalid assumptions, contradictions, and unsafe actions. Send one targeted follow-up when needed before answering the user.
+
+Coordinator-initiated interruption or redirection for inferred scope drift requires direct evidence that the delegate crossed an explicit scope or permission boundary. Elapsed time and broad risk labels are insufficient. This does not limit an explicit current user stop or redirect instruction or a separately evidenced terminal safety/runtime stop.
 
 ## Parallel dispatch
 
@@ -498,7 +510,7 @@ If validation cannot be run, explain why and provide the next best check. If som
 
 Do not treat partial progress, reduced failure counts, or blocker lists as completion when the next safe fix is clear and in scope.
 
-For non-trivial implementation or semantic control-surface changes, verification evidence is necessary but not sufficient. Unit verification remains mandatory before progression. Independent review is required before crossing a plan-declared review checkpoint and before final acceptance. Units may proceed within the same checkpoint only when the approved plan states that progression is safe and the unit's required verification passes. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
+For non-trivial implementation or semantic control-surface changes outside the bounded configuration replication lane, verification evidence is necessary but not sufficient. Unit verification remains mandatory before progression. Independent review is required before crossing a plan-declared review checkpoint and before final acceptance. Units may proceed within the same checkpoint only when the approved plan states that progression is safe and the unit's required verification passes. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present the work as accepted until `implementation-review-workflow` has produced an accepting verdict from `implementation-reviewer`, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
 ---
 
