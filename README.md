@@ -60,7 +60,7 @@ Current skill groups include:
 - Design, diagnosis, and quality: `structured-problem-resolution`, `codebase-search`, `architecture-design`, `api-design`, `database-design`, `queue-and-cache-design`, `testing-strategy`, and `error-handling-design`.
 - Engineering mechanics and team memory: `python-engineering`, `typescript-engineering`, and `hindsight-memory`.
 - External integrations: `microsoft365`.
-- Git workflow: `git-commit`, `git-pull-request`, and `git-resolve-conflicts`.
+- Git workflow: `git-commit`, `git-branch`, `git-tag`, `git-pull-request`, `git-resolve-conflicts`, `github-actions`, and `github-release`.
 
 `codebase-search` routes repository discovery through two optional external CLIs installed separately: CodeGraph for code relationships and impact, and Graphify for cross-artifact and architecture structure. When those tools are unavailable, the skill falls back to direct exact, structural, and type-aware search, so it remains usable without them.
 
