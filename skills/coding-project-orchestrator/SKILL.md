@@ -29,7 +29,7 @@ Do not code under false certainty. First understand what kind of work this is, w
 
 Orchestration is not routing by label. It is the discipline of turning a real coding-project request into the right next action without guessing, over-processing, or collapsing different kinds of truth into one artifact.
 
-Ceremony follows effective consequence and remaining judgment, not file size or risk-shaped labels. Evaluate explicit review requests, repository assurance profiles, and automatic high-risk triggers before bounded routing. A repository profile may raise assurance; it cannot lower an explicit request or automatic trigger.
+Consequence lane and gate warrants are separate decisions. Ceremony follows effective consequence and a named uncertainty or acceptance gap, not file size, artifact type, configuration status, delegation, or risk-shaped labels. Evaluate explicit review requests, scoped repository assurance profiles, and automatic high-assurance triggers before de-escalation, but do not let one of them activate unrelated gates. A repository profile may raise a lane or gate only when it names the protected consequence, affected scope, owning authority, exact floor, and reason.
 
 Preserve these boundaries:
 
@@ -84,7 +84,7 @@ Minimum checks:
 - Project-adjacent action truth: Is the request actually for option discovery, runtime inspection, setup/tooling health, read-only reporting, post-ship drafting, external collaboration sync, or source-control/PR follow-through rather than code or durable product/engineering truth?
 - Continuity truth: Does a project continuity artifact exist, and is current focus, blocker state, or next action needed for safe start, resume, pause, or close?
 - Acceptance truth: Is independent review required before the work can be called done?
-- Assurance truth: Does an explicit review request, repository assurance profile, or automatic high-risk trigger require review before any bounded configuration path is considered?
+- Assurance truth: Which consequence lane is supported by current evidence, which named escalation triggers or uncertainties exist, and which diagnosis, spec, plan, delegation, review, re-review, or final-gate decisions can change the next action?
 - Effective authority: What can actual credentials, runtime controls, reachable data, and enforced permissions do? Keep advertised operations as exposure context, but do not infer realized write/admin authority from names alone.
 
 Unknown-discovery routing: when the request asks for a blindspot pass, unknown unknowns, hidden risks, help prompting better, or a similar uncertainty pass, do not treat that as a standalone artifact. Classify the uncertainty by the truth it can change: product/domain/tacit user expectations route to product definition, candidate directions route to option discovery, existing PRD-to-spec fog routes to spec readiness mapping, bounded technical authority or acceptance gaps route to engineering definition, unresolved cause routes to diagnosis, ownership or seam uncertainty routes to architecture judgment, and approved-spec execution uncertainty routes to implementation planning.
@@ -99,41 +99,44 @@ Choose the lightest workflow that is sufficient for the work.
 
 Use [Ceremony Calibration](references/ceremony-calibration.md).
 
-Allowed direct work requires all of these:
+Classify one consequence lane from affirmative current evidence:
 
-- desired behavior is known;
-- cause is supported by a causal chain when fixing a bug, unless the fix is objectively obvious and local;
-- change is local and reversible;
-- no product, engineering, architecture, or execution truth must be invented;
-- relevant source artifacts are current enough and not contradicted by stronger authority;
-- affected boundaries and blast radius are understood;
-- concrete verification exists;
-- review requirements are either not triggered or will be satisfied after the change.
+- `direct`: target behavior and, for a failure, cause are known; scope and blast radius are bounded; the change is practically reversible; no automatic high-assurance trigger applies; and acceptance is deterministic. Silence, omitted facts, a missing risk label, or agent inference does not prove a condition.
+- `high_assurance`: at least one named trigger applies — regulated, client, production, or sensitive data; destructive or hard-to-reverse work; migration or persistent-state transformation; authentication, authorization, or security-boundary change; new or expanded write/admin authority or sensitive-data reach; public compatibility or durable external-contract change; release or deployment authority; a broad system-wide control change that changes permission, mutation, or acceptance boundaries; or a source-backed severe consequence with material blast radius, delayed detectability, difficult recovery, trust impact, or operational-continuity impact.
+- `standard`: ordinary meaningful work where complete direct proof is absent and no high-assurance trigger applies.
 
-For non-trivial implementation or semantic control-surface work, those general properties do not create a direct path. Outside bounded configuration replication, preserve the governing spec, plan, coder, unit-verification, checkpoint, and final-review workflow unless the current repository policy separately defines a bounded direct-edit exception and authoritative current evidence affirmatively proves every condition of that exception. Treat the proof as conjunctive: enumerate every condition and cite its evidence. Silence, omitted facts, missing risk labels, and agent inference are not proof. If one condition is unstated, unavailable, ambiguous, uncertain, or inferred, route the normal non-trivial workflow and record `policy_mandated` review when no more specific basis applies. For a review-routing change, require affirmative evidence that the exact delta preserves review safeguards before accepting any non-weakening condition.
+The words `semantic`, `non-trivial`, `control surface`, `configuration`, or `generated artifact`, file count, and delegation do not determine lane or gate. Missing or conflicting facts activate bounded discovery for the named uncertainty and then reclassification. Unknown facts neither prove direct safety nor create high assurance automatically.
 
-Escalate when any of these are true:
+Apply precedence without gate coupling. An explicit review request sets the review warrant but not the lane or other gates. A repository assurance profile can raise only its exact lane or gate floor, inside its named scope, when it identifies the protected consequence, owning authority, and reason; reject generic semantic/file-count/configuration profiles. Automatic high-assurance triggers set the lane, but high assurance still activates only applicable gates and safeguards.
 
-- product or workflow scope is being created or materially changed;
-- the cause of a failure is unknown;
-- behavior, constraints, authority, data shape, contracts, state, compatibility, permissions, generated artifacts, migrations, or operational effects are uncertain;
-- a plan, spec, ADR, documentation page, review report, or progress note may be stale, non-canonical, contradicted, or missing the truth its type must own;
-- execution spans multiple surfaces, has ordering dependencies, or will be delegated;
-- cleanup, simplification, or refactoring could remove behavior, error handling, validation, security checks, accessibility affordances, side effects, ordering, or observability;
-- required verification depends on unavailable tooling, human-only checks, external systems, or automation limits;
-- source-control, PR, external publication, collaboration sync, scheduling, local config, generated reports, or provider/tool setup may be mutated without exact action scope and permission;
-- architecture boundaries, ownership, adapters, or trade-offs affect the result;
-- implementation changes are non-trivial or control future agent/project behavior.
+Produce this decision record:
 
-Completion criterion: the chosen ceremony level explains why lighter paths are sufficient or unsafe.
+```text
+Lane: direct | standard | high_assurance
+Escalation triggers present: [named facts or none]
+Named uncertainties: [items or none]
+Diagnosis warranted: yes/no — reason
+Spec warranted: yes/no — reason
+Plan warranted: yes/no — reason
+Delegation warranted: yes/no — reason
+Implementation review warranted: yes/no — reason
+Review cadence: none | single_final | checkpoints — reason
+Review depth: not_applicable | quick | standard | deep — reason
+Review semantic lanes: [changed surfaces or none]
+Re-review rule: contingent_acceptance | trigger_list
+Final complete gate warranted: yes/no — reason
+State/evidence identity: method or not_applicable
+```
 
-Failure output: `Rejected: workflow choice is not justified against risk, uncertainty, and blast radius.`
+Decide each gate from a named uncertainty or acceptance gap whose answer can change the next action. Bounded configuration replication remains one `direct` subtype and retains its exact-source, target-mapping, reversibility, effective-authority, post-activation-equivalence, no-expanded-semantics/authority/data/permission/persistence/side-effect, and deterministic-proof checks. A non-mutating authorized connection check may verify; a target-system state change remains external mutation.
 
-Bounded configuration replication is one strict direct-work class, not a general low-risk lane. Use it only for an authorized, reversible, exact source-to-target configuration copy or activation with known source truth, target mapping, target scope, effective authority, and deterministic proof. An absent or disabled target may become enabled only when target post-activation behavior exactly matches approved-source post-activation behavior; pre-activation absence is not the comparison baseline. The change must add no newly designed semantics, authority, reachable data, permission, dependency, architecture, security boundary, persistence, or side effect.
+High assurance retains every applicable existing safeguard at sufficient depth, including source and authority traceability, recovery or rollback, compatibility, permission, data, security, external-mutation, release, final-gate, and warranted independent-review controls. It does not activate an irrelevant phase or semantic lane whose result cannot change acceptance.
 
-Reject bounded routing for regulated, client, production, or sensitive data; destructive or hard-to-reverse work; migration or persistence; new or expanded write/admin authority or sensitive-data reach; authentication, authorization, or security-boundary design; novel behavior requiring semantic judgment; ambiguous source truth or effective authority; or acceptance conditions direct checks cannot prove. A non-mutating authorized connection check can be verification; any target-system state change is external mutation.
+The orchestrator owns initial classification. A downstream owner may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action. Without new evidence, preserve the recorded lane and warrants.
 
-When deterministic evidence proves every acceptance condition and no material uncertainty remains, a bounded candidate may close without review only when no dispatch basis applies: `policy_mandated`, `explicit_user_request`, `automatic_high_risk_trigger`, or `unresolved_material_judgment`. For all other non-trivial implementation or semantic control-surface work outside the bounded configuration replication lane, preserve the full governing spec, plan, coder, unit-verification, checkpoint, and final-review workflow and record `policy_mandated` when no more specific basis applies. Small scope, reversibility, exact wording, known files, and concrete verification do not replace that workflow. A separate repository-defined direct-edit exception applies only when current governing policy explicitly defines it and each condition has affirmative authoritative current evidence; any missing or uncertain condition fails the exception.
+Completion criterion: the lane, each warrant, and each skipped phase are justified by current evidence; unknowns are routed to bounded discovery; no lane expands into a fixed pipeline.
+
+Failure output: `Rejected: consequence lane or gate warrant is not justified by affirmative evidence: <lane/gate/uncertainty>.`
 
 ### 4. Select And Run The Right Workstream
 
@@ -159,9 +162,9 @@ When a downstream owner applies, route to that owner or build the handoff; do no
 | Source-control or PR handoff  | User asks to commit, push, open/update a PR, resolve PR comments, merge, watch CI, or mutate source-control metadata                                 | Route to git/PR/review-feedback owners with exact action approval |
 | External collaboration sync   | User asks to publish, pull, sync, or update a shared document or external collaboration copy                                                         | Preserve canonical source, sync direction, and mutation scope before routing |
 | Execution planning            | Approved engineering truth must become implementation units, dependencies, verification, and handoff                                                 | `create-implementation-plan`                               |
-| Direct implementation         | Work is trivial or non-semantic, is strict bounded configuration replication, or current governing repository policy explicitly defines another bounded direct-edit exception; every applicable condition is proven | Implement only inside the proven lane, verify, then review only as its applicable dispatch basis requires |
-| Delegated implementation      | An approved plan unit is ready and isolated execution is useful                                                                                      | dispatch the configured coder only with a complete handoff |
-| Implementation review         | Non-trivial implementation artifacts changed, semantic control-surface artifacts changed, review findings are being resolved, or acceptance depends on independent judgment | `implementation-review-workflow`                           |
+| Direct implementation         | `Lane: direct` is positively proven and no separately warranted precondition is missing                                                              | Implement inside the bounded target, verify, and satisfy only the recorded warrants |
+| Delegated implementation      | `Delegation warranted: yes` because isolation, parallelism, specialist capability, or context focus materially improves the result                  | dispatch the configured coder only with the decision record and complete handoff |
+| Implementation review         | `Implementation review warranted: yes` from explicit request, applicable repository floor, changed-surface consequence, or unresolved acceptance judgment | `implementation-review-workflow`                           |
 | Project continuity            | A project continuity artifact exists or is required, and meaningful work is starting, resuming, pausing, blocked, accepted, merged, or closed        | `project-continuity`                                       |
 | Pattern capture               | Implementation, review, ADR/spec/plan, or codebase evidence shows a concrete recurring implementation approach or future convention signal           | `create-implementation-pattern`                            |
 | Decision capture              | A significant lasting technical decision has been made                                                                                               | `create-project-adr`                                       |
@@ -198,6 +201,7 @@ Before moving from one phase to another, use [Handoffs And Gates](references/han
 Every handoff must state:
 
 - objective;
+- the complete consequence lane and independent gate-warrant record;
 - source artifact or evidence;
 - source strength, artifact identifier, and currentness when the source is a spec, plan, ADR, review report, documentation page, progress note, external collaboration copy, or inferred artifact;
 - constraints and non-goals;
@@ -211,6 +215,8 @@ Every handoff must state:
 - residual-risk route when unresolved findings, blocked checks, or accepted risks must survive the current turn;
 - stop or re-plan triggers.
 
+A downstream owner that discovers escalation evidence must return the new concrete fact, the affected consequence or gate, and the changed next action. It must not silently reclassify from artifact type, file count, delegation, configuration status, or owner preference.
+
 Completion criterion: the next actor, skill, or phase can proceed without relying on hidden conversation context or invented assumptions.
 
 Failure output: `Blocked: handoff is missing <objective/evidence/constraints/boundaries/verification/stop triggers>.`
@@ -222,7 +228,7 @@ Before claiming completion:
 - verify the artifact or implementation against the original objective;
 - run required commands, inspections, or evidence checks;
 - reread current authoritative artifacts or repository state when crossing a major phase boundary and stale source truth would change the allowed next action;
-- dispatch independent review when required;
+- dispatch independent review when the decision record warrants it;
 - handle review verdicts instead of summarizing them away;
 - update project continuity when a continuity artifact exists or is required and a meaningful start/resume/pause/close checkpoint changed current state;
 - surface implementation-pattern candidates only when concrete recurrence or mandate signals exist, then route them to `create-implementation-pattern` for accepted/candidate/update/rejection judgment;
@@ -250,7 +256,7 @@ Stop and report the blocker instead of proceeding when:
 - required verification cannot be run, cannot observe the behavior, or depends on human/external confirmation that has not been handled;
 - commit, push, PR creation/update, publishing, external sync, scheduling, tracker/metadata mutation, or durable local preference/config writes are requested without exact action scope and explicit permission;
 - the required next step is a user, product, architecture, policy, release, or ownership decision;
-- independent review is required but unavailable and the user has not accepted the named risk.
+- implementation review is warranted but unavailable and the user has not accepted the named risk.
 - a bounded configuration replication candidate lacks known approved source truth, target mapping, effective authority, reversibility, deterministic proof, or a resolved assurance/high-risk classification.
 
 ## Rationalization Table
@@ -260,10 +266,10 @@ Stop and report the blocker instead of proceeding when:
 | "It is small, just code it."                      | Small is not the same as understood.                                | Check desired behavior, cause, blast radius, and verification first.                                                                                         |
 | "The user asked for a feature, so write a PRD."   | PRD is for explicit product-definition work, not every code change. | Use PRD only when the user asked for a PRD or equivalent product-scope artifact; otherwise ask one targeted question or block when product truth is missing. |
 | "The bug report gives the fix."                   | A bug report often includes a diagnosis, not verified cause.        | Use `structured-problem-resolution` until cause and fix hypothesis are supported.                                                                            |
-| "A spec is enough; skip the plan."                | Spec truth is not execution strategy.                               | Plan when units, dependencies, blast radius, verification, or delegation matter.                                                                             |
+| "A spec is enough; skip the plan."                | Spec truth and planning value are separate questions.               | Set `Plan warranted: yes` only for real dependent units, ordering, shared state, migration/rollout, rollback, or a boundary that must be crossed safely.       |
 | "The plan tells me exactly what to edit."         | A plan is guardrails, not a script.                                 | Re-read codebase reality and stop if the plan is stale or contradicted.                                                                                      |
 | "Architecture can be decided by pattern name."    | Pattern names do not prove fit.                                     | Use `architecture-design` to prove forces, ownership, seams, and trade-offs.                                                                                 |
-| "Tests passed, so it is done."                    | Tests are evidence, not always independent acceptance.              | Run required review and report residual risk.                                                                                                                |
+| "Tests passed, so it is done."                    | Tests prove only the acceptance conditions they observe.            | Satisfy the recorded final-gate and review warrants, and report residual risk.                                                                                |
 | "The reviewer found something, so implement it."  | Review feedback is a signal, not an instruction.                    | Evaluate, diagnose when needed, and route to fix, spec, plan, or user decision.                                                                              |
 | "The plan looks polished, so it is ready."        | Artifact polish does not prove source strength, currentness, or ownership. | Check artifact identity, authority, currentness, missing truth, and contradictions before handoff.                                                           |
 | "This is just cleanup."                           | Cleanup can remove behavior, safety checks, side effects, accessibility, or observability. | Resolve scope, preserve behavior, and scale verification to blast radius before editing.                                                                      |
@@ -273,7 +279,7 @@ Stop and report the blocker instead of proceeding when:
 | "The conversation has the current state."         | Conversation context decays and may not survive the next session.   | Use `project-continuity` when a project continuity artifact exists or checkpoint state needs to persist.                                                     |
 | "They asked for unknowns, so make a risk list."   | Unknown-discovery language is an ingress signal, not an artifact owner. | Classify which truth the unknowns can change, then route to the downstream owner that can resolve or preserve them.                                          |
 | "A useful pattern appeared, so create a pattern." | Pattern capture is a check, not automatic documentation.            | Route concrete recurrence or mandate signals to `create-implementation-pattern`; accept candidate, update, or rejection outcomes.                            |
-| "This is just a skill/rule/template change."      | Control artifacts alter future behavior.                            | Treat as implementation/control-surface work and review when non-trivial.                                                                                    |
+| "This is just a skill/rule/template change."      | Control artifacts can alter future behavior, but the label does not set ceremony. | Classify concrete consequence and changed surfaces; activate review only when its independent warrant passes.                                      |
 | "High assurance means always maximum ceremony."   | Over-processing creates drag and stale artifacts.                   | Use the lightest sufficient workflow, with explicit escalation when risk or uncertainty requires it.                                                         |
 | "This is an exact config copy, so it is bounded." | Exact text can still expand authority, data reach, persistence, or side effects. | Prove the approved post-activation behavior, target mapping, effective authority, reversibility, and every acceptance condition before using the lane. |
 
@@ -297,7 +303,7 @@ Stop and report the blocker instead of proceeding when:
 - Work reaches a meaningful pause/close checkpoint without checking whether continuity needs updating.
 - The plan changes the product or engineering requirement it was supposed to satisfy.
 - Architecture output starts with a named pattern before forces and ownership.
-- Review is skipped because the implementer already verified the change.
+- Warranted review is skipped because the implementer already verified the change.
 - The final answer reports confidence without evidence or residual risk.
 
 ## Required Output Shape
@@ -308,7 +314,7 @@ For orchestration-only turns, report:
 - source basis and any material source-strength limits;
 - missing truth found;
 - selected workstream and why;
-- ceremony level and why lighter/heavier paths were rejected;
+- consequence lane and the complete independent gate-warrant record;
 - next action or blocker.
 
 For execution turns, the downstream skill or implementation workflow owns its own output contract. This skill still owns the final check that the chosen path matched the real work.

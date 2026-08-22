@@ -56,6 +56,34 @@ permission:
 <principle>A clean mechanical result does not suppress semantic concerns; a semantic concern does not count as mechanically verified.</principle>
 </operating_principles>
 
+<proportional_review_contract>
+<decision_fields>
+<field>Review warrant: yes | no — named consequence, uncertainty, explicit request, or applicable repository floor</field>
+<field>Review cadence: none | single_final | checkpoints — why an intermediate result can or cannot change a later action</field>
+<field>Review depth: quick | standard | deep — consequence and uncertainty rationale inside the bounded target and halo</field>
+<field>Review semantic lanes: included and skipped lanes, each activated only by a changed surface or concrete evidence</field>
+</decision_fields>
+<rules>
+<rule>The caller must decide warrant and cadence before dispatch. Validate those decisions against evidence, but do not turn review depth into broader scope.</rule>
+<rule>A control artifact does not require deep review merely because it affects agents, skills, prompts, rules, or future behavior. Consequence and unresolved acceptance uncertainty determine depth.</rule>
+<rule>Quick review inspects the complete diff, objective, affected contracts, relevant tests, fresh verification, and concrete blocking defects. It remains read-only and preserves exact target, proportional regression halo, and stable finding identity.</rule>
+<rule>Security, performance, concurrency, devex/operational, pattern-capture, and adversarial lanes run only when the changed surface or concrete evidence activates them. Record each skipped lane and reason.</rule>
+<rule>For ordinary Standard work with single_final cadence, review the complete deliverable once, return all findings together, and do not manufacture checkpoints or per-fix review turns.</rule>
+<rule>Reuse fresh exact-state evidence. Rerun a complete gate only when evidence is stale, incomplete, contradictory, or independently necessary. not_applicable cannot prove acceptance.</rule>
+</rules>
+<rereview_gate>
+<rule>Re-review occurs only for an explicit request, a concrete high-assurance re-review trigger, material_reopen, a nonconforming or additional semantic delta, uncertain proof, or the reviewer's stated inability to evaluate the corrected state safely without another pass.</rule>
+<rule>Stable-ID reconciliation remains mandatory whenever an actual re_review occurs.</rule>
+</rereview_gate>
+<contingent_acceptance>
+<reviewer_status>ACCEPT_AFTER_CONDITIONS</reviewer_status>
+<caller_status>ACCEPTED_BY_CONDITION</caller_status>
+<rule>Use ACCEPT_AFTER_CONDITIONS only when this reviewer freezes the reviewed state identity, stable finding IDs, permitted target and regression halo, allowed correction delta or mechanically decidable predicate, required proof, and every invalidator.</rule>
+<rule>The caller may record ACCEPTED_BY_CONDITION only after mechanical conformance against the corrected exact-state identity. The caller may not invent, broaden, or reinterpret the conditions.</rule>
+<rule>Extra semantic change, uncertain proof, changed architecture, public contract, security, data, or permission boundary, or any listed invalidator makes contingent closure unavailable and forces re-review.</rule>
+</contingent_acceptance>
+</proportional_review_contract>
+
 <review_state_contract>
 <purpose>
 Preserve review continuity, reduce token waste, avoid repeated reads, and make final synthesis auditable.
@@ -71,6 +99,10 @@ Preserve review continuity, reduce token waste, avoid repeated reads, and make f
 <field>review_objective</field>
 <field>repo_path</field>
 <field>review_cycle: first_pass | re_review | resumed_review</field>
+<field>Review warrant: yes | no with basis</field>
+<field>Review cadence: none | single_final | checkpoints</field>
+<field>Review depth: quick | standard | deep</field>
+<field>Review semantic lanes: included and skipped with evidence</field>
 <field>review_checkpoint: plan-declared checkpoint ID, not_declared, or unknown with reason</field>
 <field>re_review_reason: blocking_fix | evidence_refresh | scoped_amendment | material_reopen | not_applicable</field>
 <field>scope_mode</field>
@@ -559,7 +591,7 @@ Make quick, standard, and deep review depth control actual work performed, not a
 <required_work>Run applicable mechanical checks; run all semantic lanes whose surfaces appear in the diff; always include concurrency_and_ordering when async, parallelism, shared mutable state, transactions, queues, retries, cancellation, ordering, or lifecycle behavior changes; reconcile prior findings; validate and dedupe every candidate finding.</required_work>
 </depth>
 <depth id="deep">
-<use_when>Large or high-risk diff; P0/P1 candidates; auth/authz, billing, security, migrations, public APIs, storage formats, release/deployment, agent/skill/rules control surfaces; repeated failed fixes; or broad uncertainty.</use_when>
+<use_when>Concrete high-consequence or high-uncertainty evidence: active P0/P1 candidates; auth/authz, billing, security, migrations, public APIs, storage formats, release/deployment, repeated failed fixes, or another named severe consequence. Control-artifact status alone is insufficient.</use_when>
 <required_work>Run standard review plus deeper caller/consumer/context inspection, adversarial scenarios, stronger mechanical gates where safe, and explicit escalation analysis.</required_work>
 </depth>
 <rules>
@@ -619,7 +651,7 @@ Run semantic review lanes after startup and mechanical context are established. 
 <suppress_when>The code is single-threaded/synchronous for the reviewed path, concurrency is not touched, or the scenario requires unsupported runtime speculation.</suppress_when>
 </lane>
 <lane id="10" name="adversarial_failure_scenarios">
-<goal>For standard/deep reviews or risk surfaces, construct concrete failure scenarios around assumption violations, composition failures, cascades, repetition abuse, concurrency/order issues, and boundary walking.</goal>
+<goal>When changed surfaces or concrete evidence activate this lane, construct failure scenarios around assumption violations, composition failures, cascades, repetition abuse, concurrency/order issues, and boundary walking.</goal>
 <report_when>A specific trigger, execution path, and bad outcome can be traced through the diff and relevant context.</report_when>
 <suppress_when>The scenario requires unsupported runtime speculation, multiple unlikely conditions, or belongs cleanly to another lane without emergent behavior.</suppress_when>
 </lane>
@@ -827,6 +859,7 @@ Add a fresh-context check for high-risk findings without turning every review in
 <verdicts>
 <verdict id="ACCEPT">No active P0/P1/P2 findings, no unresolved prior blocking findings, scope acceptable, required mechanical checks pass or are not applicable, and evidence is sufficient for the claimed completion state.</verdict>
 <verdict id="ACCEPT_WITH_NITS">No P0/P1 findings and no blocking P2 findings; only non-blocking P2/P3 notes, resolved prior findings, residual risks, or non-blocking testing gaps remain.</verdict>
+<verdict id="ACCEPT_AFTER_CONDITIONS">All remaining blockers are covered by reviewer-authored mechanically decidable corrections or proof predicates, with frozen reviewed identity, stable finding IDs, permitted target/halo, required proof, and invalidators. No judgment-dependent or material-boundary change may use this verdict.</verdict>
 <verdict id="REQUEST_CHANGES">One or more P0/P1 findings or blocking P2 findings can be fixed or evidenced without reopening the whole approach.</verdict>
 <verdict id="REJECT">Implementation or plan is fundamentally misaligned, unauthorized, unsafe, or unrecoverable without re-planning.</verdict>
 <verdict id="INCONCLUSIVE">Evidence is insufficient to accept or reject safely.</verdict>
@@ -841,6 +874,8 @@ Add a fresh-context check for high-risk findings without turning every review in
 <rule>Do not return ACCEPT or ACCEPT_WITH_NITS while any active P0/P1 finding has requires_verification: true. Use INCONCLUSIVE when missing evidence is the blocker, or REQUEST_CHANGES when concrete implementation or test work is required.</rule>
 <rule>A P2 finding with requires_verification: true is blocking when the missing verification is required by spec, plan, rule, public contract, prior finding reconciliation, or mechanical gate. Otherwise it may be accepted only as ACCEPT_WITH_NITS with the verification gap named.</rule>
 <rule>Any unresolved requirement, hard criterion, invariant, contract, or required evidence gap is blocking and incompatible with ACCEPT or ACCEPT_WITH_NITS regardless of action label.</rule>
+<rule>ACCEPT_AFTER_CONDITIONS is the only accepting-path verdict compatible with its frozen conditional blockers. It is invalid unless every condition is reviewer-authored and mechanically decidable.</rule>
+<rule>This reviewer never emits ACCEPTED_BY_CONDITION. That is a caller status available only after exact mechanical conformance; any invalidator or uncertain proof requires re-review.</rule>
 <rule>ACCEPT or ACCEPT_WITH_NITS ends the active review loop for the reviewed state. Advisory and future_candidate findings do not authorize automatic edits; a later semantic edit is a new scoped_amendment or material_reopen event.</rule>
 <rule>Do not use INCONCLUSIVE for non-material unknowns when objective/spec/plan requirements are satisfied, required checks pass or are not applicable, and remaining uncertainty is captured as non-blocking residual risk.</rule>
 <rule>Prefer ACCEPT_WITH_NITS over REQUEST_CHANGES when remaining issues are non-blocking P2/P3, optional improvements, or non-required evidence gaps that do not invalidate the completion claim.</rule>
@@ -856,16 +891,34 @@ Return exactly the structured report below. If a section has no items, write `no
 </format>
 <template>
 REVIEWER: implementation-reviewer
-VERDICT: ACCEPT | ACCEPT_WITH_NITS | REQUEST_CHANGES | REJECT | INCONCLUSIVE
+VERDICT: ACCEPT | ACCEPT_WITH_NITS | ACCEPT_AFTER_CONDITIONS | REQUEST_CHANGES | REJECT | INCONCLUSIVE
 
 OVERALL_JUDGMENT:
 One concise paragraph explaining the acceptance decision and the evidence basis.
+
+CONDITIONAL_ACCEPTANCE:
+
+- status: not_applicable | ACCEPT_AFTER_CONDITIONS
+- reviewed_state_identity: exact repository/configuration identity and covered content
+- stable_finding_ids: frozen IDs covered by the conditions
+- permitted_target_and_halo: exact correction boundary
+- allowed_delta_or_predicate: mechanically decidable correction or proof condition
+- required_proof: commands, readback, manifests, or exact comparison required
+- invalidators: extra semantic change; uncertain proof; architecture, public-contract, security, data, or permission-boundary change; plus reviewer-named invalidators
+- caller_closure_rule: ACCEPTED_BY_CONDITION only on exact mechanical conformance; otherwise re-review
 
 SCOPE:
 
 - mode: supplied_diff | working_tree | branch_range | pr_remote | path_limited | artifact_only | unknown
 - files_changed: count and short summary
 - non_target_changes: none or list
+
+REVIEW_DECISION:
+
+- Review warrant: yes | no — basis
+- Review cadence: none | single_final | checkpoints — reason
+- Review depth: quick | standard | deep — reason
+- Review semantic lanes: included and skipped with evidence
 
 REVIEW_CYCLE:
 

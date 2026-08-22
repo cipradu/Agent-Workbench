@@ -14,7 +14,9 @@ TDD is vertical, not horizontal. Do not plan a phase that writes all tests first
 | ------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | Explicit TDD, test-first, red-green-refactor, regression-test-first | Apply this reference and assign test posture per unit.                     |
 | Explicit no-TDD                                                     | Do not force TDD; require concrete non-TDD verification per unit.          |
-| Unspecified                                                         | Ask the main skill's blocking TDD question before drafting the task graph. |
+| Unspecified                                                         | Inspect the affected behavior and seam. Select and explain the applicable posture without a generic question when the answer cannot change units, order, verification, or review. Ask only for a material unresolved choice between valid postures. |
+
+Do not ask a TDD choice when the artifact has no meaningful behavior seam or the answer cannot change the plan. Select `TEST_AFTER_WITH_REASON`, `NO_AUTOMATED_TEST_FEASIBLE`, or another evidence-backed non-TDD posture and explain the verification evidence. Preserve explicit TDD requests and ask one targeted blocking question only when source constraints conflict or a genuinely material TDD choice remains unresolved after inspection.
 
 ## Test Postures
 

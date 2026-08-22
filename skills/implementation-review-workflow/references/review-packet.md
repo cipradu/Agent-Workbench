@@ -30,12 +30,16 @@ Do not build or dispatch a review packet until one or more valid bases are recor
 - `automatic_high_risk_trigger`;
 - `unresolved_material_judgment`.
 
-For all non-trivial implementation and semantic control-surface work outside bounded configuration replication, the existing checkpoint/final review mandate supplies `policy_mandated` when no more specific basis applies. For a fully proven bounded candidate, complete deterministic evidence with no basis means close without dispatch; configuration, MCP, integration, network, deployment, capability, and security labels do not establish a basis by themselves.
+`policy_mandated` applies only when governing repository policy names the protected consequence, affected scope, owning authority, exact review floor, and reason. If no basis exists, record `Review warrant: no` and `Review cadence: none`, then close on applicable deterministic evidence without constructing a packet. Artifact type, file count, delegation, configuration, MCP, integration, network, deployment, capability, generic semantic/non-trivial, and security-shaped labels do not establish a basis by themselves.
 
 Every dispatched packet must include:
 
 ```text
 Dispatch basis:
+Review warrant: yes
+Review cadence: single_final | checkpoints — reason
+Review depth: quick | standard | deep — consequence/uncertainty reason
+Review semantic lanes: included and skipped with changed-surface or evidence basis
 Objective:
 Exact target:
 Initial proportional regression halo:
@@ -63,6 +67,10 @@ For a first-pass `non_repository_configuration` packet, the bounded fields above
 For each basis, state the exact acceptance claim or unresolved question, why the exact target plus initial halo can answer it, and the consequence of error. Record effective authority as the capability supplied by actual credentials, runtime controls, reachable data, and enforced permissions; advertised operations remain exposure context. Approved source truth is the authorized behavior or governing directive used for comparison. A non-mutating authorized connection check may be completed verification; a connection check that changes target-system state is external mutation.
 
 The initial proportional regression halo is the smallest named set of direct callers, consumers, contracts, runtime paths, or tests whose behavior the exact target can change. Expand only when concrete evidence inside the target or current halo identifies the smallest required added boundary, and record that evidence. `Deep` controls rigor within the accepted scope; it does not independently authorize a repository-wide, deployment-wide, history-wide, or security-wide audit. Return a verdict when the exact review question and applicable acceptance conditions are assessed. A new question or broader audit needs its own valid basis and bounded packet.
+
+Quick review still inspects the complete diff, objective, affected contracts, relevant tests, fresh verification, and concrete blocking defects. Security, performance, concurrency, operational/devex, pattern, and adversarial lanes are omitted when those surfaces are unchanged and no concrete evidence activates them. A control artifact does not require deep review from its label alone.
+
+For ordinary Standard work with warranted review, prefer `single_final` after the complete deliverable. Add a named checkpoint only when its result can change a later action. Return findings together so one correction batch, affected checks, and any independently warranted final gate can complete the lifecycle without per-finding review turns.
 
 ## Evidence Manifest
 
@@ -190,6 +198,27 @@ Reviewer findings should include one action:
 | `human_decision` | Owner decision needed. | Blocking only when the decision is required for acceptance; otherwise a named residual risk or open question. |
 
 The action label cannot make a blocking issue non-blocking. If a finding names an unresolved requirement, hard criterion, invariant, contract, or required evidence gap, it is blocking regardless of whether the reviewer mislabeled the action.
+
+## Contingent Acceptance
+
+`ACCEPT_AFTER_CONDITIONS` is reviewer-authored and available only for mechanically decidable remaining corrections or proof. The reviewer freezes:
+
+```text
+Contingent acceptance:
+- reviewed state identity:
+- stable finding IDs:
+- permitted target and proportional regression halo:
+- allowed correction delta or mechanically decidable predicate:
+- required proof:
+- invalidators:
+- caller closure rule: ACCEPTED_BY_CONDITION only after exact mechanical conformance
+```
+
+The caller applies only the frozen batch, captures corrected exact-state identity, runs affected checks and any warranted final complete gate, and compares the result mechanically. Fresh exact-state evidence is reused; a complete gate is rerun only when stale, incomplete, contradictory, independently necessary, or required by the frozen predicate. `not_applicable` cannot prove conformance.
+
+The caller may record `ACCEPTED_BY_CONDITION` only on exact conformance. Extra semantic change, uncertain proof, changed architecture, public contract, security, data, or permission boundary, or any reviewer-named invalidator forces re-review. The caller cannot author, broaden, reinterpret, or waive conditions.
+
+Without contingent acceptance, re-review occurs only for an explicit request, a concrete high-assurance re-review trigger, `material_reopen`, a nonconforming or additional semantic delta, uncertain proof, or the reviewer's stated inability to evaluate the corrected state safely without another pass. Stable-ID reconciliation remains mandatory for every actual re-review.
 
 ## Conditional Packet Supplements
 

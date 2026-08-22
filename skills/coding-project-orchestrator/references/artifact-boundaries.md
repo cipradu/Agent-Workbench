@@ -30,6 +30,7 @@ Use this reference when deciding what belongs in each artifact and what must be 
 
 ## Leakage Rules
 
+- Artifact preservation: a valid completed artifact later judged unnecessary remains valid historical work. Preserve it and, when useful, mark it superseded or non-operative. Deletion requires explicit user authority or an existing retention rule that names the artifact class and deletion condition. Do not treat unnecessary as malformed, partial, duplicate, or incorrect cleanup.
 - Product truth leaking into spec: if the engineering spec decides who the product is for, why it matters, or what success means without a PRD or user authority, stop.
 - Unknown discovery leaking into artifacts: if a blindspot pass, unknown-unknown pass, or hidden-risk request produces a standalone artifact instead of routing by product, problem, engineering, architecture, execution, or discussion truth, stop and return to orchestration.
 - Engineering truth leaking into PRD: if the PRD chooses database schema, package, module layout, or file plan without those being externally fixed product constraints, move it downstream.
@@ -83,5 +84,6 @@ Before accepting an artifact as input to another phase, ask:
 - Are blockers explicit instead of hidden in prose?
 - Are decisions traceable to user input, codebase evidence, rules, ADRs, or research?
 - Can the next phase proceed without inventing missing truth?
+- If the artifact is no longer operative, has it been preserved or superseded rather than deleted without authority?
 
 If any answer is no, fix the current artifact or mark the workflow blocked.

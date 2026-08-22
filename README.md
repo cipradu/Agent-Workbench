@@ -4,7 +4,7 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers high-assurance coding orchestration, project continuity, PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, Python and TypeScript engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
+This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers consequence-calibrated coding orchestration, project continuity, independently warranted PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, Python and TypeScript engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
 
 Skills can be installed directly from this repository with the public `skills` CLI (see [Install Skills With The Skills CLI](#install-skills-with-the-skills-cli)). Agents and harness instructions are copied manually into the harness locations that should use them; this repository ships no installer, exporter, or validator of its own.
 
@@ -18,10 +18,25 @@ The repository focuses on reusable behavior that can be reviewed, adapted, and i
 
 - **Behavior over prose**: a useful skill changes what an agent does under pressure.
 - **Portable first**: core assets should avoid harness-specific assumptions unless the file is explicitly a harness adapter.
-- **High-assurance workflows**: specs, plans, review gates, validation evidence, commit discipline, and PR discipline exist to prevent under-specified execution.
+- **Consequence-calibrated assurance**: Direct, Standard, and High Assurance lanes scale safeguards to reversibility, blast radius, data, permissions, external effects, public contracts, and uncertainty.
+- **Independent workflow warrants**: diagnosis, specifications, plans, delegation, review, re-review, and final gates run only when each resolves a named uncertainty or acceptance gap.
 - **Explicit boundaries**: PRDs, engineering specs, implementation plans, architecture design, ADRs, coding, and review are different jobs.
 - **No hidden attribution**: generated-by footers, assistant signatures, promotional badges, and AI co-author trailers do not belong in project artifacts.
 - **Reviewable changes**: commits and pull requests should be scoped, understandable, reversible, and backed by evidence.
+
+## Assurance Model
+
+The coding workflow separates consequence classification from process selection. A lane calibrates assurance depth; it does not activate a fixed pipeline.
+
+| Lane | Qualification | Execution shape |
+| --- | --- | --- |
+| Direct | Target behavior and, for failures, cause are known; scope is bounded and reversible; no high-assurance trigger applies; deterministic checks can prove acceptance | Inspect the bounded target, change it, verify it, and report |
+| Standard | Ordinary meaningful work where complete Direct proof is absent and no high-assurance trigger applies | Use only the specification, planning, delegation, review, and final-gate steps that have an independent warrant |
+| High Assurance | Security, permissions, sensitive or persistent data, migrations, destructive work, public compatibility, release authority, or another source-backed severe consequence is present | Apply every relevant safeguard at sufficient depth without forcing unrelated artifacts or review lanes |
+
+Specifications preserve durable behavior and contracts when needed. Plans preserve real sequencing, dependency, shared-state, rollout, rollback, or multi-executor decisions. Neither is required merely because code changes, multiple files are involved, or implementation is delegated.
+
+When Standard work warrants independent review, the normal cadence is one review after the complete deliverable. Review findings are returned and corrected as a batch. A further review requires an explicit trigger, a material acceptance-boundary change, uncertain proof, or a reviewer-stated need; mechanically decidable corrections may close through reviewer-authored contingent acceptance. Completed specs, plans, and reports remain valid historical artifacts even when later judged unnecessary and are not deleted without authority.
 
 ## Repository Layout
 

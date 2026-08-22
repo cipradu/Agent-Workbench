@@ -33,6 +33,7 @@ Use this reference before moving from one workstream to another or dispatching a
 Every handoff should include:
 
 - Objective: what must be true when the next phase is complete.
+- Assurance decision: `Lane: direct | standard | high_assurance`, named escalation triggers and uncertainties, diagnosis/spec/plan/delegation warrants, review warrant/cadence/depth/semantic lanes/re-review rule, final complete-gate warrant, and state/evidence identity.
 - Source evidence: user request, PRD, spec, plan, diagnosis, codebase evidence, rules, ADRs, research, or review report.
 - Source strength: explicit user authority, current file evidence, verified artifact evidence, inferred intent, weak signal, or contradicted source.
 - Artifact identity and currentness: exact path, ID, URL, version, commit, review cycle, external copy, or currentness check when an artifact drives the handoff.
@@ -48,6 +49,8 @@ Every handoff should include:
 - Canonical source and privacy: local authoritative artifact, external copy role, sync direction, source window, sensitive/local-only artifact handling, and explicit permission status when applicable.
 - Stop triggers: conditions that require returning to user, diagnosis, spec, plan, or architecture.
 - Review routing when applicable: dispatch basis, effective authority, exact target, initial proportional regression halo, exact review question, non-goals, evidence-based expansion condition, and completion condition.
+
+A downstream owner may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action. Without new evidence, it must preserve the incoming lane and warrants.
 
 If a handoff cannot include these fields, it is not ready.
 
@@ -229,36 +232,37 @@ Failure output:
 
 Pass condition:
 
-- Direct work checklist in `work-classification.md` passes, including proof that the work is trivial or non-semantic, is bounded configuration replication, or is covered by a separately explicit governing repository direct-edit exception.
-- For a repository-defined direct-edit exception, proof is conjunctive: every condition is enumerated and paired with affirmative authoritative current evidence. Silence, omitted facts, missing risk labels, and agent inference do not count; any unstated, unavailable, ambiguous, uncertain, or inferred condition fails this gate. A review-routing change must affirmatively prove that the exact delta preserves review safeguards.
-- When the candidate is bounded configuration replication, explicit review requests, repository assurance profiles, and automatic high-risk triggers were evaluated first; approved source behavior, target mapping, reversibility, and effective authority are known; deterministic proof covers every acceptance condition; and no extra semantics, authority, reachable data, permission, boundary, persistence, or side effect is introduced.
+- The Direct Proof Checklist in `work-classification.md` passes with affirmative current evidence for known target behavior and cause, bounded scope and blast radius, practical reversibility, no automatic high-assurance trigger, and deterministic acceptance.
+- Silence, omitted facts, missing risk labels, generic semantic/non-semantic labels, file count, configuration status, and agent inference do not count. Missing or conflicting facts route to bounded discovery and reclassification.
+- When the candidate is bounded configuration replication, the subtype checks also pass: approved exact source behavior, target mapping, target scope, post-activation equivalence, reversibility, effective authority, deterministic proof, and no added semantics, authority, reachable data, permission, boundary, persistence, or side effect.
 - Verification evidence is concrete.
 - Source artifacts are current enough, not contradicted by stronger authority, and any review or feedback signal has been classified before acting.
-- Rough implementation, cleanup, simplification, or refactor work has named likely affected files, relevant tests, behavior-preservation constraints, and safety checks; those facts do not bypass the full workflow for non-trivial work.
-- Any required review will run after implementation.
+- Every independently warranted precondition is satisfied; direct classification does not suppress an explicit review request or scoped repository floor.
 
 Failure output:
 
-`Rejected: direct implementation lacks a proven trivial/non-semantic classification, bounded configuration classification, or separately explicit governing repository exception with affirmative evidence for every condition: <specific missing or uncertain condition>. Route the normal non-trivial workflow with policy_mandated review when no more specific basis applies.`
+`Rejected: direct implementation lacks affirmative evidence for <target behavior/cause/scope and blast radius/reversibility/no high trigger/deterministic acceptance>. Run bounded discovery for the named uncertainty, then reclassify direct, standard, or high_assurance.`
 
 ## Gate: To Coder Delegation
 
 Pass condition:
 
-- Approved/current spec and plan unit exist, or current governing repository policy explicitly authorizes the exact direct lane and every boundary condition is proven.
-- Handoff includes objective, context, constraints, target boundary, non-target boundary, source strength, isolation/overlap state, verification ownership, and stop triggers.
+- `Delegation warranted: yes` names how isolation, parallelism, specialist capability, or context focus materially improves the result relative to re-derivation cost.
+- Any separately warranted spec or plan is current; delegation alone did not create either warrant.
+- Handoff includes the complete assurance decision, objective, context, constraints, target boundary, non-target boundary, source strength, isolation/overlap state, verification ownership, and stop triggers.
 - The coder is not being asked to decide product/spec truth.
 - Parallel or serial execution has been chosen from overlap risk, shared state, verifier availability, and rollback/re-plan triggers.
 
 Failure output:
 
-`Blocked: coder handoff lacks approved boundary or asks coder to resolve upstream truth.`
+`Blocked: coder handoff lacks an independent delegation warrant, approved boundary, applicable warranted artifact, or asks coder to resolve upstream truth.`
 
 ## Gate: To Implementation Review
 
 Pass condition:
 
-- A dispatch basis is recorded: `policy_mandated`, `explicit_user_request`, `automatic_high_risk_trigger`, or `unresolved_material_judgment`. All other non-trivial implementation or semantic control-surface work outside the bounded configuration replication lane uses `policy_mandated` when no more specific basis applies. A fully proven bounded candidate with no basis closes without dispatch.
+- `Implementation review warranted: yes` has a named reason: explicit request, applicable scoped repository floor, changed-surface consequence, unresolved semantic acceptance, or another acceptance gap that independent review can resolve. Generic semantic/non-trivial/control-surface labels, file count, configuration status, generated artifacts, and delegation do not pass this gate.
+- Review cadence, depth, semantic lanes, and re-review rule are recorded independently. An explicit review request does not activate unrelated spec, plan, delegation, or high-assurance gates.
 - The target type and identity are known. Repository-backed review identifies the checkout, diff/current files, changed paths, and untracked handling. First-pass non-repository configuration review may use named approved source entries, named target entries/configuration artifact, and current exact readback as sufficient semantic identity; require stronger identifiers only when direct evidence shows a collision or ambiguity.
 - Objective and acceptance criteria are known.
 - The packet names objective, exact target, initial proportional regression halo, relevant context, effective authority, approved source truth, completed verification, exact review question, non-goals, evidence-based expansion condition, and completion condition.
@@ -268,7 +272,7 @@ Pass condition:
 
 Failure output:
 
-`Blocked: implementation review packet is missing <dispatch basis/objective/exact target/target-type identity/initial proportional regression halo/context/effective authority/source truth/completed verification/exact question/non-goals/expansion condition/completion condition/applicable repository diff or configuration readback/applicable re-review state>.`
+`Blocked: implementation review packet is missing <review warrant/cadence/depth/semantic lanes/re-review rule/objective/exact target/target-type identity/initial proportional regression halo/context/effective authority/source truth/completed verification/exact question/non-goals/expansion condition/completion condition/applicable repository diff or configuration readback/applicable re-review state>.`
 
 ## Gate: To Project Continuity
 

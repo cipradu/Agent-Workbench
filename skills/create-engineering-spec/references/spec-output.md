@@ -1,6 +1,6 @@
 # Spec Output Contract
 
-Use this reference only after the top-level skill decides whether gates passed or failed.
+Use this reference only after the top-level skill confirms the spec warrant, names the uncertainty or acceptance gap the artifact resolves, selects compact Standard or full form, and decides independent artifact review separately.
 
 ## Canonical File Location
 
@@ -30,9 +30,60 @@ Use stable IDs from the first draft that may be reviewed or handed off.
 - When removing or superseding an item, record its status instead of silently deleting it when downstream artifacts may reference it.
 - Preserve stable upstream IDs from PRDs, audits, prior specs, ADRs, plans, or reviews by mapping them to the spec IDs.
 
+A valid completed spec later judged unnecessary is not malformed cleanup. Preserve it and, when useful, mark it superseded or non-operative. Delete it only with explicit user authority or an existing retention rule that names the artifact class and deletion condition.
+
+## Compact Standard Spec Form
+
+Use for bounded durable engineering truth when `Spec warranted: yes` and the full-form discovery and independent artifact-review gates are not both individually warranted. Compact is a behavioral mode: do only the work needed to support these fields.
+
+The compact minimum is:
+
+- the reason durable engineering truth must be preserved;
+- objective and current-versus-target behavior;
+- target and non-target boundaries;
+- directly applicable sources and authority conflicts;
+- observable requirements and acceptance evidence;
+- material risks or escalation triggers;
+- downstream handoff facts.
+
+Do not run generic eight-facet expansion, generic risk-dimension prose, broad risk inventories, broad source inventories, unrelated research, or independent spec review without a separate named source, authority, contract, high-consequence, or explicit-request warrant. Inspect only sources governing the affected behavior, research only material current external facts, and decompose only facets that can change the compact fields.
+
+```markdown
+# Spec: concise title
+
+Spec file: docs/specs/YYYY-MM-DD_HH-mm_{slug}_spec.md
+Slug: kebab-case-slug
+Status: Draft | Proposed | Approved | Superseded
+Spec form: Compact Standard
+Created: YYYY-MM-DD HH:mm local
+
+## Spec Warrant
+
+Reason durable truth must be preserved:
+Uncertainty or acceptance gap resolved:
+
+## Objective And Current-Versus-Target Behavior
+
+## Target Boundary
+
+## Non-Target Boundary
+
+## Directly Applicable Sources And Authority Conflicts
+
+## Observable Requirements And Acceptance Evidence
+
+## Material Risks Or Escalation Triggers
+
+## Downstream Handoff Facts
+
+## Review Decision
+
+Named review warrant or `not warranted` with reason:
+```
+
 ## Full Spec Form
 
-Use only when all gates pass.
+Use only when the top-level skill selected full form and every individually warranted full-form discovery and review gate passes. Full form remains available for high-assurance work that needs its complete source, authority, research, risk, and independent-review controls.
 
 ```markdown
 # Spec: concise title

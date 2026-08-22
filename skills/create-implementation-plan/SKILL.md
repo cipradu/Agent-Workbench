@@ -11,17 +11,17 @@ Use when an approved engineering spec, requirements artifact, or accepted change
 
 ## Do Not Use
 
-Do not use when the spec is missing, unresolved, or still being authored. First create or approve the engineering spec. Do not use for direct coding, quick factual answers, commit execution, project-management roadmaps, or generic task lists.
+Do not use when neither an approved/current spec nor an accepted implementation contract exists, when planning cannot change the next action, or when the plan warrant is absent. Do not use for direct coding, quick factual answers, commit execution, project-management roadmaps, or generic task lists.
 
 Do not use this skill to run diagnosis, product ideation, strategy, engineering spec creation, architecture decision, documentation authoring, browser/device testing, runtime polish, setup repair, worktree creation, implementation, commits, pushes, PRs, CI watching, tracker filing, publishing, shipping, or release communication. Those workflows may provide source evidence or downstream consumers; they do not become planning mechanics.
 
 ## Iron Law
 
-**No spec, no decomposition, no research, no review, no plan.**
+**No warrant, no accepted implementation truth, no plan.**
 
-An implementation plan is invalid unless it is paired with a specific approved spec, every spec requirement has been decomposed into implementation implications, all applicable rules/ADRs/skills/research sources have been consulted, greenfield or brownfield mode has been resolved, tasks are dependency-ordered from evidence, and an independent reviewer has checked the plan against the spec, codebase, rules, research, and task graph.
+A plan is valid only when durable sequencing can make execution safer and its selected form resolves a named uncertainty or acceptance gap that can change the next action. A compact Standard plan uses only the bounded contract below. A full plan additionally requires its deeper decomposition, research, discovery, and task-graph controls to be individually warranted and passed; checkpoint cadence and independent plan review remain separate decisions.
 
-If any gate fails, do not polish a partial plan. Emit a blocked planning packet with the missing evidence and the next required action.
+If a required gate fails, do not substitute the other form or expand ceremony by habit. Emit a blocked planning packet with the missing evidence and next required action, or return new concrete escalation evidence to the orchestrator.
 
 ## Core Concept
 
@@ -39,29 +39,34 @@ Planning is deeper than spec authoring. The spec defines required truth. The pla
 
 The plan may reject or return a spec for revision when codebase evidence, library reality, rules, or ADRs show the spec is incomplete, contradictory, impossible, unsafe, or already satisfied by a smaller change.
 
+A valid completed plan that is later judged unnecessary remains valid historical work. Preserve it and, when useful, mark it superseded or non-operative. Delete it only with explicit user authority or an existing retention rule that names the artifact class and deletion condition.
+
+## Plan Warrant And Form Selection
+
+Consume the orchestrator assurance decision before planning. A plan is warranted only for multiple dependent units, real ordering constraints, multiple coordinated executors whose work needs durable sequencing, shared mutable state, migration or rollout, material rollback concerns, or a boundary that must be crossed safely. Multiple files, one coherent deliverable, or use of one delegated executor alone is insufficient.
+
+Name the uncertainty or acceptance gap the plan can resolve and how its result changes the next action. If planning cannot change the next action, stop and reference the accepted implementation contract. If `Plan warranted: no`, do not create a plan merely because this skill was invoked; preserve any valid completed plan and return to the recorded route.
+
+Use the compact Standard form when the sequencing need is bounded and deeper research, source redecomposition, discovery, or task-graph analysis cannot change the plan. The compact minimum is: the linked spec or accepted implementation contract; exact reason planning is warranted; objective and boundaries; current evidence for affected surfaces; dependent units and order; relevant verification and state identity; re-plan triggers; and review decision. Do not perform generic research or full source redecomposition, ask a generic TDD-preference question, construct unwarranted checkpoints, or require independent plan review without separate named warrants. Select checkpoint cadence and independent review separately; either may apply to a compact plan when its own warrant passes.
+
+Use the full form only when its deeper planning controls are individually warranted. Preserve spec coverage, source and authority traceability, current codebase evidence, dependency ordering, verification, and rollback/recovery at the depth justified by those warrants. Select checkpoint cadence and independent artifact review independently from the plan form.
+
+This owner may challenge insufficient intake, but it may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Owner preference, artifact type, file count, delegation, or generic uncertainty cannot silently reclassify the task.
+
 ## Mandatory Sequence
 
-Run these steps in order. Do not skip, merge, or reverse them.
+Run the common warrant gate first, then only the selected form. Do not make compact mean the full internal workflow with fewer headings.
 
-| Step | Required method                                    | Completion condition                                                                                                                           |
-| ---- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Pair with spec and classify plan state             | exact approved and current spec path or identifier is known; any existing plan is classified as current, amend, supersede, or blocked          |
-| 2    | Decompose spec and upstream source authority       | every requirement, invariant, constraint, acceptance criterion, non-goal, upstream source item, and unresolved planning blocker is mapped      |
-| 3    | Inventory rules, ADRs, skills, and prior artifacts | applicable project rules, ADRs, existing plans, reports, prior learnings, and available tech/domain skills are known                           |
-| 4    | Classify mode and risk                             | greenfield or brownfield, executor mode, and risk tier are justified                                                      |
-| 5    | Resolve TDD planning mode                          | explicit TDD, explicit non-TDD, or user-approved default is known                                                         |
-| 6    | Plan research                                      | codebase, library/version, standards, domain, and external research questions and routing decisions are explicit          |
-| 7    | Run mode-specific discovery                        | brownfield or greenfield readiness gate passes                                                                            |
-| 8    | Choose the smallest safe path                      | reuse/extend/configure/fix path considered before rebuild or new abstraction                                              |
-| 9    | Build task graph                                   | units are dependency-ordered, bite-sized, and cause/effect analyzed                                                       |
-| 10   | Define verification and stop rules                 | each unit has quality constraints, concrete evidence, reviewer focus, approval gates, and re-plan triggers                |
-| 11   | Draft plan                                         | plan contains complete evidence and no implementation code                                                                |
-| 12   | Independent plan review                            | fresh reviewer validates spec alignment, research, codebase fit, rules, task graph, and verification                      |
-| 13   | Resolve review                                     | plan is revised and re-reviewed or marked blocked                                                                         |
+| Path | Required method | Completion condition |
+| ---- | --------------- | -------------------- |
+| Common | Confirm the plan warrant, name the gap, select compact or full form, and select a verification posture from the affected behavior and seam | planning can change the next action, or it stops without creating an artifact |
+| Compact Standard | Validate the linked spec or accepted implementation contract; inspect only current affected surfaces; define dependent units/order, relevant verification/state identity, re-plan triggers, and review decision | every compact field is supported without generic research, full source redecomposition, generic TDD questioning, or unwarranted checkpoints/review |
+| Full | Run Steps 1–13 below only for the individually warranted full-form branch | every warranted full-form gate passes or the plan remains blocked |
+| Output | Use the matching compact, full, or blocked form in [Plan Output](references/plan-output.md) | the artifact contains only the selected form and preserves its evidence identity |
 
 ## Step 1 — Pair With Spec And Classify Plan State
 
-The plan must start from a specific spec.
+A full plan must start from a specific approved/current spec. A compact Standard plan may start from that spec or an accepted implementation contract as defined by the form-selection gate.
 
 Canonical specs live under:
 
@@ -98,7 +103,7 @@ If the user asks to revise, validate, execute, or continue an existing plan, fir
 
 Do not follow whichever artifact looks newest. Current code is evidence, not automatic authority; approved specs, ADRs, public contracts, security rules, compliance constraints, and repository instructions may require code to change.
 
-When multiple plans, specs, ADRs, issues, research notes, docs, or review packets cover the same surface, identify the active canonical source, superseded precursors, overlapping guidance, inbound references, and unresolved contradictions. Preserve stable unit IDs and valid evidence during amendments; rerun independent review after material changes.
+When multiple plans, specs, ADRs, issues, research notes, docs, or review packets cover the same surface, identify the active canonical source, superseded precursors, overlapping guidance, inbound references, and unresolved contradictions. Preserve stable unit IDs and valid evidence during amendments; re-evaluate the independent-review warrant after material changes and rerun review only when its trigger passes.
 
 Do not revise a plan only to update timestamps, leave review breadcrumbs, restyle prose, or reflect cosmetic movement. Plan revisions must improve execution safety, traceability, verification, source alignment, or reviewability.
 
@@ -166,7 +171,7 @@ A new component inside an existing platform is brownfield first. If the spec's t
 Declare executor mode:
 
 - **Human** — plan for a capable engineer and reviewer.
-- **AI Agent** — plan for a coding agent with bounded files, explicit context, re-plan triggers, and independent review.
+- **AI Agent** — plan for a coding agent with bounded files, explicit context, re-plan triggers, and the recorded independent-review decision.
 - **Hybrid** — default to AI Agent rigor when an AI will execute any unit.
 
 For AI Agent or Hybrid plans, record workspace and isolation assumptions. State whether execution assumes the current checkout, an existing isolated workspace, or a separate workspace to be prepared by the execution/worktree owner before edits. The plan may name isolation requirements and shared-resource conflicts; it must not create worktrees, branches, or git state.
@@ -178,21 +183,17 @@ Declare risk tier:
 
 Do not encode domain-specific rules in the skill. Use the tier to increase evidence and review requirements.
 
-## Step 5 — Resolve TDD Planning Mode
+## Step 5 — Select TDD And Verification Posture
 
-TDD changes the task graph, verification design, review criteria, and executor instructions. Resolve it before research and unit planning.
+TDD can change the task graph, verification design, review criteria, and executor instructions. Select the posture from the affected behavior, available seam, accepted constraints, and evidence needs before unit planning.
 
 Use [TDD Planning](references/tdd-planning.md) when the user, spec, project rules, or accepted plan constraints explicitly require TDD, test-first implementation, red-green-refactor, regression-test-first bug fixing, or TDD-style implementation.
 
 If the user explicitly rejects TDD, do not force it. The plan must still assign a concrete verification posture to every unit and must explain why TDD is not being used where behavior changes are present.
 
-If TDD is unspecified, ask one blocking question before drafting the task graph:
+When TDD is unspecified, do not ask a generic preference question. Select and explain `TDD_REQUIRED`, `CHARACTERIZATION_FIRST`, `ACCEPTANCE_FIRST`, `PROPERTY_OR_METAMORPHIC`, `TEST_AFTER_WITH_REASON`, or `NO_AUTOMATED_TEST_FEASIBLE` from the actual behavior seam. If the artifact has no meaningful behavior seam, or the answer cannot change units, order, verification, or review, select the appropriate non-TDD posture and continue.
 
-```text
-Do you want this plan written for TDD-style implementation? Recommended default: use TDD for behavior-changing units with clear public seams, and use characterization, acceptance, property/metamorphic, or non-TDD verification postures for units where TDD is not appropriate. This changes how implementation units, verification, and review gates are structured.
-```
-
-Do not silently assume TDD or non-TDD. After the decision, every unit must declare a test posture: `TDD_REQUIRED`, `CHARACTERIZATION_FIRST`, `ACCEPTANCE_FIRST`, `PROPERTY_OR_METAMORPHIC`, `TEST_AFTER_WITH_REASON`, or `NO_AUTOMATED_TEST_FEASIBLE`.
+Ask one blocking TDD question only when explicit sources conflict or two materially different valid postures remain after inspection and the answer will change the plan. State the recommended posture, evidence, and exact plan consequence. Explicit TDD requests and genuinely material TDD decisions remain supported through [TDD Planning](references/tdd-planning.md).
 
 A request to “use TDD” while omitting per-unit red/green details, behavior seams, or independent verification requirements is contradictory. Keep TDD details or choose a non-TDD verification posture with a reason. If the user insists on both, ask one blocking question: “Should I keep TDD with the required per-unit evidence, or switch this plan to non-TDD verification postures? Recommended default: keep TDD evidence for behavior-changing units with clear seams.”
 
@@ -289,14 +290,14 @@ Reject paths that improve a proxy while weakening the real requirement, such as 
 
 Break work into bite-sized implementation units only after the previous gates pass. Many tasks are acceptable when the dependency graph requires them. Fewer vague tasks are not better.
 
-Each unit must be independently understandable and assigned to a plan-declared review checkpoint. Use stable IDs such as `UNIT-001`; never renumber existing units during revision. Independent review is required before crossing a checkpoint and before final acceptance, not automatically after every unit. Within-checkpoint progression is allowed only when the plan explicitly states it is safe and the completed unit's required verification passed.
+Each unit must be independently understandable and use stable IDs such as `UNIT-001`; never renumber existing units during revision. Assign checkpoint IDs only when `Review cadence: checkpoints` has a separate named warrant. With `none` or `single_final`, do not construct intermediate checkpoints. When a checkpoint exists, independent review is required before crossing it, and within-checkpoint progression is allowed only when the plan explicitly states it is safe and the completed unit's required verification passed.
 
-Define review checkpoints by acceptance risk and change coupling, not by convenience. Use a checkpoint before public-contract, security, data/persistence, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-owner boundaries. Reject both extremes: per-unit review explosion when a checkpoint can safely cover several tightly coupled units, and a single final-only checkpoint when intermediate changes cross a material risk boundary.
+When `Review cadence: checkpoints` is warranted, define checkpoints by the named acceptance risk and change coupling, not convenience. Consider a checkpoint before a public-contract, security, data/persistence, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-owner boundary only when review there can change the next action. Reject per-unit review explosion and unwarranted checkpoints; one final review is sufficient when no intermediate result can change execution.
 
 Each unit must include:
 
 - spec requirements covered;
-- review checkpoint ID and whether completing the unit crosses that checkpoint;
+- review cadence and checkpoint ID/crossing state when checkpoints are warranted, otherwise `none` or `single_final` with reason;
 - cause: why this unit exists;
 - effect: what exists after completion;
 - current evidence: files/docs/research proving current state;
@@ -330,7 +331,7 @@ When TDD is enabled for a unit, verification must follow [TDD Planning](referenc
 
 Define review checkpoint gates and approval gates separately. Review checkpoints control when independent implementation review is required. Approval gates control human or owner authorization for high-risk surfaces such as data contracts, migrations, external APIs, auth, secrets, permissions, audit trails, production rollout, generated artifacts, CI/CD, dependency additions, and scope changes.
 
-Every plan must include a Review Checkpoint Summary that names each checkpoint, units covered, crossing rule, independent-review requirement, within-checkpoint progression rule, required verification before progression, and re-plan triggers. Units may proceed within the same checkpoint only when the plan says that progression is safe and the unit's required verification passes. The plan must state `not applicable` only when the implementation has no executable units because it is blocked or already satisfied.
+Record the independent review decision separately from unit verification. When cadence is `checkpoints`, include a Review Checkpoint Summary naming each checkpoint, units covered, crossing rule, independent-review requirement, within-checkpoint progression rule, required verification, and re-plan triggers. When cadence is `none` or `single_final`, record that decision and reason without constructing intermediate checkpoints.
 
 For AI Agent or Hybrid mode, define re-plan triggers. Execution must stop when:
 
@@ -362,12 +363,14 @@ Before finalizing the draft, run these plan-shape audits:
 - **Decision review surface audit:** when the plan contains decisions a user, reviewer, or executor is likely to tweak before code exists, surface them in the Plan Summary before the unit graph. Typical surfaces are data model or state shape, public interface, user-facing flow, architecture boundary, migration or rollout approach, test posture, verification environment, workspace/isolation choice, and any load-bearing rejected path.
 - **No-process-exhaust audit:** keep source paths, decisions, evidence, status, and review state; remove phase logs, "I read X then Y" narration, post-generation menu prose, tool plumbing, or implementation-progress narration.
 - **Status meaning audit:** plan status means planning disposition or readiness, not execution progress; unit status means planned, deferred, or already satisfied, not in-progress implementation tracking.
-- **Review checkpoint audit:** every unit has a checkpoint ID, checkpoint crossings are explicit, within-checkpoint progression is justified, unit verification remains mandatory before progression, and independent review is required before crossing the checkpoint and before final acceptance.
+- **Review checkpoint audit:** every unit carries the recorded cadence; checkpoint IDs and crossings exist only when warranted; within-checkpoint progression is justified; unit verification remains mandatory; and required review occurs at the recorded boundary.
 - **Scope creep audit:** tangential cleanup, adjacent refactors, and "while we are here" improvements discovered during research go to deferred follow-up unless the approved spec explicitly includes them.
 
 ## Step 12 — Independent Plan Review
 
-Before a plan is called ready, delegate to a fresh independent reviewer when the environment supports isolated workers. If no independent reviewer is available, mark the plan `Proposed — independent review unavailable`; do not mark it ready.
+Independent plan review runs only when a separate named consequence or uncertainty reason, applicable repository floor, or explicit request warrants it. Plan form, file count, delegation, checkpoint count, or author preference is insufficient. When warranted, delegate to a fresh independent reviewer; if unavailable, mark the plan `Proposed — independent review unavailable`. When not warranted, record the reason and do not manufacture a review phase.
+
+For a compact Standard plan, the reviewer receives the compact contract, directly applicable current evidence, named review gap, verification/state identity, and boundaries. The reviewer must not demand generic research, full source redecomposition, generic TDD questioning, checkpoint construction, or full-form sections without separate warrants. The packet and criteria below define the full-form branch.
 
 The reviewer must receive:
 
@@ -463,7 +466,7 @@ When a gate fails, do not improvise a shorter packet and do not emit the full pl
 | “Cause/effect is too much detail.”                    | It exposes why a unit exists and what breaks.                                                  | Include cause/effect per unit.                                    |
 | “Verification can be figured out later.”              | Later verification becomes wishful thinking.                                                   | Define evidence before execution.                                 |
 | “TDD is either all-or-nothing.”                       | TDD applies where behavior seams make it useful; other units still need concrete verification. | Resolve TDD mode and assign a posture per unit.                   |
-| “The user did not mention TDD, so assume.”            | TDD changes plan shape and review obligations.                                                 | Ask the TDD planning question before task graph drafting.         |
+| “The user did not mention TDD, so ask by default.”    | A question adds value only when its answer changes the plan.                                   | Select posture from the behavior seam; ask only for a material unresolved TDD decision. |
 | “They asked to improve it, so research the web.”      | Improvement language alone does not prove external research will change a plan decision.       | Use the explicit and implicit research-decision gates.            |
 | “The research is interesting, so include it.”         | Non-load-bearing research creates noise and fake authority.                                    | Integrate only findings that affect choices, risks, or evidence.  |
 | “The source doc was already summarized by the spec.”  | Summaries can drop constraints that matter at implementation depth.                            | Run the source preservation audit before readiness.               |
@@ -491,10 +494,10 @@ When a gate fails, do not improvise a shorter packet and do not emit the full pl
 - Rules, ADRs, or prior decisions were assumed instead of read.
 - Plan jumps to rebuild without evaluating smaller paths.
 - Units are vague, oversized, unordered, or missing dependencies.
-- Unit lacks review checkpoint, cause, effect, blast radius, or verification.
+- Unit lacks a review decision/cadence, cause, effect, blast radius, or verification, or lacks a checkpoint when cadence requires one.
 - Plan allows crossing a checkpoint without independent review.
 - Plan allows within-checkpoint progression without required unit verification.
-- TDD preference is unspecified and no blocking question was asked.
+- TDD posture lacks a behavior/seam rationale, or a material unresolved TDD conflict was silently assumed.
 - Unit lacks an explicit test posture.
 - Implementation-time unknowns include blockers or lack a resolution method and re-plan trigger.
 - Behavior-bearing unit lacks specific test scenarios with input, action, and expected outcome.
@@ -511,7 +514,7 @@ When a gate fails, do not improvise a shorter packet and do not emit the full pl
 - Tangential cleanup appears as active implementation work without spec authority.
 - Reviewer brief is missing.
 - Plan-review findings lack evidence, affected section/spec IDs, disposition, or re-review decision.
-- Independent review was skipped or failed.
+- Warranted independent plan review was skipped or failed.
 - A blocker is hidden inside a polished plan.
 
 ## Readiness Checklist
@@ -526,7 +529,7 @@ Before calling a plan ready:
 - Significant architectural decisions were surfaced and offered as ADR candidates, or none met the ADR bar.
 - Mode and risk tier are justified.
 - Brownfield discovery or greenfield research gate passed.
-- TDD planning mode is explicit, and each unit has a justified test posture.
+- TDD and verification posture are explicit per unit, justified by behavior and seam, and any blocking question resolved a material plan choice.
 - External research routing is explicit; unavailable requested research and load-bearing findings are recorded.
 - Library/version guidance is current and specific where needed.
 - Smallest safe path was chosen with rejected alternatives explained.
@@ -542,7 +545,7 @@ Before calling a plan ready:
 - Approval gates and re-plan triggers are explicit.
 - Review findings, if any, have dispositions and re-review state.
 - High-risk rollout, rollback, observability, migration, security, privacy, or compliance concerns are addressed or evidence-backed as not applicable.
-- Independent reviewer approved the plan or the plan remains blocked/proposed.
+- When independent plan review was warranted, a fresh reviewer accepted the plan or the plan remains blocked/proposed; otherwise the no-review reason is recorded.
 - The plan contains no implementation code, unapproved scope, or invented spec truth.
 
 ## Final Rule

@@ -6,13 +6,13 @@ Use these scenarios when changing `create-engineering-spec`. Passing means the a
 
 Prompt: "Make a spec for this tiny copy-only change; behavior is known and tests are obvious."
 
-Pressure: User asks for a formal artifact even though direct work may be enough.
+Pressure: User asks for a formal artifact even though no durable engineering truth may need preservation.
 
-Expected wrong behavior: Produce a full spec to satisfy the requested shape.
+Expected wrong behavior: Produce a full spec because code changes or because the requested artifact name is `spec`.
 
-Required behavior: Confirm whether a durable engineering spec is warranted; route to direct work or a lighter owner when behavior, cause, scope, and verification are already known.
+Required behavior: Apply the binding spec warrant. Create a spec only when durable behavior, constraints, invariants, authority, contracts, or unresolved choices must survive implementation. If warranted for Standard work, select the compact contract and skip generic eight-facet expansion, broad risk inventory, unrelated research, and independent spec review without a separate warrant.
 
-Pass criteria: Agent does not create a full spec unless durable engineering truth is needed.
+Pass criteria: Agent either declines the artifact with the warrant reason, creates only the compact Standard contract, or selects a full form from separately evidenced discovery/review needs; code-change status alone never selects the form.
 
 ## Scenario 2: Ideation Artifact As Requirements
 
@@ -157,3 +157,15 @@ Expected wrong behavior: copy the reference architecture, data model, API shape,
 Required behavior: identify the specific behavior or invariant that should transfer, name what must not transfer, compare the reference against target authority/current-system constraints, and block or research any mismatch that could change normative requirements.
 
 Pass criteria: requirements are based on transferable semantics and target-context evidence, not copied reference shape.
+
+## Scenario 14: Compact Standard Spec Versus Full Form
+
+Prompt: "The orchestrator classified this local input feature as Standard. The interaction choice is unresolved and must survive implementation, but the target and non-target boundaries, current behavior, authority, acceptance evidence, and one escalation trigger are already known. Write only the warranted spec work."
+
+Pressure: A durable choice warrants an artifact, and the existing full template makes broad expansion feel safer.
+
+Expected wrong behavior: Run generic eight-facet discovery, inventory every risk/source, research unrelated current facts, or request independent spec review merely because a spec exists.
+
+Required behavior: State the uncertainty this phase resolves and produce the compact Standard spec minimum: preservation reason; objective and current-versus-target behavior; target/non-target boundaries; directly applicable sources and authority conflicts; observable requirements and acceptance evidence; material risks or escalation triggers; downstream handoff facts. Keep the full form reachable only when a separate source, authority, contract, discovery, high-consequence, or explicit-review warrant exists.
+
+Pass criteria: The compact form reduces the internal work, preserves the durable decision, and stops without unrelated research, full-form facets, or independent review.

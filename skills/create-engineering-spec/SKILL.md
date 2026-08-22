@@ -19,11 +19,11 @@ Do not use this skill to coordinate a broad multi-session PRD-to-spec readiness 
 
 ## Iron Law
 
-**No decomposition, no inventory, no current research, no independent review, no spec.**
+**No warrant, no unsupported truth, no spec.**
 
-A full engineering spec is invalid unless the request has been decomposed; the applicable rules, ADRs, and available skills have been inventoried and applied; the required research path has been completed or explicitly blocked; every external library, framework, version, API, protocol, or standard fact is grounded in current research rather than model memory; the work has been classified as greenfield or brownfield; material claims trace to authority; every normative requirement has acceptance evidence, risk context, and planning-relevant impact surfaces; and an independent reviewer has critiqued the spec with its material findings resolved.
+A spec is valid only when durable engineering truth must survive implementation and the selected form resolves a named uncertainty or acceptance gap that can change the next action. A compact Standard spec uses only the bounded contract below. A full engineering spec additionally requires its decomposition, inventory, research, risk, and independent-review gates to be individually warranted and passed.
 
-If a gate fails, do not write a full spec. Emit a blocked packet, delegate discovery, perform targeted research, or ask one informed blocking question.
+If a required gate fails, do not substitute the other form or expand ceremony by habit. Emit a blocked packet, perform bounded discovery, or return new concrete escalation evidence to the orchestrator.
 
 If the blocked work is not one missing fact but a broad PRD-to-spec readiness gap, route to `create-spec-readiness-map` instead of hiding the gap inside a partial spec.
 
@@ -41,33 +41,36 @@ Greenfield fit means researched fit to domain, constraints, authority, options, 
 | Engineering spec    | required behavior, constraints, invariants, authority, contracts, fit analysis, risk register, planning-relevant impact surfaces, acceptance evidence | implementation order, code, task choreography, commit boundaries |
 | Implementation plan | codebase-grounded execution strategy for satisfying an approved spec                                                                                  | new product truth or full implementation code                    |
 
+A valid completed spec that is later judged unnecessary remains valid historical work. Preserve it and, when useful, mark it superseded or non-operative. Delete it only with explicit user authority or an existing retention rule that names the artifact class and deletion condition.
+
 User stories are source material only. Convert them into actors, impacts, rules, data concepts, constraints, invariants, contracts, and acceptance evidence.
 
 When a PRD, product brief, or domain note exists, treat its product-domain model as source material to preserve, refine, or explicitly reject with evidence. Do not discard product language just because the engineering spec needs a different structure.
 
 ## Mandatory Sequence
 
-Run these steps in order. Do not skip, merge, or reverse them.
+First run the common warrant gate, then run only the selected form. Do not make compact mean the full internal workflow with fewer headings.
 
-| Step | Required method                                             | Completion condition                                                                                                                                  |
-| ---- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0    | Confirm spec warrant and intake boundary                    | durable engineering spec is warranted, or the request is routed to another owner, de-escalated, or blocked                                             |
-| 1    | [Decompose the request](references/decomposition-method.md) | all eight facets are stated or blocked                                                                                                                |
-| 2    | Classify greenfield or brownfield                           | existing-system ownership question is answered                                                                                                        |
-| 3    | Inventory rules, ADRs, and available skills                 | applicable rules/ADRs and stack/library skills are loaded and applied, or recorded as missing                                                         |
-| 4    | [Plan research](references/research-planning.md)            | research categories, order, stop conditions, and evidence needs are known                                                                             |
-| 5    | Run the selected workflow                                   | greenfield or brownfield readiness checklist passes                                                                                                   |
-| 6    | Build engineering domain model and source/authority map     | PRD/product-domain inputs, engineering terms, current/target concepts, authorities, invariants, and states are explicit or blocked                    |
-| 7    | Build spec-level risk/impact model                          | risk register and impact surfaces are complete at spec depth                                                                                          |
-| 8    | Synthesize requirements                                     | every requirement is traceable, testable, and plan-enabling                                                                                           |
-| 9    | Independent spec review                                     | a fresh reviewer validates decomposition, authority, requirements, research currency, and risk; material findings are resolved or the spec is blocked |
-| 10   | Emit output                                                 | full spec only if all gates pass; otherwise blocked packet                                                                                            |
+| Path | Required method | Completion condition |
+| ---- | --------------- | -------------------- |
+| Common | Confirm the spec warrant, name the uncertainty or acceptance gap, and select compact or full form | the phase can change the next action, or it stops without creating an artifact |
+| Compact Standard | Validate directly applicable sources and authority conflicts; research only material current external facts; synthesize the compact contract; run independent review only when separately warranted | every compact field is supported without generic eight-facet decomposition, broad risk inventory, broad source inventory, or unrelated research |
+| Full | Run decomposition, mode classification, rules/ADR/skill inventory, planned research, greenfield or brownfield discovery, domain/source modeling, risk/impact modeling, requirements synthesis, and independently warranted spec review | every individually warranted full-form gate passes or the spec remains blocked |
+| Output | Use the matching compact, full, or blocked form in [Spec Output Contract](references/spec-output.md) | the artifact contains only the selected form and preserves its evidence identity |
 
 ## Spec Warrant And Intake Boundary
 
-Before decomposition, confirm that a durable engineering spec is the right artifact.
+Before decomposition, consume the orchestrator's assurance decision and confirm that a durable engineering spec is the right artifact.
 
-A full spec is warranted when planning, migration, compliance work, implementation, or review needs preserved engineering truth about required behavior, constraints, invariants, authority, contracts, risk, acceptance evidence, or planning-relevant impact surfaces.
+A spec is warranted only when durable behavior, constraints, invariants, authority, contracts, or unresolved choices must survive implementation. A code change, control-artifact change, artifact label, file count, configuration status, delegation choice, or Standard lane alone is insufficient.
+
+Name the uncertainty or acceptance gap the spec can resolve and how its result changes the next action. If no result can change the next action, stop this phase and reference the existing sufficient evidence. If `Spec warranted: no`, do not create a spec merely because this skill was invoked; preserve any valid completed spec and return to the recorded route.
+
+Use the compact Standard form when the durable truth is bounded and the full-form discovery and artifact-review gates are not both independently warranted. The compact minimum is: the reason durable engineering truth must be preserved; objective and current-versus-target behavior; target and non-target boundaries; directly applicable sources and authority conflicts; observable requirements and acceptance evidence; material risks or escalation triggers; and downstream handoff facts. Decompose only facets that can change those fields, inspect only sources governing the affected behavior, and research only material current external facts. Do not run generic eight-facet expansion, broad risk inventories, broad source inventories, unrelated research, or independent spec review without a separate named source, authority, contract, high-consequence, or explicit-request warrant.
+
+Use the full form only when its deeper discovery and review controls are individually warranted. Preserve current evidence, source and authority traceability, material risk analysis, full discovery, and independent artifact review at the depth justified by those warrants.
+
+This owner may challenge an insufficient incoming warrant, but it may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Owner preference, artifact type, file count, or generic uncertainty cannot silently reclassify the task.
 
 Route or de-escalate instead when the request is:
 
@@ -78,7 +81,9 @@ Route or de-escalate instead when the request is:
 - diagnosis where a failure cause, target behavior, or proposed fix is not yet supported;
 - architecture judgment, ADR capture, implementation planning, execution, testing, setup, git/PR, or documentation work owned by another skill.
 
-Failure output: `Blocked: full engineering spec is not warranted: <reason>. Owning path: <direct work/PRD/create-spec-readiness-map/ideation/diagnosis/architecture/plan/docs/testing/git/PR/publishing/other>.`
+Failure output: `Blocked: engineering spec is not warranted or the selected form cannot resolve a named gap: <reason>. Owning path: <direct work/PRD/create-spec-readiness-map/ideation/diagnosis/architecture/plan/docs/testing/git/PR/publishing/other>.`
+
+The mode, inventory, research, domain-model, risk, scope-shaping, and full review sections below define the full-form branch. A compact Standard spec uses only the bounded work stated above and the compact output contract.
 
 ## Mode Classification
 
@@ -115,7 +120,7 @@ Completion condition: the spec can state which rules, ADRs, and skills were appl
 
 ## Research Rule
 
-Research is not “search everything.” Research is planned from decomposition. Use [Research Planning](references/research-planning.md) to decide what to research, in what order, and when to stop.
+Research is not “search everything.” For a compact Standard spec, research only a material current external fact that can change the compact contract. For a full spec, plan research from the warranted decomposition using [Research Planning](references/research-planning.md).
 
 Treat the model's built-in knowledge of external libraries, frameworks, versions, APIs, protocols, and standards as presumed stale. Every material external fact MUST be verified through current research — delegated to the `research` agent and its documentation and web tools — and version-pinned to what the project actually uses or will use. Do not write a normative requirement on a library, API, version, or standard from memory. Library and framework facts must be version-specific: naming the library is not enough; the spec must establish the relevant version, the current non-deprecated API or pattern, accepted usage, and known gotchas, each traced to a primary source with a date. If a required version or current fact cannot be established, block the affected requirement rather than guess.
 
@@ -190,7 +195,7 @@ Do not create or update a separate glossary file from this skill unless the user
 
 Spec-level impact is not implementation planning. The spec must identify impacted contracts, data concepts, processes, actors, authority roles, downstream consumers, trust boundaries, operational constraints, and acceptance evidence. The implementation plan later decides exact files, units, sequencing, tests, and commits.
 
-Risk analysis must be structured, not prose. At spec depth, run a pass across security/attack, reliability/failure, compliance/regulatory, and operational dimensions. If a dimension has no impact, state `no impact` with a reason.
+For a compact Standard spec, record only material risks or escalation triggers that can change requirements, acceptance, or the next route. Do not generate a broad risk inventory. For a full spec, risk analysis must be structured: run a pass across security/attack, reliability/failure, compliance/regulatory, and operational dimensions, with reasoned `no impact` entries.
 
 For reporting, analytics, observability, dashboards, generated reports, or data-derived summaries, include metric/event authority, canonical source, instrumentation status, query or source window, freshness/ingestion lag, missing-data behavior, privacy constraints, query safety, and downstream consumers when those facts affect requirements or acceptance.
 
@@ -215,7 +220,7 @@ Deferred questions are safe only when the answer cannot change normative require
 
 ## Delegation Rules
 
-Use isolated discovery or research workers when the evidence surface is broad, independent, or likely to consume context. Delegation is read-only unless artifact mutation is explicitly approved.
+Use isolated discovery or research workers only when the incoming delegation warrant or new concrete evidence shows that isolation, parallelism, specialist capability, or context focus materially improves the result relative to re-derivation cost. Delegation is read-only unless artifact mutation is explicitly approved, and delegation does not create a spec or full-form warrant.
 
 Delegate source discovery for scattered rules, ADRs, existing specs, dependency maps, plans, research notes, prior decisions, canonical owners, standards, or policies. Required return: sources, precedence, conflicts, owner/authority status, and exact evidence.
 
@@ -229,19 +234,21 @@ Do not delegate final scope decisions, source-of-truth conflict resolution, assu
 
 ## Output Contract
 
-Use [Spec Output Contract](references/spec-output.md). Full spec only when all gates pass. If any gate fails, emit the blocked packet.
+Use [Spec Output Contract](references/spec-output.md). Emit the compact Standard form when its bounded gates pass, the full form only when every individually warranted full-form gate passes, and the blocked packet when a required gate fails.
 
 When spec evidence will feed planning, ADRs, commits, PRs, publishing, implementation, or review, hand off the spec path, slug, status, mode, review state, source/authority gaps, requirement IDs, acceptance IDs, risk IDs, authority IDs, non-scope, blockers, and planning-relevant impact surfaces. Do not include implementation units, file lists, git commands, PR mutation, CI watch, publishing, or tracker mechanics in the spec.
 
 ## Independent Spec Review
 
-A spec is the most upstream artifact; its flaws propagate silently into the plan and the implementation, and a later stage will often take the spec for granted rather than re-critique it. Before the spec is marked ready or surfaced for approval, it MUST be critiqued by a fresh, independent reviewer — not the spec author. The reviewer's job is to find what is wrong, weak, stale, unsupported, or scope-drifted, not to approve. If no independent reviewer is available, mark the spec `Proposed — independent review unavailable`; do not mark it ready.
+A spec is upstream, so independent review is valuable when a separate review warrant passes. Warrant spec review for an explicit request or a named source, authority, contract, or high-consequence acceptance gap that a fresh reviewer can resolve. Code change, artifact type, Standard form, file count, or author preference is not a review warrant. When warranted, the reviewer must be fresh and independent; if unavailable, mark the spec `Proposed — independent review unavailable`. When not warranted, record the reason and do not manufacture a review phase.
 
-The reviewer must receive: the original request; the decomposition; the rules, ADRs, and skills inventoried; the source/authority map; the research evidence with its sources, versions, and dates; the risk register; the draft spec; and the review criteria below.
+When review is warranted, the reviewer receives the original request, selected form, draft spec, directly applicable source/authority evidence, named review gap, and all discovery, research, risk, or decomposition evidence actually used. A full-form review also receives the complete decomposition, rules/ADR/skill inventory, source/authority map, research record, and risk register. Do not create missing full-form material solely to fill a compact-spec review packet.
 
 The reviewer packet must also include source-scope/confidence labels, known blockers, deferred questions, acceptance-evidence modality, unresolved source conflicts, and any stale prior artifacts used or rejected.
 
-The reviewer MUST validate:
+For a compact Standard spec, the reviewer validates the compact minimum, directly applicable authority, observable requirements/evidence, material triggers, boundaries, and the named review gap. The reviewer must not demand generic eight-facet decomposition, broad risk/source inventories, unrelated research, or full-form sections without a separate warrant.
+
+For a full spec, the reviewer MUST validate:
 
 - every material facet of the request is decomposed and addressed; nothing material is silently dropped or narrowed;
 - the spec faithfully respects the actual request and does not substitute a different problem;
@@ -349,5 +356,5 @@ When a red flag appears, return to the relevant gate or emit the blocked packet.
 - Assumptions are labeled and do not support normative requirements.
 - Significant spec-level decisions were surfaced and offered as ADR candidates, or none met the ADR bar.
 - Blocking questions are unresolved only if status remains blocked or Draft.
-- An independent reviewer critiqued the spec and every valid material finding is resolved; otherwise the spec is blocked or marked Proposed.
+- When independent spec review was warranted, a fresh reviewer critiqued the selected form and every valid material finding is resolved; otherwise the spec is blocked or marked Proposed.
 - The spec contains no implementation order, task list, file edit choreography, commit boundary, or implementation code.

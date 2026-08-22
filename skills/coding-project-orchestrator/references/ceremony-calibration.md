@@ -4,7 +4,7 @@ Use this reference to choose the lightest sufficient workflow. The goal is not m
 
 ## Contents
 
-- [Ceremony Levels](#ceremony-levels)
+- [Consequence Lanes And Gate Warrants](#consequence-lanes-and-gate-warrants)
 - [Calibration Questions](#calibration-questions)
 - [Source And Artifact Calibration](#source-and-artifact-calibration)
 - [Project-Adjacent Action Calibration](#project-adjacent-action-calibration)
@@ -15,30 +15,31 @@ Use this reference to choose the lightest sufficient workflow. The goal is not m
 - [Implementation Plan Calibration](#implementation-plan-calibration)
 - [Delegation And Verification Calibration](#delegation-and-verification-calibration)
 - [Review Calibration](#review-calibration)
+- [Final Complete-Gate Calibration](#final-complete-gate-calibration)
 
-## Ceremony Levels
+## Consequence Lanes And Gate Warrants
 
-| Level             | Use when                                                                                                                                                                                | Required behavior                                                                       |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Direct            | Work is trivial or non-semantic, is strict bounded configuration replication, or is covered by a separately explicit governing repository direct-edit exception whose conditions are all proven | Implement only inside the proven lane, verify, and report evidence                      |
-| Diagnostic        | Something is failing or disputed and cause is not proven                                                                                                                                | Run structured problem resolution before choosing fix/spec/plan                         |
-| Definition        | Product or engineering truth is missing                                                                                                                                                 | Confirm explicit PRD/product-definition intent before PRD, or create engineering spec when engineering truth is missing |
-| Planned execution | Implementation has multiple surfaces, dependencies, handoff needs, or meaningful blast radius                                                                                           | Create or use implementation plan before execution                                      |
-| High assurance    | Wrong behavior would be hard to reverse, difficult to detect, broadly impactful, trust-affecting, data-affecting, permission-affecting, externally visible, or control-surface changing | Require stronger discovery, traceability, concrete verification, and independent review |
+| Lane | Positive classification evidence | Required behavior |
+| ---- | -------------------------------- | ----------------- |
+| `direct` | Known target behavior and cause; bounded scope and blast radius; practical reversibility; no automatic high trigger; deterministic acceptance | Implement inside the proven boundary and satisfy only independently warranted gates |
+| `standard` | Complete direct proof is absent and no concrete high-assurance trigger applies | Use the neutral meaningful-work route and activate only gates that resolve a named uncertainty or acceptance gap |
+| `high_assurance` | One or more concrete high-assurance triggers are present | Apply every relevant safeguard at sufficient depth without forcing irrelevant artifacts or review lanes |
 
-High assurance is not a domain label. It is a property of consequence, reversibility, detectability, blast radius, and trust.
+Diagnosis, definition, planning, delegation, review, re-review, and final complete verification are gate warrants, not additional lanes or a fixed sequence. A lane never expands into a pipeline.
 
 ## Assurance Precedence And Configuration Replication
 
-Before bounded routing, evaluate any explicit review request, repository assurance profile, and automatic high-risk trigger. Profiles may raise assurance; they cannot lower an explicit request or automatic trigger.
+Before de-escalation, evaluate explicit review requests, repository assurance profiles, and automatic high-assurance triggers without coupling unrelated gates.
 
-Bounded configuration replication is direct only when the authorized source-to-target behavior is exact, reversible, and deterministically provable. The source, target mapping, target scope, and effective authority must be known. An absent or disabled target may become enabled when its post-activation behavior exactly matches approved-source post-activation behavior. Do not compare the enabled source only with the target's pre-activation absence.
+- An explicit review request sets the review warrant; it does not change the lane or activate spec, plan, or delegation by itself.
+- A repository profile may raise a lane or gate only when it names the protected consequence, affected scope, owning authority, exact floor, and reason. Reject a profile based only on semantic/non-trivial labels, artifact type, file count, or configuration status.
+- An automatic high-assurance trigger sets `Lane: high_assurance`; gates inside high assurance remain separately warranted.
 
-Effective authority comes from actual credentials, runtime controls, reachable data, and enforced permissions. Advertised operations are exposure context, not sufficient proof of realized write/admin authority. Disqualify work that adds semantics, authority, data reach, permissions, dependencies, architecture, security boundaries, persistence, or side effects, or that involves regulated/client/production/sensitive data, destructive or hard rollback, migration/persistence, auth/authz/security-boundary design, novel semantic judgment, ambiguous truth, or acceptance direct checks cannot prove. A non-mutating authorized connection check may verify a target; a state-changing check is external mutation.
+Bounded configuration replication is one `direct` subtype, not the only direct semantic lane. The authorized source-to-target behavior must be exact, reversible, and deterministically provable. The source, target mapping, target scope, post-activation equivalence, and effective authority must be known. Effective authority comes from actual credentials, runtime controls, reachable data, and enforced permissions; advertised operations are exposure context. The subtype must add no semantics, authority, data reach, permission, dependency, architecture, security boundary, persistence, or side effect. A non-mutating authorized connection check may verify a target; a state-changing check is external mutation.
 
-A fully proven candidate closes without review only when none of these bases applies: `policy_mandated`, `explicit_user_request`, `automatic_high_risk_trigger`, or `unresolved_material_judgment`. All other non-trivial implementation or semantic control-surface work outside the bounded configuration replication lane retains mandatory checkpoint and final review, recorded as `policy_mandated` when no more specific basis applies.
+Direct and high assurance both require positive evidence. When a direct condition or possible high trigger is unknown, run bounded discovery for that named uncertainty and reclassify. Unknown does not mean direct or high assurance.
 
-The default route for that other non-trivial work is the full governing spec, plan, coder, unit-verification, checkpoint, and final-review workflow. Small scope, reversibility, exact wording, known files, or concrete verification do not create a direct path. Preserve a different bounded direct-edit exception only when current governing repository policy explicitly defines it and authoritative current evidence affirmatively proves every condition. Proof is conjunctive: enumerate each condition and its evidence. Silence, omitted facts, missing risk labels, or agent inference does not prove a condition. Any unstated, unavailable, ambiguous, uncertain, or inferred condition fails the exception and retains `policy_mandated` review when no more specific basis applies. A review-routing change needs affirmative evidence that the exact delta preserves review safeguards before it can satisfy a non-weakening condition.
+Concrete high-assurance triggers are: regulated, client, production, or sensitive data; destructive or hard-to-reverse work; migration or persistent-state transformation; authentication, authorization, or security-boundary change; new or expanded write/admin authority or sensitive-data reach; public compatibility or durable external-contract change; release or deployment authority; a broad system-wide control change that changes permission, mutation, or acceptance boundaries; or a source-backed severe consequence with material blast radius, delayed detectability, difficult recovery, trust impact, or operational-continuity impact.
 
 ## Calibration Questions
 
@@ -57,6 +58,8 @@ Ask these before selecting a path:
 - Is this a draft, report, runtime-inspection, setup, external-sync, source-control, or PR action rather than product/spec/plan/implementation work?
 - Is any external action separately approved: commit, push, PR create/update, publish, pull/sync, schedule, tracker update, metadata edit, or durable local preference/config write?
 - Does another agent or future maintainer need an artifact to preserve context?
+- Which named uncertainty or acceptance gap can each proposed phase resolve, and can its result change the next action?
+- What are the independent review warrant, cadence, depth, semantic lanes, re-review rule, and final complete-gate warrant?
 
 ## Source And Artifact Calibration
 
@@ -102,8 +105,6 @@ Do not let speed, fewer artifacts, pretty copy, generated reports, screenshots, 
 
 Cleanup, simplification, and refactor requests are direct only when behavior preservation is provable.
 
-For non-trivial semantic cleanup, proof of preservation is necessary but not sufficient: the current governing repository policy must also explicitly define a bounded direct-edit exception. Otherwise use the full workflow.
-
 Direct cleanup requires:
 
 - explicit scope or a recoverable narrow scope from current changes;
@@ -111,7 +112,7 @@ Direct cleanup requires:
 - local patterns and relevant existing tests checked when the request is rough;
 - verification scaled to the actual blast radius.
 
-Escalate to diagnosis, architecture, spec, plan, or review when cleanup exposes unknown behavior, broad ownership changes, public contract changes, safety removal, generated artifacts, or unclear verification.
+If every direct condition is not affirmatively proven, route standard unless a high trigger applies. Activate diagnosis, architecture, spec, plan, or review only when its independent warrant passes.
 
 ## PRD Calibration
 
@@ -149,10 +150,7 @@ Diagnosis may lead to direct implementation, engineering spec, architecture anal
 
 Use engineering spec when:
 
-- required behavior or acceptance evidence must be stabilized;
-- constraints, authority, invariants, contracts, risks, compatibility, or data/state implications matter;
-- current codebase behavior must be reconciled with requested behavior;
-- implementation would otherwise depend on assumptions.
+- durable behavior, constraints, invariants, authority, contracts, or unresolved choices must survive implementation.
 
 Do not use engineering spec when:
 
@@ -164,18 +162,14 @@ Do not use engineering spec when:
 
 Use implementation plan when:
 
-- an approved/current spec or equivalent contract exists;
-- execution has multiple units or dependencies;
-- target and non-target boundaries matter;
-- blast radius needs analysis;
-- implementation will be delegated;
-- verification and review must be mapped before editing.
-- delegation, parallel work, shared mutable state, or workspace isolation affects safety.
+- an approved/current spec or equivalent implementation contract exists;
+- multiple dependent units, real ordering constraints, multiple executors, shared mutable state, migration or rollout, material rollback concerns, or a boundary that must be crossed safely requires durable sequencing.
 
 Do not use implementation plan when:
 
 - engineering truth is still unsettled;
 - the work is inside a proven direct lane under current governing repository policy;
+- multiple files or delegation are the only reasons proposed;
 - the plan would be a thin task list with no useful guardrails.
 
 ## Delegation And Verification Calibration
@@ -188,6 +182,8 @@ Before delegation or parallel execution, require:
 - verifier owner and verifier availability;
 - rollback, cleanup, or re-plan triggers when execution exceeds the boundary.
 
+Delegation is warranted only when isolation, parallelism, specialist capability, or context focus materially improves the result relative to its re-derivation cost. Delegation does not create a plan warrant.
+
 Verification is insufficient when:
 
 - the tool cannot run, is unavailable, or is only assumed available;
@@ -199,14 +195,17 @@ Verification is insufficient when:
 
 First classify text edits by semantic effect. Non-semantic typo, formatting, grammar, comment, or wording cleanup does not require independent review when it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify those edits with diff/readback evidence and report the non-semantic basis.
 
-Independent review is required outside the bounded configuration replication lane when:
+Decide review warrant, cadence, depth, and semantic lanes independently:
 
-- implementation is non-trivial;
-- changed artifacts affect runtime behavior, public contracts, persistent state, permissions, generated outputs, commands, agents, skills, rules, prompts, templates, or workflow/control surfaces;
-- a control-surface text edit changes or could plausibly change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior;
-- acceptance depends on more than the implementer's own claim;
-- prior findings, failed checks, or user-facing risk exist.
+- Warrant review for an explicit request, an applicable scoped repository floor, a changed surface whose consequence needs independent acceptance, unresolved semantic judgment, or another named acceptance gap.
+- Cadence is `none`, `single_final`, or `checkpoints`; checkpoints require a boundary where review can change the next action.
+- Depth is `not_applicable`, `quick`, `standard`, or `deep`; depth controls rigor inside the exact target and causal halo, never repository-wide breadth by itself.
+- Semantic lanes activate only from changed surfaces or evidence. Security, performance, concurrency, operations, pattern, and adversarial lanes do not run by artifact label.
 
-Review depth scales with risk. Direct work can still need review when the changed surface controls future behavior. Narrow semantic control-surface edits usually fit quick review; changes to gates, mandatory behavior, review requirements, delegation, ownership boundaries, public contracts, permissions, external mutation, or cross-skill workflow behavior require standard or deep review.
+A standard lane can have no review, one review at any justified depth, or checkpoints. High assurance can have one final review when intermediate review cannot change an action. A direct lane can still have review when its independent warrant passes. Generic semantic/non-trivial/control-surface labels, file count, configuration status, generated artifacts, or delegation do not warrant review.
 
-When review is required, `deep` controls rigor within the exact target and initial causal halo. It does not independently authorize repository-wide, deployment-wide, history-wide, or security-wide audit scope.
+## Final Complete-Gate Calibration
+
+Record `Final complete gate warranted: yes` only when repository policy assigns a complete gate to the changed artifact, high-assurance acceptance needs it, shared or cross-boundary behavior can escape targeted checks, or an acceptance predicate requires it. Record `no` for non-semantic prose or an isolated artifact with complete deterministic validation and no applicable repository gate.
+
+Run the complete gate once after the final mutation of the logical deliverable. Reuse fresh evidence tied to the exact state; any covered mutation invalidates it. Do not run a gate whose result cannot change the next action.

@@ -174,6 +174,12 @@ If a human signal is vague, quote the exact weak phrase and ask one observation-
 
 When the Phase 1 selector row applies, read [signal-evaluation.md](references/signal-evaluation.md) before detailed evaluation; it contains the patterns for signal types, multi-item feedback, the four-axis evaluation framework, and push-back.
 
+### Orchestrator Decision And Phase Value
+
+Consume the incoming consequence lane and gate warrants when orchestration has already classified the work. Diagnosis must name the uncertainty, unresolved cause, or acceptance gap it can resolve and how the result can change the next action. If diagnosis cannot change the next action, stop this phase and reference the existing sufficient evidence instead of repeating investigation.
+
+The orchestrator owns classification. This owner may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Owner preference, artifact type, file count, delegation, or generic uncertainty cannot silently reclassify the task. Without new evidence, preserve the incoming lane and warrants.
+
 ---
 
 ## Phase 2: Triage
@@ -192,17 +198,23 @@ The signal tells you exactly what's wrong and the fix is unambiguous.
 
 ### Simple (minutes)
 
-The signal points to a general area, but you need to read code to understand what's happening.
+Simple is evidence-defined, not size-defined. Use it only when current evidence proves all five properties:
 
-**Signals:** Error points to a region but not an exact cause. Involves one file or function. Requires reading context.
+- the failure source and cause are deterministic;
+- the causal chain from trigger to symptom is proven;
+- the correction uses an established local mechanism rather than a newly designed behavior;
+- blast radius is bounded and known;
+- direct verification can observe the correction and relevant regression boundary.
 
-**Action:** Read the relevant code. Understand the data flow. Form a hypothesis. Fix. Verify.
+**Action:** Record the five proofs through the applicable evidence/scratch gates, apply the established correction, and run direct verification. If any property is missing, ambiguous, or contradicted, classify Complex and investigate the named gap.
+
+File count does not determine diagnosis complexity. A deterministic multi-file correction can be Simple when all five properties pass; a one-line-looking failure is Complex when source, cause, mechanism, blast radius, or verification remains uncertain.
 
 ### Complex (deliberate investigation)
 
-Multiple possible causes, spans multiple files or components, or the signal is misleading.
+One or more Simple proof properties is missing, multiple causes remain plausible, components interact in an unresolved way, or the signal is misleading.
 
-**Signals:** Vague or misleading error. Interaction between components. Intermittent or environment-dependent. A previous fix attempt failed. Human feedback that requires verification against the codebase.
+**Signals:** Vague or misleading error. Unresolved interaction between components. Intermittent or environment-dependent behavior. A previous fix attempt failed. Human feedback that requires verification against the codebase.
 
 **Action:** Full investigation loop (Phase 3). Invest in understanding before touching code.
 
@@ -210,7 +222,7 @@ Multiple possible causes, spans multiple files or components, or the signal is m
 
 The problem reveals a design issue, not just a code bug.
 
-**Signals:** 3+ fix attempts have failed, each revealing new issues. Every fix requires touching many files. Fixes create new symptoms elsewhere. The pattern itself seems fundamentally wrong.
+**Signals:** 3+ fix attempts have failed, each revealing new issues. Fixes cross ownership or contract boundaries without converging. Fixes create new symptoms elsewhere. The pattern itself seems fundamentally wrong.
 
 **Action:** Stop coding. Describe what you've found to the user. This isn't a problem to fix — it's a design to reconsider.
 
@@ -218,7 +230,7 @@ The problem reveals a design issue, not just a code bug.
 
 The natural instinct is to classify problems as Obvious or Simple — you see an error, you have a theory immediately, so it feels trivial. This instinct is wrong more often than it's right, and when it's wrong, it turns a 1-2 pass investigation into 5-7 passes of guess-and-check.
 
-**The default classification is Complex.** Every problem gets full investigation (Phase 3) and a scratch file unless you can demonstrate in one sentence why it's truly trivial. The bar for Obvious is strict: a single-line fix where you can state the exact mechanism of failure without reading any surrounding code (typo, missing import, syntax error). Everything else gets the scratch file and full investigation.
+**The default classification is Complex when Obvious or all five Simple proof properties are not affirmatively established.** The bar for Obvious remains strict: a mechanical correction whose exact failure mechanism is already visible without surrounding investigation. Simple remains available across any file count only with deterministic source/cause, proven causal chain, established local correction, bounded blast radius, and direct verification. Everything else gets the Phase 3 investigation and scratch file.
 
 If your "Obvious" fix doesn't work on the first try, you were wrong about the classification. Create the scratch file immediately and start Phase 3.
 
@@ -837,7 +849,7 @@ undocumented and may be removed in a future version. If that happens,
 audit logging for sessions will silently drop the field.
 ```
 
-After presenting the summary, **delete `/tmp/debug-scratch-<brief-slug>.md`**.
+After presenting the summary, **delete `/tmp/debug-scratch-<brief-slug>.md`**. This authority applies only to the temporary investigation scratch created by this workflow. A valid completed spec, plan, report, or other durable artifact that is later judged unnecessary must be preserved and may be marked superseded or non-operative; deletion requires explicit user authority or an existing retention rule naming the artifact class and condition.
 
 If the investigation is escalated to the user (you're stuck, handing off), do NOT delete the file — leave it at `/tmp/debug-scratch-<brief-slug>.md` so they can see the full reasoning and pick up where you left off.
 

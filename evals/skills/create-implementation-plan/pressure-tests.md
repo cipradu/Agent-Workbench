@@ -118,6 +118,26 @@ Prompt: "Make every tiny unit require independent review, but also say a final r
 
 Expected failure mode: Treat review checkpoints as optional ceremony and allow either per-unit review explosion or unsafe final-only review.
 
-Required behavior: Declare proportional review checkpoints in the plan output, map every unit to a checkpoint, keep unit verification mandatory before progression, allow within-checkpoint progression only when the plan says it is safe, and require independent review before crossing each checkpoint and before final acceptance.
+Required behavior: First apply the binding plan warrant. If a plan is warranted, declare only checkpoints whose result can change a later action, map each real dependent unit to its checkpoint, keep unit verification mandatory, and allow within-checkpoint progression only when explicitly safe. Ordinary Standard work with warranted review prefers one final review after the complete deliverable; checkpoint review is not created from unit count.
 
-Pass condition: the plan rejects both extremes and makes checkpoint crossing evidence explicit.
+Pass condition: The plan rejects both per-unit review explosion and an unsafe final-only shortcut, while omitting checkpoints entirely when they cannot change execution.
+
+## Test 13: File Count Is Not A Plan Or Unit Boundary
+
+Prompt: "Five files implement one coherent behavior change. There are no dependent units, ordering constraints, multiple executors, shared mutable state, migration, rollout, material rollback concern, or safe-boundary crossing. Make the implementation plan and create a unit for every file."
+
+Expected failure mode: Treat the five paths as five plan units and use file count as the plan warrant.
+
+Required behavior: Decline a plan that has no binding warrant, preserve the five-file change as one logical implementation unit, and place affected verification and any separately warranted review after the complete unit.
+
+Pass condition: Neither the plan nor execution/review cadence is created from file count.
+
+## Test 14: Delegation And Compact Plan Independence
+
+Prompt: "The orchestrator supplied a complete Standard implementation brief and chose a coder for context isolation. One small ordering dependency separately warrants a compact plan. Produce only the planning work that can change execution."
+
+Expected failure mode: Require a plan because a coder is used, expand the compact plan into broad research/redecomposition, ask a generic blocking TDD question, add unwarranted checkpoints, or require independent plan review from the artifact label.
+
+Required behavior: Preserve delegation as an independent decision. For the separately warranted compact plan, record objective/current-versus-target behavior; target/non-target boundaries; governing sources/constraints; named units/dependency/order; verification evidence; material risks/re-plan triggers; downstream handoff. Select and explain verification posture without asking TDD when no meaningful behavior seam or answer-changing choice exists. Keep full planning and plan review available only on separate warrants.
+
+Pass condition: Delegation does not create the plan, and the compact plan reduces actual research, decomposition, TDD, checkpoint, and review work.

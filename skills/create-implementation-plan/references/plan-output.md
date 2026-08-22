@@ -1,6 +1,6 @@
 # Plan Output Contract
 
-Use this reference after the top-level skill has passed the spec pairing, decomposition, discovery, research, TDD mode, smallest-safe-path, and task graph gates. The plan is an execution handoff artifact. It does not implement code.
+Use this reference after the top-level skill confirms the plan warrant, names the uncertainty or acceptance gap planning resolves, selects compact Standard or full form, and chooses TDD/verification posture plus review cadence from evidence. The plan is an execution handoff artifact. It does not implement code.
 
 ## Canonical File Location
 
@@ -32,9 +32,61 @@ The plan is the evidence-backed dependency graph that tells a human engineer or 
 
 Allowed: repo-relative paths, module/service names, package names and versions, public interface/seam names, commands, verification expectations, data flow descriptions, migration sequencing, and detailed approach logic without code.
 
+A valid completed plan later judged unnecessary is not malformed cleanup. Preserve it and, when useful, mark it superseded or non-operative. Delete it only with explicit user authority or an existing retention rule that names the artifact class and deletion condition.
+
+## Compact Standard Plan Form
+
+Use when `Plan warranted: yes` for a bounded sequencing reason and deeper research, source redecomposition, discovery, or task-graph analysis cannot change the plan. Compact is a behavioral mode: do only the work needed to support these fields. Select checkpoint cadence and independent plan review separately; either may apply when its own named warrant passes.
+
+The compact minimum is:
+
+- the linked spec or accepted implementation contract;
+- the exact reason planning is warranted;
+- objective and boundaries;
+- current evidence for affected surfaces;
+- dependent units and order;
+- relevant verification and state identity;
+- re-plan triggers;
+- review decision.
+
+Do not perform generic research, repeat full source redecomposition, ask a generic TDD-preference question, construct unwarranted checkpoints, or require independent plan review without separate named warrants. Select and explain test posture from the affected behavior and meaningful seam; when no seam exists or the answer cannot change the plan, choose the applicable non-TDD posture without asking.
+
+```markdown
+# Implementation Plan: concise title
+
+Plan file: docs/plans/YYYY-MM-DD_HH-mm_{same-spec-slug}_plan.md
+Status: Draft | Proposed | Reviewed | Superseded
+Plan form: Compact Standard
+Linked spec or accepted implementation contract:
+Created local time: YYYY-MM-DD HH:mm
+
+## Plan Warrant
+
+Exact reason planning is warranted:
+Uncertainty or acceptance gap resolved:
+
+## Objective
+
+## Target Boundary
+
+## Non-Target Boundary
+
+## Current Evidence For Affected Surfaces
+
+## Dependent Units And Order
+
+## Verification Posture And State Identity
+
+## Re-Plan Triggers
+
+## Review Decision
+
+Review warrant/cadence/checkpoint reason or `not warranted`:
+```
+
 ## Full Plan Form
 
-Use only when all mandatory gates pass.
+Use only when the top-level skill selected full form and every individually warranted deeper planning gate passes. Full form remains available for high-assurance work that needs complete spec coverage, source/authority traceability, codebase or stack discovery, dependency reasoning, verification, and rollback/recovery. Select checkpoint cadence and independent artifact review separately from form depth.
 
 ```markdown
 # Implementation Plan: concise title
@@ -51,11 +103,12 @@ Risk tier: Standard | High Assurance
 TDD mode: TDD accepted | TDD rejected | Mixed postures
 External research: Not required | Required — implementation-guidance | Required — landscape/option-discovery | Required — mixed | Requested but unavailable
 Load-bearing external research: Yes | No | Not applicable
-Review checkpoints: Declared | Not applicable — blocked/already satisfied only
+Review cadence: none | single_final | checkpoints
+Review checkpoints: Declared | Not warranted — reason
 Workspace / isolation requirement:
 Created local time: YYYY-MM-DD HH:mm
 Author:
-Reviewer status: Not reviewed | Review requested | Reviewed | Rejected
+Reviewer status: Not warranted — reason | Not reviewed | Review requested | Reviewed | Rejected
 
 ## 1. Plan Summary
 
@@ -181,22 +234,25 @@ Include only when material. Use this section for component relationships, protoc
 
 ## 10. Implementation Unit Graph
 
-### Review Checkpoint Summary
+### Review Decision And Checkpoint Summary
+
+Record cadence and reason. Include the checkpoint table only when cadence is `checkpoints`; do not construct placeholder checkpoints for `none` or `single_final`.
 
 | Checkpoint ID | Units covered | Crossing occurs before | Independent review required? | Within-checkpoint progression rule | Required verification before progression | Re-plan triggers |
 | ------------- | ------------- | ---------------------- | ----------------------------- | ---------------------------------- | ---------------------------------------- | ---------------- |
 
 ### Unit Summary
 
-| Unit | Name | Spec IDs | Depends on | Review checkpoint | Parallel group | Risk | Test posture | Status |
+| Unit | Name | Spec IDs | Depends on | Review cadence/checkpoint | Parallel group | Risk | Test posture | Status |
 | ---- | ---- | -------- | ---------- | ----------------- | -------------- | ---- | ------------ | ------ |
 
 ### UNIT-001 — short unit name
 
 Status: Planned | Deferred | Already satisfied
 Spec IDs:
-Review checkpoint:
-Checkpoint crossing: does this unit complete or cross a checkpoint? If yes, name the independent-review requirement before crossing.
+Review cadence:
+Review checkpoint: checkpoint ID when cadence is `checkpoints`; otherwise `none` or `single_final` with reason
+Checkpoint crossing: when a checkpoint exists, does this unit cross it and what review is required first?
 Cause:
 Effect:
 Current evidence:
@@ -260,9 +316,9 @@ For each category: applicable | not applicable with evidence-backed reason.
 - linked spec:
 - plan file:
 - repo/root:
-- review checkpoint summary:
-- assigned unit checkpoint:
-- checkpoint crossing rule:
+- review decision and checkpoint summary when applicable:
+- assigned unit checkpoint or `none`/`single_final` reason:
+- checkpoint crossing rule when applicable:
 - workspace / isolation requirement:
 - instruction files and rules applied:
 - ADRs applied:
@@ -337,7 +393,7 @@ Disposition: addressed | addressed differently | not addressing | declined | nee
 - [ ] Upstream source artifacts were re-read and no implementation-relevant source requirement, assumption, acceptance example, or non-goal was silently dropped.
 - [ ] Executor handoff is complete.
 - [ ] Review findings, if any, have dispositions and re-review state.
-- [ ] Independent review passed or the plan remains Proposed until review completes.
+- [ ] When independent plan review was warranted, it passed or the plan remains Proposed; otherwise the no-review reason is recorded.
 - [ ] No implementation code is included.
 
 ## 19. Document History
@@ -355,6 +411,9 @@ Each unit must be understandable without hidden conversation context. A coder sh
 
 Status: Planned | Deferred | Already satisfied
 Spec IDs: REQ-001, AE-001
+Review cadence: none | single_final | checkpoints
+Review checkpoint: checkpoint ID when cadence is `checkpoints`; otherwise reason
+Checkpoint crossing: when applicable
 Cause: why this unit exists; what spec implication forces it
 Effect: observable/system state after completion
 Current evidence: repo paths, research sources, rules, ADRs, or discovery proving current state
