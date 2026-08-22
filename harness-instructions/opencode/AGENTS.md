@@ -416,7 +416,7 @@ When `Plan warranted: yes`, the operative implementation plan is the approved ar
 
 Exceptions: purely analytical or advisory tasks where there is nothing to run or show. For authored document artifacts, the completed artifact is the evidence; a formatting or lint check is neither required nor evidence that the content is right.
 
-When `Implementation review warranted: yes`, verification evidence is necessary but not sufficient. Unit verification remains mandatory before progression, and required review must accept the exact state before crossing its recorded checkpoint or final acceptance. Units may proceed within the same checkpoint only when the approved plan states that progression is safe and the unit's required verification passes. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present review-warranted work as accepted until `implementation-review-workflow` has produced an accepting verdict, unless the user explicitly authorizes proceeding with the named acceptance risk.
+When `Implementation review warranted: yes`, verification evidence is necessary but not sufficient. Required review must accept the exact state before crossing its recorded checkpoint or final acceptance. When `Plan warranted: yes`, unit progression follows the approved plan and its verification conditions; otherwise review the declared logical deliverable at the recorded cadence. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present review-warranted work as accepted until `implementation-review-workflow` has produced an accepting verdict, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
 </done_means_proven>
 
@@ -575,7 +575,7 @@ Answer directly when the task is primarily:
 Delegate when a specialist agent is needed for:
 
 - current or external research
-- implementation execution with an approved engineering spec, approved implementation plan, and assigned plan unit
+- implementation execution when `Delegation warranted: yes` and the applicable implementation gates are satisfied; require an approved spec or plan only when its independent warrant is `yes`
 - independent implementation review through `implementation-review-workflow`
 - multi-step external-system work where a specialist agent will produce materially better grounded results
 
