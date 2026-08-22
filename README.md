@@ -70,7 +70,7 @@ This repository currently has no public tracked `docs/` tree. Local ignored `doc
 
 Current skill groups include:
 
-- Orchestration and workflow: `coding-project-orchestrator`, `project-rules`, `project-continuity`, and `implementation-review-workflow`.
+- Orchestration and workflow: `coding-project-orchestrator`, `project-rules`, `project-continuity`, `continuation-prompt`, and `implementation-review-workflow`.
 - Product and engineering artifacts: `create-project-prd`, `create-spec-readiness-map`, `create-engineering-spec`, `create-implementation-plan`, `create-project-adr`, `create-implementation-pattern`, `create-documentation`, `create-readme`, `create-skills`, and `visual-artifact`.
 - Design, diagnosis, and quality: `structured-problem-resolution`, `codebase-search`, `architecture-design`, `api-design`, `database-design`, `queue-and-cache-design`, `testing-strategy`, and `error-handling-design`.
 - Engineering mechanics and team memory: `python-engineering`, `typescript-engineering`, and `hindsight-memory`.
@@ -143,7 +143,7 @@ Copy assets selectively into the locations your target harness or project alread
 4. Keep project-specific rules in the target project unless the rule is broadly reusable.
 5. Validate behavior with pressure scenarios before trusting a new or changed skill.
 
-Skill deployment by copy uses the selected `skills/<name>/` directory only; do not copy `evals/skills/<name>/` into installed skill locations. In this setup, shared agent skills are copied to `~/.agents/skills/`, Claude Code skills are copied to `~/.claude/skills/`, and Codex-native skills may be copied to `~/.codex/skills/` when the Codex surface should load them directly. Do not rely on symlinked Claude skills unless you have verified that Claude Code loads them in the target environment.
+Skill deployment by copy uses the selected `skills/<name>/` directory only; do not copy `evals/skills/<name>/` into installed skill locations. In this setup, shared agent skills, including repository-owned skills used by Codex, are copied to `~/.agents/skills/`, while Claude Code skills are also copied to `~/.claude/skills/`. Keep `~/.codex/skills/` for Codex-managed `.system` skills; do not deploy repository-owned skills there. Do not rely on symlinked Claude skills unless you have verified that Claude Code loads them in the target environment.
 
 Evaluation may use evaluator assets under `evals/skills/<name>/`, but runtime targets receive only the task prompt and permitted runtime skill context; they do not receive or read evaluator scenarios, criteria, or reports.
 
