@@ -4,7 +4,7 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers consequence-calibrated coding orchestration, project continuity, independently warranted PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, Python and TypeScript engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
+This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers consequence-calibrated coding orchestration, project continuity, independently warranted PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, bounded author-side hygiene, caller-first interface analysis, reusable verification-harness design, historical-rationale evidence discipline, Python and TypeScript engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
 
 Skills can be installed directly from this repository with the public `skills` CLI (see [Install Skills With The Skills CLI](#install-skills-with-the-skills-cli)). Agents and harness instructions are copied manually into the harness locations that should use them; this repository ships no installer, exporter, or validator of its own.
 
@@ -20,6 +20,8 @@ The repository focuses on reusable behavior that can be reviewed, adapted, and i
 - **Portable first**: core assets should avoid harness-specific assumptions unless the file is explicitly a harness adapter.
 - **Consequence-calibrated assurance**: Direct, Standard, and High Assurance lanes scale safeguards to reversibility, blast radius, data, permissions, external effects, public contracts, and uncertainty.
 - **Independent workflow warrants**: diagnosis, specifications, plans, delegation, review, re-review, and final gates run only when each resolves a named uncertainty or acceptance gap.
+- **Improvement before proliferation**: adapt useful mechanisms into the existing owner when they fit; create a new skill only when repeated evidence shows that current composition cannot own the behavior coherently.
+- **Bounded proof, complete outcomes**: satisfy the full accepted goal while using the cheapest decisive evidence and stopping checks, agents, and review cycles when they can no longer change the result.
 - **Explicit boundaries**: PRDs, engineering specs, implementation plans, architecture design, ADRs, coding, and review are different jobs.
 - **No hidden attribution**: generated-by footers, assistant signatures, promotional badges, and AI co-author trailers do not belong in project artifacts.
 - **Reviewable changes**: commits and pull requests should be scoped, understandable, reversible, and backed by evidence.
@@ -37,6 +39,18 @@ The coding workflow separates consequence classification from process selection.
 Specifications preserve durable behavior and contracts when needed. Plans preserve real sequencing, dependency, shared-state, rollout, rollback, or multi-executor decisions. Neither is required merely because code changes, multiple files are involved, or implementation is delegated.
 
 When Standard work warrants independent review, the normal cadence is one review after the complete deliverable. Review findings are returned and corrected as a batch. A further review requires an explicit trigger, a material acceptance-boundary change, uncertain proof, or a reviewer-stated need; mechanically decidable corrections may close through reviewer-authored contingent acceptance. Completed specs, plans, and reports remain valid historical artifacts even when later judged unnecessary and are not deleted without authority.
+
+## Integrated Engineering Practices
+
+Several practices are deliberately integrated into existing owners instead of exposed as standalone skills:
+
+- The Claude, Codex, OpenCode, and Oh My Pi coder adapters run one bounded final-delta hygiene pass before diagnostics and verification. The pass removes agent-introduced residue without turning cleanup into an independent review loop or widening scope into pre-existing code.
+- `structured-problem-resolution` identifies the one or two facts that carry a correction's safety when such facts exist, then uses the lowest decisive proof level: current source, bounded bad-case unreachability, execution at the nearest real seam, or live reproduction only when lower levels cannot settle the question.
+- `architecture-design` uses disposable caller-first usage sketches to expose placeholders, sequencing burden, invalid combinations, mechanism leakage, and error-handling cost before an interface is accepted. Repeated same-shape caller friction can reopen the design; one subjective awkward call cannot.
+- `testing-strategy` owns the portable lifecycle for reusable project verification harnesses: feature mapping, Launch, Doctor, Drive, Evidence, Cleanup, maintenance, and retirement. Exact commands, selectors, credentials, fixtures, and mutation mechanics remain project-local.
+- `codebase-search` classifies historical-rationale findings as direct evidence, inference, hypothesis, contradiction, null source, or gap while keeping current live source authoritative for current behavior.
+
+These changes use frozen, bounded RED/GREEN pressure cases: first reproduce a specific behavioral gap, make one focused owner correction, rerun the unchanged case, and stop when the acceptance criteria pass. The evaluation contract reserves enough cost to finish and verify the accepted work; it does not justify shortcutting the goal, spawning agents by habit, or repeating broad tests and reviews after the relevant question is settled.
 
 ## Repository Layout
 
@@ -174,6 +188,7 @@ OMP discovers direct `.md` files in those directories; nested folders are not pa
 
 This project draws inspiration from the following public work:
 
+- [cursor/plugins](https://github.com/cursor/plugins), including PStack, `poteto-mode`, and related first- and third-party plugin examples, for mechanisms around author-side hygiene, bounded proof, caller-first design, reusable verification, and historical-evidence discipline. These sources were analyzed as design input; justified mechanisms were adapted to existing owners rather than importing plugins or skills wholesale.
 - [mattpocock/skills](https://github.com/mattpocock/skills), for focused, behavior-oriented skill examples.
 - [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin), for planning, review, and structured execution workflows.
 - [github/awesome-copilot](https://github.com/github/awesome-copilot), for a broad catalog of Copilot instructions, agents, prompts, and skill examples.
