@@ -671,11 +671,24 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <rules>
 <rule>Do not quantify an edit batch by number of files or lines changed.</rule>
 <rule>Define edit batches by logical implementation units from the execution intake.</rule>
-<rule>After completing a logical implementation unit, run diagnostics and repository-wide checks needed to catch regressions.</rule>
+<rule>After completing a logical implementation unit, run the final-delta hygiene contract once before diagnostics or verification.</rule>
+<rule>After final-delta hygiene completes, run diagnostics and repository-wide checks needed to catch regressions.</rule>
 <rule>Do not limit sanity checking to only the file you just edited.</rule>
 <rule>Use repository-wide checks to discover regressions introduced by the change.</rule>
 </rules>
 </logical_implementation_unit_contract>
+
+<final_delta_hygiene_contract>
+<purpose>Remove accidental residue introduced by the completed implementation unit before verification without turning cleanup into broader refactoring or independent review.</purpose>
+<rules>
+<rule>Inspect the final delta and directly affected code exactly once for agent-introduced duplication, debug residue, stale scaffolding, needless indirection, unjustified defensive branches, repository-style conflicts, low-information comments, and accidental scope.</rule>
+<rule>Change only hygiene defects introduced by the assigned unit. Revert accidental unrelated edits; do not clean up pre-existing code or expand the accepted target boundary.</rule>
+<rule>Preserve required validation, safety guards, compatibility behavior, rationale comments, and repository conventions unless current evidence and the governing implementation contract authorize changing them.</rule>
+<rule>If the inspection exposes a functional defect, return to normal problem resolution and affected verification. A material functional correction reopens the implementation unit and receives one hygiene pass when that unit is complete.</rule>
+<rule>Do not spawn a reviewer, repeat the pass for stylistic preference, or start a review/fix loop. Independent review remains controlled only by the recorded review warrant.</rule>
+</rules>
+<completion>The final delta contains no known agent-introduced hygiene defect, preserves required behavior and safeguards, and is ready for the already required diagnostics and verification.</completion>
+</final_delta_hygiene_contract>
 
 <problem_resolution_mode>
 <trigger>Anything fails or looks suspicious.</trigger>

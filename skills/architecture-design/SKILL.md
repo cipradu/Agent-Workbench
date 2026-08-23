@@ -80,9 +80,11 @@ For each proposed module or boundary, state:
 - what complexity is hidden behind the interface;
 - where the seam sits and what can vary across it.
 
+Before accepting a new or changed interface, write the smallest usage sketch for each materially different caller role. Use the sketches to test the call shape, required context, invalid combinations, sequencing, and error handling before committing to the contract. These are disposable design probes, not implementation units or final syntax.
+
 Apply the deep-module checks in [Interface Depth And Seams](references/interface-depth-and-seams.md).
 
-Completion criterion: the interface hides more complexity than it adds and can be tested through its public contract.
+Completion criterion: representative caller sketches expose no unjustified placeholder, mechanism detail, duplicated choreography, or caller knowledge; the interface hides more complexity than it adds and can be tested through its public contract.
 
 Failure output: `Rejected: proposed interface is shallow or leaky: <specific reason>.`
 

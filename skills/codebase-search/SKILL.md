@@ -205,6 +205,23 @@ Use these proof labels:
 
 Completion criterion: every candidate used in the answer is confirmed in its current owning source, every selected coverage-row evidence class has a recorded state, and every proposed claim has the strongest proof label supported by that evidence.
 
+### Historical-Rationale Classification
+
+Apply this classification only when the question asks why a design or behavior exists, what the original intent was, or what historical rationale supports it. Classify every material historical finding without merging distinct evidence states:
+
+| Label | Meaning |
+| --- | --- |
+| `direct evidence` | an accessible source explicitly states the fact or rationale |
+| `inference` | accessible sources logically support the conclusion, but no source states it directly |
+| `hypothesis` | a plausible explanation that still requires evidence |
+| `contradiction` | relevant sources materially disagree or an older artifact conflicts with the current state |
+| `null source` | a named, bounded, permitted lookup returned no result; record its search scope |
+| `gap` | a material source is unavailable, unauthorized, unsearched, or missing |
+
+Current live source controls claims about current behavior, and current governing requirements control their stated policy boundary. Historical artifacts may explain the current state but do not override current authority. Preserve contradictions instead of silently choosing a convenient history. A commit subject or change description is direct evidence of what that source says, but any unstated rationale behind it remains an inference or hypothesis at the level the available evidence supports.
+
+Stop when the named historical question and permitted source boundary have been exhausted. Record null sources and gaps with the claims they block; do not expand into an all-source search merely because the full rationale is unavailable.
+
 ### 4. Close the Search
 
 Run a closure round after all current candidates have final dispositions:
@@ -228,6 +245,7 @@ For a literal lookup, return the answer and source location. For every other sea
 - candidate dispositions;
 - sources read;
 - verified findings with proof labels;
+- for historical-rationale questions only, findings classified as direct evidence, inference, hypothesis, contradiction, null source, or gap;
 - exclusions and unresolved items with the claims they block.
 
 When another workflow consumes the result, provide this evidence packet before that workflow uses the findings.

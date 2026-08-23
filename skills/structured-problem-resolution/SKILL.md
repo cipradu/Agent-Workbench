@@ -218,6 +218,7 @@ The compact packet records:
 - `Current evidence`: exact current sources and provenance;
 - `Reference selection`: selected operational references and trigger basis, or `none applicable`;
 - `Impact`: concrete regression and interaction risk of the proposed correction;
+- `Safety claims`: when acceptance depends on one or two load-bearing facts, record each fact, the bad case that would invalidate it, the bounded evidence scope, and the lowest proof level that can decide it; otherwise record `none`;
 - `Direct verification`: the original symptom plus affected checks and any justified interaction or aggregate gates;
 - `Residual state`: unverified evidence, skipped broad checks and their consequence, or `none`.
 
@@ -481,6 +482,18 @@ When the changed code sits on a boundary, explicitly check the interaction chain
 
 For feedback that asks to "simplify", "clean up", "make it proper", or remove apparent duplication, prove behavior equivalence before editing: same outputs, errors, side effects, timing/order where relevant, validation, security checks, data-loss prevention, accessibility behavior, and observability. Fewer lines alone is not an improvement.
 
+### Load-Bearing Safety Claims
+
+When the proposed correction is safe only if one or two facts are true, name those facts before completing the impact gate. A load-bearing safety claim is a premise that would change whether the correction is acceptable; it is separate from the ordinary requirement to prove that the correction fixes the original symptom.
+
+For each claim, record:
+
+- the claim and the concrete bad case that would invalidate it;
+- the affected boundary and, for absence or unreachability, the searched scope and exclusions;
+- the strongest current evidence and the lowest proof level that can settle the remaining question.
+
+Do not manufacture claims for every fix or turn the blast radius into a claim inventory. Use `none` when direct behavior verification and the recorded impact analysis are sufficient. If a correction depends on an unresolved claim, the impact gate is incomplete until the record names the next proof needed.
+
 **State the impact analysis explicitly.** Say: "This fix changes X. It affects callers A, B, C. Caller A should be fine because [reason]. Caller B might need adjustment because [reason]. No existing tests should break because [reason]." Making this reasoning visible lets the user catch things you missed.
 
 ### YAGNI Checks
@@ -515,6 +528,15 @@ Prevention can mean boundary validation, invariant checks, stronger test seams, 
 ### Verification
 
 Select verification from the original symptom, changed and affected surfaces, interaction risk, and applicable repository gates. File count and habit do not determine depth.
+
+For each load-bearing safety claim recorded during impact analysis, stop at the lowest level that can decide it:
+
+1. exact current source for a positive definition, contract, or wiring fact;
+2. bounded bad-case unreachability, with the searched scope and exclusions recorded;
+3. execution at the closest real seam when source cannot decide runtime selection, dispatch, state, or side effects;
+4. live real-consumer reproduction only when the lower levels leave a material question unresolved and the required authority exists.
+
+Every escalation must name the unresolved question left by the lower level. Do not climb the ladder by habit, repeat a decided claim at a higher level, or use source evidence as runtime proof. This claim ladder complements the original-symptom and regression checks below; it does not replace them.
 
 **Immediate checks, in order:**
 
@@ -779,6 +801,7 @@ Proposed fix: [what you plan to change]
     - Regression risk: [low/medium/high — with specific reasoning, not just the word]
     - Edge cases: [what inputs or scenarios could break with this fix?]
     - Interaction-chain impact: [callbacks/middleware/events/jobs/persistence/external calls/retries/cleanup/alternate interfaces/shared test state]
+    - Load-bearing safety claims: [none / one or two claim → invalidating bad case → bounded evidence scope → lowest decisive proof level]
     - Simplification equivalence: [same behavior/side effects/order/safety checks, or not applicable]
     - Verdict: [safe to apply / needs adjustment / blocked on X]
 

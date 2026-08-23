@@ -1,6 +1,6 @@
 ---
 name: testing-strategy
-description: Use when designing, writing, reviewing, or planning software tests, test coverage, regression tests, characterization tests, integration/contract/E2E tests, mocks, fixtures, flaky-test fixes, or verification evidence.
+description: Use when designing, writing, reviewing, or planning software tests, test coverage, regression tests, characterization tests, integration/contract/E2E tests, mocks, fixtures, flaky-test fixes, verification evidence, or reusable project verification harnesses.
 ---
 
 # Testing Strategy
@@ -18,6 +18,7 @@ Use this skill when:
 - Diagnosing or preventing flaky, order-dependent, timing-dependent, environment-dependent, or overly slow tests.
 - Reviewing implementation-plan test scenarios, test expectations, or verification evidence for sufficiency.
 - Defining verification evidence for an implementation plan, reviewer packet, PR description, release check, or completion claim.
+- Creating, maintaining, repairing, or auditing a reusable project verification harness for a CLI, UI, API, device, service, agent, or other real surface.
 
 ## Do Not Use
 
@@ -48,6 +49,10 @@ Coverage, mocks, snapshots, green commands, and screenshots are useful only when
 ## Operating Process
 
 Run these steps in order. Load only the references needed for the current branch.
+
+### Conditional Reusable-Harness Branch
+
+When the request creates, maintains, repairs, or audits a reusable project verification harness, select and read [Verification Harness Lifecycle](references/verification-harness-lifecycle.md) before designing that lifecycle. Apply the testing target, posture, seam, risk, and evidence process below; use the reference for feature coverage, lifecycle states, failure classification, maintenance, and retirement. Keep exact project commands, selectors, drivers, credentials, fixtures, and mutation mechanics in project-local adapters or references.
 
 ### 1. Establish The Testing Target
 

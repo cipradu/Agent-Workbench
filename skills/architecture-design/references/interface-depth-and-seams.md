@@ -38,7 +38,21 @@ Minimum interface notes:
 - ordering, idempotency, and concurrency expectations;
 - configuration or environmental assumptions callers must know;
 - performance expectations that shape correct use;
-- examples of valid and invalid caller usage.
+- small usage sketches for the materially different caller roles.
+
+### Caller-First Usage Sketch
+
+Sketch the call from the caller's side before accepting the interface. Use one sketch per materially different caller role, or one when only one role exists. Show only the semantic inputs available to that caller, the call, and the success, absence, or error result the caller must handle.
+
+Use the sketches to detect:
+
+- placeholder values or optional parameters needed only because another caller has them;
+- storage, provider, transport, framework, timeout, retry, or configuration details the owner should hide;
+- setup or call-order choreography repeated across callers;
+- raw result or error shapes that force callers to reconstruct the same policy;
+- valid states the interface cannot express and invalid combinations it permits.
+
+Change the proposed contract when a sketch exposes unjustified caller burden. Stop once the materially different caller roles can use one semantic contract without invented placeholders or duplicated choreography. Do not turn the sketches into file structure, implementation sequencing, production code, or a universal ceremony for work that does not design an interface.
 
 ## Seam Discipline
 
