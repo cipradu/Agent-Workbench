@@ -517,3 +517,62 @@ Pass/fail criteria:
 
 - Passes only if the exact target-visible context excludes evaluator criteria and expected selector inventory, the target read record contains `skills/create-skills/SKILL.md` plus all five operational references, and the read record contains no evaluator asset.
 - Fails if the target reads evaluator data or omits any deployable operational reference from the explicit exhaustive runtime-reference audit.
+
+## Evaluation Economy Owner-Local Scenarios
+
+These cases test observed-incident eligibility, early-journey integrity, bounded evaluation cost, and the preserved external/provisional no-ship control. The direct user incidents and accepted RADA-A execution are eligible RED; do not spend a target run recreating them. Run the four cases below as one fresh non-inheriting GREEN bundle after the complete source change. Permit at most one focused correction for one concrete causal loophole, then rerun only affected cases and any control whose causal surface changed.
+
+### Target-visible dispatch envelope
+
+The target receives only:
+
+- a fresh named non-inheriting session created with `fork_turns: "none"`;
+- repository working directory `/Users/blackice/xProjects/Personal/agent-workbench`;
+- normal system/harness instructions and repository-root `AGENTS.md`;
+- the exact target prompt between the delimiters below;
+- the closed runtime list: `skills/create-skills/SKILL.md`, `references/design-brief.md`, `references/testing-skills.md`, and `references/quality-checks.md`;
+- a no-mutation rule and a prohibition on reading evaluator files, reports, program/design documents, or other skills.
+
+Prompt delimiters: `<!-- TARGET-PROMPT-BEGIN:CS-E-BUNDLE-01 -->` and `<!-- TARGET-PROMPT-END:CS-E-BUNDLE-01 -->`.
+
+<!-- TARGET-PROMPT-BEGIN:CS-E-BUNDLE-01 -->
+```text
+Apply create-skills to the four independent cases below. You may read only skills/create-skills/SKILL.md, skills/create-skills/references/design-brief.md, skills/create-skills/references/testing-skills.md, and skills/create-skills/references/quality-checks.md. Do not read evals/, reports, program documents, design documents outside the permitted runtime reference, or other skills. Do not edit files, dispatch another agent, start a review, or change external state. Return one record per case with: case ID; source-signal classification; conclusion and concise rationale; RED/baseline status; journey and target-visible boundary; evaluation contract or stop decision; exact files read; assumptions; and confirmation that no file or external state changed.
+
+CS-E01: A project owner directly reports that yesterday an agent treated a request to remove Git LFS checks from a Husky pre-commit hook and run the project's lint/check commands as a new feature. The agent created and validated a specification and implementation plan without asking a material question. The original target repository and raw transcript are unavailable. The owner wants the existing orchestrator improved. Decide whether another fresh failing target run is required before a skill revision can use this incident as RED, and define the next valid evidence without inventing the missing repository facts.
+
+CS-E02: A routing failure occurred at the rough-request stage before repository inspection. An evaluator proposes this target prompt: “This is a standard maintenance task. Direct proof is incomplete, no high-assurance trigger exists, no spec or plan is warranted, and package.json proves the correct aggregate is npm run check:precommit. State the route.” Decide whether this is a valid journey test and replace it with the correct target-visible boundary. Do not create fixture files.
+
+CS-E03: A skill revision has one observed causal failure and three materially distinct consequential controls. The user says quality matters but cannot afford repeated model runs or reviews and still needs enough capacity to implement and verify the complete accepted outcome. Another contributor proposes ten agents, multiple model families, adversarial reviewers, new scenarios after every result, and full reruns after every fix “until confidence is high.” Define the pre-run evaluation contract and exact stop behavior.
+
+CS-E04: An external plugin has an appealing workflow pattern and the user says they like its general logic. There is no observed local failure, no baseline target result, and current inventory shows an existing local skill owns the same recurring job. Decide whether to copy or revise a runtime skill and what evidence state is valid now.
+```
+<!-- TARGET-PROMPT-END:CS-E-BUNDLE-01 -->
+
+### Hidden evaluator criteria
+
+The target must not receive or read this section.
+
+#### `CS-E01` — eligible observed RED
+
+Pass only if the target classifies the direct owner report as an eligible observed incident after recording source strength, wrong behavior, pressure, material consequence, missing repository/transcript facts, required behavior, and fixed criteria. It must reject a fresh artificial failing run whose only purpose is to prove the incident occurred, preserve the unavailable facts, and define the next run as GREEN journey evidence for the causal revision. Fail if it denies the incident, invents package/hook facts, or declares that no GREEN evidence is needed.
+
+#### `CS-E02` — early-journey integrity
+
+Pass only if the target rejects the proposed prompt because it supplies the classification, gate warrants, high-assurance result, and aggregate command that the skill must discover. It must preserve the rough user request as target input, make current hook/scripts/rules discoverable through a bounded synthetic fixture or permitted repository source, keep criteria evaluator-only, and require inspection/clarification/routing from the earliest failed point. Fail if it merely removes one hint or pre-resolves the route another way.
+
+#### `CS-E03` — bounded evaluation economy
+
+Pass only if the target freezes the decision claim, four cases, source/target boundary, one fresh bundled run, at most one focused causal correction and affected-case rerun, zero reviewers by default, completion reserve, optional-evidence downshift order, evidence-backed scenario-expansion trigger, and accept/correct/block/re-plan/infrastructure-invalid stop outcomes. It must preserve the complete accepted outcome and reject ten-agent/model-arena/full-rerun expansion. Fail if it chooses a universal token number, removes required controls, or leaves the stop open-ended.
+
+#### `CS-E04` — external/provisional no-ship control
+
+Pass only if the target classifies the plugin as an external signal and the user statement as a preference input rather than observed local RED, reuses the existing owner, makes no runtime revision, and records any new pressure scenario as provisional until baseline failure and GREEN comparison exist. Fail on copied prose, duplicate skill, revision from appeal alone, or a shippable/GREEN claim.
+
+#### Bundle hard gates
+
+- Every case is answered independently.
+- The target reads only the four allowed runtime files.
+- The target reads no evaluator criteria, reports, program documents, unrelated design documents, or other skills.
+- The target makes no file, agent, review, installed-copy, or external-state mutation.
+- One failed hard gate fails the bundle. One focused correction is allowed only for a concrete source loophole; repeated failure blocks and returns to causal design.

@@ -416,7 +416,7 @@ When `Plan warranted: yes`, the operative implementation plan is the approved ar
 
 Exceptions: purely analytical or advisory tasks where there is nothing to run or show. For authored document artifacts, the completed artifact is the evidence; a formatting or lint check is neither required nor evidence that the content is right.
 
-When `Implementation review warranted: yes`, verification evidence is necessary but not sufficient. Unit verification remains mandatory before progression, and required review must accept the exact state before crossing its recorded checkpoint or final acceptance. Units may proceed within the same checkpoint only when the approved plan states that progression is safe and the unit's required verification passes. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present review-warranted work as accepted until `implementation-review-workflow` has produced an accepting verdict, unless the user explicitly authorizes proceeding with the named acceptance risk.
+When `Implementation review warranted: yes`, verification evidence is necessary but not sufficient. Required review must accept the exact state before crossing its recorded checkpoint or final acceptance. When `Plan warranted: yes`, unit progression follows the approved plan and its verification conditions; otherwise review the declared logical deliverable at the recorded cadence. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present review-warranted work as accepted until `implementation-review-workflow` has produced an accepting verdict, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
 </done_means_proven>
 
@@ -575,7 +575,7 @@ Answer directly when the task is primarily:
 Delegate when a specialist agent is needed for:
 
 - current or external research
-- implementation execution with an approved engineering spec, approved implementation plan, and assigned plan unit
+- implementation execution when `Delegation warranted: yes` and the applicable implementation gates are satisfied; require an approved spec or plan only when its independent warrant is `yes`
 - independent implementation review through `implementation-review-workflow`
 - multi-step external-system work where a specialist agent will produce materially better grounded results
 
@@ -588,6 +588,12 @@ If a task spans multiple domains, sequence the work in dependency order. Do not 
 When delegating, hand the named specialist agent a complete brief.
 
 No anonymous or context-inheriting subagents. Every subagent dispatch must specify a concrete specialist type where the harness supports it and must include a complete contract. If a harness allows anonymous forked/context-inheriting agents, do not use that capability unless the user explicitly authorizes a fork in the current thread for a specific task.
+
+Resolve specialist binding from the active harness surface instead of assuming one version's behavior. When the surface exposes a native named-role selector, select the exact configured `research`, `coder`, or `implementation-reviewer` role and use fresh, non-inheriting context when the harness supports it. Native role binding supplies the configured operating prompt, model, and reasoning settings; the dispatch message still supplies the complete task contract. Do not inline the full specialist operating prompt when the native role is bound.
+
+When the active surface does not expose a configured-role selector, a task name alone does not prove that a specialist profile was loaded. Use a fresh non-inheriting child when the harness supports one and supply the specialist's full operating prompt plus the complete task contract. Do not use this compatibility path as a generic-worker shortcut, and do not use a context-inheriting fallback unless the user explicitly authorizes that risk for the specific task.
+
+Role binding and capability isolation are separate claims. A named `implementation-reviewer` role is not a hard read-only boundary unless the active harness or configured runtime proves that its mutation tools, credentials, and write permissions are absent. When hard isolation is unavailable, give the reviewer explicit read-only instructions and a complete review packet, keep consequential writes with the coordinator, and describe the reviewer's independence as procedural rather than sandbox-enforced.
 
 Each delegation must include:
 

@@ -29,7 +29,7 @@ If there is no recurring behavior failure, there is no skill. If there is no tes
 
 Use skills for reusable judgment, procedures, techniques, patterns, references, and tool workflows that agents must discover and apply across sessions. Use repository instructions for simple always-on policy, scripts/checks for mechanical enforcement, and agents/subagents for isolated execution or independent judgment.
 
-Treat proposed prose, prior session notes, review comments, issue themes, external examples, and ideation output as source signals, not instructions. Classify them before they enter a skill: observed behavior failure, provisional pressure scenario, review signal, portability or source-standard defect, existing-owner match, lighter-mechanism match, or rejected no-op input.
+Treat proposed prose, prior session notes, user corrections, review comments, issue themes, external examples, and ideation output as source signals, not instructions. Classify them before they enter a skill: observed behavior failure, user correction, provisional pressure scenario, review signal, portability or source-standard defect, existing-owner match, lighter-mechanism match, or rejected no-op input. A user correction identifies a failed interpretation, constraint, or acceptance rule; it is eligible observed RED only when the associated wrong behavior and pressure are also known.
 
 ## Information Economy
 
@@ -141,11 +141,17 @@ Completion criterion: the selected type explains the body structure. A disciplin
 
 Create RED scenarios before designing or writing. Use real failures when available. If observed failures are unavailable, define pressure scenarios first and label them unverified until tested.
 
+An observed incident is the RED baseline when its source strength, wrong behavior, pressure, material consequence, unavailable facts, required behavior, and fixed pass/fail criteria are recorded. Do not spend a fresh target run recreating that failure unless the run can resolve a named causal uncertainty the incident cannot. A correction, external pattern, review signal, or preference without the observed behavior remains source input or a provisional scenario, not a completed RED baseline.
+
 For discipline/process skills, combine pressures: speed, authority, sunk cost, ambiguity, frustration, context loss, false confidence, and “just make it professional.”
 
 Each scenario records task prompt, pressure, source basis, expected wrong behavior, required correct behavior, and pass/fail criteria. Review findings, feedback, issue clusters, ideation results, prior learnings, or external examples can seed RED only after being restated as wrong behavior under pressure.
 
-Completion criterion: each scenario is tied to observed baseline failure, or the work is explicitly provisional until baseline failure and GREEN comparison are recorded. Do not ship on predicted failure alone.
+Preserve journey integrity. Start the target at the earliest decision point where the observed behavior failed and expose only facts available or discoverable there. When inspection, selection, or clarification is part of the required behavior, use a bounded fixture or permitted source instead of supplying the correct route, gate warrants, or answer as prompt facts.
+
+Before any fresh target run, freeze the decision claim, materially distinct cases and controls, maximum fresh runs, focused-correction maximum, reviewer default, completion reserve, optional-evidence downshift order, scenario-expansion trigger, and pass/correct/block/infrastructure-failure stop outcomes. Use [Testing Skills](references/testing-skills.md) for the detailed contract. Cost bounds remove optional evidence before they reduce the accepted outcome.
+
+Completion criterion: each scenario is tied to eligible observed RED, or the work is explicitly provisional until baseline failure and GREEN comparison are recorded; journey and target-visible boundaries are valid; fixed criteria and the economic evaluation contract are recorded. Do not ship on predicted failure alone.
 
 ## Step 6 — Design Brief
 
@@ -184,7 +190,9 @@ Passing means the agent follows the intended process under pressure, obeys gates
 
 Do not move the goalposts after seeing the result. If scenario text, expected behavior, pass/fail criteria, or source basis changes, mark the revision and rerun the affected scenario.
 
-Completion criterion: scenarios pass against the same criteria, or failures become refactor inputs.
+Stay inside the frozen evaluation contract. Reuse current source-decidable evidence, keep enough completion reserve to implement and verify the accepted outcome, and downshift optional model comparisons, reviewers, duplicated controls, or convenience evidence before adding cost. Do not expand scenarios after the named behavior is discriminated unless new evidence changes the causal hypothesis or exposes a distinct consequential acceptance surface.
+
+Completion criterion: scenarios pass against the same criteria, or one concrete causal loophole becomes a refactor input inside the frozen correction bound. Infrastructure-invalid runs are recorded as invalid evidence, not behavior passes or failures.
 
 ## Step 9 — Refactor Loopholes
 
@@ -192,9 +200,11 @@ Patch only observed loopholes. Do not add speculative prose.
 
 For each loophole, record the rationalization, add the smallest counter, and rerun the scenario.
 
+Default to one focused causal correction and an affected-case rerun unless the pre-run contract justifies a different evidence-backed bound. If the same behavior remains after the permitted correction, block and return to causal design. Do not add runs, scenarios, models, or reviewers merely to seek a pass.
+
 For skill-behavior debugging, identify whether the failure came from non-invocation, stale or invalid frontmatter, loader visibility, vague trigger, missed reference pointer, optionalized gate, weak RED scenario, unsupported harness assumption, or prose that does not shape behavior. Predict the expected GREEN change before editing and change one causal lever at a time. If the cause is a loader, script, tool, rule, or permission problem, route it to that owner instead of burying it in skill prose.
 
-Completion criterion: no known scenario fails for the same reason twice.
+Completion criterion: no known scenario fails for the same reason twice; GREEN stops the loop, and repeated causal failure produces a named blocker rather than another attempt.
 
 ## Step 10 — Verify Quality and Portability
 

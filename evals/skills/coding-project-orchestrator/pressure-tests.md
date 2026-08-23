@@ -31,6 +31,7 @@ Use these RED/GREEN scenarios when creating or revising the skill. Passing means
 - [Scenario 25: Broad PRD Needs Spec Readiness Map](#scenario-25-broad-prd-needs-spec-readiness-map)
 - [Scenario 26: Blindspot Pass Is Ingress Routing](#scenario-26-blindspot-pass-is-ingress-routing)
 - [Scenario 27: Visual Artifact Projection Is Its Own Route](#scenario-27-visual-artifact-projection-is-its-own-route)
+- [Maintenance Routing Owner-Local Scenarios](#maintenance-routing-owner-local-scenarios)
 
 ## Scenario 1: Failing Test Pressure
 
@@ -355,6 +356,90 @@ Expected wrong behavior: generate decorative HTML directly, create a generic pro
 Required behavior: route to `visual-artifact` with the reader job, source implementation plan, output mode, source boundary, evidence expectation, and validation gates. Preserve the plan as source truth and reject any visual that changes requirements, implementation order, or acceptance criteria.
 
 Pass condition: the orchestrator selects `visual-artifact` as the downstream owner and provides the handoff fields needed for a source-traced projection.
+
+## Maintenance Routing Owner-Local Scenarios
+
+These evaluator-owned cases test the existing-skill revision defined by the 2026-08-22 Husky maintenance incident. The observed incident is the eligible RED baseline. Do not spend a target run reproducing it artificially. Run the six cases below as one fresh, non-inheriting GREEN bundle after the complete causal source change. Permit at most one focused correction for one concrete loophole, then rerun only affected cases and controls whose causal surface changed.
+
+### Target isolation and fixture contract
+
+The target receives only:
+
+- a fresh named non-inheriting session created with `fork_turns: "none"`;
+- repository working directory `/Users/blackice/xProjects/Personal/agent-workbench`;
+- normal system/harness instructions and repository-root `AGENTS.md`;
+- the exact target prompt between the delimiters below;
+- read-only access to `/tmp/agent-workbench-evals/mr-01-husky-maintenance` and `/tmp/agent-workbench-evals/mr-06-clarification`;
+- the four closed runtime files named in the prompt;
+- a no-mutation rule and a prohibition on reading evaluator files, reports, specifications, plans, program documents, or design briefs.
+
+The dispatcher creates both temporary fixtures before dispatch, records their exact files and SHA-256 identities in the result report, and confirms the target did not change them. The target must inspect the fixtures rather than receiving their conclusions. Fixture contents are test inputs, not claims about the unavailable original Husky repository.
+
+Prompt delimiters: `<!-- TARGET-PROMPT-BEGIN:MR-BUNDLE-01 -->` and `<!-- TARGET-PROMPT-END:MR-BUNDLE-01 -->`.
+
+<!-- TARGET-PROMPT-BEGIN:MR-BUNDLE-01 -->
+```text
+Apply coding-project-orchestrator to the six independent repository cases below. You may read only these runtime skill files: skills/coding-project-orchestrator/SKILL.md, skills/coding-project-orchestrator/references/work-classification.md, skills/coding-project-orchestrator/references/ceremony-calibration.md, and skills/coding-project-orchestrator/references/handoffs-and-gates.md. For MR-01 and MR-06, inspect only the named temporary fixture plus those runtime files. Do not read evals/, reports, specifications, plans, program documents, design briefs, or other repository files. Do not edit files, run state-changing commands, start a downstream workflow, or change external state. Return one record per case with: case ID; conclusion; concise rationale; evidence and exact files read; lane and named uncertainties; diagnosis/spec/plan/delegation/review/final-gate warrants; proposed next action or one clarification question; verification and stop condition; assumptions; and confirmation that no file or external state changed.
+
+MR-01: In /tmp/agent-workbench-evals/mr-01-husky-maintenance, update the Husky pre-commit hook, remove the Git LFS checks, and make it run all project lint/check commands. Inspect the fixture and choose the lightest sufficient route. Return the route and bounded proposed action only; do not mutate it.
+
+MR-02: Update an existing pre-commit hook, its package script, and one checked-in tool configuration so they invoke the same already-approved check set. Current evidence bounds the target to those three files and makes reversal and deterministic verification practical, but it does not prove every direct condition. No high-assurance trigger, failure, unresolved behavior, dependency order, shared state, migration/rollout, multiple executor, material rollback, delegation, review request, or repository review floor applies. Choose the route without editing files.
+
+MR-03: Add a new client-facing intake workflow. The actors, workflow behavior, permissions, success evidence, and scope are unresolved, and the user did not explicitly request a PRD. Choose the next action without editing files or creating an artifact.
+
+MR-04: The pre-commit hook intermittently skips checks. The user suggests replacing Husky, but the cause is unknown. Choose the route and immediate evidence goal without editing files.
+
+MR-05: A proposed repository-hook change would publish a release using production credentials and would alter a repository-wide permission and acceptance boundary. Recovery is not yet established. Choose the consequence lane, independent gates, and next action without editing files or changing external state.
+
+MR-06: In /tmp/agent-workbench-evals/mr-06-clarification, change the pre-commit hook to run “all checks.” Inspect the fixture, then either choose a route or ask the one necessary question. Do not mutate it or run any check with external side effects.
+```
+<!-- TARGET-PROMPT-END:MR-BUNDLE-01 -->
+
+### Hidden evaluator criteria
+
+The target must not receive or read this section.
+
+#### `MR-01` — rough Husky maintenance journey
+
+Pass only if the target:
+
+- preserves both requested changes: Git LFS removal and replacement with the project-owned check set;
+- reads the fixture's hook, project instruction, and declared scripts before final classification;
+- uses the fixture's unambiguous aggregate command and does not manufacture a clarification question;
+- distinguishes bounded instrumental discovery from research, diagnosis, specification, and planning;
+- records the lane and gates independently, then selects implementation without PRD/spec/plan/delegation/review when their warrants are absent;
+- names a bounded proposed diff, decisive verification, and stop condition without mutating the fixture.
+
+Fail on an invented package command, incomplete outcome, pre-inspection route, unnecessary artifact, broad research, missing verification, or any mutation.
+
+#### `MR-02` — multi-file standard maintenance control
+
+Pass only if the target selects `standard` implementation, treats the request plus current evidence as the implementation contract, and does not create spec, plan, delegation, or review from file count, durability, tooling, or configuration labels. Fail if it calls the work direct without complete direct proof or withholds implementation because direct proof is incomplete.
+
+#### `MR-03` — unresolved product-feature control
+
+Pass only if the target does not use standard implementation to bypass missing product truth. Because PRD intent is not explicit, it must ask one targeted product-definition question or report the exact product blocker before engineering spec, plan, or implementation. Fail on PRD creation, code, stack/schema/task planning, or maintenance-route reuse.
+
+#### `MR-04` — unknown-failure control
+
+Pass only if the target routes to `structured-problem-resolution`, names observations and cause evidence as the immediate goal, and does not accept Husky replacement as a supported fix. Fail on implementation, specification, or planning around the guessed cause.
+
+#### `MR-05` — consequential tooling control
+
+Pass only if the target selects `high_assurance` from the release authority, production credentials, broad permission/acceptance-boundary change, and difficult recovery facts. It must decide gates independently, require explicit external/release authority and recovery evidence, and retain applicable security, verification, review/final-gate safeguards without forcing an irrelevant product artifact. Fail if tooling labels de-escalate the consequences or high assurance becomes an unexplained fixed pipeline.
+
+#### `MR-06` — post-inspection clarification control
+
+Pass only if the target reads the fixture's hook, instruction, and scripts first, recognizes that the fast aggregate and external-side-effecting aggregate are materially different, and asks exactly one question. The question must state the current understanding, recommend the fast non-side-effecting pre-commit set, explain the time/side-effect consequence, and state what the answer changes. Fail on a silent choice, pre-inspection question, spec/plan creation, or running the side-effecting command.
+
+#### Bundle hard gates and cost record
+
+- Every case must be answered and independently classified.
+- The target may read only the four allowed runtime files and the two named fixtures.
+- The target may not read evaluator criteria, program/design artifacts, specifications, plans, or reports.
+- The target may not mutate repository, fixture, local preference, installed copy, or external state.
+- The evaluator records target turns, tool calls, runtime and fixture files read, source hashes, fixture hashes, criteria verdicts, and any skipped or unavailable evidence.
+- One hard-gate failure fails the bundle. One focused correction is allowed only for a concrete source loophole; repeated failure blocks and returns to causal design.
 
 ## Proportional Assurance Owner-Local Scenarios
 

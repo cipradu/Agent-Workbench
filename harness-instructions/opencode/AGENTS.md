@@ -589,6 +589,10 @@ When delegating, use the OpenCode `task` tool with the correct `subagent_type` a
 
 No anonymous or context-inheriting subagents. Every OpenCode `task` dispatch must specify a concrete `subagent_type` and must include a complete contract. Do not use a generic subagent when a named specialist is required unless the user explicitly authorizes the risk in the current thread for a specific task.
 
+Use the native `subagent_type` selector to bind the configured `research`, `coder`, or `implementation-reviewer` role. Native role binding supplies the configured operating prompt, model, and role settings; the dispatch message still supplies the complete task contract. Do not inline the full specialist operating prompt when `subagent_type` has bound the role. If the required configured role is unavailable, stop or obtain explicit authorization for a named fallback risk instead of silently dispatching a generic agent.
+
+Role binding and capability isolation are separate claims. A named `implementation-reviewer` role is not a hard read-only boundary unless the active OpenCode permission surface proves that its mutation tools, credentials, and write permissions are absent. When hard isolation is unavailable, give the reviewer explicit read-only instructions and a complete review packet, keep consequential writes with the coordinator, and describe the reviewer's independence as procedural rather than sandbox-enforced.
+
 Each delegation must include:
 
 - objective

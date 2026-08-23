@@ -9,6 +9,7 @@ Use this reference to choose the lightest sufficient workflow. The goal is not m
 - [Source And Artifact Calibration](#source-and-artifact-calibration)
 - [Project-Adjacent Action Calibration](#project-adjacent-action-calibration)
 - [Direct Cleanup Calibration](#direct-cleanup-calibration)
+- [Instrumental Discovery And Standard Implementation Calibration](#instrumental-discovery-and-standard-implementation-calibration)
 - [PRD Calibration](#prd-calibration)
 - [Diagnosis Calibration](#diagnosis-calibration)
 - [Engineering Spec Calibration](#engineering-spec-calibration)
@@ -114,6 +115,21 @@ Direct cleanup requires:
 
 If every direct condition is not affirmatively proven, route standard unless a high trigger applies. Activate diagnosis, architecture, spec, plan, or review only when its independent warrant passes.
 
+## Instrumental Discovery And Standard Implementation Calibration
+
+Use bounded instrumental discovery when the user has named an implementation outcome but current repository facts are needed to classify or execute it. Read only the named target, relevant project rules, declared scripts or callers, and cheapest decisive verifier needed to resolve a specific routing uncertainty. Stop when another read cannot change lane, gate, scope, clarification, verification, or next action.
+
+After inspection, ask one targeted question only when two materially different complete outcomes remain. State the current understanding, recommended default, effect or cost of each material interpretation, and the exact decision. Ask before a specification, plan, or implementation; those artifacts cannot supply user-owned truth.
+
+Use standard implementation when:
+
+- direct proof remains incomplete and no concrete high-assurance trigger applies;
+- the user request plus current repository evidence and any necessary clarification are sufficient as the implementation contract;
+- target and non-target boundaries, permission, verification, and stop conditions are known enough to act safely;
+- every diagnosis, spec, plan, delegation, review, and final-gate warrant has been decided independently, and each required precondition is satisfied.
+
+Do not use standard implementation to bypass unresolved product behavior, unknown failure cause, durable engineering truth, architecture ownership, permission, destructive/external-action authority, or acceptance evidence. Do not withhold standard implementation merely because the change is durable, affects tooling or configuration, spans multiple files, or does not satisfy the stricter direct checklist.
+
 ## PRD Calibration
 
 Use PRD when the user explicitly asks for a PRD, project definition, product definition, product brief, or equivalent product-scope artifact, and product/workflow truth must be established or changed.
@@ -156,6 +172,7 @@ Do not use engineering spec when:
 
 - an approved/current spec or equivalent implementation contract already exists;
 - the work is direct, local, and fully understood;
+- a standard implementation contract is sufficient from the user request, current repository evidence, and any necessary clarification, with no durable engineering truth left to decide;
 - the only missing item is execution sequencing, which belongs in the plan.
 
 ## Implementation Plan Calibration
@@ -169,6 +186,7 @@ Do not use implementation plan when:
 
 - engineering truth is still unsettled;
 - the work is inside a proven direct lane under current governing repository policy;
+- standard implementation has no real dependency order, shared state, migration/rollout, multiple-executor coordination, material rollback, or safe-boundary-crossing need;
 - multiple files or delegation are the only reasons proposed;
 - the plan would be a thin task list with no useful guardrails.
 

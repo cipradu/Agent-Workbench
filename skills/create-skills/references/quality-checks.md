@@ -26,6 +26,7 @@ Use this reference before accepting a new or revised skill.
 - No-op, stale, or branch-local lines were deleted or moved behind a pointer.
 - Behavior-preserving cleanup states which gate, stop condition, safety boundary, or reference pointer was preserved.
 - RED/GREEN criteria were stable, or revisions and reruns are recorded.
+- Eligible observed incidents were reused without an artificial baseline run; journey tests preserve the earliest failed decision point; and fresh runs, corrections, review, completion reserve, downshift, expansion, and stop outcomes were frozen before dispatch.
 - The skill is portable unless explicitly scoped otherwise.
 - Tests show changed behavior under pressure.
 
@@ -38,6 +39,7 @@ Hard gates:
 - lighter-mechanism decision;
 - skill type and structure fit;
 - RED baseline or provisional label with fixed criteria;
+- bounded evaluation contract with journey integrity and completion reserve;
 - GREEN behavior proof against the same criteria;
 - mandatory gates with failure outputs;
 - portability and one-level reference checks;

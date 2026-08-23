@@ -19,6 +19,7 @@ Entry mode: new skill / existing-skill revision / skill-behavior debug / test-on
 ## Source Classification
 
 - Direct observed failure:
+- User correction:
 - Review/comment/feedback signal:
 - Ideation, prior learning, issue theme, or external example:
 - Current source evidence checked:
@@ -110,6 +111,15 @@ Entry mode: new skill / existing-skill revision / skill-behavior debug / test-on
 - RED/GREEN criteria that must remain stable:
 - Judge/evidence source:
 - Skipped or unavailable checks:
+- Observed baseline eligibility:
+- Journey boundary and discoverable fixtures:
+- Fresh target run maximum:
+- Focused correction maximum and affected-case rerun:
+- Independent-review default and activation gap:
+- Completion reserve:
+- Optional-evidence downshift order:
+- Scenario-expansion trigger:
+- Pass/correct/block/re-plan/infrastructure-failure stop outcomes:
 - Readiness state:
 
 ## RED Scenarios

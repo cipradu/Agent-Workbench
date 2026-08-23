@@ -147,23 +147,31 @@ Before mutating an external system, shared artifact, durable preference, publica
 
 The contract must identify:
 
-- canonical source and direction of truth;
-- exact system, record, field, artifact, preference, or publication target;
+- canonical source and direction of truth, including immutable source coordinates where the source can drift or be confused with another record;
+- exact system, record identifier, field, artifact, preference, or publication target;
 - whether the action is draft, preview, local write, external write, publish, sync, pull, commit, push, PR, merge, delete, or durable preference update;
+- the one actor authorized to write external/shared state for the mutation unit;
+- whether other participants are technically unable to write because tools, credentials, or permissions are absent, or are only instructed not to write;
 - reliable application path owned by the relevant tool/workflow;
 - readback verification after mutation;
-- retry rule for ambiguous failure.
+- idempotency key or authoritative dedupe query when retry or repetition could duplicate work;
+- retry rule for ambiguous failure;
+- partial-success states, recovery owner, and whether rollback or compensation is separately authorized when the operation spans more than one record or system.
 
 Rules:
 
+- Use one external/shared-state writer for the mutation unit. Delegates may gather evidence or propose payloads, but they do not perform writes when they retain overlapping write capability. If the harness cannot technically remove their write tools, credentials, or permissions, keep the write with the coordinator and describe the isolation as procedural, not enforced.
 - A successful command is not always proof that the intended external state changed; read back the authoritative state when consequence matters.
 - A failed or timed-out external mutation is not proof that nothing changed. Re-read authoritative state before retrying.
+- Before repeating a mutation that can duplicate work, use the provider's idempotency mechanism or an authoritative pre-write dedupe query. If neither can make repetition safe, stop and report the unresolved state.
+- For multi-record or multi-system work, record each leg as not started, applied, absent, unknown, failed, or compensated. Preserve successful legs when a later leg fails, assign recovery ownership, and resume from authoritative state instead of replaying the whole workflow.
+- Compensation, reversal, deletion, publication, and other consequential recovery actions require their own authority unless the accepted workflow already grants that exact action. Do not describe an unverified or unauthorized compensation as rollback.
 - Do not broaden external metadata. If the user names one field, record, title, label, preference, or body, change only that item.
 - Do not change titles, labels, assignees, branches, project fields, durable preferences, publication state, or integration-sensitive metadata unless the user explicitly approves that exact field or state.
 
-Completion criterion: the mutation touches only the approved external/shared state and readback proves the resulting state, or the uncertainty is reported.
+Completion criterion: one authorized writer touches only the approved external/shared state; the capability boundary is stated honestly; authoritative readback proves each resulting state; dedupe or idempotency also proves safe repetition when retry or repetition could duplicate work; and partial or unknown outcomes have an explicit recovery owner and separately authorized next action.
 
-Failure output: "Blocked: external/shared-state mutation lacks approved target, reliable application path, or readback verification: <specific gap>."
+Failure output: "Blocked: external/shared-state mutation lacks immutable identity, one-writer integrity, honest capability isolation, authoritative readback, duplicate-safe retry when retry or repetition could duplicate work, or partial-state recovery: <specific gap>."
 
 ### 7. Respect Stateful Workflows And Ordered Gates
 
@@ -341,6 +349,9 @@ Stop and correct course when any of these appears:
 - A generated artifact contains placeholders, arbitrary lifecycle metadata, process exhaust, attribution footers, or raw sensitive material.
 - A remembered rule is enforced without reading current authority.
 - A failed external mutation is retried without rereading authoritative state.
+- Multiple delegates retain overlapping external write capability while their role prompts are described as hard isolation or each is allowed to mutate part of one shared-state unit.
+- A repeatable external mutation lacks provider idempotency or an authoritative dedupe query.
+- A multi-record or multi-system operation partially succeeds, but the successful and failed legs, recovery owner, or separate compensation authority are not recorded.
 - A stateful workflow advances from chat memory instead of its current artifact.
 - A worker, reviewer, or tool result is accepted without caller-side verification.
 - A residual finding, failed check, skipped verification, or incomplete item disappears from the final state.

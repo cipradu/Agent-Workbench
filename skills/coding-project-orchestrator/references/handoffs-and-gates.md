@@ -20,6 +20,7 @@ Use this reference before moving from one workstream to another or dispatching a
 - [Gate: To External Collaboration Or Publishing Sync](#gate-to-external-collaboration-or-publishing-sync)
 - [Gate: To Implementation Plan](#gate-to-implementation-plan)
 - [Gate: To Direct Implementation](#gate-to-direct-implementation)
+- [Gate: To Standard Implementation](#gate-to-standard-implementation)
 - [Gate: To Coder Delegation](#gate-to-coder-delegation)
 - [Gate: To Implementation Review](#gate-to-implementation-review)
 - [Gate: To Project Continuity](#gate-to-project-continuity)
@@ -242,6 +243,21 @@ Pass condition:
 Failure output:
 
 `Rejected: direct implementation lacks affirmative evidence for <target behavior/cause/scope and blast radius/reversibility/no high trigger/deterministic acceptance>. Run bounded discovery for the named uncertainty, then reclassify direct, standard, or high_assurance.`
+
+## Gate: To Standard Implementation
+
+Pass condition:
+
+- Bounded instrumental discovery inspected only the named repository evidence needed to decide route, scope, clarification, verification, and stop conditions.
+- The requested behavior is sufficiently explicit from the user request, current repository evidence, and any necessary single clarification to serve as the implementation contract.
+- Complete direct proof remains absent, no concrete high-assurance trigger applies, and `Lane: standard` is recorded.
+- Target and non-target boundaries, permission, practical recovery, verifier availability, and acceptance evidence are known enough to execute safely.
+- Diagnosis, spec, plan, delegation, review, re-review, and final complete-gate warrants were decided independently. Every warranted precondition is satisfied; no artifact is created merely because the task is durable, tooling/configuration-related, multi-file, or not direct.
+- The handoff preserves the complete requested outcome, current evidence, constraints, exact verification, and conditions that return the work to the user or an upstream owner.
+
+Failure output:
+
+`Blocked: standard implementation still lacks <material behavior/scope/authority/verification decision>; route that exact gap to <user/diagnosis/spec/architecture/plan>.`
 
 ## Gate: To Coder Delegation
 
