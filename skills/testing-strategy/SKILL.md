@@ -64,6 +64,8 @@ State the target in behavior terms:
 - expected observable outcome and meaningful failure modes;
 - constraints from project rules, existing test framework, CI, runtime, data setup, external services, and local test placement conventions.
 
+When an accepted scope envelope exists, preserve its `Outcome`, `Non-goals`, `Target boundary`, `Acceptance proof`, and `Expansion or re-plan triggers`. Every proposed test, fixture, helper, harness change, generated artifact, or verification phase must protect changed behavior, a current invariant, a material regression risk, or an explicit acceptance criterion. Reuse the narrowest sufficient existing seam and setup. Do not add unrelated coverage, broad test infrastructure, or future-use fixtures; return newly necessary expansion to the orchestrator or plan owner.
+
 For vague, multi-surface, or tactic-framed requests, first split:
 
 - stated behavior or test tactic;
@@ -126,6 +128,8 @@ Failure output: `Rejected: test seam is too shallow, too private, or too mocked:
 ### 4. Cover The Risk Shape
 
 Do not stop at the happy path.
+
+Select cases from the actual changed behavior, invariants, contracts, and material risks. The list below is a relevance scan, not a mandate to add every case to every change.
 
 Minimum coverage reasoning:
 

@@ -53,6 +53,18 @@ Run these steps in order. Do not skip directly to a downstream artifact or code 
 
 Restate the requested outcome in engineering terms without expanding scope.
 
+Bind a preliminary scope envelope before selecting consequence or ceremony:
+
+- `Outcome`: the exact requested behavior or artifact;
+- `Non-goals`: explicit exclusions and adjacent work that must remain untouched;
+- `Target boundary`: behavior, surfaces, files, systems, or artifacts allowed to change;
+- `Acceptance proof`: the checks or evidence that prove the outcome;
+- `Expansion or re-plan triggers`: new facts that would require a scope, consequence, or gate decision.
+
+The original outcome remains controlling until the final closure check proves it or a genuine blocker prevents it. No downstream artifact or owner return may silently replace it.
+
+Every proposed capability, abstraction, file, test, durable artifact, or workflow phase must trace to the outcome, a current named risk or invariant, a required compatibility obligation, or cleanup directly caused by the change. Remove an untraceable item; return newly necessary expansion to orchestration instead of silently enlarging a downstream artifact.
+
 Identify:
 
 - requested action;
@@ -62,7 +74,7 @@ Identify:
 - whether the user wants discussion, analysis, option discovery, artifact creation, implementation, runtime polish, reporting, review, drafting, external mutation, source-control follow-through, or commit-style follow-through;
 - constraints already stated by the user or repository instructions.
 
-Completion criterion: the requested outcome, current mode, and intended artifact or action class are explicit.
+Completion criterion: the requested outcome, scope envelope, current mode, and intended artifact or action class are explicit.
 
 Failure output: `Blocked: cannot classify coding-project work until the requested outcome is clear: <specific ambiguity>.`
 
@@ -89,7 +101,9 @@ Minimum checks:
 
 Unknown-discovery routing: when the request asks for a blindspot pass, unknown unknowns, hidden risks, help prompting better, or a similar uncertainty pass, do not treat that as a standalone artifact. Classify the uncertainty by the truth it can change: product/domain/tacit user expectations route to product definition, candidate directions route to option discovery, existing PRD-to-spec fog routes to spec readiness mapping, bounded technical authority or acceptance gaps route to engineering definition, unresolved cause routes to diagnosis, ownership or seam uncertainty routes to architecture judgment, and approved-spec execution uncertainty routes to implementation planning.
 
-Instrumental discovery: when current repository facts are missing but can be recovered from the named target, inspect only the files, rules, scripts, callers, or verifier state needed to decide lane, gate, scope, clarification, verification, or next action. This is a routing input, not research, diagnosis, a specification, or a plan. Stop reading when the route is determined. If repository evidence leaves two materially different complete outcomes, ask one targeted question with the current understanding, recommended default, consequence, and exact decision before selecting an artifact or implementation route.
+Instrumental discovery: when current repository facts are missing but can be recovered from the named target, inspect only the files, rules, scripts, callers, or verifier state needed to decide lane, gate, scope, clarification, verification, or next action. This is a routing input, not research, diagnosis, a specification, or a plan. Stop reading when the route is determined. If repository evidence leaves two materially different complete outcomes and no safe authorized default, prepare one user decision after discovery; do not turn unresolved implementation detail into an option menu.
+
+The orchestrator owns the final user-facing decision explanation. Before asking, collect the user-visible situation and consequence, why no safe default exists, the exact blocked requirement or work and unaffected work, the recommended resolution, the exact artifact or behavior it changes, its material effect, its material cost and risk, what happens if no change is made, materially distinct alternatives only when they exist, and supporting evidence or limits. Explain the user's action and observable consequence before internal IDs, paths, APIs, settings, or component names. Merge choices with the same practical result. Ask one question only when its answer changes the next action.
 
 Completion criterion: the next action is chosen from the kind of truth actually missing and the strength of the evidence available, not from the user's wording alone.
 
@@ -114,6 +128,11 @@ Apply precedence without gate coupling. An explicit review request sets the revi
 Produce this decision record:
 
 ```text
+Outcome: [exact requested behavior or artifact]
+Non-goals: [explicit exclusions]
+Target boundary: [behavior, surfaces, files, systems, or artifacts allowed to change]
+Acceptance proof: [checks or evidence that prove the outcome]
+Expansion or re-plan triggers: [new evidence that requires a scope or gate decision]
 Lane: direct | standard | high_assurance
 Escalation triggers present: [named facts or none]
 Named uncertainties: [items or none]
@@ -128,6 +147,7 @@ Review semantic lanes: [changed surfaces or none]
 Re-review rule: contingent_acceptance | trigger_list
 Final complete gate warranted: yes/no — reason
 State/evidence identity: method or not_applicable
+Outcome control: scope_only | mapped — reason
 ```
 
 Decide each gate from a named uncertainty or acceptance gap whose answer can change the next action. Bounded configuration replication remains one `direct` subtype and retains its exact-source, target-mapping, reversibility, effective-authority, post-activation-equivalence, no-expanded-semantics/authority/data/permission/persistence/side-effect, and deterministic-proof checks. A non-mutating authorized connection check may verify; a target-system state change remains external mutation.
@@ -135,6 +155,19 @@ Decide each gate from a named uncertainty or acceptance gap whose answer can cha
 High assurance retains every applicable existing safeguard at sufficient depth, including source and authority traceability, recovery or rollback, compatibility, permission, data, security, external-mutation, release, final-gate, and warranted independent-review controls. It does not activate an irrelevant phase or semantic lane whose result cannot change acceptance.
 
 The orchestrator owns initial classification. A downstream owner may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action. Without new evidence, preserve the recorded lane and warrants.
+
+Select `scope_only` for bounded work that one owner can complete and prove without a meaningful pause or independent acceptance. Select `mapped` when the task crosses more than one required owner, must survive a meaningful pause or context compaction, or requires independent acceptance. This choice records state; it does not activate another phase.
+
+When `mapped`, carry only:
+
+- the original outcome and scope envelope;
+- each required function and why current evidence activates it;
+- the state each function must produce, its downstream consumer, and its return condition;
+- current source and evidence identities plus their invalidators;
+- completed and pending functions, unresolved conditions, and genuine blockers;
+- the next required function or exact closure condition.
+
+Use an existing plan, continuity artifact, review packet, or task-local state when it already owns these fields. Do not create a second ledger, duplicate source artifacts, or copy the full evidence corpus.
 
 Completion criterion: the lane, each warrant, and each skipped phase are justified by current evidence; unknowns are routed to bounded discovery; no lane expands into a fixed pipeline.
 
@@ -158,6 +191,7 @@ When a downstream owner applies, route to that owner or build the handoff; do no
 | Documentation                 | Reader-facing technical docs, tutorials, how-to guides, reference docs, explanations, API docs, runbooks, or docs updates must be created or revised | `create-documentation`                                     |
 | Option discovery              | User asks for ideas, opportunities, what to improve, or candidate directions before product/spec/plan truth exists                                   | Ground options without turning survivors into requirements |
 | Runtime polish or QA routing  | User asks to run, inspect, dogfood, or polish an already implemented surface                                                                          | Route to the relevant runtime/testing/tool workflow        |
+| Reusable project verifier     | A reusable verifier is the accepted outcome, or current evidence shows a recurring verification need that has been explicitly accepted into scope; required project mutation and live actions are authorized | `testing-strategy` owns lifecycle and evidence; route exact mechanics to the existing project/tool owner, consume its return, and run the returned verifier before closure |
 | Operational/reporting         | User asks for read-only status, recap, pulse, metrics, or generated report output                                                                    | Route to the reporting/data owner or return a handoff/blocker packet |
 | Visual artifact projection    | User asks to see an existing PRD, readiness map, spec, plan, review packet, implementation result, or complex technical artifact visually, as HTML, as a diagram, or as a comprehension report | `visual-artifact`                                         |
 | Post-ship communication       | User asks for launch copy, release notes, social/email copy, demo script, or changelog-style draft grounded in completed work                         | Route to the communication/publishing/docs owner; do not draft or publish from this skill |
@@ -188,6 +222,7 @@ Rules:
 - Do not let an engineering spec invent product truth.
 - Do not let spec readiness mapping create implementation tasks, replace the engineering spec, or rewrite the PRD.
 - Do not let an implementation plan change spec truth.
+- Do not let a spec, plan, test strategy, implementation, or review add an item that cannot trace to the accepted scope envelope.
 - Do not treat architecture analysis as an implementation plan.
 - Do not let documentation invent product truth, engineering truth, architecture decisions, or execution order.
 - Do not let generated reports, local config, screenshots, launch/runtime logs, post-ship drafts, PR prose, or external collaboration copies become product/problem/engineering/architecture/execution/acceptance truth by accident.
@@ -205,10 +240,12 @@ Before moving from one phase to another, use [Handoffs And Gates](references/han
 
 Every handoff must state:
 
-- objective;
+- objective and the accepted scope envelope;
 - the complete consequence lane and independent gate-warrant record;
 - source artifact or evidence;
 - source strength, artifact identifier, and currentness when the source is a spec, plan, ADR, review report, documentation page, progress note, external collaboration copy, or inferred artifact;
+- user-decision evidence when the downstream owner discovers a choice it cannot resolve: user-visible consequence, no-safe-default reason, exact blocker and unaffected work, recommended resolution, exact approved change, material effect, material cost and risk, no-change outcome, materially distinct alternatives if any, and supporting evidence;
+- produced state, the downstream consumer that needs it, decisive evidence identity and invalidators, and the condition that returns control;
 - constraints and non-goals;
 - target boundary and non-target boundary;
 - isolation, overlap, and shared-state risks when work will be delegated, parallelized, or performed outside the current checkout;
@@ -222,15 +259,55 @@ Every handoff must state:
 
 A downstream owner that discovers escalation evidence must return the new concrete fact, the affected consequence or gate, and the changed next action. It must not silently reclassify from artifact type, file count, delegation, configuration status, or owner preference.
 
+After every selected owner returns, classify the result before advancing:
+
+- `whole-outcome proof`: the return proves the original outcome and all remaining warranted gates for the current state identity;
+- `intermediate state`: the return satisfies one required function and identifies the next consumer or closure condition;
+- `changed premise`: new concrete evidence invalidates the current scope, lane, gate, plan, authority, or proof assumption and requires reclassification while preserving unaffected work;
+- `blocker`: the return names the exact unmet condition, why no authorized safe path remains, unaffected work, and the authority or evidence needed to resume.
+
+Continue, reclassify, or report the bounded blocker from that classification. Do not force the old route, manufacture a user choice, or let a downstream owner claim whole-task completion outside its authority.
+
 Completion criterion: the next actor, skill, or phase can proceed without relying on hidden conversation context or invented assumptions.
 
 Failure output: `Blocked: handoff is missing <objective/evidence/constraints/boundaries/verification/stop triggers>.`
 
-### 7. Verify, Review, And Capture
+### 7. Execute Approved Plans Through A Cursor
+
+Apply this step only when `Plan warranted: yes` and the approved current plan has reached implementation. The plan remains the execution authority; this skill owns the transition between its units, implementer returns, and acceptance gates.
+
+Before the first implementation action, initialize a compact execution cursor containing:
+
+- the original outcome and scope envelope;
+- current spec and plan identity plus currentness;
+- completed units and pointers to their accepted evidence;
+- dependency-eligible units, pending units, and the exact current batch if one exists;
+- declared review checkpoints and the preserved review warrant, cadence, depth, and semantic lanes;
+- active review findings and their current dispositions;
+- the exact next allowed transition;
+- evidence changes that invalidate the cursor or require re-planning.
+
+For each transition:
+
+1. Select one exact batch from dependency-eligible units. Units may share a batch only when their implementation context and verification form one coherent return boundary and the batch does not cross a review checkpoint. Do not use unit, file, time, token, or cost quotas. Keep each unit and its acceptance evidence distinct.
+2. Build the executor handoff from [Handoffs And Gates](references/handoffs-and-gates.md). Name the exact unit IDs and accepted prior state. The complete plan is context for dependencies and contradictions, not blanket implementation authority. Reject “implement the plan” without an exact batch.
+3. On return, check the result against that authorization and its required evidence. Advance only proven units, classify the return, update the cursor and active finding state, and derive the next eligible transition from the plan.
+4. When a declared review checkpoint is reached, stop implementation and invoke `implementation-review-workflow` with the preserved review decision and exact checkpoint state. Do not review individual edits or ordinary batches unless they themselves reach the recorded checkpoint or new evidence creates a different acceptance boundary.
+5. Resume post-checkpoint units only after the recorded gate accepts the exact state. Route blocking findings and correction evidence through the existing review workflow; do not duplicate its finding, conditional-acceptance, or re-review rules here.
+6. When a meaningful pause or context boundary occurs, pass the cursor's current governing identity, last accepted batch or checkpoint, exact next batch or action, active finding state, and invalidators to the existing continuity owner. Point to evidence instead of copying it.
+
+If current evidence contradicts the plan, accepted prior state, authorization, or checkpoint decision, classify the return as `changed premise` and return to the applicable earlier orchestration step. Do not widen the batch or silently revise the plan.
+
+Completion criterion: every completed unit has accepted evidence, the cursor names one exact next transition or final closure condition, and no implementation crosses an unaccepted checkpoint.
+
+Failure output: `Blocked: plan execution state is incomplete or contradictory: <cursor/batch/evidence/checkpoint gap>.`
+
+### 8. Verify, Review, And Capture
 
 Before claiming completion:
 
 - verify the artifact or implementation against the original objective;
+- consume and classify every selected owner return; when outcome control is `mapped`, update completed and pending functions, evidence identity, invalidators, unresolved conditions, and the next required function;
 - run required commands, inspections, or evidence checks;
 - reread current authoritative artifacts or repository state when crossing a major phase boundary and stale source truth would change the allowed next action;
 - dispatch independent review when the decision record warrants it;
@@ -239,6 +316,8 @@ Before claiming completion:
 - surface implementation-pattern candidates only when concrete recurrence or mandate signals exist, then route them to `create-implementation-pattern` for accepted/candidate/update/rejection judgment;
 - surface ADR candidates only when decisions meet the ADR bar;
 - route unresolved findings, blocked checks, accepted risks, and skipped verification to the appropriate durable surface when one applies, otherwise report them explicitly as residual risk.
+
+Close only when current evidence proves the exact original outcome, acceptance proof, and every warranted gate for the same state identity. An intermediate artifact, passing local check, owner-local completion claim, or stale acceptance result cannot close the task.
 
 Completion criterion: the result is proven enough for the chosen ceremony level, and any remaining risk is explicit.
 

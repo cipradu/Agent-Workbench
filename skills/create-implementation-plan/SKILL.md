@@ -45,6 +45,10 @@ A valid completed plan that is later judged unnecessary remains valid historical
 
 Consume the orchestrator assurance decision before planning. A plan is warranted only for multiple dependent units, real ordering constraints, multiple coordinated executors whose work needs durable sequencing, shared mutable state, migration or rollout, material rollback concerns, or a boundary that must be crossed safely. Multiple files, one coherent deliverable, or use of one delegated executor alone is insufficient.
 
+Consume the accepted scope envelope: `Outcome`, `Non-goals`, `Target boundary`, `Acceptance proof`, and `Expansion or re-plan triggers`. Planning may order and constrain accepted work; it must not add behavior, capability, compatibility, files, tests, artifacts, or phases merely to make execution comprehensive or future-ready.
+
+Require every proposed unit, capability, abstraction, file, test, artifact, compatibility path, and checkpoint to trace to the accepted outcome, a current named risk or invariant, a required compatibility obligation, or cleanup directly caused by the change. Remove an untraceable item. If current implementation evidence makes expansion necessary, return the concrete evidence to the orchestrator or spec owner instead of silently revising the plan boundary.
+
 Name the uncertainty or acceptance gap the plan can resolve and how its result changes the next action. If planning cannot change the next action, stop and reference the accepted implementation contract. If `Plan warranted: no`, do not create a plan merely because this skill was invoked; preserve any valid completed plan and return to the recorded route.
 
 Use the compact Standard form when the sequencing need is bounded and deeper research, source redecomposition, discovery, or task-graph analysis cannot change the plan. The compact minimum is: the linked spec or accepted implementation contract; exact reason planning is warranted; objective and boundaries; current evidence for affected surfaces; dependent units and order; relevant verification and state identity; re-plan triggers; and review decision. Do not perform generic research or full source redecomposition, ask a generic TDD-preference question, construct unwarranted checkpoints, or require independent plan review without separate named warrants. Select checkpoint cadence and independent review separately; either may apply to a compact plan when its own warrant passes.
@@ -85,6 +89,8 @@ Use local plan-creation time, 24-hour, with leading zeroes. Do not use seconds. 
 If the user provides a spec path, read that exact path only if it matches `docs/specs/YYYY-MM-DD_HH-mm_{slug}_spec.md`. If a provided spec path is non-canonical, block and request the canonical spec path; do not derive a plan slug or plan filename from a non-canonical spec filename. Otherwise search `docs/specs/` first. Match by slug, title, requirement IDs, feature name, domain terms, status, and linked artifacts. Only use a spec that is approved and current. If no clear match exists in `docs/specs/`, then search other repository spec, requirements, design, ADR, docs, issue, or plan locations for a pointer to the canonical spec.
 
 If exactly one plausible approved and current canonical spec match is found, use it and cite the path. If multiple plausible specs exist, ask one blocking question with the recommended default. If no clear approved and current canonical spec match exists, use the blocked packet in [Plan Output](references/plan-output.md#blocked-planning-packet) with `Blocking gate: missing approved and current canonical spec`.
+
+Any user decision discovered during planning must preserve a decision-evidence packet before routing or asking: the user-visible situation and consequence; why no safe authorized default exists; the exact plan truth, requirement, or dependent work blocked; unaffected work; the recommended resolution; the exact source artifact or plan behavior approval would change; its material effect; its material cost and risk; what happens if no change is made; materially distinct alternatives only when they exist; and supporting evidence or limits. If the active agent is user-facing, translate the packet through the harness decision-readiness gate. Otherwise return it to the orchestrator. Do not lead with spec IDs, paths, settings, APIs, or implementation terms, present choices with the same practical result, or claim the whole implementation is blocked when only one planning branch is blocked.
 
 Recommended blocking question when no spec is found:
 
@@ -292,11 +298,14 @@ Break work into bite-sized implementation units only after the previous gates pa
 
 Each unit must be independently understandable and use stable IDs such as `UNIT-001`; never renumber existing units during revision. Assign checkpoint IDs only when `Review cadence: checkpoints` has a separate named warrant. With `none` or `single_final`, do not construct intermediate checkpoints. When a checkpoint exists, independent review is required before crossing it, and within-checkpoint progression is allowed only when the plan explicitly states it is safe and the completed unit's required verification passed.
 
+The plan must expose the facts a coordinator needs to choose a runtime execution batch without making that choice prematurely. For each unit, identify any batch affinity with other units from shared implementation context or coherent verification, and identify exclusions from dependencies, checkpoints, shared state, isolation, or incompatible proof boundaries. The coordinator authorizes the exact batch from the current execution cursor. The plan never grants blanket authority to implement every remaining unit and never fixes batch size from unit, file, time, token, or cost counts.
+
 When `Review cadence: checkpoints` is warranted, define checkpoints by the named acceptance risk and change coupling, not convenience. Consider a checkpoint before a public-contract, security, data/persistence, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-owner boundary only when review there can change the next action. Reject per-unit review explosion and unwarranted checkpoints; one final review is sufficient when no intermediate result can change execution.
 
 Each unit must include:
 
 - spec requirements covered;
+- scope trace: the accepted outcome, current named risk or invariant, required compatibility obligation, or change-caused cleanup that justifies the unit and every proposed target file, test, abstraction, artifact, or compatibility path;
 - review cadence and checkpoint ID/crossing state when checkpoints are warranted, otherwise `none` or `single_final` with reason;
 - cause: why this unit exists;
 - effect: what exists after completion;
@@ -311,6 +320,8 @@ Each unit must include:
 - approach logic: detailed implementation reasoning without code;
 - technical design: optional high-level sketch, state model, protocol outline, or diagram description when prose alone would leave the approach ambiguous;
 - dependencies: prior units, external decisions, data prerequisites, migrations, or approvals;
+- batch affinity: other units that could share one coherent executor return and the evidence-based reason, or `none`;
+- batch exclusions: units or boundaries that cannot share a batch because of dependency, checkpoint, shared-state, isolation, or verification constraints;
 - implementation-time unknowns that are non-blocking, with resolution method and re-plan trigger; blockers must stop the plan before unit drafting;
 - workspace/isolation requirement and shared-resource conflicts;
 - blast radius: what can break and why;
@@ -432,7 +443,7 @@ Findings that require new product behavior, altered spec truth, architecture dec
 
 When a plan outcome feeds implementation, commits, PRs, publishing, external review surfaces, documentation, or ADR capture, hand off the plan path, linked spec, spec slug, plan status, review state, freshness classification, blockers, source authority classes, load-bearing decisions, unit graph, verification matrix, approval gates, re-plan triggers, workspace/isolation assumptions, and residual risks.
 
-Also hand off the review checkpoint summary, current checkpoint, assigned unit checkpoint, whether the next action crosses a checkpoint, and the rule for within-checkpoint progression. If a legacy plan lacks checkpoint fields, amend or conservatively classify checkpoints before further execution; do not invent permission to cross a material boundary from a legacy final-review-only plan.
+Also hand off the review checkpoint summary, current checkpoint, assigned unit checkpoint, whether the next action crosses a checkpoint, the rule for within-checkpoint progression, and each unit's batch affinity and exclusions. The executor contract must leave the exact authorized batch, accepted prior-state identity, and satisfied dependency evidence for the coordinator to fill from the current cursor. A plan path or full remaining unit list is context, not execution authority. If a legacy plan lacks checkpoint or batch-readiness fields, amend or conservatively classify them before further execution; do not invent permission to cross a material boundary or implement all remaining units.
 
 Do not include git commands, branch creation, staging, pushes, PR mutation, CI watching, tracker filing, browser/Xcode operation, setup repair, worktree creation, publishing API calls, or shipping mechanics. Those owners consume planning evidence without changing plan truth.
 
@@ -536,6 +547,7 @@ Before calling a plan ready:
 - Load-bearing planning decisions are indexed, or none beyond direct spec decomposition were found.
 - High-leverage decisions that reviewers should inspect first are surfaced in the Plan Summary.
 - Units are stable, dependency-ordered, and bite-sized enough for execution and review.
+- Each unit records evidence-based batch affinity and exclusions; the plan does not pre-authorize all remaining work or impose numeric batch limits.
 - Review checkpoints are declared, proportional, and mapped to units; checkpoint crossings and within-checkpoint progression rules are explicit.
 - High-level technical design is included when the plan structure needs it.
 - Every behavior-bearing unit has input/action/expected test scenarios.

@@ -77,6 +77,14 @@ Use this compact comparison for significant choices.
 
 Do not compare options by preference alone. Tie every reason to a force, constraint, compatibility surface, or verified codebase fact.
 
+## User Decision Boundary
+
+Do not turn every architecture comparison into a user choice. Ask only when user authority is required, no safe authorized default exists, and the answer changes the architecture recommendation or accepted trade-off.
+
+Before routing or asking, preserve: the user-visible situation and consequence; why the architecture owner cannot choose safely; the exact boundary, contract, requirement, or downstream work blocked; unaffected work; one recommended resolution; the exact decision approval would authorize; its material effect; its material cost and risk; what happens if no change is made; materially distinct alternatives only when they differ in behavior, cost, risk, authority, compatibility, or future obligation; and supporting evidence or limits. Merge candidates with the same practical result before presenting them.
+
+If the active agent is user-facing, translate this evidence through the harness decision-readiness gate and explain the user-visible behavior before pattern names, module names, interfaces, or source identifiers. Otherwise return the evidence to the orchestrator. Do not paste the option table as the user-facing explanation.
+
 ## Force-To-Decision Trace
 
 For significant choices, connect the reasoning chain explicitly:

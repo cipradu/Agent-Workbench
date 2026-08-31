@@ -319,6 +319,22 @@ Mode: Greenfield | Brownfield
 
 ## Required Research or Discovery
 
+## User Decision Evidence
+
+Include this section only when user authority is required.
+
+User-visible situation and consequence:
+Why no safe authorized default exists:
+Exact requirement, spec truth, or downstream work blocked:
+Unaffected work:
+Recommended resolution:
+Exact requirement or artifact change approval authorizes:
+Material effect:
+Material cost and risk:
+What happens if no change is made:
+Materially distinct alternatives, or `none`:
+Supporting evidence and limits:
+
 ## Blocking Question
 
 ## Durable Residuals

@@ -5,6 +5,7 @@ Use this reference before moving from one workstream to another or dispatching a
 ## Contents
 
 - [Universal Handoff Fields](#universal-handoff-fields)
+- [Plan-Backed Execution Handoff](#plan-backed-execution-handoff)
 - [Gate: To PRD](#gate-to-prd)
 - [Gate: To Spec Readiness Map](#gate-to-spec-readiness-map)
 - [Gate: To Diagnosis](#gate-to-diagnosis)
@@ -13,6 +14,7 @@ Use this reference before moving from one workstream to another or dispatching a
 - [Gate: To Option Discovery](#gate-to-option-discovery)
 - [Gate: From Unknown-Discovery Routing](#gate-from-unknown-discovery-routing)
 - [Gate: To Runtime Polish Or QA](#gate-to-runtime-polish-or-qa)
+- [Gate: To Reusable Project Verifier](#gate-to-reusable-project-verifier)
 - [Gate: To Operational Or Reporting Owner](#gate-to-operational-or-reporting-owner)
 - [Gate: To Visual Artifact](#gate-to-visual-artifact)
 - [Gate: To Post-Ship Communication Owner](#gate-to-post-ship-communication-owner)
@@ -34,10 +36,15 @@ Use this reference before moving from one workstream to another or dispatching a
 Every handoff should include:
 
 - Objective: what must be true when the next phase is complete.
+- Scope envelope: Outcome, Non-goals, Target boundary, Acceptance proof, and Expansion or re-plan triggers.
+- Scope trace: how each proposed capability, abstraction, file, test, artifact, phase, or compatibility path contributes to the outcome, protects a current named risk or invariant, satisfies required compatibility, or performs cleanup directly caused by the change.
 - Assurance decision: `Lane: direct | standard | high_assurance`, named escalation triggers and uncertainties, diagnosis/spec/plan/delegation warrants, review warrant/cadence/depth/semantic lanes/re-review rule, final complete-gate warrant, and state/evidence identity.
 - Source evidence: user request, PRD, spec, plan, diagnosis, codebase evidence, rules, ADRs, research, or review report.
 - Source strength: explicit user authority, current file evidence, verified artifact evidence, inferred intent, weak signal, or contradicted source.
 - Artifact identity and currentness: exact path, ID, URL, version, commit, review cycle, external copy, or currentness check when an artifact drives the handoff.
+- Produced state and consumer: the bounded state this owner must return, who or what consumes it next, and whether it can prove the whole outcome or only one function.
+- Decisive evidence identity and invalidators: exact source, artifact, runtime, diff, review, or external-state identity that makes the return current, plus changes that make it stale.
+- Return condition: what lets the coordinator continue, reclassify, close, or report a genuine blocker.
 - Constraints: what must be preserved.
 - Non-goals: what must not be changed.
 - Target boundary: files, modules, surfaces, behavior, or artifacts expected to change.
@@ -54,6 +61,63 @@ Every handoff should include:
 A downstream owner may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action. Without new evidence, it must preserve the incoming lane and warrants.
 
 If a handoff cannot include these fields, it is not ready.
+
+## Outcome Map And Control Return
+
+The original outcome remains controlling across every handoff. Use the scope envelope alone for bounded work that one owner can complete and prove without a meaningful pause or independent acceptance. Activate a compact outcome map only when the task crosses more than one required owner, must survive a meaningful pause or context compaction, or requires independent acceptance.
+
+An active map contains only:
+
+- original outcome and scope envelope;
+- required functions and the evidence-based reason each is active;
+- produced state, downstream consumer, and return condition for each function;
+- current source and evidence identities plus invalidators;
+- completed and pending functions, unresolved conditions, and genuine blockers;
+- next required function or exact closure condition.
+
+Keep these fields in an existing plan, continuity artifact, review packet, or task-local state when available. Do not create a duplicate ledger or copy the full source corpus.
+
+The coordinator classifies each return before moving forward:
+
+- `whole-outcome proof`: current evidence proves the original outcome, acceptance proof, and every remaining warranted gate for the same state identity;
+- `intermediate state`: one required function is satisfied and the return names the next consumer or closure condition;
+- `changed premise`: new concrete evidence invalidates a current scope, consequence, gate, plan, authority, or proof assumption; preserve unaffected work and reclassify;
+- `blocker`: no authorized safe path remains; return the exact unmet condition, unaffected work, evidence or authority needed, and resume point.
+
+A downstream owner cannot redefine the original outcome, force the old route after a premise changes, ask the user to decide when a safe authorized default exists, or declare whole-task completion outside its authority.
+
+## Plan-Backed Execution Handoff
+
+Use this structure only when a current approved plan governs implementation. It specializes the universal fields for one execution transition; it does not create a second plan, ledger, or router.
+
+The coordinator cursor must identify:
+
+- original outcome and scope envelope;
+- current spec and plan identity and currentness;
+- completed plan units with pointers to accepted evidence;
+- dependency-eligible and pending units;
+- current batch or `none`;
+- declared review checkpoints and the preserved review warrant, cadence, depth, and semantic lanes;
+- active finding IDs and dispositions;
+- exact next allowed transition;
+- invalidators or re-plan triggers.
+
+An executor handoff must add:
+
+- exact authorized plan-unit IDs;
+- satisfied dependencies and accepted prior-state identity;
+- batch objective and required observable behavior;
+- target and non-target boundaries;
+- acceptance criteria and exact verification or evidence required for each unit;
+- checkpoint approached or `none`;
+- conditions that require stopping and returning instead of widening scope;
+- required return fields: completed and unproved unit IDs, changed paths or artifacts, produced behavior, decisive verification evidence, deviations and blockers, checkpoint reached or `none`, and resulting state identity.
+
+The full plan may accompany the handoff for context, dependency awareness, and contradiction detection. It is not authorization beyond the named batch. Reject a handoff whose operative scope is only “implement the plan.”
+
+Select one or more units only when dependencies are satisfied, implementation context and verification are coherent, and the batch remains within one review checkpoint. Unit, file, time, token, and cost counts do not determine the boundary. Units in one batch retain separate acceptance evidence and required dependency order.
+
+On return, compare the result to the exact authorization. Advance only proven units, preserve unproved units as pending, update active findings and state identity, and stop at a reached checkpoint. Classify an executor return as intermediate state unless it independently proves the original outcome and every remaining warranted gate for the same current identity.
 
 ## Gate: To PRD
 
@@ -153,6 +217,21 @@ Pass condition:
 Failure output:
 
 `Blocked: runtime polish/QA lacks launch target, observable surface, or safe fix boundary: <specific gap>.`
+
+## Gate: To Reusable Project Verifier
+
+Pass condition:
+
+- A reusable project verifier is the explicit accepted outcome, or current evidence shows a recurring verification need and that outcome has been explicitly accepted into scope.
+- Repository mutation and the required live launch, drive, evidence, and cleanup actions are separately authorized.
+- `testing-strategy` owns the feature map, lifecycle stages, evidence semantics, failure classification, currentness, maintenance, and retirement decision.
+- The project exposes an existing mechanism owner for its exact verifier form, or the orchestrator routes mechanism construction to the applicable project/tool implementation owner without making `testing-strategy` own scripts, commands, skills, selectors, credentials, or framework syntax.
+- The handoff names current project source, accepted feature scope, canonical observer, authority boundary, temporary-state and cleanup constraints, expected mechanism-owner return, and first live proof.
+- Closure requires consuming the mechanism-owner return and running the returned project verifier; a design, generated file, feature map, command exit, or owner-local completion claim is not enough.
+
+Failure output:
+
+`Blocked: reusable project verifier lacks <accepted recurring need/mutation authority/live-action authority/project mechanism owner/current source/feature scope/real observer/cleanup contract/return contract>.`
 
 ## Gate: To Operational Or Reporting Owner
 
@@ -266,12 +345,13 @@ Pass condition:
 - `Delegation warranted: yes` names how isolation, parallelism, specialist capability, or context focus materially improves the result relative to re-derivation cost.
 - Any separately warranted spec or plan is current; delegation alone did not create either warrant.
 - Handoff includes the complete assurance decision, objective, context, constraints, target boundary, non-target boundary, source strength, isolation/overlap state, verification ownership, and stop triggers.
+- When a plan governs execution, the [Plan-Backed Execution Handoff](#plan-backed-execution-handoff) is complete and authorizes exact plan-unit IDs. Supplying the plan without an exact batch does not pass this gate.
 - The coder is not being asked to decide product/spec truth.
 - Parallel or serial execution has been chosen from overlap risk, shared state, verifier availability, and rollback/re-plan triggers.
 
 Failure output:
 
-`Blocked: coder handoff lacks an independent delegation warrant, approved boundary, applicable warranted artifact, or asks coder to resolve upstream truth.`
+`Blocked: coder handoff lacks an independent delegation warrant, approved boundary, applicable warranted artifact, exact authorized plan batch when required, or asks coder to resolve upstream truth.`
 
 ## Gate: To Implementation Review
 
@@ -344,6 +424,7 @@ Stop execution and return to the appropriate upstream workflow when:
 - a requested commit, push, PR, publish, sync, schedule, tracker update, or metadata mutation lacks explicit approval or current target readback;
 - review finds a product, architecture, or spec issue rather than a local implementation defect;
 - a direct fix becomes multi-surface or uncertain;
+- a downstream addition cannot trace to the accepted scope envelope;
 - user intent changes materially.
 
 Do not silently revise the plan while implementing. Return to spec or plan when upstream truth changes.

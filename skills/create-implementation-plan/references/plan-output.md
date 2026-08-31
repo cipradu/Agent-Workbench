@@ -45,6 +45,7 @@ The compact minimum is:
 - objective and boundaries;
 - current evidence for affected surfaces;
 - dependent units and order;
+- batch affinity and exclusions for each unit, without pre-authorizing a runtime batch;
 - relevant verification and state identity;
 - re-plan triggers;
 - review decision.
@@ -74,6 +75,8 @@ Uncertainty or acceptance gap resolved:
 ## Current Evidence For Affected Surfaces
 
 ## Dependent Units And Order
+
+For each stable unit ID, record dependencies, target/non-target boundary, required verification, review checkpoint or `none`, batch affinity, and batch exclusions. The coordinator selects the exact authorized batch from current execution state; this plan does not authorize all remaining units.
 
 ## Verification Posture And State Identity
 
@@ -243,8 +246,8 @@ Record cadence and reason. Include the checkpoint table only when cadence is `ch
 
 ### Unit Summary
 
-| Unit | Name | Spec IDs | Depends on | Review cadence/checkpoint | Parallel group | Risk | Test posture | Status |
-| ---- | ---- | -------- | ---------- | ----------------- | -------------- | ---- | ------------ | ------ |
+| Unit | Name | Spec IDs | Depends on | Review cadence/checkpoint | Batch affinity | Parallel group | Risk | Test posture | Status |
+| ---- | ---- | -------- | ---------- | ------------------------- | -------------- | -------------- | ---- | ------------ | ------ |
 
 ### UNIT-001 — short unit name
 
@@ -267,6 +270,8 @@ Execution note:
 Approach logic:
 Technical design:
 Dependencies:
+Batch affinity: units that may share one coherent executor return and why, or `none`
+Batch exclusions: units or boundaries that cannot share a batch and why
 Implementation-time unknowns: non-blocking unknowns only, with resolution method and re-plan trigger; blockers must not appear as executable unit work
 Workspace / isolation requirement:
 Verification environment:
@@ -316,9 +321,16 @@ For each category: applicable | not applicable with evidence-backed reason.
 - linked spec:
 - plan file:
 - repo/root:
+- exact authorized batch IDs, filled by the coordinator from the current cursor:
+- satisfied dependencies and accepted prior-state identity:
+- batch objective and expected behavior:
+- batch target and non-target boundaries:
+- per-unit acceptance and verification evidence required on return:
 - review decision and checkpoint summary when applicable:
 - assigned unit checkpoint or `none`/`single_final` reason:
 - checkpoint crossing rule when applicable:
+- batch invalidators and stop conditions:
+- required return fields: completed and unproved unit IDs, changed paths/artifacts, produced behavior, decisive evidence, deviations/blockers, checkpoint reached or `none`, and resulting state identity
 - workspace / isolation requirement:
 - instruction files and rules applied:
 - ADRs applied:
@@ -342,8 +354,9 @@ For each category: applicable | not applicable with evidence-backed reason.
 ### Execution Rules
 
 - Read the linked spec, plan header, rules/ADR/skills list, current-state evidence, and current unit before editing.
+- Treat the complete plan as context for dependencies and contradictions, not as authority beyond the coordinator's exact authorized batch. Stop if no exact batch IDs or accepted prior state were supplied.
 - Stay inside the unit target boundary and respect non-target boundaries.
-- Execute units in dependency order and only parallelize units marked safe for parallel execution.
+- Execute only the authorized units in dependency order and only parallelize units marked safe for parallel execution.
 - Run the unit verification exactly as specified and capture evidence before claiming the unit is done.
 - Honor approval gates before touching gated surfaces.
 - Stop and re-plan when any re-plan trigger fires.
@@ -384,6 +397,7 @@ Disposition: addressed | addressed differently | not addressing | declined | nee
 - [ ] Key Technical Decisions are indexed, or no material decisions beyond direct spec decomposition exist.
 - [ ] High-Level Technical Design is present when the plan structure needs it, or intentionally omitted because prose is sufficient.
 - [ ] Unit graph is dependency-ordered.
+- [ ] Every unit records batch affinity and exclusions, and the executor handoff reserves exact batch authorization for the runtime coordinator.
 - [ ] Every behavior-bearing unit has input/action/expected test scenarios.
 - [ ] Every unit has cause, effect, evidence, boundaries, quality constraints, blast radius, verification, reviewer focus, approval gates, and re-plan triggers.
 - [ ] Conditional facets were applied where load-bearing and omitted where not applicable.
@@ -428,6 +442,8 @@ Execution note: test-first | characterization-first | acceptance-first | migrati
 Approach logic: detailed implementation reasoning without code
 Technical design: optional high-level sketch, state model, protocol outline, or diagram description when prose alone would leave the approach ambiguous
 Dependencies: unit IDs, approvals, migrations, data prerequisites, external decisions
+Batch affinity: other units that may share one coherent executor return and the evidence-based reason, or `none`
+Batch exclusions: units or boundaries that cannot share a batch because of dependency, checkpoint, shared-state, isolation, or verification constraints
 Implementation-time unknowns: non-blocking unknowns only, resolution method, and re-plan trigger; blockers belong in the blocked packet or re-plan route
 Workspace / isolation requirement: current checkout | existing isolated workspace | separate workspace required | no special isolation
 Verification environment: preflight, required tool/runtime, known automation limits, manual evidence fallback, cleanup
@@ -545,6 +561,22 @@ Blocking gate:
 
 ## Partial Findings That Are Safe to Keep
 
+## User Decision Evidence
+
+Include this section only when user authority is required.
+
+User-visible situation and consequence:
+Why no safe authorized default exists:
+Exact plan truth, requirement, or dependent work blocked:
+Unaffected work:
+Recommended resolution:
+Exact source artifact or plan behavior approval changes:
+Material effect:
+Material cost and risk:
+What happens if no change is made:
+Materially distinct alternatives, or `none`:
+Supporting evidence and limits:
+
 ## Next Required Action
 
 ## Recommended Default
@@ -554,7 +586,7 @@ Blocking gate:
 
 A plan is ready only when it is useful to three readers:
 
-- **Executor:** can execute units in order without guessing or reading hidden conversation context.
+- **Executor:** can execute one exact coordinator-authorized batch in dependency order without guessing, treating the rest of the plan as context rather than authority.
 - **Reviewer:** can verify spec alignment, risk, evidence, and task boundaries.
 - **Future maintainer:** can understand why this implementation path was chosen and what alternatives were rejected.
 

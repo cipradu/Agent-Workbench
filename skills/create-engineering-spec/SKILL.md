@@ -62,7 +62,11 @@ First run the common warrant gate, then run only the selected form. Do not make 
 
 Before decomposition, consume the orchestrator's assurance decision and confirm that a durable engineering spec is the right artifact.
 
+Consume the accepted scope envelope: `Outcome`, `Non-goals`, `Target boundary`, `Acceptance proof`, and `Expansion or re-plan triggers`. The spec may clarify durable engineering truth inside that envelope; it must not enlarge the requested outcome because a broader design looks cleaner, more complete, or more future-proof.
+
 A spec is warranted only when durable behavior, constraints, invariants, authority, contracts, or unresolved choices must survive implementation. A code change, control-artifact change, artifact label, file count, configuration status, delegation choice, or Standard lane alone is insufficient.
+
+Every normative requirement and proposed capability must trace to the accepted outcome, a current named risk or invariant, a required compatibility obligation, or an explicit authority-backed constraint. Reject or record as non-scope an item with no such trace. If newly discovered evidence makes an expansion necessary, return the concrete fact, affected consequence or gate, and changed next action to the orchestrator; do not hide the expansion inside decomposition, risk analysis, an edge case, or a reviewer suggestion.
 
 Name the uncertainty or acceptance gap the spec can resolve and how its result changes the next action. If no result can change the next action, stop this phase and reference the existing sufficient evidence. If `Spec warranted: no`, do not create a spec merely because this skill was invoked; preserve any valid completed spec and return to the recorded route.
 
@@ -125,6 +129,8 @@ Research is not “search everything.” For a compact Standard spec, research o
 Treat the model's built-in knowledge of external libraries, frameworks, versions, APIs, protocols, and standards as presumed stale. Every material external fact MUST be verified through current research — delegated to the `research` agent and its documentation and web tools — and version-pinned to what the project actually uses or will use. Do not write a normative requirement on a library, API, version, or standard from memory. Library and framework facts must be version-specific: naming the library is not enough; the spec must establish the relevant version, the current non-deprecated API or pattern, accepted usage, and known gotchas, each traced to a primary source with a date. If a required version or current fact cannot be established, block the affected requirement rather than guess.
 
 Ask questions only after discovery makes them informed. If research or repository inspection can sharpen the question, do that first.
+
+When user authority is still required, preserve a decision-evidence packet instead of emitting a raw technical question: the user-visible situation and consequence; why no safe authorized default exists; the exact requirement, spec truth, or downstream work blocked; unaffected work; the recommended resolution; the exact requirement or artifact change approval would authorize; its material effect; its material cost and risk; what happens if no change is made; materially distinct alternatives only when they exist; and supporting evidence or limits. If the active agent is user-facing, translate the packet through the harness decision-readiness gate. Otherwise return it to the orchestrator. Do not lead with requirement IDs, APIs, settings, schemas, or source paths, and do not turn equivalent outcomes into separate options.
 
 Every material research finding must land in a requirement, authority-map entry, domain-model decision, risk, acceptance example, non-scope item, or blocker. Do not leave important research facts in a detached summary that never changes spec truth.
 
@@ -205,6 +211,7 @@ For runtime, browser-visible, local-development, platform-specific, or agent/wor
 
 An engineering spec must shape scope deliberately instead of listing an idealized feature set. Borrow the useful Shape Up discipline without weakening the spec gates:
 
+- Envelope before feature set: preserve the accepted outcome, non-goals, target boundary, acceptance proof, and expansion triggers. Do not turn implementation convenience, generic completeness, or possible future use into normative scope.
 - Problem before solution: state the current baseline, who or what is affected, and the cost of the status quo before writing requirements.
 - Appetite before scope expansion: identify the delivery appetite or decision budget when the user or project provides one. Appetite is how much the work is worth, not an implementation estimate.
 - Fixed appetite, variable scope: when the desired solution does not fit the appetite, cut or defer scope explicitly instead of expanding the time budget inside the spec.

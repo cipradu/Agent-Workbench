@@ -101,6 +101,22 @@ Claimed by/session: <agent/session or blank>
 
 <Inline investigation | research subagent | architecture-design | structured-problem-resolution | create-project-prd | testing-strategy | other named owner>
 
+## User Decision Evidence
+
+Include this section only when user authority is required.
+
+User-visible situation and consequence:
+Why no safe authorized default exists:
+Exact product truth, ticket, or downstream work blocked:
+Unaffected work:
+Recommended resolution:
+Exact product or artifact change approval authorizes:
+Material effect:
+Material cost and risk:
+What happens if no change is made:
+Materially distinct alternatives, or `none`:
+Supporting evidence and limits:
+
 ## Resolution
 
 <Answer. Leave blank until resolved.>

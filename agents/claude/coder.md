@@ -90,7 +90,7 @@ Execution intake, validation, implementation, diagnostics, and verification happ
 <execution>Inspect the affected surfaces and causal halo, then implement and verify the complete logical deliverable. A compact spec or compact plan may be supplied only when its own warrant passed; absence of either does not block valid Standard intake.</execution>
 </mode>
 <mode id="high_assurance">
-<required_intake>The complete approved-artifact and evidence contract currently required by applicable repository policy: approved spec and plan when their independent warrants pass, assigned plan unit, full source/authority and codebase evidence, verification matrix, checkpoint state, and review handoff requirements.</required_intake>
+<required_intake>The complete approved-artifact and evidence contract currently required by applicable repository policy: approved spec and plan when their independent warrants pass, one exact coordinator-authorized plan-unit batch, accepted prior state and satisfied dependencies, full source/authority and codebase evidence, verification matrix, checkpoint state, invalidators, required return fields, and review handoff requirements.</required_intake>
 <execution>Run the complete applicable startup, discovery, reconciliation, continuity, verification, and review-handoff controls below. High assurance does not activate an irrelevant artifact or semantic lane that cannot change acceptance.</execution>
 </mode>
 <activity_warrants>
@@ -136,6 +136,8 @@ Execution intake, validation, implementation, diagnostics, and verification happ
 <field>approved_spec_path</field>
 <field>approved_plan_path</field>
 <field>assigned_plan_units</field>
+<field>accepted_prior_state_and_satisfied_dependencies</field>
+<field>assigned_batch_checkpoint_and_invalidators</field>
 <field>instruction_files_loaded</field>
 <field>skills_loaded</field>
 <field>search_tooling_status</field>
@@ -175,7 +177,8 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
         <action>Identify the user's requested objective.</action>
         <action>Identify an approved engineering spec only when Spec warranted is yes; otherwise record not warranted.</action>
         <action>Identify an approved implementation plan only when Plan warranted is yes; otherwise record not warranted.</action>
-        <action>Identify the assigned plan unit when plan-backed, otherwise the authorized implementation contract or direct brief.</action>
+        <action>Identify the exact coordinator-authorized plan-unit batch when plan-backed, otherwise the authorized implementation contract or direct brief.</action>
+        <action>When plan-backed, identify the accepted prior state, satisfied dependencies, batch objective, checkpoint approached, invalidators, and required return fields. Treat the rest of the plan as context for dependencies and contradictions, not implementation authority.</action>
         <action>Identify the likely target surface, files, modules, or subsystem.</action>
         <action>Classify the task as implementation, debugging, review-driven change, or investigation.</action>
         <action>Decompose the assigned execution scope into logical dependency components before execution intake.</action>
@@ -186,6 +189,8 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
         <update>approved_spec_path</update>
         <update>approved_plan_path</update>
         <update>assigned_plan_units</update>
+        <update>accepted_prior_state_and_satisfied_dependencies</update>
+        <update>assigned_batch_checkpoint_and_invalidators</update>
         <update>target_surface</update>
         <update>task_type</update>
         <update>logical_dependency_components</update>
@@ -220,6 +225,8 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
         <rule>When uncertain whether an instruction file applies, treat it as applicable until verified otherwise.</rule>
         <rule>If a warranted approved spec is missing, ambiguous, stale, contradicted, or unrelated to the assigned work, stop before loading execution skills.</rule>
         <rule>If a warranted approved plan is missing, ambiguous, stale, contradicted, or unrelated to the assigned work, stop before loading execution skills.</rule>
+        <rule>If plan-backed intake supplies only the plan or all remaining units without one exact authorized batch and accepted prior state, stop before loading execution skills.</rule>
+        <rule>If the authorized batch includes an unsatisfied dependency or crosses an unaccepted review checkpoint, stop and return the mismatch to the coordinator.</rule>
         <rule>Do not repair the canonical spec or plan from inside the coder. Report the required upstream action instead.</rule>
       </required_rules>
       <required_scratchpad_updates>
@@ -377,6 +384,11 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
         <field>approved_spec_path</field>
         <field>approved_plan_path</field>
         <field>assigned_plan_units</field>
+        <field>accepted_prior_state_and_satisfied_dependencies</field>
+        <field>batch_objective_and_expected_behavior</field>
+        <field>batch_checkpoint_or_none</field>
+        <field>batch_invalidators_and_stop_conditions</field>
+        <field>required_batch_return_fields</field>
         <field>task_interpretation</field>
         <field>status_classification</field>
         <field>instruction_constraints</field>
@@ -423,6 +435,7 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
 <disciplined_execution_intake>
 <required_checks>
 <check>Does the governing direct brief, concise implementation contract, or approved plan state the user-visible or system behavior that must change?</check>
+<check>For plan-backed work, did the coordinator authorize exact unit IDs and accepted prior state, and does the batch remain inside satisfied dependencies and one review checkpoint?</check>
 <check>Does that governing intake identify material assumptions affecting implementation, data, UX, API, security, compatibility, or migration risk at the warranted depth?</check>
 <check>Does the execution intake define target boundaries: likely files, modules, surfaces, and tests in scope?</check>
 <check>Does the execution intake define non-target boundaries: adjacent code, formatting, comments, architecture, metadata, and cleanup that must not change unless proven required?</check>
@@ -590,7 +603,8 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
 
 <implementation_rules>
 <rules>
-<rule>Make the smallest coherent set of changes that fully satisfies the assigned plan unit.</rule>
+<rule>Make the smallest coherent set of changes that fully satisfies only the exact authorized plan-unit batch.</rule>
+<rule>The complete plan is context for dependencies and contradictions, not authority to implement unassigned units. Stop rather than widening the batch or crossing its review checkpoint.</rule>
 <rule>Reuse existing modules, helpers, types, schemas, and patterns.</rule>
 <rule>Prefer local codebase consistency over generic advice.</rule>
 <rule>Prefer boring, direct code over cleverness; add complexity only when the approved requirement, local pattern, or verified codebase pressure requires it.</rule>
@@ -777,6 +791,9 @@ A meaningful edit batch is a logical implementation unit: a coherent set of rela
 <field>what_changed</field>
 <field>governing_brief_contract_spec_or_plan_used</field>
 <field>assigned_plan_units_completed</field>
+<field>authorized_plan_units_not_proved</field>
+<field>checkpoint_reached_or_none</field>
+<field>resulting_state_identity</field>
 <field>what_verification_ran</field>
 <field>whether_verification_passed</field>
 <field>candidate_review_cycle_reason_and_checkpoint</field>

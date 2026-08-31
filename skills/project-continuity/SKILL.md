@@ -167,6 +167,8 @@ When starting or resuming work, use continuity to orient the workflow:
 - next valid action;
 - risks, stale assumptions, or source-truth conflicts.
 
+When a current approved plan governs implementation, also reconcile the plan-backed resume boundary: governing spec and plan identity/currentness; last accepted execution batch or review checkpoint with an evidence pointer; exact next authorized batch or workflow action; active review finding IDs and dispositions; and evidence changes that invalidate direct resume or require re-planning. If these fields are absent, use the plan, review source, and repository state to recover them before implementation; do not translate a vague `continue implementation` note into authority.
+
 Do not let continuity skip the normal workflow gate. If the next action requires diagnosis, spec, plan, review, ADR, or another skill, route there after orientation.
 
 Completion criterion: the next workflow action is selected with continuity considered but not treated as authority over source truth.
@@ -184,6 +186,8 @@ Capture:
 - next valid action;
 - source-truth links or paths;
 - compact update entry with date and what changed.
+
+For a meaningful pause in plan-backed implementation, capture the governing spec/plan identity, last accepted batch or checkpoint, exact next batch or workflow action, active finding state, and invalidators. Link to the plan, verification, and review evidence instead of copying their contents. This records the current resume boundary only; it does not redefine plan order, review findings, or acceptance.
 
 Do not record raw chat, every command, every file touched, or information already obvious from commits/diffs unless it explains the next action or a blocker.
 
@@ -223,6 +227,7 @@ Allowed resume-critical links and summaries include:
 - branch, commit, worktree, PR number, or CI state when that state is already in scope and affects resume;
 - dogfood, optimization, polish, product-pulse, proof, or generated-report path when another workflow produced it and its state affects resume;
 - local runtime context such as command source, working directory, port, log path, or ignored scratch path only when the next session needs it.
+- plan-backed cursor state limited to governing spec/plan identity, last accepted batch or checkpoint, exact next batch or workflow action, active finding IDs/dispositions, invalidators, and evidence pointers.
 
 Do not create, validate, publish, update, or copy these artifacts from this skill. Link to their durable source and summarize only the state needed to resume.
 
@@ -262,6 +267,7 @@ Next action: <one concrete action>
 ## Current Work
 
 - Checkpoint: <latest meaningful completed/blocked checkpoint>
+- Plan execution: <governing spec/plan; last accepted batch or checkpoint; exact next batch/action; active findings; invalidators, or not applicable>
 - Evidence: <paths, commits, PRs, review verdicts, command outputs, or issue links>
 - Uncertainty: <known unknowns or none>
 
@@ -288,6 +294,7 @@ Workers, reviewers, and downstream workflows can return a continuity signal for 
 Continuity signal:
 - Checkpoint: <latest meaningful checkpoint>
 - Active artifact: <path/id or none>
+- Plan execution: <governing spec/plan; last accepted batch or checkpoint; exact next batch/action; active findings; invalidators, or not applicable>
 - Evidence: <path/command/id or none>
 - Blocker: <specific blocker or none>
 - Next action: <one concrete action or none>
@@ -348,6 +355,7 @@ Before reporting completion of a continuity update:
 
 - confirm the artifact path updated or explain why no update was required;
 - confirm the top of the artifact states current focus, blocker status, and next action;
+- when plan-backed work is paused or handed off, confirm the resume boundary names governing identity, last accepted batch/checkpoint, exact next batch/action, active findings, invalidators, and evidence pointers;
 - confirm any completed state is backed by source truth;
 - confirm conflicts or uncertainty are explicit;
 - confirm the update is narrow, idempotent, and free of sensitive or local-only data unless explicitly labeled.

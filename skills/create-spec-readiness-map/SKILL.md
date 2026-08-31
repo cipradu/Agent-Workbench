@@ -161,6 +161,8 @@ To resolve a ticket:
 
 If resolution reveals that product truth is missing, set the ticket to `blocked-product` and route to `create-project-prd` or the user. If it reveals that spec creation is now possible, do not write the spec here; proceed to Step 7.
 
+When a ticket requires user authority, preserve a decision-evidence packet before routing or asking: the user-visible situation and consequence; why no safe authorized default exists; the exact product truth, ticket, or downstream spec work blocked; unaffected work; the recommended resolution; the exact product or artifact change approval would authorize; its material effect; its material cost and risk; what happens if no change is made; materially distinct alternatives only when they exist; and supporting evidence or limits. If the active agent is user-facing, translate that packet through the harness decision-readiness gate. Otherwise return it to the orchestrator. Do not paste ticket internals as the explanation, manufacture an A/B/C menu, or mark the ticket resolved before the authority decision exists.
+
 Completion criterion: the ticket has a resolution, evidence, source strength, spec impact, and any follow-up tickets or fog changes.
 
 ## Step 6: Update the Map

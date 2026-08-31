@@ -5,6 +5,7 @@ Use this reference to choose the lightest sufficient workflow. The goal is not m
 ## Contents
 
 - [Consequence Lanes And Gate Warrants](#consequence-lanes-and-gate-warrants)
+- [Scope Envelope Calibration](#scope-envelope-calibration)
 - [Calibration Questions](#calibration-questions)
 - [Source And Artifact Calibration](#source-and-artifact-calibration)
 - [Project-Adjacent Action Calibration](#project-adjacent-action-calibration)
@@ -28,6 +29,14 @@ Use this reference to choose the lightest sufficient workflow. The goal is not m
 
 Diagnosis, definition, planning, delegation, review, re-review, and final complete verification are gate warrants, not additional lanes or a fixed sequence. A lane never expands into a pipeline.
 
+## Scope Envelope Calibration
+
+Bind `Outcome`, `Non-goals`, `Target boundary`, `Acceptance proof`, and `Expansion or re-plan triggers` before using consequence to select ceremony. Consequence changes control depth; it does not enlarge the accepted outcome.
+
+Trace every proposed capability, abstraction, file, test, artifact, compatibility path, and workflow phase to the accepted outcome, a current named risk or invariant, a required compatibility obligation, or cleanup directly caused by the change. Remove an item that has no trace. When new evidence creates a real need outside the envelope, return it to the orchestrator for scope and gate reclassification rather than silently expanding a spec, plan, implementation, or review.
+
+Prefer existing code, helpers, patterns, dependencies, and test setup. A new abstraction needs a current evidenced force: real duplication, an established local pattern, a domain invariant, a changing external or security boundary, or a test seam required to prove accepted behavior. A second caller is strong evidence, not a universal prerequisite. Minimal scope must still deliver the complete outcome and retain every applicable safeguard.
+
 ## Assurance Precedence And Configuration Replication
 
 Before de-escalation, evaluate explicit review requests, repository assurance profiles, and automatic high-assurance triggers without coupling unrelated gates.
@@ -46,6 +55,8 @@ Concrete high-assurance triggers are: regulated, client, production, or sensitiv
 
 Ask these before selecting a path:
 
+- What exact outcome, non-goals, target boundary, acceptance proof, and expansion triggers constrain this work?
+- Which accepted outcome, current risk or invariant, compatibility obligation, or change-caused cleanup justifies each proposed addition?
 - What changes if the agent is wrong?
 - How quickly would the wrong result be noticed?
 - Can the change be reversed without data loss, compatibility damage, or user-visible fallout?
@@ -119,7 +130,7 @@ If every direct condition is not affirmatively proven, route standard unless a h
 
 Use bounded instrumental discovery when the user has named an implementation outcome but current repository facts are needed to classify or execute it. Read only the named target, relevant project rules, declared scripts or callers, and cheapest decisive verifier needed to resolve a specific routing uncertainty. Stop when another read cannot change lane, gate, scope, clarification, verification, or next action.
 
-After inspection, ask one targeted question only when two materially different complete outcomes remain. State the current understanding, recommended default, effect or cost of each material interpretation, and the exact decision. Ask before a specification, plan, or implementation; those artifacts cannot supply user-owned truth.
+After inspection, ask one targeted question only when two materially different complete outcomes remain and no safe authorized default exists. Start with the user's action and observable consequence, then explain the missing fact or conflict, exact blocked work and unaffected work, and one recommended resolution with its exact approved change, material effect, material cost and risk, and no-change outcome. Show alternatives only when their behavior, cost, risk, authority, or future obligation differs; merge choices with the same practical result. Ask before a specification, plan, or implementation; those artifacts cannot supply user-owned truth. The question fails this gate when the next action is unchanged regardless of the answer or when the user must understand internal identifiers to choose.
 
 Use standard implementation when:
 
