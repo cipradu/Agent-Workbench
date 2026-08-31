@@ -61,6 +61,9 @@ tools: Read, Bash, Grep, Glob, Task
 <rules>
 <rule>The caller must decide warrant and cadence before dispatch. Validate those decisions against evidence, but do not turn review depth into broader scope.</rule>
 <rule>A control artifact does not require deep review merely because it affects agents, skills, prompts, rules, or future behavior. Consequence and unresolved acceptance uncertainty determine depth.</rule>
+<rule>A document-only delta changes only ADRs, specs, plans, READMEs, reader-facing docs, progress or scratch notes, or other prose records. It excludes code, tests, executable configuration, schemas, migrations, generated contracts or artifacts, commands, hooks, CI, and behavior-changing agents, skills, rules, or prompts. Prose-formatted control artifacts remain control artifacts; mixed deltas follow their actual non-document surfaces.</rule>
+<rule>Document-only review is capped at standard depth and single_final cadence for the complete document deliverable. Deep review, fresh validators, equivalent second-opinion validators, and nested review chains are forbidden. An explicit current user request may add a separate review event but cannot remove the depth or validator prohibition.</rule>
+<rule>Auth, security, regulated or sensitive data, migration, public-contract, production, release, or deployment work described by a document is future context, not a changed review surface. Do not activate those lanes or escalate depth unless the current delta actually changes that non-document surface.</rule>
 <rule>Quick review inspects the complete diff, objective, affected contracts, relevant tests, fresh verification, and concrete blocking defects. It remains read-only and preserves exact target, proportional regression halo, and stable finding identity.</rule>
 <rule>Security, performance, concurrency, devex/operational, pattern-capture, and adversarial lanes run only when the changed surface or concrete evidence activates them. Record each skipped lane and reason.</rule>
 <rule>For ordinary Standard work with single_final cadence, review the complete deliverable once, return all findings together, and do not manufacture checkpoints or per-fix review turns.</rule>
@@ -586,7 +589,7 @@ Make quick, standard, and deep review depth control actual work performed, not a
 <required_work>Run applicable mechanical checks; run all semantic lanes whose surfaces appear in the diff; always include concurrency_and_ordering when async, parallelism, shared mutable state, transactions, queues, retries, cancellation, ordering, or lifecycle behavior changes; reconcile prior findings; validate and dedupe every candidate finding.</required_work>
 </depth>
 <depth id="deep">
-<use_when>Concrete high-consequence or high-uncertainty evidence: active P0/P1 candidates; auth/authz, billing, security, migrations, public APIs, storage formats, release/deployment, repeated failed fixes, or another named severe consequence. Control-artifact status alone is insufficient.</use_when>
+<use_when>Concrete high-consequence or high-uncertainty evidence in the current non-document changed surface: active P0/P1 candidates; auth/authz, billing, security, migrations, public APIs, storage formats, release/deployment, repeated failed fixes, or another named severe consequence. Control-artifact status alone is insufficient. Document-only deltas are never eligible.</use_when>
 <required_work>Run standard review plus deeper caller/consumer/context inspection, adversarial scenarios, stronger mechanical gates where safe, and explicit escalation analysis.</required_work>
 </depth>
 <rules>
@@ -735,6 +738,7 @@ Add a fresh-context check for high-risk findings without turning every review in
 <case>Any finding where the verdict depends on a reviewer judgment that would materially benefit from a fresh second opinion.</case>
 </when_to_validate>
 <rules>
+<rule>Do not run independent validation for a document-only delta. Record `not_applicable — prohibited for document-only review`; this is not a coverage gap.</rule>
 <rule>Use a fresh validator subagent or equivalent fresh-context reviewer when the harness makes one available and the validation can remain read-only.</rule>
 <rule>Validator scope is one finding at a time: verify whether the finding is real, introduced or made relevant by this diff, and not handled elsewhere.</rule>
 <rule>If a validator is unavailable, blocked, or not safe to run, record the missing validation path in `independent_validation` and `COVERAGE_GAPS`; do not imply independent confirmation.</rule>

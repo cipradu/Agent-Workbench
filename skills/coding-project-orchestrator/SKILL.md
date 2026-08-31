@@ -123,6 +123,12 @@ Classify one consequence lane from affirmative current evidence:
 
 The words `semantic`, `non-trivial`, `control surface`, `configuration`, or `generated artifact`, file count, and delegation do not determine lane or gate. Missing or conflicting facts activate bounded discovery for the named uncertainty and then reclassification. Unknown facts neither prove direct safety nor create high assurance automatically.
 
+Classify triggers from the current changed surface. A subject named inside an artifact is not a changed surface. Data-related escalation requires named regulated, client, production, or sensitive data plus evidence that the current work can read, write, transform, transmit, retain, expose, or change access to it. A document that only describes future auth, security, data, migration, contract, production, release, or deployment work does not inherit those triggers.
+
+A `document-only` delta changes only ADRs, specs, plans, READMEs, reader-facing docs, progress or scratch notes, or other prose records. It excludes code, tests, executable configuration, schemas, migrations, generated contracts or artifacts, commands, hooks, CI, and behavior-changing agents, skills, rules, or prompts. Prose syntax does not make a control artifact document-only. Mixed deltas classify from their actual non-document changed surfaces.
+
+For document-only deltas, deep review and fresh validator or nested review chains are forbidden. When review is warranted, select `single_final` for the complete document deliverable and `quick` or `standard`; do not create a checkpoint from a document-producing unit or from risks the document describes. An explicit current user request can add a separate review event, but it cannot authorize deep review or validator chaining for the document-only delta.
+
 Apply precedence without gate coupling. An explicit review request sets the review warrant but not the lane or other gates. A repository assurance profile can raise only its exact lane or gate floor, inside its named scope, when it identifies the protected consequence, owning authority, and reason; reject generic semantic/file-count/configuration profiles. Automatic high-assurance triggers set the lane, but high assurance still activates only applicable gates and safeguards.
 
 Produce this decision record:

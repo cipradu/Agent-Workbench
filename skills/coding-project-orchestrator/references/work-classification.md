@@ -95,6 +95,10 @@ Classify `Lane: high_assurance` only from one or more named triggers:
 - a broad system-wide control change that changes permission, mutation, or acceptance boundaries;
 - a source-backed severe consequence whose blast radius, delayed detectability, difficult recovery, trust impact, or operational-continuity impact is material.
 
+Each trigger must be a consequence of the current changed surface, not a topic mentioned in an artifact. A data trigger requires named data and a current path that can read, write, transform, transmit, retain, expose, or change access to it. An ADR, spec, plan, README, reader-facing document, progress note, scratch note, or other prose record does not inherit auth, security, data, migration, public-contract, production, release, or deployment triggers from the future work it describes.
+
+Treat a delta as `document-only` only when it changes those prose records and no code, tests, executable configuration, schema, migration, generated contract or artifact, command, hook, CI, or agent, skill, rule, or prompt behavior. Prose-formatted control artifacts remain control artifacts. Mixed deltas classify from the non-document surfaces they actually change.
+
 High assurance retains every applicable existing safeguard at sufficient depth. It does not force an irrelevant spec, plan, delegation, review lane, or checkpoint whose result cannot change acceptance.
 
 ## Escalation Discipline

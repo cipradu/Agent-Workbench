@@ -55,6 +55,19 @@ Quick review must inspect the complete diff, objective, affected contracts, rele
 
 When ordinary Standard review is warranted, return all findings together, fix the allowed batch once, run affected checks and any independently warranted final gate, then stop through contingent acceptance or an accepting verdict. Do not create per-finding review turns.
 
+### Document-Only Review Ceiling
+
+A `document-only` delta changes only ADRs, specs, plans, READMEs, reader-facing docs, progress or scratch notes, or other prose records. It does not change code, tests, executable configuration, schemas, migrations, generated contracts or artifacts, commands, hooks, CI, or agent, skill, rule, or prompt behavior. A prose-formatted control artifact is not document-only when it changes future agent or tool behavior. A mixed delta is not document-only; classify its actual non-document changed surfaces.
+
+For a document-only delta:
+
+- content that describes future auth, security, regulated or sensitive data, migration, public contracts, production, release, or deployment is review context, not evidence that the document change touches those surfaces;
+- review depth is capped at `standard`; `deep` is forbidden;
+- fresh validator subagents, equivalent second-opinion validators, and nested review chains are forbidden, regardless of finding severity or subject matter;
+- when review is warranted, cadence is `single_final` for the complete document deliverable; a plan unit or document topic cannot create a checkpoint;
+- an explicit current user request may add a separate review event, but cannot remove the depth or validator prohibition;
+- re-review, when its normal gate passes, remains `quick` or `standard` and is limited to the corrected document, prior finding reconciliation, and directly affected document truth. It must not reopen future implementation surfaces.
+
 ## Caller Responsibilities
 
 You must do five jobs. Do not delegate these jobs to the reviewer.
@@ -81,6 +94,8 @@ Evaluate any explicit review request, scoped repository assurance profile, concr
 - `explicit_user_request`: the user directly requested independent review;
 - `automatic_high_risk_trigger`: evidence shows regulated/client/production/sensitive data, destructive or hard-to-reverse work, migration/persistence, new or expanded write/admin authority or sensitive-data reach, authentication/authorization/security-boundary design, public/durable contract change, release/deployment authority, broad permission/mutation/acceptance-boundary change, or another source-backed severe consequence;
 - `unresolved_material_judgment`: deterministic evidence cannot resolve a material acceptance question.
+
+Apply trigger terms to the current changed surface. For regulated, client, production, or sensitive data, name the data and show how the current work can read, write, transform, transmit, retain, expose, or change access to it. A document-only delta does not gain an automatic high-risk basis from future implementation or consequences described in its prose.
 
 Determine effective authority from actual credentials, runtime controls, reachable data, and enforced permissions. Advertised operations remain exposure context but do not alone establish realized write/admin authority. A non-mutating authorized connection check can be completed verification; any target-system state change is external mutation.
 
@@ -225,11 +240,13 @@ First classify whether a control-artifact text edit changes behavior:
 | `standard` | Normal implementation changes, tests/config/docs-as-control changes, or ordinary re-review                                                                                                      | Request `standard` unless quick/deep is clearly justified                                              |
 | `deep`     | Concrete broad/high-consequence or high-uncertainty evidence: auth/authz, security, billing, migrations, data models, public APIs, dependencies, concurrency, performance-sensitive paths, release/deploy, repeated failed fixes, or another named severe consequence | Request `deep`, name the evidence and risk surfaces, and expect stronger validation; control-artifact status alone is insufficient |
 
+The `deep` row applies only when those are current changed surfaces or concrete consequences of the current delta. It never applies to a document-only delta, even when the document describes those subjects or governs later implementation. Documents that function as executable control artifacts are excluded from the document-only class and follow their actual control consequence.
+
 Do not exempt semantic control-surface changes merely because they are small. Route low-risk semantic control-surface changes to `quick` with a narrow packet and explicit risk rationale. Use `standard` or `deep` when the change affects mandatory behavior, stop conditions, review requirements, delegation, ownership boundaries, public contracts, permissions, external mutation, or cross-skill workflow behavior.
 
 Depth should follow content shape and risk surface, not file count alone. Name relevant shapes in the packet: runtime code, tests-only, migration/schema, public API/contract, security/auth, dependency/config, generated artifact, docs-as-control, skill/agent/rule/prompt, frontend/UI, performance/concurrency, optimization output, refactor/simplification, review-fix rework, or artifact-only review. Use the review-packet reference for shape-specific evidence.
 
-For every depth, request explicit lane selection: which semantic lanes the reviewer included, which were skipped, and why. Security, performance, concurrency, operational/devex, pattern, and adversarial lanes activate only from changed surfaces or concrete evidence. For `deep` packets or high-risk findings involving security, public contracts, migrations/data, concurrency, release/deploy, or repeated failed fixes, request independent validation of surviving P0/P1/blocking findings when a fresh-context validator capability is available. If that capability is unavailable, the reviewer must report the missing validation path and its acceptance impact instead of implying the finding was independently confirmed.
+For every depth, request explicit lane selection: which semantic lanes the reviewer included, which were skipped, and why. Security, performance, concurrency, operational/devex, pattern, and adversarial lanes activate only from changed surfaces or concrete evidence. For `deep` packets or high-risk findings involving security, public contracts, migrations/data, concurrency, release/deploy, or repeated failed fixes, request independent validation of surviving P0/P1/blocking findings when a fresh-context validator capability is available. This validation path is unavailable by policy for document-only deltas and must not be reported as a coverage gap. In other cases, if the capability is unavailable, the reviewer must report the missing validation path and its acceptance impact instead of implying the finding was independently confirmed.
 
 ## Gate 3 — Dispatch the Reviewer
 
@@ -258,7 +275,7 @@ Constraints:
 - Expand beyond the exact target and initial proportional regression halo only when concrete evidence inside them identifies the smallest required added boundary; record the evidence and expansion.
 - Classify every finding action as `required_correction`, `required_evidence`, `advisory`, `future_candidate`, or `human_decision`.
 - For confidence 75/100 findings and all P0/P1 findings, include the direct `first_evidence` quote, command output, or rule quote that makes the finding true.
-- For high-risk or deep-review findings, attempt independent validation when a fresh-context validator is available; otherwise report the missing validation as a coverage gap or escalation input.
+- For high-risk or deep-review findings on non-document surfaces, attempt independent validation when a fresh-context validator is available; otherwise report the missing validation as a coverage gap or escalation input. For document-only deltas, do not dispatch a validator and record independent validation as `not_applicable — prohibited for document-only review`.
 - Verify prior PR/review comments or external feedback only when the packet supplies that source or explicitly asks the reviewer to retrieve it with read-only tools.
 - Report concrete implementation-pattern capture signals as signals only; do not create or update pattern artifacts.
 - Return the implementation-reviewer structured report.
@@ -366,6 +383,8 @@ When accepted residual risk, non-blocking findings, skipped checks, or material 
 When the verdict is `ACCEPT`, `ACCEPT_WITH_NITS`, or mechanically closed `ACCEPTED_BY_CONDITION`, the active review loop for the reviewed state ends. Do not turn advisory, future-candidate, or accepted residual-risk findings into automatic edits. If the owner chooses a later semantic edit, apply the re-review gate below.
 
 Re-review occurs only for: an explicit request; a concrete high-assurance re-review trigger; `material_reopen`; a nonconforming or additional semantic delta; uncertain conditional proof; or the reviewer-stated inability to evaluate the corrected state safely without another pass. A correction, new evidence, prior state, fingerprint, or scope change alone is not enough unless it establishes one of those triggers.
+
+For a document-only delta, none of those triggers permits `deep` or a validator chain. A valid re-review is a single narrow `quick` or `standard` pass over the corrected document, prior finding IDs, changed document truth, and directly affected document references. Described future implementation, general project importance, and the severity label of a document finding do not expand the re-review into code, runtime, security, data, migration, release, or deployment review.
 
 When this re-review gate passes:
 

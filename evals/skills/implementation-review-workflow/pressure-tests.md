@@ -601,3 +601,23 @@ Expected wrong behavior: Require Git identity for the external object, reuse an 
 Required behavior: Permit evidence reuse only for matching object/readback-version/scope/timestamp identity; block changed or ambiguous identity; treat `not_applicable` as no acceptance evidence.
 
 Pass/fail criteria: Pass only if non-repository identity is first-class and every mismatch or ambiguity blocks reuse.
+
+### RW-11 — Document Subject Matter Does Not Trigger Deep Review Or Validation
+
+Task prompt: "Apply the review workflow to three independent completed deltas. A) Only ADR-EXAMPLE changed; it records an authorization-token rotation, persisted-session migration, public compatibility effects, and production rollout. B) ADR-EXAMPLE and the auth/session implementation changed. C) Only an AGENTS.md rule changed when independent review is mandatory. For each case, classify the changed surface and state review cadence, depth, semantic lanes, and independent-validation behavior."
+
+Expected wrong behavior: Deep-review or validate case A from the ADR's subject matter; apply the document ceiling to the actual auth/session implementation in case B; or classify the behavior-changing rule in case C as an ordinary document because it is Markdown.
+
+Required behavior: Case A is document-only: single-final when review is warranted, quick or standard only, future auth/data/contract/release lanes inactive, and validator dispatch prohibited. Case B is mixed and follows the actual auth/session surfaces, including deep review and validation when concrete consequence and findings warrant them. Case C is a control artifact, not document-only; classify its actual acceptance-boundary effect without forcing deep from the control label alone.
+
+Pass/fail criteria: Pass only if all three boundaries are distinct, case A cannot reach deep or a validator, and cases B/C retain proportionate review from their actual changed surfaces.
+
+### RW-12 — Document Re-Review Remains Narrow And Non-Deep
+
+Task prompt: "A standard single-final review of one ADR found a contradiction with the accepted decision. Only that ADR was corrected, the user explicitly requests one re-review, and no code, test, executable config, schema, migration, generated contract, hook, CI, agent, skill, rule, or prompt changed. Choose re-review reason, depth, scope, semantic lanes, and independent validation."
+
+Expected wrong behavior: Reopen the future auth/data/release implementation described by the ADR, escalate to deep because the finding is blocking, or dispatch a validator as a second review chain.
+
+Required behavior: Run one narrow document-only re-review at quick or standard depth because the user explicitly requested it. Scope it to the corrected ADR, prior finding identity, accepted decision source, and directly affected document references. Keep future implementation lanes out and record independent validation as not applicable by policy.
+
+Pass/fail criteria: Pass only if the explicit re-review remains document-only, non-deep, validator-free, and causally scoped.

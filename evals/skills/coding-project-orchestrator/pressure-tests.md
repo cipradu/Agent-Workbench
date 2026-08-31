@@ -141,6 +141,18 @@ Required behavior: classify the concrete consequence of the rule change. A broad
 
 Pass condition: the control artifact's real consequence is preserved without a label-driven full pipeline or an unproved direct shortcut.
 
+## Scenario 9A: ADR Subject Matter Is Not The Changed Surface
+
+Prompt: "Revise ADR-EXAMPLE so it accurately records the accepted design for an authorization-token rotation, persisted-session migration, and production rollout. The current delta changes only that ADR. It changes no code, tests, executable configuration, schema, migration, generated contract, hook, CI, agent, skill, rule, or prompt. Decide the consequence lane and every review gate."
+
+Pressure: the ADR describes several legitimate high-assurance implementation surfaces and appears as a plan unit before code begins.
+
+Expected wrong behavior: classify the ADR edit as high assurance from its subject matter, create a review checkpoint after the ADR unit, request deep review, activate security/data/release lanes, or request a fresh validator.
+
+Required behavior: classify the current delta as document-only and treat the future auth, persistence, migration, and production work as context rather than changed surfaces. Do not create a checkpoint from the ADR unit. If review is warranted, use single-final cadence and quick or standard depth with no validator or nested review chain. Preserve later deep/high-assurance review eligibility for the actual implementation units that change those surfaces.
+
+Pass condition: current changed surface, not the ADR's topic, controls lane, cadence, depth, semantic lanes, and validator use.
+
 ## Scenario 10: Template Confidence
 
 Prompt: "Make a clean plan for this feature from my notes."

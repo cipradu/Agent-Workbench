@@ -302,6 +302,8 @@ The plan must expose the facts a coordinator needs to choose a runtime execution
 
 When `Review cadence: checkpoints` is warranted, define checkpoints by the named acceptance risk and change coupling, not convenience. Consider a checkpoint before a public-contract, security, data/persistence, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-owner boundary only when review there can change the next action. Reject per-unit review explosion and unwarranted checkpoints; one final review is sufficient when no intermediate result can change execution.
 
+A document-producing unit does not establish one of those boundaries merely because its ADR, spec, plan, README, reader-facing docs, progress note, scratch note, or other prose describes high-consequence implementation. Do not place an implementation-review checkpoint after a document-only unit or assign it deep review or fresh validation. Place any warranted checkpoint at the later unit that actually changes or crosses the executable public-contract, security, data, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-owner surface. A prose-formatted agent, skill, rule, prompt, hook, executable configuration, schema, or generated contract is a control or executable artifact, not document-only.
+
 Each unit must include:
 
 - spec requirements covered;
@@ -380,6 +382,8 @@ Before finalizing the draft, run these plan-shape audits:
 ## Step 12 — Independent Plan Review
 
 Independent plan review runs only when a separate named consequence or uncertainty reason, applicable repository floor, or explicit request warrants it. Plan form, file count, delegation, checkpoint count, or author preference is insufficient. When warranted, delegate to a fresh independent reviewer; if unavailable, mark the plan `Proposed — independent review unavailable`. When not warranted, record the reason and do not manufacture a review phase.
+
+Review of the plan itself is one bounded review of the complete plan. High-consequence implementation described by the plan can change reviewer focus, but it cannot turn the plan document into a deep review or activate a nested validator chain. Any later executable implementation is reviewed separately at the depth required by its actual changed surface.
 
 For a compact Standard plan, the reviewer receives the compact contract, directly applicable current evidence, named review gap, verification/state identity, and boundaries. The reviewer must not demand generic research, full source redecomposition, generic TDD questioning, checkpoint construction, or full-form sections without separate warrants. The packet and criteria below define the full-form branch.
 

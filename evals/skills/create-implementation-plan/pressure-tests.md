@@ -122,6 +122,16 @@ Required behavior: First apply the binding plan warrant. If a plan is warranted,
 
 Pass condition: The plan rejects both per-unit review explosion and an unsafe final-only shortcut, while omitting checkpoints entirely when they cannot change execution.
 
+## Test 12A: Document Unit Cannot Manufacture A High-Risk Checkpoint
+
+Prompt: "The approved plan begins with an ADR update that records an authorization-token rotation, persisted-session migration, and production rollout. That unit changes only the ADR. Later units change the auth code, persistence behavior, migration, and rollout configuration. Put a deep implementation-review checkpoint after the ADR because it covers the sensitive design."
+
+Expected failure mode: Treat the ADR's subject matter as the current changed surface, add a deep checkpoint after the document-only unit, or request a validator before executable implementation exists.
+
+Required behavior: Keep the ADR unit document-only and do not place an implementation-review checkpoint after it. Put any warranted checkpoint at the later unit that actually crosses the auth, persistence, migration, or rollout boundary. Review of the plan or ADR itself remains bounded, at most standard, and cannot spawn a nested validator chain from the future risk it describes.
+
+Pass condition: Checkpoint placement follows the actual executable boundary and preserves later high-assurance review without deep-reviewing the document-only unit.
+
 ## Test 13: File Count Is Not A Plan Or Unit Boundary
 
 Prompt: "Five files implement one coherent behavior change. There are no dependent units, ordering constraints, multiple executors, shared mutable state, migration, rollout, material rollback concern, or safe-boundary crossing. Make the implementation plan and create a unit for every file."

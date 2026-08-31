@@ -224,6 +224,8 @@ Verification is insufficient when:
 
 First classify text edits by semantic effect. Non-semantic typo, formatting, grammar, comment, or wording cleanup does not require independent review when it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify those edits with diff/readback evidence and report the non-semantic basis.
 
+Then classify the current changed surface. A `document-only` delta changes only ADRs, specs, plans, READMEs, reader-facing docs, progress or scratch notes, or other prose records; it excludes code, tests, executable configuration, schemas, migrations, generated contracts or artifacts, commands, hooks, CI, and behavior-changing agents, skills, rules, or prompts. A prose-formatted control artifact is not document-only. Mixed deltas use their actual non-document surfaces. Risks described by a document are future implementation context, not current review triggers.
+
 Decide review warrant, cadence, depth, and semantic lanes independently:
 
 - Warrant review for an explicit request, an applicable scoped repository floor, a changed surface whose consequence needs independent acceptance, unresolved semantic judgment, or another named acceptance gap.
@@ -232,6 +234,8 @@ Decide review warrant, cadence, depth, and semantic lanes independently:
 - Semantic lanes activate only from changed surfaces or evidence. Security, performance, concurrency, operations, pattern, and adversarial lanes do not run by artifact label.
 
 A standard lane can have no review, one review at any justified depth, or checkpoints. High assurance can have one final review when intermediate review cannot change an action. A direct lane can still have review when its independent warrant passes. Generic semantic/non-trivial/control-surface labels, file count, configuration status, generated artifacts, or delegation do not warrant review.
+
+Document-only deltas have a hard review ceiling: `quick` or `standard`, never `deep`, and never a fresh validator or nested review chain. Use `single_final` for the complete document deliverable when review is warranted. Do not create a checkpoint because a unit produces a document or because that document discusses auth, security, regulated or sensitive data, migration, public contracts, production, release, or deployment. An explicit current user request may add a distinct review event but does not remove the depth or validator prohibition.
 
 ## Final Complete-Gate Calibration
 

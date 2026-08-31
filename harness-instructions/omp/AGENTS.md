@@ -318,6 +318,12 @@ Classify the consequence lane from affirmative current evidence:
 
 The words `semantic`, `non-trivial`, `control surface`, `configuration`, or `generated artifact`, file count, and delegation do not determine the lane or activate a gate by themselves. Missing or conflicting facts activate bounded discovery for the named uncertainty, followed by reclassification. Unknown facts do not prove direct safety and do not automatically create high assurance.
 
+Escalation follows the current changed surface, not topics mentioned in an artifact. A high-assurance trigger applies only when the current work changes, exercises, or gains authority over that surface. For regulated, client, production, or sensitive data, name the data and show how the current work can read, write, transform, transmit, retain, expose, or change access to it. A document that describes future authentication, security, data, migration, public-contract, production, release, or deployment work does not activate those triggers for the document change itself.
+
+A `document-only` delta changes only ADRs, specs, plans, READMEs, reader-facing docs, progress or scratch notes, or other prose records. It does not change code, tests, executable configuration, schemas, migrations, generated contracts or artifacts, commands, hooks, CI, or agent, skill, rule, or prompt behavior. A prose-formatted control artifact is not document-only when it changes future agent or tool behavior. Mixed deltas classify from the actual non-document changed surfaces.
+
+For a document-only delta, `Review depth: deep` and fresh validator or nested review chains are forbidden. When review is warranted, use `single_final` cadence for the complete document deliverable and choose `quick` or `standard`; a plan must not add a checkpoint solely because one unit produces a document or because the document describes a high-consequence future change. Only an explicit current user request for a separate review event can override `single_final`, and it still cannot authorize deep review or a validator chain for the document-only delta.
+
 Evaluate precedence before de-escalation without coupling unrelated gates:
 
 - An explicit review request warrants review but does not by itself change the lane or activate spec, plan, or delegation.
