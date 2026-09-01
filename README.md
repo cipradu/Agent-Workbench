@@ -4,7 +4,7 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers consequence-calibrated coding orchestration, project continuity, independently warranted PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, bounded author-side hygiene, caller-first interface analysis, reusable verification-harness design, historical-rationale evidence discipline, Python and TypeScript engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
+This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers consequence-calibrated coding orchestration, ordered solution-sufficiency gating, project continuity, independently warranted PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, bounded author-side hygiene, caller-first interface analysis, reusable verification-harness design, historical-rationale evidence discipline, Python and TypeScript engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
 
 Skills can be installed directly from this repository with the public `skills` CLI (see [Install Skills With The Skills CLI](#install-skills-with-the-skills-cli)). Agents and harness instructions are copied manually into the harness locations that should use them; this repository ships no installer, exporter, or validator of its own.
 
@@ -38,12 +38,15 @@ The coding workflow separates consequence classification from process selection.
 
 Specifications preserve durable behavior and contracts when needed. Plans preserve real sequencing, dependency, shared-state, rollout, rollback, or multi-executor decisions. Neither is required merely because code changes, multiple files are involved, or implementation is delegated.
 
+Approved plans execute through a coordinator-held cursor: the coordinator authorizes exact unit batches, treats the rest of the plan as context rather than blanket implementation authority, advances only units whose required evidence passed, and stops at declared review checkpoints. The originally accepted outcome stays controlling until current evidence proves it; a downstream artifact, passing check, or owner-local completion claim cannot silently redefine completion. Document-only deliverables cap independent review at standard depth with a single final review and no validator chains.
+
 When Standard work warrants independent review, the normal cadence is one review after the complete deliverable. Review findings are returned and corrected as a batch. A further review requires an explicit trigger, a material acceptance-boundary change, uncertain proof, or a reviewer-stated need; mechanically decidable corrections may close through reviewer-authored contingent acceptance. Completed specs, plans, and reports remain valid historical artifacts even when later judged unnecessary and are not deleted without authority.
 
 ## Integrated Engineering Practices
 
 Several practices are deliberately integrated into existing owners instead of exposed as standalone skills:
 
+- The portable harness instructions, all four harness adapters, and the Claude, Codex, OpenCode, and Oh My Pi coder adapters run an ordered solution sufficiency gate before constructing a new custom implementation of a capability: does it need to exist at all, does the project already provide it, does the language, standard library, runtime, framework, platform, or database provide it, does an already-installed dependency provide it — stopping at the first level that fully satisfies the requirement, including its validation, error-handling, security, compatibility, accessibility, and verification floors. When a lower level covers the core capability and only a bounded residual gap remains, only that gap is built. Explicitly accepted solution shapes are built without re-arguing, contrary sufficiency evidence returns to the owning artifact as a changed premise, and local consistency with existing custom components is not by itself a reason to build custom. The implementation reviewer's maintainability lane reports new custom implementations that a named existing facility demonstrably satisfies.
 - The Claude, Codex, OpenCode, and Oh My Pi coder adapters run one bounded final-delta hygiene pass before diagnostics and verification. The pass removes agent-introduced residue without turning cleanup into an independent review loop or widening scope into pre-existing code.
 - `structured-problem-resolution` identifies the one or two facts that carry a correction's safety when such facts exist, then uses the lowest decisive proof level: current source, bounded bad-case unreachability, execution at the nearest real seam, or live reproduction only when lower levels cannot settle the question.
 - `architecture-design` uses disposable caller-first usage sketches to expose placeholders, sequencing burden, invalid combinations, mechanism leakage, and error-handling cost before an interface is accepted. Repeated same-shape caller friction can reopen the design; one subjective awkward call cannot.
@@ -68,6 +71,7 @@ harness-instructions/
   omp/
   opencode/
 evals/
+  agents/
   skills/
 skills/
 ```
@@ -80,7 +84,7 @@ This repository currently has no public tracked `docs/` tree. Local ignored `doc
 
 `skills/` holds reusable procedures for recurring agent work. Skills should teach durable behavior, include clear use and non-use boundaries, and avoid project-specific assumptions unless the skill is intentionally scoped.
 
-`skills/<name>/` is deployable runtime skill source: each package contains its `SKILL.md` plus any operational references, scripts, templates, or assets the skill declares. Repository-only evaluator assets for skills live under `evals/skills/<name>/`; those files hold pressure scenarios, criteria, and evaluation evidence or reports, not runtime skill context.
+`skills/<name>/` is deployable runtime skill source: each package contains its `SKILL.md` plus any operational references, scripts, templates, or assets the skill declares. Repository-only evaluator assets live under `evals/skills/<name>/` for skills and `evals/agents/<name>/` for specialist agents; those files hold pressure scenarios, criteria, and evaluation evidence or reports, not runtime skill or agent context.
 
 Current skill groups include:
 
@@ -189,6 +193,7 @@ OMP discovers direct `.md` files in those directories; nested folders are not pa
 This project draws inspiration from the following public work:
 
 - [cursor/plugins](https://github.com/cursor/plugins), including PStack, `poteto-mode`, and related first- and third-party plugin examples, for mechanisms around author-side hygiene, bounded proof, caller-first design, reusable verification, and historical-evidence discipline. These sources were analyzed as design input; justified mechanisms were adapted to existing owners rather than importing plugins or skills wholesale.
+- [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail), for the ordered solution-sufficiency ladder, its never-simplify floors, and the agentic benchmark method that informed this repository's solution sufficiency gate and its RED/GREEN pressure scenarios. The reference was analyzed as design input; justified mechanisms were adapted into existing owners rather than installing the plugin or copying its files.
 - [mattpocock/skills](https://github.com/mattpocock/skills), for focused, behavior-oriented skill examples.
 - [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin), for planning, review, and structured execution workflows.
 - [github/awesome-copilot](https://github.com/github/awesome-copilot), for a broad catalog of Copilot instructions, agents, prompts, and skill examples.
