@@ -222,16 +222,18 @@ Failure output:
 
 Pass condition:
 
-- A reusable project verifier is the explicit accepted outcome, or current evidence shows a recurring verification need and that outcome has been explicitly accepted into scope.
-- Repository mutation and the required live launch, drive, evidence, and cleanup actions are separately authorized.
-- `testing-strategy` owns the feature map, lifecycle stages, evidence semantics, failure classification, currentness, maintenance, and retirement decision.
-- The project exposes an existing mechanism owner for its exact verifier form, or the orchestrator routes mechanism construction to the applicable project/tool implementation owner without making `testing-strategy` own scripts, commands, skills, selectors, credentials, or framework syntax.
-- The handoff names current project source, accepted feature scope, canonical observer, authority boundary, temporary-state and cleanup constraints, expected mechanism-owner return, and first live proof.
-- Closure requires consuming the mechanism-owner return and running the returned project verifier; a design, generated file, feature map, command exit, or owner-local completion claim is not enough.
+- The task concerns runtime-relevant feature, bug, performance, or verification behavior in a runnable user-facing or operational product, or the verifier lifecycle is itself the accepted outcome.
+- Current project instructions, developer entry points, commands, feature-map state, and source/build identity were inspected far enough to select exactly one mode without requiring a user-named skill: `use`, `maintain`, `bootstrap`, or `not_applicable`.
+- `use` requires an adequate current verifier for the affected path. `maintain` requires source, control, observer, evidence, or support-claim drift that must be classified before reliance. `bootstrap` requires no adequate verifier, a runnable first user-observable vertical slice, reusable live proof needed for acceptance, and current authorization for project mutation plus required live actions.
+- `not_applicable` is selected for non-runnable libraries, document-only or read-only work, pre-runnable scaffolding, or behavior already closed by sufficient deterministic evidence; it returns to the ordinary proof path without verifier infrastructure.
+- `testing-strategy` owns mode semantics, capability design, feature-map truth, lifecycle stages, evidence, failure classification, currentness, maintenance, and retirement. The normal project implementation owner creates or repairs project-local files and commands. A verifier-specific owner is optional, not a bootstrap prerequisite.
+- The handoff names current project source/build identity, accepted feature scope, canonical observer, existing mechanisms to reuse, proven missing seams, target and non-target paths, authority boundary, temporary-state and cleanup constraints, required discovery pointer and feature-map state, implementation return, and first or affected live proof.
+- Closure requires consuming the implementation return and applicable Launch, Doctor, Drive, Evidence, and Cleanup results. A design, generated file, feature map, command exit, implementer claim, or verifier run that is not carried into final acceptance is not enough.
+- The route creates no cloud agent, swarm, schedule, Cursor-specific path, universal screenshot/video requirement, dependency, wrapper, helper, or future-use layer without a separate current project need and owner.
 
 Failure output:
 
-`Blocked: reusable project verifier lacks <accepted recurring need/mutation authority/live-action authority/project mechanism owner/current source/feature scope/real observer/cleanup contract/return contract>.`
+`Blocked: project verifier <bootstrap/use/maintain> lacks <runnable target/mutation authority/live-action authority/project implementation owner/current source or build/feature scope/discovery pointer/real observer/cleanup contract/return contract/evidence consumer>.`
 
 ## Gate: To Operational Or Reporting Owner
 

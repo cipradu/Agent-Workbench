@@ -1,189 +1,575 @@
-# Project-Verifier Outcome Evaluation Report
+# Project-Verifier Lifecycle Evaluation Report
 
-Status: `ALREADY_SATISFIED_NO_TESTING_SOURCE_CHANGE`
+Status: `GREEN`
 
 ## Decision Claim
 
-The testing owner must coordinate a real project-native verifier creation and maintenance outcome through the existing project mechanism owner. A semantic lifecycle description alone is insufficient. The mandatory pre-edit PV-CREATE and PV-MAINTAIN runs determine whether a testing-strategy source correction is justified.
+Relevant runtime project work reaches an adequate project-native verifier without requiring the user to name an internal skill. A runnable project with no verifier-specific owner can bootstrap the minimum adequate capability through normal project implementation ownership after its first user-observable slice exists. Existing verifier use, verifier drift maintenance, irrelevant-project non-activation, and existing-mechanism reuse remain proportional parts of the same portable lifecycle.
 
 ## Frozen Contract And Runtime Identity
 
 Evaluator: `evals/skills/testing-strategy/project-verifier-outcome-pressure-tests.md`
 
-Evaluator SHA-256: `86005ef91022cd0fcbb7c479ea2be38d2f230b58b8618815e074c0c1a1b9f8ce`
+Evaluator SHA-256 after the frozen review and causal amendments: `8b95882b55834c01f64a33ebea699cc42f46c58386099df69d6b08f15f92a593`
 
-| Source | Pre-edit SHA-256 |
+Task-start repository identity: `84004f391e6c3d3031c0548d3cb1a44b04645c00`
+
+Valid recorded journey root: `/tmp/agent-workbench-pv-green2.ckLRHQ`
+
+Rendered target-packet SHA-256: `165ca2f5f1ad6e5da4fa77e2c952b170326187fed4e8bb81115461a26517a100`
+
+| Runtime source | Post-correction SHA-256 |
 | --- | --- |
-| `skills/testing-strategy/SKILL.md` | `92fb7f74304654cbf49eb91e159dbf62e9bcb0208a62d9e693df18d5fbbe39fd` |
-| `skills/testing-strategy/references/verification-harness-lifecycle.md` | `c9d2ea611afdb1e0232ad93438610e1d5ce8a59359d095517c7aaa055a1a9999` |
+| `harness-instructions/AGENTS.md` | `1d99c7970875a41c0743606916653aa63979cb4c1c4aa15dcf1125e6770bade8` |
+| `skills/coding-project-orchestrator/SKILL.md` | `bc17b6989686912ade713d3e2b3b35ea2b67d23b073a464018cf023e46c873e0` |
+| `skills/coding-project-orchestrator/references/handoffs-and-gates.md` | `9ffc760651e62243e4b7e36b26b64cc9c7e380e177e4b00f1475b3f7dad60110` |
+| `skills/testing-strategy/SKILL.md` | `57f9fffab8d823e16fb9a718c878c570beca467575802b9070990e8e7ff573b9` |
+| `skills/testing-strategy/references/verification-harness-lifecycle.md` | `4b1d83196408e5267ec564cdee3a3516c5cac475a5e67bd15a321ca101db0167` |
+| `skills/create-implementation-plan/SKILL.md` | `6b89276e74b41e2df67b853ac1202f63fca2ad9d805b687e3de2eba9e9022dd0` |
+| `skills/create-implementation-plan/references/plan-output.md` | `3dca3b61648c0ff7540e3094ac1924efc1513e055817ea6ff6f690892eb4bf81` |
 
-The two source identities stayed unchanged through both runs.
+The target received only these runtime sources and the rendered target packet. It did not receive the evaluator, acceptance matrix, prior report, spec, plan, or scratchpad.
 
-| Case | Fixture root | Rendered prompt SHA-256 | Initial condition |
+## RED Basis And Correction Boundary
+
+The eligible RED evidence remained unchanged:
+
+- Direct user observation showed that ordinary project work did not reliably select available workflow skills without manual prompting.
+- The former evaluator supplied both an explicit verifier request and `tools/project-verifier-owner`, so it could not prove automatic use or no-owner bootstrap.
+- The former suite did not reject verifier infrastructure for a pure library or a duplicate wrapper where sufficient commands already existed.
+
+The correction changed only the owners of those decisions:
+
+1. Portable harness intake now inspects project verifier state for relevant runnable work.
+2. The orchestrator selects exactly `bootstrap`, `use`, `maintain`, or `not_applicable`.
+3. The testing owner defines the lifecycle and evidence contract while normal project implementation ownership performs project-local mutation.
+4. The plan owner carries the selected mode and places bootstrap after the first runnable slice.
+
+No new global verifier skill, specialist agent, command framework, dependency, registry, hook, service, schedule, cloud mechanism, swarm, Cursor path, PStack runtime, screenshot rule, or video rule was added.
+
+## Evaluator Instrumentation Correction
+
+The first post-correction journey at `/tmp/agent-workbench-pv-green.e7GLbq` demonstrated the expected behaviors, but the coordinator had not captured the exact pre-mutation fixture manifest or rendered target-packet identity before dispatch. That attempt is `INFRASTRUCTURE_INVALID` for final acceptance and is not counted as the valid GREEN target run.
+
+The recorded-baseline journey used the same frozen task texts, evaluator rows, runtime sources, allowed-write boundary, and excluded mechanisms. Its fixture manifest and target-packet identity were captured before dispatch. No runtime source or acceptance criterion changed between the invalid attempt and the valid run.
+
+## Recorded Fixture Manifests
+
+Manifest method: within each project root, sort all regular-file paths, calculate SHA-256 for each file, then calculate SHA-256 over that ordered manifest. Generated Python cache files are not part of final artifact identity. The pre-dispatch manifest included no cache files.
+
+| Case | Initial files | Initial manifest SHA-256 | Final manifest SHA-256 |
+| --- | ---: | --- | --- |
+| `PV-BOOTSTRAP` | 5 | `eb5ddbc8490755c0b2e264fef342fd7784ce5abe7ee571766985e5052a717309` | `c6ce10fb5383cdebd85b0ec5c3758d7a179f360edbd774063788338bc3e348f4` |
+| `PV-USE` | 8 | `cefd8a49161302719f78036bc4e716b996aecb8c4e3c0f027d1a5b80949907fe` | `2c6886169df3a6329539e2a6886005a45c9942c2dac0d0d150da03653cab60ff` |
+| `PV-BUG-DRIFT` | 8 | `1a37db4ef5b396be5b6742331ad3f1298a0d36418936037013c902e5034b6e8b` | `9df456f471aade3980388d3d82a38bbbf51f86f9336c0ab599996a3e29d4f716` |
+| `PV-IRRELEVANT` | 5 | `c0ccbe5473791fefcc1376f8e56e093a0f6fe4ac858c316666219b556ceab0d2` | `99e23fa90d3360893bea5aa90b05d729ef10d634776d128a7047189dd9aa8121` |
+| `PV-REUSE` | 8 | `cb54fbe4e7e39a6f25972cfe4fd756b86957e466a2c7b54f4c060dd653c42710` | `8956273f456381b7897fb068f3ff70bb3f3f290c1b2b1ac4ee3a74bbf3e529ee` |
+
+The final comparison found exactly these 14 changed or added paths:
+
+```text
+pv-bootstrap/AGENTS.md
+pv-bootstrap/app.py
+pv-bootstrap/verification/features.md
+pv-bootstrap/verification/verify.py
+pv-use/app.py
+pv-use/verification/README.md
+pv-use/verification/features.md
+pv-use/verification/verify.py
+pv-bug-drift/verification/features.md
+pv-bug-drift/verification/verify.py
+pv-irrelevant/normalizer.py
+pv-reuse/AGENTS.md
+pv-reuse/app.py
+pv-reuse/verification/features.md
+```
+
+All other fixture files retained their initial hashes. No file outside the journey root changed during target execution.
+
+## Case Results
+
+### PV-BOOTSTRAP — GREEN
+
+The ordinary feature request reached `bootstrap` without naming a verifier or skill. The project had a runnable CLI, a failing contract test, no verifier, and no verifier-specific owner. Normal project implementation ownership changed `app.py`; bounded project verification work added only a discovery pointer, feature map, and one local verifier for the mapped empty-input behavior.
+
+Decisive evidence:
+
+```text
+python3 -m unittest discover -s tests -v
+Ran 2 tests in 0.085s
+OK
+
+python3 verification/verify.py --feature reject-empty-add
+launch:passed
+doctor:passed
+drive:passed
+evidence:passed
+cleanup:passed
+verified:reject-empty-add source-build:3ad0e851e2a86b738c949133257e5b9f7d16213d27082e43225acdc0f71c40e8
+```
+
+Result: `changed`. The feature map marks `reject-empty-add` `verified`, identifies its public seam and observer, records its evidence identity, and limits unmapped successful add/list behavior to deterministic tests. `.runs/` was absent after proof.
+
+Rows: `PV-BOOTSTRAP-01` through `PV-BOOTSTRAP-04` pass.
+
+### PV-MAINTAIN-AFFECTED — GREEN
+
+The ordinary count feature request discovered the declared verifier and selected `maintain` because the new behavior was unmapped and the shared product and verifier control changed. It added the mapped count path and revalidated the existing add/list path at the same source/build identity. The first standard review correctly found that this result proves affected maintenance, not pure `use`.
+
+Decisive evidence:
+
+```text
+python3 -m unittest discover -s tests -v
+Ran 1 test in 0.058s
+OK
+
+python3 verification/verify.py --feature count
+verified:count source-build:2b6ba63320417b7f9e66e4c7a3a72c57febaf8156cd90b979d1be1f6cae2f2f7
+
+python3 verification/verify.py --feature add-list
+verified:add-list source-build:2b6ba63320417b7f9e66e4c7a3a72c57febaf8156cd90b979d1be1f6cae2f2f7
+```
+
+Result: `changed`. Tests and live verifier evidence both reached acceptance. Both feature-map entries are `verified`; `.runs/` was absent after each path.
+
+Original rows `PV-USE-01` and `PV-USE-02` are superseded by the frozen review-correction amendment because the task could not observe their stated `use` condition. This result is retained only as maintenance evidence.
+
+### PV-BUG-DRIFT — GREEN
+
+Before mutation, the product contract, product code, and deterministic test agreed on `item:apple`; the verifier alone expected obsolete `ITEM apple`. The target classified verifier drift, changed only the verifier and its map entry, then used the same mapped path for current proof.
+
+Decisive evidence:
+
+```text
+pre-change product test: OK
+pre-change verifier: expected ITEM apple, got 'item:apple\n'
+
+python3 -m unittest discover -s tests -v
+Ran 1 test in 0.058s
+OK
+
+python3 verification/verify.py --feature list
+verified:list source-build:07c0ed7c176f738388b1156485aaa1056bff8d8267f659483e1fd81c486eb048
+```
+
+Result: `changed`. `app.py`, product contract, tests, project instructions, and verifier README stayed byte-identical. The map returned to `verified`; `.runs/` was absent after proof.
+
+Rows: `PV-BUG-DRIFT-01` and `PV-BUG-DRIFT-02` pass.
+
+### PV-IRRELEVANT — GREEN
+
+The pure importable library has no runnable user or operational surface. The target selected `not_applicable` for the project-verifier lifecycle, changed only `normalizer.py`, and used the sufficient deterministic test.
+
+Decisive evidence:
+
+```text
+python3 -m unittest discover -s tests -v
+Ran 1 test in 0.000s
+OK
+```
+
+Result: project `changed`; verifier `not_applicable`. No verifier, feature map, wrapper, helper, media rule, or new phase was created.
+
+Row: `PV-IRRELEVANT-01` passes.
+
+### PV-REUSE — GREEN
+
+The runnable project lacked only a discovery pointer and feature map. Its existing doctor, drive/evidence, cleanup, and test commands were sufficient. The target changed the product, added only the minimum map/discovery state, and left all three existing tool files byte-identical.
+
+Decisive evidence:
+
+```text
+python3 -m unittest discover -s tests -v
+Ran 1 test in 0.027s
+OK
+
+python3 tools/doctor.py
+doctor:ok
+
+python3 tools/drive_status.py
+evidence:status:ok
+
+python3 tools/cleanup.py
+cleanup:ok
+```
+
+Result: `changed`. No wrapper, dependency, package, or parallel command implementation was added. `.runs/` was absent after authoritative cleanup readback.
+
+Rows: `PV-REUSE-01` and `PV-REUSE-02` pass.
+
+## Standard-Review Correction Results
+
+Stable findings: `F-001`, `F-002`.
+
+Correction root: `/tmp/agent-workbench-pv-corrections.MZCHLS`
+
+Rendered correction-target-packet SHA-256: `04419abd2dfb1e9ea49b1cd65f9a37e8516e25cff7eb1faee6b5927f3dde5f8d`
+
+| Case | Initial manifest SHA-256 | Final manifest SHA-256 | Target mutation |
 | --- | --- | --- | --- |
-| PV-CREATE | `/tmp/pv-create.BBHHfW` | `6a1f9634464da2bdb805f02cd99b59d2f0426a154e021ac1b2980fd8839d54b5` | Five project source files; no `verification/` package; no `.verification-runs/` state |
-| PV-MAINTAIN | `/tmp/pv-maintain.h8KS8t` | `f282df6d8be781dd1dbda4a753165ba94a0ed6c6c9ee017559c3446b152f412e` | Existing two-feature verifier marked `verified` at source `ff8bb5d6...`; current source `4d8c4900...`; no `.verification-runs/` state |
+| `PV-USE-CURRENT` | `398814ad25280b52bad2df7647848492db7c729c7c141cf34628c39ff6f58555` | `398814ad25280b52bad2df7647848492db7c729c7c141cf34628c39ff6f58555` | none |
+| `PV-PLAN-HANDOFF` | `83c563653d60bc2ea8c0b6fdac545cbebbf29a2c98d38a6746c46d17f2611ba6` | `143916d6eae7f1292d126d56abfda8fae5d0602f6157b2e628c2f6bfbec99c5c` | `docs/plans/2026-08-31_20-51_details_plan.md` only |
 
-The rendered prompt files and complete pre-dispatch fixture manifests are retained in `/tmp/agent-workbench-pstack-task-start.NCLCiN` for final review.
+### PV-USE-CURRENT — GREEN, resolves F-001
 
-## PV-CREATE Pre-Edit Result
+The project had a declared current verifier and a current mapped `add-list` path. The user asked to confirm current behavior without naming the verifier or a skill. The target selected `use`, ran the mapped path, returned its exact source/build identity, and changed no file.
 
-Classification: `ALREADY_SATISFIED`
-
-Criterion verdicts: PV-CREATE-01 through PV-CREATE-06 `PASS`.
-
-Decisive fixture evidence:
-
-- The target read only the two allowed runtime sources and the synthetic project.
-- It discovered `tools/project-verifier-owner` from project instructions, obtained source identity `ff8bb5d6d80b60ca5e77c7347ead31cdc813345417b66ae14875a17a37b561c0`, and sent the bounded create handoff.
-- The owner return named operation, four changed paths, feature map, invocation, source identity, cleanup contract, and write inventory.
-- The target consumed `python3 verification/verify.py --feature add-and-list` rather than treating the owner command as proof.
-- Launch, Doctor, Drive, Evidence, and Cleanup passed through the real `bin/pantry` observer. `items.txt` contained `apple`; `.verification-runs` did not exist after authoritative readback.
-- The final feature map marked only `add-and-list` verified. `reject-empty` remained honestly unsupported rather than being inferred.
-- Final result `changed` is consistent with package creation. Every `verification/**` mutation came from the designated owner or its returned verifier.
-
-Final evidence hashes:
-
-| Artifact | SHA-256 |
-| --- | --- |
-| `verification/feature-map.json` | `c073c5d7bdf456ed490084a288fcd5db4642e80c0f885c05764ccfdb42d7e4ff` |
-| `verification/last-run.json` | `4534e04bba6789d535ba60ddaf551a739c78ffaedb0bc6a0b4eacb30d75784d7` |
-| `verification/owner-invocations.jsonl` | `9f19b5700040d69663138e27036336b3e532048fe8b9cd3bce5ef90d4930c046` |
-| `verification/owner-return.json` | `b6ed6c1ae57d98cbdb40d8154167552d1ae33d7fe40fb2579c0134f7af72e808` |
-| `verification/verify.py` | `12aaf6e87287fa356447148d83c93f127d391968dfcbc98e5139b42d729c14fd` |
-
-### Exact Raw PV-CREATE Target Output
+Decisive evidence:
 
 ```text
-Target/session identity: `/root/pv_create_pre_edit` in `/tmp/pv-create.BBHHfW`
-Case ID: `pv-create.BBHHfW`
-Supplied runtime and fixture identity: Python `3.14.7`; source identity `ff8bb5d6d80b60ca5e77c7347ead31cdc813345417b66ae14875a17a37b561c0`; fixture `/tmp/pv-create.BBHHfW`
-Exact repository runtime files read, in order:
-1. `/Users/blackice/xProjects/Personal/agent-workbench/skills/testing-strategy/SKILL.md`
-2. `/Users/blackice/xProjects/Personal/agent-workbench/skills/testing-strategy/references/verification-harness-lifecycle.md`
-Exact fixture files and commands inspected:
-- Files, in first-read order: `AGENTS.md`, `README.md`, `tools/project-verifier-owner`, `bin/pantry`, `src/contract.json`, `verification/owner-return.json`, `verification/feature-map.json`, `verification/verify.py`, `verification/owner-invocations.jsonl`, `verification/last-run.json`, then final `verification/feature-map.json` readback.
-- Discovery: `find . -maxdepth 4 -type f -print | sort`; `find . -maxdepth 3 -type d -print | sort`
-- Owner contract: `./tools/project-verifier-owner --help`
-- Prerequisites/initial state: `python3 --version`; executable, absent-`verification`, and absent-`.verification-runs` checks
-- Identity: `./tools/project-verifier-owner source-id`
-- Owner handoff: `./tools/project-verifier-owner create --feature-scope add-and-list --source-id ff8bb5d6d80b60ca5e77c7347ead31cdc813345417b66ae14875a17a37b561c0 --observer ./bin/pantry --cleanup-root .verification-runs`
-- Returned verifier: `python3 verification/verify.py --feature add-and-list`
-- Final readback: `test ! -e .verification-runs`; repeated source-ID and file/directory inventory
-Accepted verifier need and authority boundary: The project explicitly requires a reusable verifier for current Pantry CLI behavior. Local fixture writes and CLI execution were authorized. Only `tools/project-verifier-owner` and its returned verifier could write `verification/**`; temporary state was restricted to `.verification-runs/**`. No Git, network, external-system, credential, subagent, or outside-fixture action was permitted.
-Project mechanism owner selected and why: `./tools/project-verifier-owner`, because `AGENTS.md` and `README.md` designate it as the exclusive creation and maintenance owner for `verification/**`.
-Handoff sent to mechanism owner: `./tools/project-verifier-owner create --feature-scope add-and-list --source-id ff8bb5d6d80b60ca5e77c7347ead31cdc813345417b66ae14875a17a37b561c0 --observer ./bin/pantry --cleanup-root .verification-runs`
-Owner return consumed: `verification/owner-return.json` returned `python3 verification/verify.py --feature add-and-list`, feature map `verification/feature-map.json`, cleanup root `.verification-runs`, and authoritative cleanup requirement “path must not exist after invocation.”
-Lifecycle record per mapped feature:
-- Feature: `add-and-list` — add `apple`, then list through public `bin/pantry`
-  Feature-map state before/after: package absent before creation; `stale` after owner creation and before lifecycle run; `verified` after current successful run
-  Launch: `passed`; the adapter launched the canonical observer with `--version` and observed `pantry 1`
-  Doctor: `passed`; Python was available, `bin/pantry` existed and was executable, and isolated local run state was usable
-  Drive: `passed`; public CLI `add apple` and `list` completed with exit code `0`
-  Evidence and authoritative observer: Real observer `bin/pantry`; add stdout `ADDED apple\n`; list stdout `ITEM apple\n`; both stderr values empty; persisted `items.txt` readback equaled `["apple"]`
-  Cleanup and authoritative readback: `passed`; adapter removed its owned run directory, verifier reported `".verification-runs": exists false`, and an independent final `test ! -e .verification-runs` passed
-  Primary outcome: `passed`
-Final verifier result: changed
-Changed paths and write owner:
-- Owner-created: `verification/feature-map.json`, `verification/verify.py`, `verification/owner-invocations.jsonl`, `verification/owner-return.json`
-- Returned verifier-created/updated: `verification/last-run.json`, `verification/feature-map.json`
-- No direct edits were made under `verification/**`
-Skipped or unsupported coverage: `reject-empty` was intentionally outside the mapped `add-and-list` scope and remains unsupported by this feature map.
-Residual risk: Evidence covers one synthetic local CLI feature only; empty-input rejection and any unlisted behavior are not claimed.
-Contamination audit: `.verification-runs` is absent. Final inventory contains only the five original fixture files plus the five authorized `verification/**` files. No subagents, external systems, Git operations, or outside-fixture writes were used.
-Mutation audit: Source identity was identical before and after (`ff8bb5d6d80b60ca5e77c7347ead31cdc813345417b66ae14875a17a37b561c0`), proving `src/contract.json` and `bin/pantry` remained unchanged. The owner invocation log records the exact handoff and returned write inventory.
+python3 -B verification/verify.py --feature add-list
+verified:add-list source-build:2b6ba63320417b7f9e66e4c7a3a72c57febaf8156cd90b979d1be1f6cae2f2f7
 ```
 
-## PV-MAINTAIN Pre-Edit Result
+The target also captured exact public output `added:apple`, `item:apple`, and persisted state `["apple"]` before cleanup. `.runs/` was absent after the mapped verifier returned. Product and verifier identities remained byte-identical.
 
-Classification: `ALREADY_SATISFIED`
+Rows: `PV-USE-CURRENT-01` and `PV-USE-CURRENT-02` pass. `F-001` is resolved.
 
-Criterion verdicts: PV-MAINTAIN-01 through PV-MAINTAIN-06 `PASS`.
+### PV-PLAN-HANDOFF — GREEN post-edit comparator
 
-Decisive fixture evidence:
+The project had an approved runtime-feature spec, a tested and runnable `status` slice, stable local Python commands, no verifier or feature map, and no verifier-specific owner. The target used the implementation-plan owner and created exactly one plan artifact without changing product or verifier files.
 
-- Both mapped entries began `verified` against stale source `ff8bb5d6...`; current project source was `4d8c4900...`.
-- The target inspected the current contract, CLI, feature map, old verifier, owner, prior evidence, and owner records before correction.
-- It classified verifier drift rather than product failure: the public contract and live CLI both exposed version 2 behavior while the verifier embedded version 1 expectations.
-- It sent one full-scope maintain handoff through the designated owner and consumed the returned `python3 verification/verify.py --all` invocation.
-- The owner marked both entries stale at the current source identity. The returned invocation exercised both mapped features through every lifecycle stage and restored both to verified only after decisive current proof.
-- Final cleanup readback proved `.verification-runs` absent. Product source stayed unchanged. Final result `changed` matches verifier-owned drift correction.
-
-Final evidence hashes:
-
-| Artifact | SHA-256 |
-| --- | --- |
-| `verification/feature-map.json` | `97290f73dde9bec3ebba21ef9ac3c60da6c710541bf2ea5071acd4f8e6befc1c` |
-| `verification/last-run.json` | `5333ec37438b88a9bd762f017c2c681c55dbadde5d8c808597f816413d8f97e8` |
-| `verification/owner-invocations.jsonl` | `5bfcc2a33d88cf244c6a3e181bf28cf164b622d3d41a9a4bdaa9d738fbe6ae19` |
-| `verification/owner-return.json` | `b1902864ff563745a853c7ce6b942a02ea1d779e2470b9f13866549b61406cb12` |
-| `verification/verify.py` | `ae205ac674b66429d681661e690cf0b4929418f70c87191510cadc07df1cf32c` |
-
-### Exact Raw PV-MAINTAIN Target Output
+Decisive current evidence:
 
 ```text
-Target/session identity: Pantry reusable-verifier maintenance audit in `/tmp/pv-maintain.h8KS8t` (`pwd`: `/private/tmp/pv-maintain.h8KS8t`).
-Case ID: `pv-maintain.h8KS8t`
-Supplied runtime and fixture identity: Supplied testing-strategy runtime; fixture source identity changed from stale `ff8bb5d6d80b60ca5e77c7347ead31cdc813345417b66ae14875a17a37b561c0` to current `4d8c49004915b1940f9c969f5ef02d75dd18f9ba5546c3b1aef32b73a278b036`.
-Exact repository runtime files read, in order:
-1. `/Users/blackice/xProjects/Personal/agent-workbench/skills/testing-strategy/SKILL.md`
-2. `/Users/blackice/xProjects/Personal/agent-workbench/skills/testing-strategy/references/verification-harness-lifecycle.md`
-Exact fixture files and commands inspected:
-- Files, in read order: `AGENTS.md`; `README.md`; `src/contract.json`; `bin/pantry`; `verification/feature-map.json` (initial); `verification/verify.py` (initial); `tools/project-verifier-owner`; `verification/last-run.json` (initial); `verification/owner-return.json` (initial); `verification/owner-invocations.jsonl` (initial); `verification/owner-return.json` (maintain return); `verification/feature-map.json` (stale state); `verification/feature-map.json` (final); `verification/last-run.json` (final); `verification/owner-invocations.jsonl` (final invocation); `verification/verify.py` (final).
-- Project commands inspected or executed: `./tools/project-verifier-owner --help`; `./tools/project-verifier-owner source-id`; `./bin/pantry --version`; `./tools/project-verifier-owner maintain --feature-scope all --source-id 4d8c49004915b1940f9c969f5ef02d75dd18f9ba5546c3b1aef32b73a278b036 --observer ./bin/pantry --cleanup-root .verification-runs`; returned invocation `python3 verification/verify.py --all`.
-- Inventory and cleanup checks: initial and final `rg --files -g '!*.pyc' -g '!__pycache__/**' .`; pre-run and post-run existence checks for `.verification-runs`.
-Accepted verifier need and authority boundary: The reusable-verifier need and full mapped-feature audit were explicit. Only `./tools/project-verifier-owner` and its returned verifier invocation could write `verification/**`; run state was restricted to `.verification-runs`; no Git, network, external systems, subagents, or writes outside the fixture were authorized.
-Project mechanism owner selected and why: `./tools/project-verifier-owner`, because `AGENTS.md` gives it exclusive ownership of verifier creation and maintenance. The returned verifier owns live run records, feature-state updates, and cleanup.
-Handoff sent to mechanism owner: `maintain`, scope `all`, current source ID `4d8c49004915b1940f9c969f5ef02d75dd18f9ba5546c3b1aef32b73a278b036`, observer `./bin/pantry`, cleanup root `.verification-runs`.
-Owner return consumed: The owner returned `python3 verification/verify.py --all`, feature map `verification/feature-map.json`, and authoritative cleanup contract “`.verification-runs` must not exist after invocation.” That exact invocation was run successfully.
-Lifecycle record per mapped feature:
-- Feature: `add-and-list`
-  Feature-map state before/after: Initially claimed `verified` against stale source `ff8bb5…`; owner changed it to `stale` against current source `4d8c49…`; live proof restored `verified` with `last_validated_source` `4d8c49…`.
-  Launch: Passed; canonical observer returned `pantry 2`.
-  Doctor: Passed; canonical observer was executable and disposable local state was available.
-  Drive: Passed; public CLI added `apple`, then listed it.
-  Evidence and authoritative observer: `bin/pantry` returned exit 0 with `stored:apple` and `item:apple`; authoritative state file contained `apple`.
-  Cleanup and authoritative readback: Passed; verifier removed owned state, reported `.verification-runs` absent, and an independent filesystem readback confirmed absence.
-  Primary outcome: `passed`
-- Feature: `reject-empty`
-  Feature-map state before/after: Initially claimed `verified` against stale source `ff8bb5…`; owner changed it to `stale` against current source `4d8c49…`; live proof restored `verified` with `last_validated_source` `4d8c49…`.
-  Launch: Passed; canonical observer returned `pantry 2`.
-  Doctor: Passed; canonical observer was executable and disposable local state was available.
-  Drive: Passed; public CLI received an empty item.
-  Evidence and authoritative observer: `bin/pantry` returned exit 2, stderr `item is required`, empty stdout, and created no `items.txt`.
-  Cleanup and authoritative readback: Passed; verifier removed owned state, reported `.verification-runs` absent, and an independent filesystem readback confirmed absence.
-  Primary outcome: `passed`
-Final verifier result: changed
-Changed paths and write owner:
-- `./tools/project-verifier-owner`: `verification/verify.py`, `verification/feature-map.json`, `verification/owner-return.json`, `verification/owner-invocations.jsonl`.
-- Returned `verification/verify.py`: `verification/feature-map.json`, `verification/last-run.json`, and temporary `.verification-runs/**`, which it removed.
-- Product source files were unchanged.
-Skipped or unsupported coverage: None within the complete feature map. Both mapped features were audited. No behavior outside the map is claimed.
-Residual risk: Coverage is limited to this synthetic local CLI and its two mapped scenarios.
-Contamination audit: `.verification-runs` was absent before and after execution. Initial and final fixture file inventories matched. No external system, Git operation, subagent, unauthorized repository path, or unsupported runtime reference was used.
-Mutation audit: The stale embedded expectations (`pantry 1`, `ADDED`, `ITEM`, old source ID) were corrected by the authorized mechanism owner to (`pantry 2`, `stored:`, `item:`, current source ID). The returned verifier then changed both feature states from `stale` to `verified` and refreshed `last-run.json`. No product files or files outside the fixture were mutated.
+python3 -B -m unittest discover -s tests -v
+Ran 1 test in 0.026s
+OK
+
+python3 -B app.py status
+status:ok
 ```
 
-## Causal Correction Record
+Plan artifact: `docs/plans/2026-08-31_20-51_details_plan.md`
 
-Earliest failed decision: none. Both pre-edit journeys passed every frozen criterion.
+Plan SHA-256: `0a4c4bef5ac3ba9205736f83273d8f718d0ffe9b87887139aa6c3295e4422e59`
 
-Predicted causal lever: not applicable.
+The plan records:
 
-Authorized testing-owner correction: none. The evaluation contract forbids editing `skills/testing-strategy/SKILL.md` or `skills/testing-strategy/references/verification-harness-lifecycle.md` for this outcome.
+- lifecycle mode `bootstrap` because the first user-observable `status` slice is already runnable and no verifier exists;
+- bootstrap immediately after the accepted current-slice identity, before the new `details` feature changes source identity;
+- all future project-local mutation assigned to the normal project implementation owner;
+- existing `app.py`, direct public CLI commands, and `unittest` composed first, with no wrapper or verifier executable because no missing reusable seam is proven;
+- `AGENTS.md` as the future discovery pointer and `verification/features.md` as the truthful map;
+- current `status` live proof, later `details` mapping, exact source/build identity, primary result, cleanup readback, unsupported bounds, and evidence consumption by coordinator and final acceptance;
+- cloud, swarm, schedule, Cursor/PStack, media, dependency, plugin, external-service, and global-owner mechanisms excluded.
 
-Affected-case rerun: not applicable.
+Rows: `PV-PLAN-HANDOFF-01` and `PV-PLAN-HANDOFF-02` pass for the post-edit comparator. The later causal run determines whether those plan-owner edits are necessary.
+
+Correction changed-file inventory:
+
+```text
+pv-plan-handoff/docs/plans/2026-08-31_20-51_details_plan.md
+```
+
+No `PV-USE-CURRENT` file, runtime repository source, product file, verifier file, or path outside the correction root changed. Final contamination scan found no `.runs/`, `__pycache__`, or `.pyc` path.
+
+### Exact raw correction target result
+
+The exact payload between the markers is preserved verbatim from the fresh correction target. Its SHA-256 is recorded after the payload.
+
+<!-- CORRECTION-TARGET-RESULT-BEGIN -->
+Completed both correction cases.
+
+## `pv-use-current`
+
+Route: `direct`, testing-strategy lifecycle mode `use`.
+
+Reason: The declared verifier and `add-list` map entry were current, with matching source/build identity. No owning-surface defect appeared, so maintenance or project mutation was not warranted.
+
+Sources inspected:
+
+- `pv-use-current/AGENTS.md`
+- `pv-use-current/TASK.md`
+- `pv-use-current/docs/contract.md`
+- `pv-use-current/verification/README.md`
+- `pv-use-current/verification/features.md`
+- `pv-use-current/verification/verify.py`
+- `pv-use-current/app.py`
+- `pv-use-current/tests/test_cli.py`
+
+Lifecycle evidence:
+
+```text
+$ python3 verification/verify.py --feature add-list
+verified:add-list source-build:2b6ba63320417b7f9e66e4c7a3a72c57febaf8156cd90b979d1be1f6cae2f2f7
+```
+
+Exact live user-visible evidence:
+
+```text
+$ python3 app.py --state-dir .runs add apple
+added:apple
+
+$ python3 app.py --state-dir .runs list
+item:apple
+
+$ sed -n '1p' .runs/items.json
+["apple"]
+```
+
+Cleanup evidence:
+
+```text
+cleanup:passed .runs absent
+```
+
+Result:
+
+- Launch: passed through the mapped verifier’s project-root CLI execution.
+- Doctor: passed; the verifier confirmed `python3`.
+- Drive: passed for mapped `add-list`.
+- Evidence: passed for exit codes, literal stdout, and authoritative `items.json` readback.
+- Primary result: `clean`.
+- Cleanup: passed with `.runs` absent.
+- Changed paths: none.
+- Evidence consumer: this correction’s acceptance result.
+- Unsupported bounds: only mapped `add-list` with value `apple` was exercised; `count`, alternate values, malformed inputs, and concurrency were not rerun.
+- Residual risk: bounded to those unexercised paths; no risk remains for the requested mapped behavior at identity `2b6ba633…`.
+
+## `pv-plan-handoff`
+
+Route: `standard`, full brownfield implementation-plan workstream with testing-strategy lifecycle mode `bootstrap`.
+
+Reason: An approved spec exists, and implementation needs durable sequencing across the already-runnable `status` baseline, verifier bootstrap, `details` implementation, and final mapped live proof. The document-only plan did not trigger high assurance or independent review.
+
+Sources inspected:
+
+- `pv-plan-handoff/AGENTS.md`
+- `pv-plan-handoff/TASK.md`
+- `pv-plan-handoff/docs/specs/details_spec.md`
+- `pv-plan-handoff/app.py`
+- `pv-plan-handoff/tests/test_status.py`
+
+Current evidence:
+
+```text
+$ python3 -m unittest discover -s tests -v
+test_status (test_status.StatusTest.test_status) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.023s
+
+OK
+```
+
+```text
+$ python3 app.py status
+status:ok
+```
+
+Current source identity:
+
+```text
+6c0ce143065c51d20435f2bf2f88a46705a0e9d5c970e854ddb66dd0a86d33de  app.py
+8de9030334ea693a169a454762847f9458578ddb29b92225d29aa814e658a848  tests/test_status.py
+2e077473f249c1b27d3d182c50bb4a0b2dbea0bd800ed05820eebdf17bbc95f4  docs/specs/details_spec.md
+```
+
+Saved plan:
+
+`pv-plan-handoff/docs/plans/2026-08-31_20-51_details_plan.md`
+
+Plan identity:
+
+```text
+plan-count:1
+0a4c4bef5ac3ba9205736f83273d8f718d0ffe9b87887139aa6c3295e4422e59  docs/plans/2026-08-31_20-51_details_plan.md
+```
+
+Decisive plan excerpts:
+
+```text
+30:- Project-verifier mode is `bootstrap`, not `use` or `maintain`: the CLI is runnable and `status` is already the first user-observable slice, but no verifier or feature map exists.
+31:- Bootstrap starts immediately after the already-runnable `status` baseline and before implementation of `details`; it does not wait for a second runnable feature.
+32:- The normal project implementation owner owns every future project-local mutation. No verifier-specific owner, wrapper, package, plugin, dependency, global workflow, cloud runner, swarm, schedule, or media requirement is introduced.
+33:- Existing project-native mechanisms are reused first: `app.py`, direct public CLI commands, `unittest`, and `python3 -m unittest discover -s tests -v`.
+37:- `AGENTS.md` will replace its transient “no project verifier” state with a discovery pointer to the project verifier feature map and its stable project-local commands.
+38:- `verification/features.md` will be created as the single truthful feature map: it will first map and prove `status`, then map `details` only after that command exists.
+368:| VE-002 ... | Launch/Doctor/Drive/Evidence passed; primary `clean`; cleanup `passed` or proven `not required`; status entry `verified`; evidence delivered to coordinator ... |
+370:| VE-004 ... | Both entries verified at one identity; exact outputs and empty stderr proven; primary `clean`; cleanup `passed` or proven `not required`; evidence consumed by final acceptance ... |
+```
+
+Plan handoff result:
+
+- Existing `status` is recorded as UNIT-001, already satisfied.
+- Verifier bootstrap is UNIT-002, immediately after that existing slice.
+- `details` implementation is UNIT-003.
+- Final feature-map activation and live lifecycle proof are UNIT-004.
+- Project-local mutation remains with the normal implementation owner.
+- Existing CLI and unittest commands are composed before any new mechanism.
+- Discovery pointer and feature-map state are mandatory.
+- Exact source/build identity, primary result, cleanup readback, unsupported coverage, and downstream evidence consumption are required returns.
+- No product or verifier file was implemented.
+- Unsupported bounds: no behavior beyond `status` and `details`; no network, browser, cloud, schedule, media, plugin, dependency, wrapper, or global owner.
+- Residual risk: future implementation and lifecycle proof remain unexecuted; the plan intentionally provides no implementation acceptance claim.
+
+Final contamination evidence:
+
+```text
+contamination:clean (.runs/__pycache__ absent)
+generated-files:clean
+attribution-check:clean
+```
+
+Exact changed-file inventory across both cases:
+
+```text
+pv-plan-handoff/docs/plans/2026-08-31_20-51_details_plan.md
+```
+
+No `pv-use-current` project file changed, no runtime repository source changed, and no final write exists outside the correction root.
+<!-- CORRECTION-TARGET-RESULT-END -->
+
+Raw correction target-result SHA-256: `be0bb14a9ba1e32479683345271c0ce8303a0d3827974fb048e7585d30f144ff`.
+
+### Pre-amendment planner causal result
+
+Pre-amendment plan-owner source identities:
+
+- `create-implementation-plan/SKILL.md`: `6b89276e74b41e2df67b853ac1202f63fca2ad9d805b687e3de2eba9e9022dd0`
+- `create-implementation-plan/references/plan-output.md`: `3dca3b61648c0ff7540e3094ac1924efc1513e055817ea6ff6f690892eb4bf81`
+
+Project baseline manifest: `83c563653d60bc2ea8c0b6fdac545cbebbf29a2c98d38a6746c46d17f2611ba6`
+
+Rendered causal target-packet SHA-256: `cbef5e806bc1dc7bf26f65c88950881e8d9db3474b5b581a7f6f3d4fc9c6861b`
+
+The pre-amendment planner produced every field required by `PV-PLAN-PREEDIT-01` through `PV-PLAN-PREEDIT-03`. Decision: `ALREADY_SATISFIED`. The two conditional changes to `create-implementation-plan/SKILL.md` and `references/plan-output.md` were redundant and were removed. `F-002` is resolved by removal, not by claiming a causal RED that did not occur.
+
+The exact payload between the markers is preserved verbatim from the causal target. Its SHA-256 is recorded after the payload.
+
+<!-- CAUSAL-TARGET-RESULT-BEGIN -->
+Result packet
+
+Status: done
+
+Route and reason:
+- `coding-project-orchestrator` → `testing-strategy` verifier lifecycle → `create-implementation-plan`.
+- Lane: `standard`.
+- Plan warranted because verifier bootstrap on the existing `status` slice must precede product implementation, followed by final feature-map and live-evidence acceptance.
+- Full brownfield plan selected because source discovery, lifecycle ownership, dependency ordering, feature-map truth, cleanup, and final evidence identity affect execution.
+- Independent plan review was not warranted.
+
+Sources inspected, in authorized order:
+1. `/Users/blackice/xProjects/Personal/agent-workbench/harness-instructions/AGENTS.md`
+2. `/Users/blackice/xProjects/Personal/agent-workbench/skills/coding-project-orchestrator/SKILL.md`
+3. `/Users/blackice/xProjects/Personal/agent-workbench/skills/coding-project-orchestrator/references/handoffs-and-gates.md`
+4. `/Users/blackice/xProjects/Personal/agent-workbench/skills/testing-strategy/SKILL.md`
+5. `/Users/blackice/xProjects/Personal/agent-workbench/skills/testing-strategy/references/verification-harness-lifecycle.md`
+6. `/tmp/agent-workbench-pv-plan-red.I216zc/runtime/skills/create-implementation-plan/SKILL.md`
+7. `/tmp/agent-workbench-pv-plan-red.I216zc/runtime/skills/create-implementation-plan/references/plan-output.md`
+
+Fixture sources inspected:
+- `AGENTS.md`
+- `TASK.md`
+- `docs/specs/details_spec.md`
+- `app.py`
+- `tests/test_status.py`
+
+Current commands/evidence:
+- `python3 app.py status`
+  - Exit: `0`
+  - Output: `status:ok\n`
+- `python3 app.py details`
+  - Exit: `2`
+  - Error: `invalid choice: 'details' (choose from 'status')`
+- `python3 -m unittest discover -s tests -v`
+  - `test_status ... ok`
+  - `Ran 1 test`
+  - `OK`
+- Baseline SHA-256:
+  - `app.py`: `6c0ce143065c51d20435f2bf2f88a46705a0e9d5c970e854ddb66dd0a86d33de`
+  - `tests/test_status.py`: `8de9030334ea693a169a454762847f9458578ddb29b92225d29aa814e658a848`
+  - `docs/specs/details_spec.md`: `2e077473f249c1b27d3d182c50bb4a0b2dbea0bd800ed05820eebdf17bbc95f4`
+
+Saved plan:
+- Path: `/tmp/agent-workbench-pv-plan-red.I216zc/project/docs/plans/2026-08-31_21-10_details_plan.md`
+- SHA-256: `73ea6a0d3c09e9f76db77a238bd053b4ca3167531d8385e4791868c68dd08f61`
+
+Exact changed-file inventory:
+- Added `docs/plans/2026-08-31_21-10_details_plan.md`
+- No product, test, project-instruction, verifier, or feature-map file remains changed.
+
+Required field excerpts:
+
+- Lifecycle mode:
+  > `1. Lifecycle mode is bootstrap. The project has a runnable first user-observable slice (status), no current verifier or feature map, and REQ-D04 requires repeatable project-local public-behavior proof.`
+
+- Placement relative to the first runnable slice:
+  > `2. Bootstrap is placed before details implementation. It first proves the existing status slice and publishes an honest details: unsupported entry; it must not claim the new command before implementation.`
+
+- Normal implementation owner:
+  > `4. The normal project implementation owner owns verifier files and product files. testing-strategy owns lifecycle and evidence semantics; no verifier-specific owner is required or created.`
+
+- Existing-command reuse before wrappers:
+  > `3. Existing commands are composed before adding mechanisms: direct python3 app.py <command> calls provide the public seam and python3 -m unittest discover -s tests -v is the current aggregate test entry. No wrapper, CLI, helper package, or dependency is justified.`
+
+- Discovery pointer:
+  > `5. A single feature map is the discovery front door.`
+
+- Truthful feature map:
+  > `Record status as verified only from the current run; record details as unsupported with the approved spec pointer and reason not implemented.`
+
+- Live evidence:
+  > `Drive status and details through their public CLI seam; assert exact result tuples. Run the aggregate suite with bytecode writes disabled.`
+
+- Cleanup readback:
+  > `Read cleanup owners after unconditional test finalization.`
+
+- Source/build identity:
+  > `State/evidence identity: SHA-256 digest set for the relevant source, test, discovery, and feature-map files, paired with exact command results from that same checkout.`
+
+- Named downstream evidence consumer:
+  > `Implementation owner: the normal project implementation owner updates project-local verifier metadata; testing strategy validates lifecycle semantics; the implementation coordinator is the named downstream evidence consumer`
+
+- Unsupported bounds:
+  > `Feature-map truth: expected exactly status=verified and details=verified; no claim for any other command, role, platform, service, or environment.`
+
+Absence findings:
+- None of the requested fields is absent or ambiguous.
+
+Unsupported bounds:
+- Local Python CLI only.
+- Only `status` and `details`.
+- No network, browser, cloud execution, schedule, media capture, plugin, global owner, dependency, wrapper, or verifier-specific owner.
+- `details` remains `unsupported` until implementation and same-state live evidence pass.
+- No support is claimed for another command, role, platform, service, or environment.
+
+Residual risk:
+- The plan is not implementation; the verifier, feature map, discovery pointer, tests, and `details` behavior do not exist yet.
+- Independent review was not requested or warranted.
+- The accepted spec filename is noncanonical under the plan-owner naming convention. Explicit `TASK.md`, `AGENTS.md`, and approved spec authority were used; no spec rename was authorized.
+- Final acceptance still requires same-state source hashes, live command tuples, aggregate tests, truthful map readback, and cleanup readback.
+
+Contamination audit:
+- No evaluator assets, prior reports, outside plans, scratchpads, network resources, external systems, plugins, subagents, Git mutations, cloud agents, swarms, PStack mechanisms, Cursor-specific mechanisms, scheduled routines, or universal media requirements were used.
+- The current repository copies of the two plan-owner files were not read; only the supplied `/tmp/.../runtime` copies were used.
+- The test command created `tests/__pycache__/test_status.cpython-314.pyc`; it was removed immediately with its now-empty directory. Final fixture inventory contains only the original files plus the saved plan.
+- The attribution scan found no generated-by, co-author, promotion, vendor, or model attribution. Two lowercase `cursor` matches refer only to the generic plan execution cursor required by the workflow, not the Cursor product.
+<!-- CAUSAL-TARGET-RESULT-END -->
+
+Raw causal target-result SHA-256: `1cb85399f602ecf325e333c674dc0435c826a0252bce2de8397946971ec091d2`.
+
+## Portable Exclusion Result
+
+`PV-PORTABLE-01` passes. The valid journey used only local project files and commands. It used no cloud agent, swarm, Cursor mechanism, PStack runtime, scheduled routine, external service, universal screenshot/video requirement, dependency installation, Git mutation, or project-external write.
+
+## Cleanup And Contamination
+
+The target's final scan found no `.runs/`, `__pycache__`, or `.pyc` path. The coordinator's independent test rerun then recreated ordinary Python cache files; those coordinator-created caches are excluded from artifact identity and are removed with the disposable fixture after evidence capture. Every live verifier and the existing reuse cleanup command independently reported or proved `.runs/` absent.
 
 ## Evaluation Economy
 
-- Eligible observed RED reused: none for the operational project mechanism; semantic design-only failures were not counted as operational RED.
-- Journey boundary: explicit reusable-verifier request or full-audit request before mechanism selection.
-- Fresh target maximum / used: 4 possible / 2 used; no GREEN rerun was authorized because no RED occurred.
-- Focused correction maximum / used: 1 / 0.
-- Independent evaluator review: not activated; final implementation review remains separately required.
-- Downshift applied: no model comparison, browser/UI fixture, external service, screenshots, or duplicate feature suite.
-- Expansion trigger: no trigger fired.
+- Eligible observed RED reused: user-reported missing automatic invocation and the former prebuilt-owner evaluator loophole.
+- Valid fresh target runs: initial runtime RED reused; complete post-correction journey `1`; focused review-correction journey `1`; pre-amendment planner causal comparison `1`.
+- Invalid target attempts: `1`, caused solely by missing pre-dispatch evidence capture and not used for acceptance.
+- Runtime correction cycles after the frozen GREEN dispatch: `0`.
+- Evaluator corrections: one recorded-baseline rerun after an evidence-capture defect; one frozen two-case amendment after standard review proved that the original feature-addition task could not observe pure `use` and that the plan owner lacked a causal case.
+- Evaluator-specific review: none.
+- Implementation review: first standard pass returned `REQUEST_CHANGES` with `F-001` and `F-002`; first narrow re-review resolved `F-001`, retained `F-002`, and added `F-003`; final narrow reconciliation returned `ACCEPT` with all three findings resolved.
+- Excluded work: model comparison, duplicate runtime owners, cloud execution, swarms, schedules, Cursor/PStack mechanisms, screenshots, videos, UI adapters, and nested reviewers.
+- Expansion trigger observed: none.
 
-## Verdict
+## Current Verdict
 
-`PASS — ALREADY_SATISFIED`. The current testing owner and lifecycle reference produced both accepted operational outcomes when paired with a real project mechanism owner. The implementation must leave both testing runtime files unchanged. The actual integration gap remains orchestration: selecting the reusable-verifier function, handing mechanism work to the real local owner, consuming that return, and carrying the live proof back to the original outcome.
+`GREEN` and independently accepted. Every applicable original row and review-correction row passed against recorded identities. The original feature-addition result remains maintenance evidence rather than being relabeled. The pre-amendment planner already produced the required verifier handoff, so its two conditional edits were removed as redundant. The retained runtime delta proves automatic current-verifier `use`, affected and drift `maintain`, no-owner `bootstrap`, proportional `not_applicable`, project-native reuse, live evidence consumption, source identity, and cleanup without adding a second plan-owner reinforcement. Final review identity: HEAD `84004f391e6c3d3031c0548d3cb1a44b04645c00`, tracked diff SHA-256 `51e04c76d950ffb4eb01ca98875c08f7b772f6d51a5d8263237e321f8b243bff`, verdict `ACCEPT`, no active findings, no further re-review required.

@@ -82,6 +82,8 @@ Before invoking any skill or subagent, classify the request:
 
 After this routing gate, load a skill only when the user names it or the request clearly matches its documented trigger. Speculative or tangential relevance is not enough.
 
+For runtime-relevant feature, bug, performance, or verification work in a runnable product, current project instructions, developer entry points, or verifier state can make the project-verifier lifecycle clearly applicable even when the user does not name it. Route an adequate current verifier to `testing-strategy` `use`; route affected source, control, observer, or evidence drift to `maintain`; when none exists, route `bootstrap` only after the first user-observable vertical slice is runnable, reusable live proof is required, and current project mutation plus live actions are already authorized. Otherwise record `not_applicable` and keep the ordinary proof path. This decision does not authorize external or destructive actions and must not create cloud, swarm, scheduled, Cursor-specific, universal media, or future-use infrastructure.
+
 Capability type rule:
 
 - Skills are reusable procedures loaded with the skill tool.
