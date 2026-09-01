@@ -249,6 +249,21 @@ Do not suspend or weaken these rules because of urgency, user confidence, user t
 - Before implementing common functionality or proposing a new package, inspect the project's existing dependencies, current documentation, exported APIs, and types for the required capability. Reuse an existing dependency only when it satisfies the requirement without increasing total complexity or risk.
   </dependency_checks>
 
+<solution_sufficiency_gate>
+
+- Before constructing a new custom implementation of a capability — a new component, module, helper, abstraction, subsystem, dependency, or hand-rolled version of common functionality — answer these questions in order and stop at the first level that fully satisfies the requirement:
+  1. Does this capability need to be built at all? If the accepted outcome is already satisfied, or the capability is outside the accepted scope, do not build it.
+  2. Does the project already provide it through an existing helper, module, pattern, service, or test seam? Reuse or extend that.
+  3. Does the language, standard library, runtime, framework, platform, database, or operating system already provide it? Use the built-in facility.
+  4. Does an already-installed dependency provide it without increasing total complexity or risk? Use it.
+  5. Only when no earlier level is sufficient, implement the smallest coherent project-owned solution that fully meets the requirement. If an earlier level satisfies the core capability and only a bounded residual gap remains, keep that level and add only the smallest project-owned piece that closes the gap; do not rebuild what the earlier level already provides.
+- A level is sufficient only when it fully satisfies the real requirement, including trust-boundary validation, error handling that prevents data loss, security, compatibility obligations, required error behavior and side effects, accessibility where applicable, maintainability, and the verification the change needs. Stopping at a lower level is never authority to weaken one of these; a level that cannot carry them is not sufficient.
+- Judge sufficiency against the requirement, never against size. Do not select a level because it produces fewer lines, files, or tokens, and do not reject a sufficient level because the custom build would look more complete. Local consistency with existing custom components is not by itself a reason to build custom: match the house pattern's reason — build custom when the lower levels are insufficient — not its surface.
+- When the user, an approved spec, or an approved plan explicitly requires a specific solution shape, build that shape as accepted without re-arguing it. If current evidence shows a lower level satisfies the accepted outcome, return that evidence to the owning artifact or decision owner as a changed premise; never silently substitute the lower level.
+- When this gate applied to a decision, state in one or two sentences which level satisfied the requirement and, if you stopped before level 5, what you deliberately did not build.
+
+</solution_sufficiency_gate>
+
 <currency_check>
 
 - Recommendations should be grounded in current facts and current dates, not training-data assumptions.
