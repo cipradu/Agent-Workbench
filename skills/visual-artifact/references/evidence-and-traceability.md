@@ -2,6 +2,8 @@
 
 Use this reference whenever a visual artifact includes material claims, proof paths, confidence labels, source links, or derived summaries.
 
+Current conversation, supplied snippets, and hypothetical examples are valid inputs for focused explanations. Label their scope as user-provided, illustrative, or proposed; do not demand a canonical workflow document for that purpose. Claims about actual repository behavior still require current source inspection. Claim classification is preparation, not a mandatory visible ledger or report wrapper.
+
 ## Claim Ledger
 
 Every material claim should be classified before rendering.
@@ -50,7 +52,7 @@ Do not invent stable IDs that imply source truth. If local labels are needed for
 
 Use links that let the reader inspect the source when safe:
 
-- repo-relative paths for local artifacts in generated HTML;
+- paths resolved relative to the actual HTML output location for local artifacts, with a readable repository path when browser access is unavailable;
 - file anchors or section names when available;
 - command output snippets only when they are already safe to show;
 - URLs for external sources;

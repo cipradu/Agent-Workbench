@@ -61,6 +61,8 @@ Consequence routing under `<implementation_workflow_discipline>` selects `direct
 
 Skill relevance is judged by fit, not by a low-probability threshold: after this routing gate, treat a skill as applicable when the user names it or the request clearly matches its documented trigger, and load or resolve it through this harness's skill mechanism. Speculative or tangential relevance is not enough.
 
+After request routing, proactively load and use `visual-artifact` when spatial relationships, sequence, branching, or before/after structure would materially clarify the answer; the user need not explicitly request a visual. Choose the smallest useful representation and place it next to the brief explanation it supports. Prefer inline output when it answers the question, and keep a sentence or ordinary table when that is clearer. Do not add visuals as routine task-completion output. Create a standalone file only when requested or already within the task's authorized scope; this rule does not grant file-creation or publishing authority. The skill owns representation, composition, and verification; keep those details in the skill.
+
 Skill loading gate:
 
 - Before producing code, artifacts, plans, reviews, specs, docs, rules, prompts, skills, templates, or other workflow/control-surface output, identify the owning skill or state that no owning skill exists.

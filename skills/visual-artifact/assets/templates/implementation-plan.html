@@ -7,329 +7,39 @@
   <link rel="stylesheet" href="base.css">
 </head>
 <body>
-  <main class="artifact-page">
+  <!-- Plan report starter. Explain the important dependency or checkpoint first. Preserve unit IDs and ordering; this view does not authorize execution. -->
+  <main class="artifact-page report-page">
     <header class="artifact-header">
-      <div>
-        <div class="artifact-kind">Implementation plan visual</div>
-        <h1>{{artifact_title}}</h1>
-        <p class="lead">{{reader_job_summary}}</p>
-        <!--
-          L1 ANSWER BAND (strata layer 1). Typical cells: unit count, wave count,
-          verification-gate count, critical-path length, re-plan trigger count.
-          Computed from the plan, or labeled `estimated`, or omitted. OMIT the whole
-          band only when the model is trivially small (<3 computable facts).
-        -->
-        <div class="answer-band">
-          <div class="answer-cell"><span class="answer-num">{{unit_count}}</span><span class="answer-lbl">units</span></div>
-          <div class="answer-cell"><span class="answer-num">{{wave_count}}</span><span class="answer-lbl">waves</span></div>
-          <div class="answer-cell"><span class="answer-num">{{gate_count}}</span><span class="answer-lbl">verification gates</span></div>
-          <div class="answer-cell"><span class="answer-num">{{critical_path_length}}</span><span class="answer-lbl">critical path</span></div>
-        </div>
-        <div class="band-note">
-          <div class="note-cell"><strong>Plan:</strong> {{plan_artifact}}</div>
-          <div class="note-cell"><strong>Inspect first:</strong> {{inspect_first}}</div>
-          <div class="note-cell"><strong>Stop rule:</strong> {{most_important_stop_rule}}</div>
-        </div>
-        <div class="meta-strip">
-          <div class="meta-item">
-            <span class="meta-label">Plan</span>
-            <span class="meta-value">{{plan_artifact}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Linked spec</span>
-            <span class="meta-value">{{linked_spec}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Critical path</span>
-            <span class="meta-value">{{critical_path}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Stop rule</span>
-            <span class="meta-value">{{most_important_stop_rule}}</span>
-          </div>
-        </div>
-      </div>
-      <aside class="header-aside" aria-label="Source boundary">
-        <div>
-          <span class="meta-label">May show</span>
-          <p>Units, dependencies, waves, critical path, verification gates, approval gates, blast radius, and re-plan triggers.</p>
-        </div>
-        <div>
-          <span class="meta-label">Must not do</span>
-          <p>Change spec truth, implement code, or hide blockers inside execution units.</p>
-        </div>
-      </aside>
+      <p class="artifact-kind">Implementation plan report</p>
+      <h1>{{plan_conclusion}}</h1>
+      <p class="lead">{{critical_dependency_and_execution_consequence}}</p>
+      <p class="source-note">Source: <a href="{{plan_link}}" target="_blank" rel="noopener noreferrer">{{plan_artifact_and_status}}</a>; <a href="{{spec_link}}" target="_blank" rel="noopener noreferrer">{{linked_spec}}</a>. {{current_checkpoint_or_blocker}}</p>
     </header>
-
-    <div class="artifact-layout">
-      <aside class="source-rail">
-        <h2>Sources And Navigation</h2>
-        <div class="rail-group">
-          <span class="meta-label">Source artifacts</span>
-          <ul class="rail-list">
-            <li><a href="{{plan_link}}" target="_blank" rel="noopener noreferrer">{{plan_artifact}}</a></li>
-            <li><a href="{{spec_link}}" target="_blank" rel="noopener noreferrer">{{linked_spec}}</a></li>
-          </ul>
+    <div class="report-layout">
+      <section class="section" aria-labelledby="dependency">
+        <h2 id="dependency">{{dependency_question}}</h2>
+        <p>{{dependency_explanation}}</p>
+        <!-- For branching dependencies replace this linear list with a source-derived figure and retain a textual relationship summary. -->
+        <ol class="steps"><li><h3>{{unit_id_and_name}}</h3><p>{{unit_dependency_and_exit_evidence}}</p></li></ol>
+      </section>
+      <section class="section" aria-labelledby="checkpoint">
+        <h2 id="checkpoint">{{checkpoint_title}}</h2>
+        <p>{{checkpoint_acceptance_condition}}</p>
+        <p><strong>Stop when:</strong> {{stop_trigger}}</p>
+        <p><strong>Next owner:</strong> {{owner_route}}</p>
+      </section>
+      <section class="section section-wide" aria-labelledby="units">
+        <h2 id="units">Execution order and verification</h2>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Plan units, dependencies, and exit evidence">
+          <table class="table-wide">
+            <caption>{{authorized_scope_and_source_status}}</caption>
+            <thead><tr><th scope="col">Unit</th><th scope="col">Depends on</th><th scope="col">Target boundary</th><th scope="col">Exit evidence</th><th scope="col">Checkpoint</th></tr></thead>
+            <tbody><tr><th scope="row">{{unit_id_and_purpose}}</th><td>{{dependencies}}</td><td>{{target_and_non_target_boundary}}</td><td>{{verification_and_expected_result}}</td><td>{{review_or_approval_checkpoint}}</td></tr></tbody>
+          </table>
         </div>
-        <div class="rail-group">
-          <span class="meta-label">Local navigation</span>
-          <ul class="rail-list">
-            <li><a href="#dependencies">Dependencies</a></li>
-            <li><a href="#wave-band">Wave order</a></li>
-            <li><a href="#waves">Execution waves</a></li>
-            <li><a href="#verification">Verification</a></li>
-            <li><a href="#stop-rules">Stop rules</a></li>
-          </ul>
-        </div>
-      </aside>
-
-      <div class="content-stack">
-        <section class="section" id="dependencies">
-          <div class="section-header">
-            <div>
-              <h2>Dependency View</h2>
-              <p>Use this space for the overview graph when dependencies, fan-in, fan-out, or critical path matter. Small diagrams may render unframed; dense inspection uses the zoomable band. Omit the section otherwise.</p>
-            </div>
-          </div>
-          <div class="diagram-band" data-diagram-band>
-            <div class="diagram-tools">
-              <span class="diagram-title">{{diagram_title}}</span>
-              <div class="diagram-actions">
-                <button class="diagram-button" type="button" data-diagram-zoom-out aria-label="Zoom out">-</button>
-                <span class="diagram-zoom-value" data-diagram-zoom-value>100%</span>
-                <button class="diagram-button" type="button" data-diagram-zoom-in aria-label="Zoom in">+</button>
-                <button class="diagram-button" type="button" data-diagram-zoom-reset>Reset</button>
-              </div>
-            </div>
-            <div class="diagram-viewport">
-            <pre class="mermaid">
-flowchart TD
-  accTitle: {{diagram_accessible_title}}
-  accDescr: {{diagram_accessible_description}}
-  U1["{{unit_1_id}}: {{unit_1_label}}"] --> U2["{{unit_2_id}}: {{unit_2_label}}"]
-  U1 --> U3["{{unit_3_id}}: {{unit_3_label}}"]
-  U2 --> G["{{verification_or_approval_gate}}"]
-  U3 --> G
-            </pre>
-            </div>
-            <p class="section-note">{{dependency_graph_text_alternative}}</p>
-          </div>
-        </section>
-
-        <!--
-          OPTIONAL: WAVE-ORDER SEQUENCE BAND.
-          Use when wave/phase order is a reader question: one tick per wave or checkpoint,
-          status tones for blocked/current/done. Omit the whole section otherwise —
-          absent from the HTML, not CSS-hidden.
-        -->
-        <section class="section" id="wave-band">
-          <div class="section-header">
-            <div>
-              <h2>{{wave_band_title}}</h2>
-              <p>{{wave_band_summary}}</p>
-            </div>
-          </div>
-          <div class="sequence-band">
-            <div class="axis"></div>
-            <!-- sb-tick elements here, one per wave/checkpoint -->
-          </div>
-          <div class="sequence-band-labels">{{wave_band_axis_labels}}</div>
-          <div class="legend">{{wave_band_legend}}</div>
-        </section>
-
-        <section class="section" id="waves">
-          <div class="section-header">
-            <div>
-              <h2>Execution Waves</h2>
-              <p>Ordering, parallel groups, and shared-resource constraints stay visible without turning the visual into shell choreography.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Wave</th>
-                  <th>Units</th>
-                  <th>Depends on</th>
-                  <th>Shared constraint</th>
-                  <th>Exit evidence</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{wave_id}}</td>
-                  <td>{{unit_ids}}</td>
-                  <td>{{dependencies}}</td>
-                  <td>{{shared_constraint}}</td>
-                  <td>{{exit_evidence}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!--
-          OPTIONAL: UNITS × GATES DATA MATRIX.
-          Use when units × verification-gates cells form a dense two-axis grid at or
-          above the row guidance default (>6 rows). Otherwise keep the unit table below.
-        -->
-        <section class="section" id="units-matrix">
-          <div class="section-header">
-            <div>
-              <h2>{{units_matrix_title}}</h2>
-              <p>Axes: units (rows) × verification gates (columns). {{units_matrix_summary}}</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table class="data-matrix">
-              <thead><tr><th>unit</th>{{gate_columns}}</tr></thead>
-              <tbody>{{units_matrix_rows}}</tbody>
-            </table>
-          </div>
-          <div class="legend">{{units_matrix_legend}}</div>
-        </section>
-
-        <section class="section" id="unit-table">
-          <div class="section-header">
-            <div>
-              <h2>Unit Table</h2>
-              <p>Dense plan detail belongs in a table, not one decorative block per unit.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Unit</th>
-                  <th>Purpose</th>
-                  <th>Target boundary</th>
-                  <th>Non-target boundary</th>
-                  <th>Reviewer focus</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{unit_id}}</td>
-                  <td>{{unit_purpose}}</td>
-                  <td>{{target_boundary}}</td>
-                  <td>{{non_target_boundary}}</td>
-                  <td>{{reviewer_focus}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section" id="verification">
-          <div class="section-header">
-            <div>
-              <h2>Verification Matrix</h2>
-              <p>Done is tied to expected evidence, not a generic tests-pass claim.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Evidence</th>
-                  <th>Spec IDs</th>
-                  <th>Unit IDs</th>
-                  <th>Check</th>
-                  <th>Expected result</th>
-                  <th>Residual risk</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{evidence_id}}</td>
-                  <td>{{spec_ids}}</td>
-                  <td>{{verification_unit_ids}}</td>
-                  <td>{{check}}</td>
-                  <td>{{expected_result}}</td>
-                  <td>{{verification_risk}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section" id="stop-rules">
-          <div class="section-header">
-            <div>
-              <h2>Stop And Re-Plan Rules</h2>
-              <p>The visual plan must show when execution should stop instead of continuing through contradiction. Trigger status is two-channel: color = valence, border = certainty (solid = verified, dashed = inferred).</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table class="trace-table">
-              <thead>
-                <tr>
-                  <th>Trigger</th>
-                  <th>Affected unit</th>
-                  <th>Stop condition</th>
-                  <th>Required action</th>
-                  <th>Owner route</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{trigger}}</td>
-                  <td>{{affected_unit}}</td>
-                  <td>{{stop_condition}}</td>
-                  <td>{{required_action}}</td>
-                  <td>{{owner_route}}</td>
-                  <td><span class="status-label" data-tone="{{trigger_status_tone}}" data-cert="{{trigger_status_cert}}">{{trigger_status}}</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="legend"><span>color = valence</span><span>border = certainty: solid = verified, dashed = inferred</span></div>
-        </section>
-      </div>
+      </section>
+      <!-- Add waves, coverage, or shared-resource constraints only when needed. Do not invent parallelism or infer completed units. -->
     </div>
   </main>
-  <script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-
-    mermaid.initialize({
-      startOnLoad: false,
-      securityLevel: "strict",
-      theme: "base",
-      themeVariables: {
-        fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-        primaryColor: "#e7eefc",
-        primaryBorderColor: "#bfd0fb",
-        primaryTextColor: "#151b26",
-        lineColor: "#64748b",
-        secondaryColor: "#e4f6eb",
-        tertiaryColor: "#fff1d6"
-      }
-    });
-
-    await mermaid.run({ querySelector: ".mermaid" });
-
-    document.querySelectorAll("[data-diagram-band]").forEach((band) => {
-      const viewport = band.querySelector(".diagram-viewport");
-      const value = band.querySelector("[data-diagram-zoom-value]");
-      const svg = band.querySelector("svg");
-      if (!viewport || !value || !svg) return;
-
-      const naturalWidth = svg.viewBox ? svg.viewBox.baseVal.width : svg.getBoundingClientRect().width;
-      let scale = 1;
-
-      const applyScale = (next) => {
-        scale = Math.min(1.8, Math.max(0.7, next));
-        svg.style.width = `${Math.round(naturalWidth * scale)}px`;
-        svg.style.maxWidth = "none";
-        value.textContent = `${Math.round(scale * 100)}%`;
-      };
-
-      band.querySelector("[data-diagram-zoom-out]")?.addEventListener("click", () => applyScale(scale - 0.1));
-      band.querySelector("[data-diagram-zoom-in]")?.addEventListener("click", () => applyScale(scale + 0.1));
-      band.querySelector("[data-diagram-zoom-reset]")?.addEventListener("click", () => applyScale(1));
-      applyScale(1);
-    });
-  </script>
 </body>
 </html>

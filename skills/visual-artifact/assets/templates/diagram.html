@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{artifact_title}}</title>
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <!-- Figure-led starter. Author the spatial model from supplied or verified relationships. This empty canvas deliberately has no sample nodes or edges. SVG and Mermaid are both options; select by the reader's task. -->
+  <main class="artifact-page diagram-page">
+    <header class="artifact-header">
+      <h1>{{figure_title}}</h1>
+      <p class="lead">{{relationship_to_understand}}</p>
+      <p class="source-note">{{current_or_proposed_source_note}}</p>
+    </header>
+    <div class="figure-layout">
+      <figure aria-labelledby="figure-caption">
+        <div class="diagram-band" data-diagram-band>
+          <!-- Keep controls when inspection benefits from zoom. If omitted, also remove the script. The canvas retains a readable minimum width and scrolls locally. For Mermaid, use the component and post-render initializer in references/mermaid-diagrams.md; this script handles authored SVG only. -->
+          <div class="diagram-tools">
+            <span class="diagram-title">{{figure_navigation_hint}}</span>
+            <div class="diagram-actions" role="group" aria-label="Diagram zoom">
+              <button class="diagram-button" type="button" data-diagram-zoom-out aria-label="Zoom out">−</button>
+              <output class="diagram-zoom-value" data-diagram-zoom-value aria-live="polite">100%</output>
+              <button class="diagram-button" type="button" data-diagram-zoom-in aria-label="Zoom in">+</button>
+              <button class="diagram-button" type="button" data-diagram-zoom-reset>Reset</button>
+            </div>
+          </div>
+          <div class="diagram-viewport" tabindex="0" role="region" aria-label="Scrollable diagram">
+            <!-- Adapt viewBox and minimum width to the authored model. Attach connectors to node edges, away from labels. Architecture uses tiers; cycles separate circulation from shared state. -->
+            <svg class="figure-canvas" viewBox="0 0 1200 640" role="img" aria-labelledby="diagram-title diagram-description">
+              <title id="diagram-title">{{accessible_diagram_title}}</title>
+              <desc id="diagram-description">{{accessible_relationship_summary}}</desc>
+              <!-- Insert source-derived groups, labels, and directed connectors here. -->
+            </svg>
+          </div>
+        </div>
+        <figcaption id="figure-caption">{{figure_caption}}</figcaption>
+      </figure>
+      <div class="figure-notes">
+        <section aria-labelledby="reading">
+          <h2 id="reading">{{reading_note_title}}</h2>
+          <p>{{text_alternative_with_all_material_relationships}}</p>
+        </section>
+        <!-- Retain a separate limitation only if it affects interpretation. -->
+        <section aria-labelledby="limit">
+          <h2 id="limit">{{limitation_title}}</h2>
+          <p>{{source_backed_limitation}}</p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script>
+    for (const band of document.querySelectorAll("[data-diagram-band]")) {
+      // Mermaid owns its controls after asynchronous rendering, including on mixed SVG/Mermaid pages.
+      if (band.querySelector(".mermaid")) continue;
+      const canvas = band.querySelector("svg");
+      const value = band.querySelector("[data-diagram-zoom-value]");
+      const zoomOut = band.querySelector("[data-diagram-zoom-out]");
+      const zoomIn = band.querySelector("[data-diagram-zoom-in]");
+      const minimumWidth = parseFloat(getComputedStyle(canvas).minWidth) || 0;
+      let scale = 1;
+      const applyScale = (next) => {
+        scale = Math.min(2, Math.max(1, next));
+        canvas.style.width = `${scale * 100}%`;
+        canvas.style.minWidth = `${minimumWidth * scale}px`;
+        value.textContent = `${Math.round(scale * 100)}%`;
+        zoomOut.disabled = scale === 1;
+        zoomIn.disabled = scale === 2;
+      };
+      zoomOut.addEventListener("click", () => applyScale(scale - 0.25));
+      zoomIn.addEventListener("click", () => applyScale(scale + 0.25));
+      band.querySelector("[data-diagram-zoom-reset]").addEventListener("click", () => applyScale(1));
+      applyScale(1);
+    }
+  </script>
+</body>
+</html>

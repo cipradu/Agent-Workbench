@@ -1,57 +1,45 @@
 # Artifact Routing
 
-Use this reference after the main skill establishes the reader job and source truth. The goal is to choose one primary artifact type before any layout or rendering decision.
+Choose the reader's purpose before choosing the output form or source-specific reference. A PRD, spec, or plan is a source category, not a page design.
 
-## Routing Rule
+## Purpose and delivery
 
-Pick the artifact type by the reader question, not by the file extension, file name, document length, or preferred visual format.
-
-If multiple source artifacts are present, identify the primary reader job and label all secondary sources by owner. Do not flatten different source owners into one anonymous "context" pile.
-
-## Routing Table
-
-| Reader question | Source shape | Primary type | Load next |
+| Reader question | Primary purpose | Start with | Escalate only when |
 | --- | --- | --- | --- |
-| What product problem, actors, assumptions, options, or product unknowns are we dealing with? | PRD, product brief, notes, brainstorm, interview guide, prototype references, PRD unknowns map before spec-readiness exists | PRD/discovery visual | `prd-and-discovery-visuals.md` |
-| Why can this product source not become an engineering spec yet? | Spec-readiness map, broad PRD-to-spec gap, tickets, Fog, engineering-readiness unknowns, evidence-needed view | Spec readiness visual | `spec-readiness-visuals.md` |
-| What must be technically true, who owns authority, and what proves acceptance? | Engineering spec, requirements contract, API/architecture constraint artifact | Engineering spec visual | `engineering-spec-visuals.md` |
-| What gets executed first, what depends on what, and how is done proven? | Implementation plan, plan unit graph, execution waves, verification matrix | Implementation plan visual | `implementation-plan-visuals.md` |
-| What changed, what deviated, what was verified, what remains risky, or what should I understand after a long run? | Diff, review packet, implementation notes, verification output, progress plus source artifacts | Implementation result visual | `implementation-result-visuals.md` |
-| Do I understand enough to approve, merge, redirect, or continue? | Explainer, plan/spec/review packet, completed implementation story | Comprehension check | `implementation-result-visuals.md` |
+| Why does this happen; how does this idea work? | Focused explanation | Brief text plus pseudocode, tree, diff, table, or small diagram inline | Coordinated figures/text, interaction, or an explicit file request needs a standalone explanation |
+| What calls, contains, depends on, or communicates with what? | Technical view | Call/component/file tree or an appropriate diagram | Spatial structure or inspection requires a figure canvas |
+| How much, how often, or how does it change? | Quantitative view | Table or chart with values, units, scale, and source | Several coordinated views or evidence navigation require a page |
+| What happened, what is supported, and what remains unresolved? | Evidence report | Conclusion followed by evidence, comparisons, and uncertainty | Further detail genuinely changes the reader's decision |
 
-## Mixed Source Handling
+A report may contain technical or quantitative views. An explanation may use a diagram. Choose the primary purpose to control emphasis without pretending the purposes are mutually exclusive.
 
-When the source spans PRD, readiness map, spec, plan, implementation, review, and continuity:
+If inline output fully answers the question, finish inline without HTML, template selection, or a workflow report. A request for a standalone diagram selects a figure-led page; a request for HTML alone does not imply a report.
 
-1. Select the reader's primary job.
-2. Name the source owner for each claim.
-3. Show source-owner boundaries in the artifact.
-4. Use a whole-thread recap only when the user asks to reconstruct the full story.
-5. Do not let the recap replace any source artifact.
+## Source ownership
 
-## Suggestion Rule
+After purpose selection, load the source branch that protects the truth being projected:
 
-Suggest this skill only when all are true:
+| Actual source being projected | Read |
+| --- | --- |
+| PRD, product brief, discovery notes, product unknowns, prototype comparison | `prd-and-discovery-visuals.md` |
+| Existing readiness map, engineering-readiness tickets, Fog, route-outs | `spec-readiness-visuals.md` |
+| Engineering spec, requirements contract, spec-level invariants and acceptance | `engineering-spec-visuals.md` |
+| Implementation plan, execution units, dependencies, verification/stop gates | `implementation-plan-visuals.md` |
+| Implementation result, diff evidence, review packet, whole-workstream recap, comprehension check | `implementation-result-visuals.md` |
+| Supplied example, current discussion, code snippet, conceptual or proposed system | No source-document branch required; use evidence and representation guidance |
 
-- source truth already exists;
-- relationships, unknowns, dependencies, evidence, or proof paths are hard to reconstruct from prose;
-- the agent can name the reader job in one sentence;
-- the visual artifact would help the user inspect or decide, not merely look nicer.
+A code snippet is not an implementation report. A proposed flow is not an approved spec. Do not invent an upstream artifact to fit a routing row.
 
-Do not auto-run this skill for every long PRD, spec, plan, or review.
+A PRD unknowns view stays in product discovery until an actual readiness map or explicit engineering-readiness question is being projected. Keep facts, assumptions, disputes, and missing evidence distinct in either case.
 
-## PRD Unknowns Versus Spec Readiness
+## Mixed inputs
 
-A visual unknowns map from a PRD stays in the PRD/discovery branch when the reader job is to understand product facts, assumptions, doubts, open questions, or next validation actions.
+Use the primary reader question to determine the page or inline hierarchy. Preserve the source owner and status of each material claim. A proposed change can be compared with current behavior when both are labeled; the comparison does not approve the proposal.
 
-Use the spec-readiness branch only when the reader job is to show why engineering spec authoring is blocked, when an existing spec-readiness map or tickets/Fog exist, or when the unknowns are explicitly engineering-readiness questions that can change future spec truth, authority, risk, acceptance evidence, or planning impact.
+Use a whole-thread recap only when reconstructing the workstream is the reader's job. Do not expand a focused question into a generic project map.
 
-## Rejection Patterns
+## Missing inputs
 
-Reject or route away when:
+Read named or discoverable sources. Infer the reader job from the request when recoverable. Ask one targeted question only when the missing fact changes the answer or source boundary. If a source is unavailable, show only the supported part and label the gap, or return a bounded brief when the gap prevents a meaningful visual.
 
-- the user needs source truth authored or changed;
-- the request is only "make this pretty";
-- the source is a stale progress note or chat summary;
-- the artifact would become a generic project map;
-- the chosen branch would leak product truth into spec/plan/review truth or implementation truth into upstream artifacts.
+For a hypothetical example, user-provided facts are a sufficient source if the view stays explicitly illustrative. For actual-system or verification claims, require current source or evidence. Stylistic confidence never upgrades source authority.

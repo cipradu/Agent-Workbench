@@ -7,211 +7,39 @@
   <link rel="stylesheet" href="base.css">
 </head>
 <body>
-  <main class="artifact-page">
+  <!-- Readiness report starter. Keep evidence and open questions needed to understand the handoff. These are not implementation tasks. -->
+  <main class="artifact-page report-page">
     <header class="artifact-header">
-      <div>
-        <div class="artifact-kind">Spec readiness visual</div>
-        <h1>{{artifact_title}}</h1>
-        <p class="lead">{{reader_job_summary}}</p>
-        <!--
-          L1 ANSWER BAND (strata layer 1). Typical cells: sharp-ticket count, Fog count,
-          blocker count, evidence-needed count, handoff status. Computed from the
-          readiness map, or labeled `estimated`, or omitted. OMIT the whole band only
-          when the model is trivially small (<3 computable facts).
-        -->
-        <div class="answer-band">
-          <div class="answer-cell"><span class="answer-num">{{ticket_count}}</span><span class="answer-lbl">sharp tickets</span></div>
-          <div class="answer-cell"><span class="answer-num">{{fog_count}}</span><span class="answer-lbl">fog items</span></div>
-          <div class="answer-cell"><span class="answer-num">{{blocker_count}}</span><span class="answer-lbl">blockers</span></div>
-          <div class="answer-cell"><span class="answer-num">{{handoff_status_short}}</span><span class="answer-lbl">handoff status</span></div>
-        </div>
-        <div class="band-note">
-          <div class="note-cell"><strong>Source map:</strong> {{readiness_map}}</div>
-          <div class="note-cell"><strong>Inspect first:</strong> {{inspect_first}}</div>
-          <div class="note-cell"><strong>Next owner:</strong> {{next_owner_route}}</div>
-        </div>
-        <div class="meta-strip">
-          <div class="meta-item">
-            <span class="meta-label">Source map</span>
-            <span class="meta-value">{{readiness_map}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Gate</span>
-            <span class="meta-value">{{handoff_gate}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Blocking count</span>
-            <span class="meta-value">{{blocking_count}}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Next owner</span>
-            <span class="meta-value">{{next_owner_route}}</span>
-          </div>
-        </div>
-      </div>
-      <aside class="header-aside" aria-label="Source boundary">
-        <div>
-          <span class="meta-label">May show</span>
-          <p>Tickets, Fog, source authority, blockers, evidence needed, owner routes, and handoff readiness.</p>
-        </div>
-        <div>
-          <span class="meta-label">Must not do</span>
-          <p>Create implementation units, write the engineering spec, or hide unknowns behind polish.</p>
-        </div>
-      </aside>
+      <p class="artifact-kind">Spec readiness report</p>
+      <h1>{{readiness_conclusion}}</h1>
+      <p class="lead">{{handoff_state_and_reason}}</p>
+      <p class="source-note">Source: <a href="{{readiness_map_link}}" target="_blank" rel="noopener noreferrer">{{readiness_map_and_status}}</a>. {{source_strength_limit}}</p>
     </header>
-
-    <div class="artifact-layout">
-      <aside class="source-rail">
-        <h2>Sources And Navigation</h2>
-        <div class="rail-group">
-          <span class="meta-label">Source artifacts</span>
-          <ul class="rail-list">
-            <li><a href="{{readiness_map_link}}" target="_blank" rel="noopener noreferrer">{{readiness_map}}</a></li>
-            <li><a href="{{prd_link}}" target="_blank" rel="noopener noreferrer">{{source_prd}}</a></li>
-          </ul>
+    <div class="report-layout">
+      <section class="section" aria-labelledby="blocking-question">
+        <h2 id="blocking-question">{{most_important_readiness_question}}</h2>
+        <p>{{known_context}}</p>
+        <p>{{missing_truth_and_spec_impact}}</p>
+      </section>
+      <section class="section" aria-labelledby="handoff">
+        <h2 id="handoff">What resolves the handoff</h2>
+        <dl class="definition-list">
+          <div><dt>Evidence</dt><dd>{{required_evidence}}</dd></div>
+          <div><dt>Owner</dt><dd>{{owner_route}}</dd></div>
+          <div><dt>Exit condition</dt><dd>{{handoff_exit_condition}}</dd></div>
+        </dl>
+      </section>
+      <section class="section section-wide" aria-labelledby="readiness-evidence">
+        <h2 id="readiness-evidence">Open questions and evidence</h2>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Readiness questions and resolution evidence">
+          <table class="table-wide">
+            <caption>{{assessed_scope}}</caption>
+            <thead><tr><th scope="col">Question</th><th scope="col">Current evidence</th><th scope="col">Missing evidence</th><th scope="col">Spec impact</th><th scope="col">Owner / state</th></tr></thead>
+            <tbody><tr><th scope="row">{{question_id_and_question}}</th><td>{{current_evidence}}</td><td>{{evidence_needed}}</td><td>{{spec_impact}}</td><td>{{question_owner_and_status}}</td></tr></tbody>
+          </table>
         </div>
-        <div class="rail-group">
-          <span class="meta-label">Local navigation</span>
-          <ul class="rail-list">
-            <li><a href="#readiness-board">Readiness board</a></li>
-            <li><a href="#tickets-and-fog">Tickets and Fog</a></li>
-            <li><a href="#owner-routes">Owner routes</a></li>
-            <li><a href="#handoff">Handoff readiness</a></li>
-          </ul>
-        </div>
-      </aside>
-
-      <div class="content-stack">
-        <section class="section" id="readiness-board">
-          <div class="section-header">
-            <div>
-              <h2>Readiness Board</h2>
-              <p>Why the future engineering spec is ready, blocked, or still under investigation. When areas exceed the row guidance default (>6), render this board as a <code>.data-matrix</code> with areas × readiness status cells.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Area</th>
-                  <th>Status</th>
-                  <th>Why it matters</th>
-                  <th>Evidence needed</th>
-                  <th>Spec impact</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{area}}</td>
-                  <td><span class="status-label" data-tone="{{status_tone}}" data-cert="{{status_cert}}">{{status_label}}</span></td>
-                  <td>{{why_it_matters}}</td>
-                  <td>{{evidence_needed}}</td>
-                  <td>{{spec_impact}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="legend"><span>color = readiness valence</span><span>border = certainty: solid = verified, dashed = inferred</span></div>
-        </section>
-
-        <!--
-          OPTIONAL: READINESS DATA MATRIX (areas × readiness status).
-          Use when assessed areas meet the row guidance default (>6 rows): one row per
-          area, one chip per readiness state, the assessed state marked. Below the
-          threshold, keep the readiness-board table and omit this section —
-          absent from the HTML, not CSS-hidden.
-        -->
-        <section class="section" id="readiness-matrix">
-          <div class="section-header">
-            <div>
-              <h2>{{readiness_matrix_title}}</h2>
-              <p>Axes: areas (rows) × readiness status (columns). {{readiness_matrix_summary}}</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table class="data-matrix">
-              <thead><tr><th>area</th>{{readiness_status_columns}}</tr></thead>
-              <tbody>{{readiness_matrix_rows}}</tbody>
-            </table>
-          </div>
-          <div class="legend">{{readiness_matrix_legend}}</div>
-        </section>
-
-        <section class="section" id="tickets-and-fog">
-          <div class="section-header">
-            <div>
-              <h2>Tickets And Fog</h2>
-              <p>Sharp questions and broad uncertainty are separated so Fog does not become fake task work.</p>
-            </div>
-          </div>
-          <div class="split-two">
-            <div class="panel">
-              <h3>Sharp tickets</h3>
-              <dl class="definition-list">
-                <div>
-                  <dt>{{ticket_id}}</dt>
-                  <dd>{{ticket_question}}<br><span class="status-label" data-tone="info">{{ticket_owner_route}}</span></dd>
-                </div>
-              </dl>
-            </div>
-            <div class="panel">
-              <h3>Fog</h3>
-              <dl class="definition-list">
-                <div>
-                  <dt>{{fog_id}}</dt>
-                  <dd>{{fog_description}}<br><span class="status-label" data-tone="unknown">{{sharpness_condition}}</span></dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="owner-routes">
-          <div class="section-header">
-            <div>
-              <h2>Owner Routes</h2>
-              <p>Each unresolved item points to the workflow that can legitimately resolve it. Status is two-channel: color = valence, border = certainty (solid = verified, dashed = inferred).</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table class="trace-table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Owner route</th>
-                  <th>Required evidence</th>
-                  <th>Exit condition</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{unresolved_item}}</td>
-                  <td>{{owner_route}}</td>
-                  <td>{{required_evidence}}</td>
-                  <td>{{exit_condition}}</td>
-                  <td><span class="status-label" data-tone="{{item_status_tone}}" data-cert="{{item_status_cert}}">{{item_status}}</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="legend"><span>color = valence</span><span>border = certainty: solid = verified, dashed = inferred</span></div>
-        </section>
-
-        <section class="section" id="handoff">
-          <div class="section-header">
-            <div>
-              <h2>Handoff Readiness</h2>
-              <p>The exact state of the map before engineering spec authoring.</p>
-            </div>
-          </div>
-          <div class="callout" data-tone="{{handoff_tone}}">
-            <h3>{{handoff_status}}</h3>
-            <p>{{handoff_explanation}}</p>
-          </div>
-        </section>
-      </div>
+      </section>
+      <!-- Add broad uncertainty only if the source contains uncertainty that cannot yet be expressed as a sharp question. Do not convert it into fake tasks. -->
     </div>
   </main>
 </body>

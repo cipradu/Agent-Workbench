@@ -2,6 +2,8 @@
 
 Use this reference for spec-readiness maps, PRD-to-spec unknowns, broad readiness blockers, ticket/Fog views, and visual unknowns maps before engineering spec authoring.
 
+This reference protects readiness truth; it does not mandate a report or status dashboard. Select the information needed for the reader's question and preserve any blocker that changes its interpretation.
+
 ## Reader Jobs
 
 Spec-readiness visuals help the reader:
@@ -43,7 +45,7 @@ Build this before layout:
 
 | Reader question | Best visual structure | Notes |
 | --- | --- | --- |
-| What blocks spec creation? | Readiness status board plus blocker table | Show tickets, Fog, route-outs, and handoff gate |
+| What blocks spec creation? | Readiness conclusion with blocker table or dependency figure | Show relevant tickets, Fog, route-outs, and handoff gate |
 | Which questions depend on which evidence? | Mermaid `flowchart TD` dependency or authority graph plus evidence-needed table | Use graph only for sparse dependencies; use table for details |
 | What is known versus assumed versus unknown? | Unknowns matrix or CSD-style table | Preserve uncertainty state explicitly |
 | Who owns each unresolved item? | Owner-route matrix; Mermaid `swimlane-beta` only by verified exception | Route to PRD, architecture, diagnosis, research, current-system discovery, or testing |
@@ -69,7 +71,7 @@ Do not convert Fog into generic risks or build tasks.
 
 ## Mermaid Fit
 
-Load [Mermaid Diagrams](mermaid-diagrams.md) when a spec-readiness visual needs a diagram.
+Load [Mermaid Diagrams](mermaid-diagrams.md) only when Mermaid is selected. Deliberately composed SVG or HTML/CSS figures follow the same source and representation rules.
 
 Useful Mermaid forms:
 

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{artifact_title}}</title>
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <!-- Focused explanation starter. For a short answer, stay inline. Remove the second column if it adds no explanatory value; do not fill it with report metadata. -->
+  <main class="artifact-page explanation-page">
+    <header class="artifact-header">
+      <h1>{{answer_title}}</h1>
+      <p class="lead">{{direct_answer}}</p>
+    </header>
+    <div class="explanation-layout">
+      <section aria-labelledby="why">
+        <h2 id="why">{{explanation_question}}</h2>
+        <p>{{cause_and_consequence}}</p>
+        <p>{{important_condition_or_limit}}</p>
+      </section>
+      <section aria-labelledby="example">
+        <h2 id="example">{{example_or_comparison_title}}</h2>
+        <div class="comparison">
+          <div><h3>{{first_condition}}</h3><p>{{first_result}}</p></div>
+          <div><h3>{{second_condition}}</h3><p>{{second_result}}</p></div>
+        </div>
+      </section>
+    </div>
+    <!-- Use a source or proposal note when it matters. A supplied illustration does not need a fabricated external source. -->
+    <p class="source-note">{{source_or_illustration_note}}</p>
+  </main>
+</body>
+</html>

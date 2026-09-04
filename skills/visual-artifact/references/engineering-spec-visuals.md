@@ -2,6 +2,8 @@
 
 Use this reference for engineering specs, requirements contracts, authority maps, invariant explanations, acceptance-evidence views, and spec-level risk visuals.
 
+The source defines fidelity, not a mandatory report layout. Use the subset needed for the selected explanation, figure, or report, preserving relevant requirements, constraints, and uncertainty.
+
 ## Reader Jobs
 
 Engineering-spec visuals help the reader:
@@ -67,7 +69,7 @@ Avoid code-level call graphs, file choreography, package layout, and task order 
 
 ## Mermaid Fit
 
-Load [Mermaid Diagrams](mermaid-diagrams.md) when an engineering-spec visual needs a diagram.
+Load [Mermaid Diagrams](mermaid-diagrams.md) only when Mermaid is selected. SVG or HTML/CSS composition is also valid under the representation guide; a renderer choice does not change spec authority.
 
 Useful Mermaid forms:
 

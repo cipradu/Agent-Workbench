@@ -2,6 +2,8 @@
 
 Use these scenarios when validating or revising the `visual-artifact` skill. A scenario passes only when the agent changes behavior under pressure.
 
+Current criteria note (2026-09-04): purpose-first routing supersedes mandatory source-specific report templates and Mermaid-only selection. Scenarios 11–17 below reflect that accepted change. Existing result records describe their historical source state; current purpose/layout evidence is recorded separately in purpose-layout-design.md and purpose-layout-report.md.
+
 ## Scenario 1: Generic Project Map Trap
 
 Prompt:
@@ -323,14 +325,14 @@ Expected wrong behavior:
 
 Required correct behavior:
 
-- Uses readable main column plus full-width bands only for diagrams, matrices, timelines, and evidence tables.
+- Lets text fill its allocated element without character-based width caps; uses content-led columns and figure/table regions, checked at the requested screen sizes.
 - Avoids nested cards and validates source links.
 
 Pass/fail criteria:
 
 - Pass only if the structure is driven by source truth and reader job, not card layout.
 
-## Scenario 12: Template-Free Rendering Regression
+## Scenario 12: Purpose and Template Fit
 
 Prompt:
 
@@ -344,27 +346,27 @@ User asks for professional design, making it tempting to freehand visual polish 
 
 Source basis:
 
-Observed prior failure in this project class plus the visual artifact template system: rendered artifacts need a product/tool register, selected template, source evidence, and one-layer structure.
+Observed prior failure plus current user correction: professional rendering needs purpose-appropriate structure and evidence, without forcing every source artifact into a report shell.
 
 Expected wrong behavior:
 
 - Starts from visual taste, cards, gradients, or custom layout before the information model exists.
 - Creates nested panels or one decorative block per plan unit.
-- Does not select `assets/templates/implementation-plan.html`.
+- Selects a report shell merely because the source is a plan, even when the reader needs a focused figure.
 - Leaves placeholder or unsupported content in the delivered HTML.
 
 Required correct behavior:
 
 - Builds the information model first: units, dependencies, waves, verification gates, approval gates, stop rules, and re-plan triggers.
-- Loads `template-system.md` and selects the implementation-plan template.
-- Uses the dependency diagram band, unit table, verification matrix, and stop-rule table instead of card grids.
+- Loads `template-system.md` and selects a diagram, explanation, or plan-report starter according to the reader's purpose.
+- Uses the dependency figure and only the unit, verification, or stop-rule detail needed to preserve the requested meaning.
 - Removes unused sections and all `{{...}}` tokens before delivery.
 
 Pass/fail criteria:
 
-- Pass only if the selected template is named, mapped to source evidence, free of nested panels, and free of unresolved template tokens.
+- Pass only if the selected composition fits the reader's purpose, preserves source evidence, and has neither nested decorative panels nor unresolved template tokens.
 
-## Scenario 13: Ad Hoc SVG Regression
+## Scenario 13: Diagram Representation and Fidelity
 
 Prompt:
 
@@ -378,24 +380,24 @@ The agent can draw a quick custom SVG that looks controlled but is hard to regen
 
 Source basis:
 
-Observed sample failure in this project class plus current Mermaid documentation: Mermaid is the standardized diagram source for compact structural diagrams.
+Observed sample failure and current purpose-first composition rules: uncontrolled drawing can lose meaning; both Mermaid and deliberately composed SVG/HTML are supported when their fit and fidelity are established.
 
 Expected wrong behavior:
 
-- Creates inline SVG or custom HTML drawing for a dependency graph without justifying why Mermaid is insufficient.
-- Omits Mermaid source and Mermaid setup.
+- Chooses a renderer without considering the required relationship or available space.
+- Creates ambiguous connectors or omits rendering setup for the selected technology.
 - Makes the graphic the only place where dependencies are stated.
 
 Required correct behavior:
 
-- Uses Mermaid `flowchart TD` by default for the dependency graph.
-- Loads `mermaid-diagrams.md` and includes Mermaid setup when rendering HTML.
+- Selects Mermaid or SVG/HTML based on maintainability, composition, and delivery needs.
+- Loads `mermaid-diagrams.md` and includes Mermaid setup only when Mermaid is selected.
 - Provides adjacent text or a unit/dependency table preserving the same relationships.
-- States a non-Mermaid exception only when Mermaid cannot express the structure or cannot render in the target environment.
+- Checks directed dependencies, geometry, readable labels, and the accessible text alternative in the rendered view.
 
 Pass/fail criteria:
 
-- Pass only if the diagram source is Mermaid or a non-Mermaid exception is explicit and justified.
+- Pass only if the selected representation fits the question and preserves inspectable dependency meaning; no renderer quota applies.
 
 ## Scenario 14: Diagram Frame Nesting Regression
 
@@ -421,14 +423,14 @@ Expected wrong behavior:
 
 Required correct behavior:
 
-- Keeps `.diagram-band` as the single visible diagram frame.
-- Uses `<pre class="mermaid">` without an extra decorative inner border.
-- Uses square-corner semantic labels for source/evidence/status.
+- Uses an unframed figure or one inspection frame, without nested decorative borders.
+- Uses the selected renderer without an extra decorative inner frame; labeled ownership groups are permitted when they encode source meaning.
+- Uses legible semantic labels for source/evidence/status.
 - Keeps material meaning in adjacent prose, tables, or evidence rows.
 
 Pass/fail criteria:
 
-- Pass only if the diagram area has one visible frame, the labels are semantic, and no material relationship lives only inside the diagram.
+- Pass only if the diagram area has no nested decorative frames, labels are semantic, and no material relationship lives only inside the graphic.
 
 ## Scenario 15: Static Diagram Box Regression
 
@@ -448,14 +450,14 @@ Observed sample failure in this project class: a diagram existed but had no mean
 
 Expected wrong behavior:
 
-- Renders Mermaid directly in `.diagram-band` without the standard diagram tools or viewport.
+- Omits a usable inspection region for a figure whose labels or paths need it.
 - Shrinks the rendered SVG to fit the available width even when labels become hard to read.
 - Adds a custom nonstandard zoom UI or leaves users to browser zoom only.
 - Makes zoom the only way to understand the diagram.
 
 Required correct behavior:
 
-- Uses `.diagram-band`, `.diagram-tools`, `.diagram-viewport`, `<pre class="mermaid">`, and adjacent text alternative.
+- For Mermaid, uses the existing diagram viewport/control pattern when inspection is needed; other renderers provide equivalent usable inspection and an adjacent text alternative.
 - Centers the diagram at normal scale.
 - Allows the rendered SVG to grow and scroll horizontally when zoomed.
 - Includes the standard `-`, `+`, and `Reset` controls when inspection or overflow is plausible.
@@ -463,9 +465,9 @@ Required correct behavior:
 
 Pass/fail criteria:
 
-- Pass only if the diagram is centered, scrollable when needed, uses standard controls, and remains understandable without interacting with the controls.
+- Pass only if the figure uses its allocated region, is scrollable or inspectable when needed, and preserves understandable meaning without requiring interaction.
 
-## Scenario 16: Vague Sidebar Label Regression
+## Scenario 16: Source Presentation Without Workflow Chrome
 
 Prompt:
 
@@ -489,13 +491,13 @@ Expected wrong behavior:
 
 Required correct behavior:
 
-- Uses a plain visible heading such as `Sources And Navigation`.
-- Includes only useful source artifacts, source/evidence labels, and local navigation.
+- Uses plain source links or a heading such as `Sources`; no sidebar is required.
+- Includes only useful source artifacts, source/evidence labels, and navigation when the reader needs it.
 - Keeps canonical source truth in the owning artifacts, not in the visual sidebar.
 
 Pass/fail criteria:
 
-- Pass only if the sidebar label is plain, the contents are actionable, and no internal template terminology is exposed to the reader.
+- Pass only if sources are inspectable, labels are plain, and no internal workflow or template terminology is exposed to the reader; an unnecessary sidebar fails purpose fit.
 
 ## Scenario 17: Premature Text Wrap Regression
 
@@ -517,18 +519,18 @@ Expected wrong behavior:
 
 - Caps the artifact title with a short character-width maximum.
 - Caps first-viewport leads or section summaries so they wrap early on desktop even when the content column has unused space.
-- Treats readable prose measure as a universal rule for headings, labels, short subtitles, diagrams, and tables.
+- Retains character-based prose caps anywhere, including body text, or substitutes an arbitrary narrow fixed-width strip.
 
 Required correct behavior:
 
 - Lets the artifact title wrap naturally inside the available desktop content column.
-- Lets first-viewport leads and section summaries wrap naturally inside the available content column, while keeping long narrative paragraphs readable.
+- Lets body text, leads, and section summaries fill their allocated elements and wrap naturally; designs the containing columns and gutters deliberately.
 - Uses full-width bands, tables, and diagrams for wide technical content without cramming them into the center of the page.
-- Verifies desktop screenshots or computed layout metrics when the title, subtitle, or section summaries visibly waste space.
+- Verifies desktop and requested wide-screen screenshots plus layout metrics, with mobile reflow and readable figure labels.
 
 Pass/fail criteria:
 
-- Pass only if desktop title and section-summary text use normal wrapping and do not break early because of fixed character-width caps while unused horizontal space remains.
+- Pass only if text uses its containing width without character caps, the composition uses available space deliberately, and narrow-screen reflow preserves readable content.
 
 ## Scenario 18: Source Link Same-Tab Regression
 

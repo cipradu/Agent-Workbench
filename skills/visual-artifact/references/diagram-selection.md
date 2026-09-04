@@ -1,106 +1,137 @@
-# Diagram Selection
+# Representation and Diagram Selection
 
-Use this reference before creating diagrams, dependency maps, timelines, matrices, or Mermaid.
+Use this reference for code-shaped explanations, diagrams, charts, and spatial composition. Choose what the reader must see before choosing a renderer.
 
-## Selection Rule
+## Smallest useful representation
 
-Choose diagrams by reader question. A diagram is justified only when it makes a relationship, flow, dependency, state, topology, or comparison easier to understand than prose or a table.
+| Question | Prefer | Preserve |
+| --- | --- | --- |
+| What does the algorithm do? | Pseudocode | Branches, guards, order, side effects and returned result |
+| What calls what? | Call tree | Call ownership; mark asynchronous/event boundaries without implying a stack or timing not in evidence |
+| Where do UI components and state belong? | Component tree | Relevant state hooks, module boundaries and verified file paths |
+| Which files own which responsibilities? | Shallow file tree | Relevant owners, not an exhaustive file inventory |
+| What changes? | Focused diff | Correct baseline, additions/removals, surrounding ownership and execution order |
+| What is the complete target shape? | Whole block | Enough context to be copied or understood without inventing omitted structure |
+| Who interacts over time? | Sequence diagram | Actors, messages, temporal order, errors or retries relevant to the question |
+| What states and transitions are allowed? | State diagram | Guards, outcomes, forbidden transitions and terminal states |
+| What depends on what? | Dependency graph | Direction, fan-in/fan-out, gates; critical path only if supported by source |
+| What belongs inside which boundary? | Grouped architecture/hierarchy diagram | Containment, trust/ownership boundary meaning and labeled links |
+| How does work circulate or accumulate? | Cycle with distinct shared-state links when applicable | Recurrence versus state read/write; do not imply a loop for a linear process |
+| How do alternatives or exact values compare? | Table or aligned before/after view | Comparable rows, same axes, honest missing data |
+| How do values vary? | Chart plus source/units | Quantitative encoding, scale, denominator and uncertainty |
+| What proves the conclusion? | Evidence table or short source notes | Claim, actual evidence, missing checks and status |
 
-If the diagram would only decorate, restate, or hide evidence, skip it.
+A focused diff is an explanatory representation, not automatically a patch. Label conceptual diffs when they are not exact source edits. Show the whole block when most content is new or omitted context would hide order or ownership.
 
-When a diagram is justified, Mermaid is the default source format. Load [Mermaid Diagrams](mermaid-diagrams.md) before writing Mermaid source, choosing a Mermaid diagram type, adding Mermaid runtime setup, or using a newer/beta/experimental Mermaid syntax.
+## Code-shape examples
 
-Use inline SVG, Canvas, custom HTML drawings, or generated images only by justified exception: Mermaid cannot express the structure clearly, the target renderer cannot run Mermaid, or a verified source artifact already exists in that format. The exception must be stated in the visual artifact's validation notes.
+Illustrative algorithm:
 
-## Representation Matrix
+```text
+on(save)
+  if incoming content equals stored content
+    return cached result
+  write content
+  invalidate old cache
+  calculate and return fresh result
+```
 
-| Reader question | Representation | Use when | Avoid when |
-| --- | --- | --- | --- |
-| What is the process or branch path? | Mermaid `flowchart` | Short process, limited branching, concise labels | Evidence-rich or dense graph |
-| Who talks to whom over time? | Mermaid `sequenceDiagram` | Few actors and temporal interaction matters | Many actors or rich annotations |
-| What states are allowed? | Mermaid `stateDiagram-v2` | Finite lifecycle, modes, retries, or transitions matter | Guards and side effects dominate |
-| Who owns which step? | Owner matrix, or Mermaid `swimlane-beta` by verified exception | Few owners and handoffs matter | Too many lanes or dense detail |
-| What depends on what? | Mermaid `flowchart TD` dependency graph plus unit table | Sparse dependency graph, critical path, fan-in/fan-out | Dense graph with many cross-links |
-| What changed? | Before/after comparison table; Mermaid only for compact before/after flow | Stable baseline and target can be compared | More than two states or no baseline |
-| What is unknown? | Matrix plus callouts; Mermaid `mindmap` only for discovery hierarchy | Owners, evidence, confidence, and consequence matter | Graph would hide evidence |
-| What was verified? | Evidence rail or trace table | Claims need proof links | Diagram would imply unsupported certainty |
-| What is scheduled or phased? | Mermaid `gantt` only when time matters; execution-wave table otherwise | Time, milestones, or phase order is the point | Dependencies matter more than calendar time |
-| What is the chronology or sequence? | `.sequence-band` tick band with status markers | Sequence/timing is a reader question (plan waves, result timelines, phase order) | Sequence is incidental; PRD-type artifacts normally omit |
-| How do dense two-axis data compare? | `.data-matrix` chips carrying values | Two categorical axes + one value cell, at or above the row guidance default (>6 rows); comparison, coverage, or status is the question | Sparse matrices, multi-value cells, 3+ axes, or ≤6 rows → use a table |
-| How do alternatives compare? | Option matrix, or Mermaid `quadrantChart` for two-axis placement | Trade-offs are comparable | Options are not commensurable |
-| What surrounds the system? | Mermaid `flowchart`, or C4 by verified exception | Actors, systems, and external dependencies matter | Reader needs internal detail instead |
-| Where does it run? | Topology table, Mermaid `architecture-beta` only when verified | Environment, nodes, regions, devices, or runtime boundaries matter | Runtime location is not a decision surface |
+Illustrative call relationships:
 
-## Mermaid Guidance
+```text
+submitForm
+  validateInput
+  createSession
+    persistPrompt
+    enqueueRun [async boundary]
+  navigateToSession
+```
 
-Mermaid is the default diagram source for compact structural diagrams:
+Illustrative component ownership:
 
-- flowcharts;
-- sequence diagrams;
-- state diagrams;
-- small dependency graphs;
-- modest Gantt/timeline views;
-- context or architecture sketches when labels are short.
+```text
+SessionPage
+  useSessionEvents [page state]
+  SessionToolbar
+    RunButton [shared UI]
+  SessionTimeline
+```
 
-Mermaid is weak for:
+Illustrative file responsibilities:
 
-- dense evidence;
-- long labels;
-- rich annotations inside nodes;
-- large comparison matrices;
-- proof chains;
-- traceability databases;
-- highly connected graphs.
+```text
+src/
+├── commands/   # user intent
+├── sessions/   # session state
+└── transport/  # remote requests
+```
 
-Use small Mermaid overview diagrams plus tables or sections for details when the visual needs evidence, confidence, owner, source, or status.
+Illustrative change:
 
-Load [Mermaid Diagrams](mermaid-diagrams.md) for supported diagram families, setup, accessibility, examples, and syntax caveats.
+```diff
+ on(save)
++  if content is unchanged
++    return cached result
+   write content
++  invalidate old cache
+```
 
-## Mermaid Size And Layout
+Use verified names/paths for real code; examples above are not claims about the current repository.
 
-Use top-down layout for non-trivial flowcharts. Use left-right only for simple linear flows.
+## Diagram method
 
-Keep diagrams sparse. If a diagram starts needing more than about 10 to 12 meaningful nodes, consider:
+1. Identify the semantic relationship: sequence, containment, dependency, state transition, feedback, shared state, ownership, or quantity.
+2. List entities and typed edges, including direction and any guard or uncertainty. Separate calls, data movement, events, and containment instead of using one anonymous arrow for all of them.
+3. Choose spatial composition that makes that relationship visible.
+4. Establish hierarchy: primary path or comparison, secondary context, source notes.
+5. Choose rendering technology to preserve that composition, then inspect the rendered result.
 
-- splitting it into smaller diagrams;
-- using a table or matrix;
-- showing an overview plus detail sections;
-- using progressive disclosure around evidence, not around the main conclusion.
+Completion: a reader can trace the important relationship without guessing what position, color, or an arrow means.
 
-Use `accTitle` and `accDescr` for reader-facing diagrams when the diagram carries material meaning. Use explicit titles, legends, and relationship labels. Do not rely on color, shape, or border style without text meaning.
+## Spatial compositions
 
-## Tables Beat Diagrams When
+| Relationship | Composition | Failure to avoid |
+| --- | --- | --- |
+| Architecture or pipeline | Dominant reading direction with aligned stages and meaningful groups | Decorative groups that imply nonexistent boundaries; long return edges crossing labels |
+| Feedback cycle | Recurring stages around a loop; shared state distinct from the circulation if present | Every stage connected to every other stage; a central hub with no source meaning |
+| Temporal interaction | Aligned actors and ordered messages | Spatial proximity mistaken for message order |
+| State machine | Group states by lifecycle; label transition triggers and outcomes | Failure/retry paths omitted to make the happy path neat |
+| Hierarchy | Explicit levels and containment | Similar visual treatment for ownership and communication |
+| Before/after | Stable alignment and labels across both views; emphasize the actual difference | Rearranging every node so the reader cannot locate the change |
+| Dependency graph | Topological tiers and separated branches; reserve space for joins | Declaring unsupported parallel execution or a critical path |
+| Queue/capacity | Distinguish admission, waiting, processing and retry/overflow when source supplies them | Invented capacity, exactly-once guarantees, or decorative queue slots |
 
-Use a table or matrix when the reader needs to:
+These are composition methods, not mandatory node-count or direction rules. Select orientation from shape and available space. Dense diagrams may need overview plus detail; preserve material relationships in the detail and state consequential reductions. Do not drop guards, security boundaries, retries, or evidence to meet a numeric budget.
 
-- compare options;
-- inspect evidence and confidence;
-- verify coverage;
-- see owners and status;
-- trace requirement to proof;
-- scan many similar rows;
-- find gaps or orphaned items.
+## Renderers
 
-## Callouts
+- Use Mermaid for compact maintainable flow, sequence, state, dependency, and other supported diagrams. Read `mermaid-diagrams.md` only when selecting Mermaid.
+- Use inline SVG when controlled geometry, type-specific arrangement, stable export, or precise connector placement improves the figure. Use HTML/CSS when semantic text layout or responsive grouping is a better fit.
+- Use a table or plain text when drawing adds no information.
+- Use an already available visualization capability for charts or interaction when it fully fits; do not add a dependency or custom renderer for a small residual gap.
 
-Use callouts sparingly for:
+SVG and HTML/CSS are first-class choices, not exceptions requiring Mermaid to fail first. This does not authorize uncontrolled drawing: they must satisfy the same source, geometry, accessibility, and rendered checks.
 
-- blocked decisions;
-- high-risk exceptions;
-- "read this first" notes;
-- unsupported or assumption labels;
-- stop conditions.
+## Visual grammar and connectors
 
-Do not turn every section into a callout. That recreates card hell.
+Give different roles consistent treatment. Choose a small number of focal elements from the reader's question; keep supporting entities quieter without making their labels tiny or low-contrast. Color may distinguish categories or status only with labels or another redundant cue.
 
-## Text Alternative Rule
+Align related elements and reserve actual routing space between groups. Connect edges to the intended boundary/port, leave clearance around labels, and distinguish joins from crossings. Do not run an edge behind unrelated nodes or put an arrowhead inside a label. Orthogonal paths suit many architecture figures; curved paths suit loops. Use the route that expresses the relationship clearly.
 
-No material relationship may live only in a diagram. Include adjacent prose, a table, or a short textual alternative that preserves the meaning.
+SVG source should use meaningful groups, reusable markers where appropriate, explicit viewBox geometry, an accessible title/description, and text rather than rasterized labels. Scaling must not make text illegible. Allow a labeled local scroll region or a simpler overview with full detail when a mobile canvas cannot hold the whole structure.
 
-When using Mermaid in HTML, the Mermaid container must not create a second decorative frame inside `.diagram-band`. The `.diagram-band` is the one frame; Mermaid renders inside it.
+Do not add decorative frames around the figure. Group outlines inside a diagram are valid when they encode real ownership/containment and are labeled.
 
-When the diagram is large enough that users may need inspection, use the standard diagram viewport and zoom controls from the template system. Do not silently shrink diagrams until labels are unreadable, and do not replace zoom with an ad hoc custom drawing.
+## Quantitative fidelity
 
-## Source Notes
+Use bars/dots for magnitude comparisons, lines for ordered time or continuous change, distributions for spread, and a table for exact lookup. Show units, scale, denominator, and source. Do not invent dates for a sequence, interpolate missing observations without labeling, or use area to encode values unless area is proportional. Show unknown values as unknown, not zero. Preserve comparable axes across before/after charts and disclose any scale break.
 
-This guidance is grounded in C4 fit-for-purpose diagramming, Mermaid official syntax and rendering constraints, requirements traceability practice, cognitive-load guidance, and graph-readability research. Use it as a decision matrix, not as a mandatory diagram quota.
+## Text and evidence
+
+Place brief text next to the view it supports. No material relationship may exist only in a graphic: supply a concise textual alternative, edge/dependency table, or equivalent accessible description. Avoid duplicating the entire explanation in multiple forms when one compact alternative preserves meaning.
+
+Keep dense evidence in adjacent tables or notes rather than inside diagram nodes. A report can carry the proof while its figure carries the relationship.
+
+## Source basis
+
+The code-shape selection method adapts the user-provided show-me technique. Type-specific composition, connector discipline, and meaning/render checks are informed by [diagram-design](https://github.com/cathrynlavery/diagram-design), inspected 2026-09-04. These are adapted methods; no external palette, fixed density quota, tiny typography, or universal wrapper is required.

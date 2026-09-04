@@ -4,7 +4,7 @@ Reusable skills, specialist agents, and harness instructions for AI-assisted cod
 
 ## Status
 
-This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers consequence-calibrated coding orchestration, ordered solution-sufficiency gating, project continuity, independently warranted PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual engineering artifact companions, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, bounded author-side hygiene, caller-first interface analysis, reusable verification-harness design, historical-rationale evidence discipline, Python and TypeScript engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
+This repository contains curated `agents/`, `skills/`, `harness-instructions/`, and `evals/` assets. The current asset set covers consequence-calibrated coding orchestration, ordered solution-sufficiency gating, project continuity, independently warranted PRD/spec/plan/review gates, implementation-pattern capture, ADRs, documentation/README work, visual explanations and evidence reports, graph-backed codebase search, database/API/queue-cache/error/testing design, diagnosis, bounded author-side hygiene, caller-first interface analysis, reusable verification-harness design, historical-rationale evidence discipline, Python and TypeScript engineering, Microsoft 365 query guidance, team memory, and git commit/PR/conflict discipline.
 
 Skills can be installed directly from this repository with the public `skills` CLI (see [Install Skills With The Skills CLI](#install-skills-with-the-skills-cli)). Agents and harness instructions are copied manually into the harness locations that should use them; this repository ships no installer, exporter, or validator of its own.
 
@@ -97,7 +97,7 @@ Current skill groups include:
 
 `codebase-search` routes repository discovery through two optional external CLIs installed separately: CodeGraph for code relationships and impact, and Graphify for cross-artifact and architecture structure. When those tools are unavailable, the skill falls back to direct exact, structural, and type-aware search, so it remains usable without them.
 
-`visual-artifact` creates source-traced HTML projections for existing PRDs, spec-readiness maps, engineering specs, implementation plans, review packets, implementation results, or complex technical artifacts. It uses Mermaid for diagrams by default, keeps evidence and source ownership visible, opens source/evidence links in new tabs, keeps in-page navigation local to the artifact, and writes disposable project-local outputs under `.agents/visual-artifacts/` unless another output path is explicitly chosen.
+[`visual-artifact`](skills/visual-artifact/SKILL.md) explains conversation, supplied examples, verified code, and workflow artifacts through focused explanations, technical views, quantitative comparisons, or evidence reports. It chooses the smallest useful representation: inline pseudocode, trees, diffs, diagrams, or tables can complete an answer without creating a file. Mermaid, SVG, and HTML/CSS are selected by the reader's task. Standalone HTML uses distinct explanation, diagram, and report starters, with responsive layouts and text filling its assigned element without character-based width caps. Source ownership, proposed behavior, and missing verification stay explicit; disposable project-local files go under `.agents/visual-artifacts/` unless another path is chosen.
 
 ### Agents
 
@@ -121,6 +121,8 @@ The committed agent source formats are:
 ### Harness Instructions
 
 `harness-instructions/` holds durable operating instructions that sit at a project boundary. These files define routing, delegation, safety gates, artifact attribution rules, workflow expectations, and completion discipline.
+
+The portable base and all four harness variants instruct agents to use `visual-artifact` proactively when relationships, sequence, branching, or before/after structure would materially clarify an answer. They prefer the smallest useful inline view, retain plain answers when clearer, and keep standalone file creation and publishing within the task's existing authorization.
 
 The harness instruction sources and current user/global targets are:
 

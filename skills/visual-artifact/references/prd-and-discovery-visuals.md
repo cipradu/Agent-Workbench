@@ -2,6 +2,8 @@
 
 Use this reference for PRDs, product briefs, blindspot passes, brainstorms, prototype comparisons, interview maps, and product unknowns.
 
+This reference preserves product truth; it does not require a report. Select only the information needed for the reader's purpose. A focused explanation or diagram may use a subset of these views while preserving material uncertainty.
+
 ## Reader Jobs
 
 PRD and discovery visuals help the reader:
@@ -46,7 +48,7 @@ Build this before layout:
 | Source shape | Best visual structure | Use when |
 | --- | --- | --- |
 | Blindspot pass | CSD matrix: certainties, suppositions, doubts by product, user, workflow, business, technical, and process dimension | The user wants unknown unknowns or help prompting better |
-| PRD sensemaking | Summary strip, evidence panel, unknowns ledger, decision log, dependencies, and next questions | A PRD needs to be understood before spec or review |
+| PRD sensemaking | Primary product conclusion with the evidence, unknowns, or workflow needed to understand it | A PRD needs to be understood before spec or review |
 | Prototype comparison | Option matrix with hypothesis, user job, fidelity, evidence needed, open risk, and decision status | The user needs to react to alternatives |
 | Interview map | Research goal -> main question -> probes -> likely evidence -> theme -> unresolved follow-up | The work needs discovery questions rather than a loose interview list |
 | Product journey | Mermaid `journey` or compact `flowchart` plus workflow table | Product behavior unfolds over steps |
@@ -68,7 +70,7 @@ Do not collapse these into a single "risk" status.
 
 ## Mermaid Fit
 
-Load [Mermaid Diagrams](mermaid-diagrams.md) when a PRD/discovery visual needs a diagram.
+Load [Mermaid Diagrams](mermaid-diagrams.md) only when Mermaid is selected. The representation guide also supports deliberately composed SVG or HTML/CSS figures.
 
 Use Mermaid sparingly in this branch:
 

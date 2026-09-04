@@ -2,6 +2,8 @@
 
 Use this reference for implementation plans, execution-readiness explainers, unit graphs, dependency views, verification matrices, and plan critical-path visuals.
 
+This is a source-fidelity branch, not a report requirement. A standalone dependency figure can project the relevant units and gates without adopting the plan-report template. Do not omit constraints that would change the reader's understanding of allowed execution.
+
 ## Reader Jobs
 
 Implementation-plan visuals help the reader:
@@ -71,7 +73,7 @@ For dense plans, use:
 
 ## Mermaid Fit
 
-Load [Mermaid Diagrams](mermaid-diagrams.md) when an implementation-plan visual needs a diagram.
+Load [Mermaid Diagrams](mermaid-diagrams.md) only when Mermaid is selected. SVG or HTML/CSS figures may use the composition guidance while preserving the same dependency and gate meaning.
 
 Useful Mermaid forms:
 

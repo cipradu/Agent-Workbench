@@ -1,287 +1,148 @@
 ---
 name: visual-artifact
-description: Use when a user asks for an evidence-backed visual artifact, HTML explainer, diagram, unknowns map, dependency map, decision map, implementation-plan visualization, review explainer, or comprehension report for an existing PRD, spec-readiness map, engineering spec, implementation plan, review packet, implementation result, or complex technical artifact.
+description: Use when the user asks to understand a topic visually, see a code or system diagram, compare changes or quantities, or create a visual explanation or evidence-backed report from conversation, code, a PRD, spec, plan, or implementation result.
 ---
 
 # Visual Artifact
 
 ## When to Use
 
-Use this skill when the user explicitly asks to see an existing artifact, plan, spec, review, implementation result, or complex technical topic visually.
+Use this skill for a focused visual explanation, pseudocode or code-shape sketch, technical diagram, quantitative view, or evidence-bearing visual report. Inputs can be the current conversation, supplied examples, verified code, or existing workflow artifacts.
 
-Use it for evidence-backed HTML artifacts, visual explainers, diagrams, dependency maps, decision maps, unknowns maps, PRD sensemaking views, spec-readiness visuals, engineering-spec visuals, implementation-plan visuals, post-implementation explainers, and comprehension checks.
-
-Use it when another workflow skill has already produced source truth and a human would understand the work faster by seeing relationships, unknowns, dependencies, decisions, evidence, or proof paths.
-
-Use it only as an optional downstream projection unless an upstream workflow explicitly asks for a visual artifact. Long source text is not enough. The artifact must have a reader job that prose alone does not satisfy well.
+Use it when relationships, behavior, differences, quantities, or evidence are easier to understand visually. An explicit visual request authorizes an appropriate response; it does not require HTML. Another workflow may suggest a visual, but a suggestion alone does not authorize writing a file.
 
 ## Do Not Use
 
-Do not use this skill to create or change source truth. PRDs, spec-readiness maps, engineering specs, implementation plans, ADRs, review verdicts, and continuity artifacts remain owned by their existing skills.
+Do not force a visual when a sentence or ordinary table answers the question more clearly.
 
-Do not use this skill when a paragraph, ordinary table, or direct answer is clearer than a visual artifact.
+Do not use this skill to author source requirements, approve plans, implement product UI, change code, issue review verdicts, create slide decks, generate images, or publish a site. Those actions keep their existing owners. A diagram can explain a proposal without making it an approved design.
 
-Do not use it for frontend UI implementation, app visual polish, marketing pages, slide decks, logo/brand design, generated images, or decorative HTML.
-
-Do not create a generic codebase map unless the reader job is explicitly codebase orientation.
-
-Do not generate an artifact from memory, stale progress notes, unverified claims, unsupported inferences, or a request that lacks source artifacts.
-
-Do not treat a diagram, HTML page, quiz, screenshot, or visual report as acceptance evidence or canonical implementation source.
+Do not present stale summaries, assumed repository behavior, invented data, or unrun checks as verified facts. Do not create a generic repository map unless orientation is the reader's actual task.
 
 ## Iron Law
 
-**Reader job before representation. Source truth before visuals.**
+**Choose the reader's purpose, then the representation, then compose for the available space. Preserve the meaning throughout.**
 
-A visual artifact is a source-traced projection, not source truth. If the reader job, source artifacts, artifact type, information model, and evidence path are not clear, do not render. Block, route to the owning workflow, or produce a visual-artifact brief instead.
+A source document supplies truth, not a mandatory page layout. A report may contain diagrams; a diagram may explain a spec; neither needs to look like a dashboard. Text fills its containing element and wraps naturally. Never impose character-based widths, arbitrary character limits, or manual prose wrapping.
 
-## Core Concept
+## Process
 
-Visual artifacts are for sensemaking. They make relationships visible so a human can understand, compare, decide, verify comprehension, or inspect proof without reconstructing the whole model from prose.
+### 1. Establish the purpose and source boundary
 
-Use this invariant:
+Identify what the reader needs to understand or decide. Infer it from the current question when clear; do not ask for a reader, action, or source that the conversation already supplies.
 
-```text
-reader job -> source truth -> artifact type -> information model -> representation -> render -> validate
-```
+Distinguish:
 
-Never start from HTML, cards, colors, Mermaid, or a template. Start from what the reader needs to understand and what source truth can prove.
+- focused explanation: answer one question about an idea or behavior;
+- technical view: inspect structure, sequence, state, ownership, or a code change;
+- quantitative view: compare magnitudes, distributions, trends, or coverage;
+- evidence report: assess findings, outcomes, unknowns, or a decision with supporting evidence.
 
-## How To Use This Skill
+These purposes can compose. Choose one primary purpose to establish hierarchy, then add only supporting views that answer a necessary reader question.
 
-Before rendering anything, establish the invocation contract:
+Read named source files fresh before claiming actual-system behavior. User-supplied examples and current proposals are sufficient for an explanation when labeled as illustrative or proposed. Preserve current, proposed, inferred, and verified states separately. Never turn a draft into approved truth.
 
-- Reader job: who the artifact is for, what they need to understand or decide, and what action the artifact enables.
-- Source artifact: the PRD, spec-readiness map, engineering spec, implementation plan, review packet, implementation result, diff, notes, or complex technical artifact to project visually.
-- Mode: suggestion only, visual-artifact brief, or rendered artifact.
-- Output target: explicit path, disposable `.agents/visual-artifacts/`, durable `docs/visual-artifacts/`, cross-project `~/.agents/visual-artifacts/`, or no file.
-- Source boundary: what the visual may explain and what it must not change.
-- Evidence expectation: which claims need source links, proof labels, source-strength labels, or assumption labels.
+If material facts conflict or a missing source changes the answer, inspect recoverable sources first, then ask one targeted question or return a brief naming the exact gap. A missing canonical spec is not a blocker to explaining a clearly labeled hypothetical example.
 
-Use modes:
+Completion: the reader question, source scope, and material uncertainty are clear enough to answer without invention.
 
-- Suggestion only: another workflow can name that a visual artifact would help, but must not render or treat it as required unless the user asks or the upstream workflow explicitly requires it.
-- Visual-artifact brief: use when the reader job, source truth, output target, or evidence path is incomplete; report the missing inputs and the proposed artifact type without writing a file.
-- Rendered artifact: use only when the reader job and source truth are clear enough to build the information model and validate the output.
+### 2. Select only the references that apply
 
-Missing-input handling:
+Evaluate every row; load matching references before using their guidance. Do not load source-document branches merely because a topic mentions a plan or spec.
 
-- If the source artifact is named or clearly discoverable from the active workflow, read it fresh instead of asking the user to repeat it.
-- If multiple plausible source artifacts exist and the choice would change the artifact type or source boundary, ask one targeted question or produce a visual-artifact brief naming the exact ambiguity.
-- If the reader job is missing, do not infer "make it pretty"; block with the missing reader, decision, or enabled action.
-- If the request asks for HTML, Mermaid, cards, diagrams, or polish before source truth and reader job are clear, treat that as representation preference only, not permission to render.
-
-## Mandatory Sequence
-
-Run these steps in order.
-
-| Step | Required action | Completion condition |
-| --- | --- | --- |
-| 1 | Identify the reader job | Reader, decision or understanding task, and enabled action are explicit |
-| 2 | Inventory source truth | Source artifacts, currentness, authority, and evidence gaps are known |
-| 3 | Classify artifact type | One primary artifact type is selected and the matching reference is loaded |
-| 4 | Build the information model | Entities, relationships, decisions, unknowns, risks, evidence, owners, and proof needs are listed before layout |
-| 5 | Choose representations | Every visual element maps to a reader question and a justified representation |
-| 6 | Select and adapt the template | One primary template is selected from the template system and mapped to the information model |
-| 7 | Render when requested or warranted | Complete artifact is written only after the structure can preserve source truth and accessibility |
-| 8 | Validate and report evidence | Quality gates pass or failures are reported plainly with residual risk |
-
-## Step Rules
-
-### 1. Identify the Reader Job
-
-State who the artifact is for, what they need to understand or decide, and what action the artifact enables.
-
-Reader jobs include:
-
-- understand product truth, assumptions, and open questions;
-- compare directions, prototypes, or options;
-- see why spec readiness is blocked;
-- understand required behavior, authority, invariants, risks, and acceptance evidence;
-- understand plan dependencies, critical path, verification gates, and stop rules;
-- understand deviations, proof, residual risks, and review focus after implementation;
-- verify personal comprehension after a long workstream.
-
-Completion criterion: the artifact can answer: `Who is this for, what are they trying to understand or decide, and what will they do next?`
-
-Failure output: `Blocked: visual artifact reader job is unclear: <missing reader/decision/action>.`
-
-### 2. Inventory Source Truth
-
-Read the source artifacts fresh. Treat progress notes, chat summaries, issue text, generated reports, review comments, screenshots, and prior visual artifacts as evidence signals, not authority.
-
-Classify source strength for material claims: approved source truth, current file evidence, explicit user authority, current external research, verified command/test output, inferred non-normative context, weak/stale signal, or unsupported.
-
-Load [Evidence and Traceability](references/evidence-and-traceability.md) when the artifact will include material claims, proof paths, confidence labels, or source links.
-
-Completion criterion: every material claim can be traced to a source, labeled as an assumption, or removed.
-
-Failure output: `Blocked: visual artifact would require unsupported claims: <claim/source gap>.`
-
-### 3. Classify Artifact Type
-
-Load [Artifact Routing](references/artifact-routing.md), select one primary type, then load the matching branch reference:
-
-| Source or reader job | Load |
+| Trigger | Read |
 | --- | --- |
-| PRD, product brief, blindspot pass, brainstorm, prototype comparison, interview map, product unknowns, PRD unknowns map before spec-readiness exists | [PRD And Discovery Visuals](references/prd-and-discovery-visuals.md) |
-| Spec-readiness map, broad PRD-to-spec blockers, engineering-readiness unknowns, tickets/Fog/evidence-needed view | [Spec Readiness Visuals](references/spec-readiness-visuals.md) |
-| Engineering spec, required behavior, authority, invariants, contracts, acceptance evidence, spec-level risk | [Engineering Spec Visuals](references/engineering-spec-visuals.md) |
-| Implementation plan, dependency ordering, execution waves, critical path, verification gates, re-plan triggers | [Implementation Plan Visuals](references/implementation-plan-visuals.md) |
-| Implementation notes, deviations, review explainer, diff/result explainer, whole-thread recap, comprehension check | [Implementation Result Visuals](references/implementation-result-visuals.md) |
+| Choosing purpose, output form, or source-owner branch | [Artifact Routing](references/artifact-routing.md) |
+| Material claims, source links, evidence, uncertainty, or proposal/current-state distinctions | [Evidence and Traceability](references/evidence-and-traceability.md) |
+| Pseudocode, trees, diffs, diagrams, charts, timelines, or representation/composition choices | [Diagram Selection](references/diagram-selection.md) |
+| Mermaid selected as the diagram source | [Mermaid Diagrams](references/mermaid-diagrams.md) |
+| Projecting a PRD, product brief, discovery findings, or product unknowns | [PRD and Discovery Visuals](references/prd-and-discovery-visuals.md) |
+| Projecting an existing spec-readiness map, tickets, Fog, or engineering-readiness blockers | [Spec Readiness Visuals](references/spec-readiness-visuals.md) |
+| Projecting an engineering spec, requirements contract, or spec acceptance evidence | [Engineering Spec Visuals](references/engineering-spec-visuals.md) |
+| Projecting an implementation plan, unit dependencies, verification gates, or execution stop rules | [Implementation Plan Visuals](references/implementation-plan-visuals.md) |
+| Projecting implementation results, review evidence, a whole-workstream recap, or comprehension questions | [Implementation Result Visuals](references/implementation-result-visuals.md) |
+| Writing a standalone HTML artifact | [Template System](references/template-system.md) and [HTML Quality](references/html-quality.md) |
 
-If the source spans multiple artifact types, choose the reader's primary job and label other source material by owner. Do not blend product truth, engineering truth, plan truth, review evidence, and continuity state into one unlabeled narrative.
+Source branches preserve ownership and completeness; they do not select the visual purpose or require all their report sections. Standalone diagrams about ordinary supplied systems need no invented PRD/spec/result classification.
 
-Completion criterion: one primary type and any secondary source-owner labels are explicit.
+Completion: selected references fit the actual task; unmatched branches and evaluator assets stay unread.
 
-Failure output: `Rejected: visual artifact type is mixed or generic: <specific issue>.`
+### 3. Build the smallest sufficient information model
 
-### 4. Build the Information Model Before Layout
+Extract the facts needed to answer the question: actors, entities, ordered actions, branches, edges, states, comparisons, values, unknowns, and supporting evidence. Keep this preparation internal unless it helps the reader.
 
-Before choosing HTML, Mermaid, cards, tables, timelines, or colors, list the information model required for the selected artifact type.
+Preserve material direction, order, ownership, guards, retries, failure paths, units, and uncertainty. A call tree does not prove timing; a data-flow arrow does not prove a synchronous call. Mark intentional omissions when they could change interpretation. Do not simplify away a boundary or outcome just to reduce node count.
 
-The information model should include only the items needed for the reader job:
+For reports, relate each conclusion to its evidence and any missing proof. Compute derived numbers from the source model; do not invent summary metrics to fill a template.
 
-- source facts and authority;
-- known unknowns, assumptions, doubts, blockers, and evidence gaps;
-- actors, systems, owners, dependencies, handoffs, states, or decisions;
-- risks, constraints, consequences, acceptance evidence, and proof paths;
-- stable IDs, file paths, artifact paths, test IDs, review finding IDs, or decision IDs that the reader must inspect.
+Completion: the selected view can preserve the source meaning at the needed level of detail.
 
-Completion criterion: rendering could be delayed and the reader job would still be understandable from the model.
+### 4. Choose the representation and output form
 
-Failure output: `Rejected: rendering started before the information model was defined.`
+Use the smallest view that answers the question:
 
-### 5. Choose Representations
+- pseudocode for branching logic or algorithms;
+- call trees for call relationships, component trees for UI/state ownership, shallow file trees for responsibility;
+- focused diffs when the surrounding shape is already understood, whole blocks when context or order would otherwise disappear;
+- diagrams for relationships that benefit from spatial structure;
+- charts for quantitative encoding, tables for exact comparisons and evidence;
+- a focused HTML explanation when one question benefits from coordinated text and figures;
+- a report when the reader needs conclusions plus several supporting views or browsable evidence.
 
-Load [Diagram Selection](references/diagram-selection.md) before creating diagrams, dependency maps, timelines, matrices, or Mermaid. If the representation is a diagram, use Mermaid as the default source format and load [Mermaid Diagrams](references/mermaid-diagrams.md) before writing Mermaid source, choosing a diagram type, or adding Mermaid runtime setup.
+Mermaid fits compact maintainable flows, sequences, and states. Inline SVG or HTML/CSS is equally valid when deliberate spatial composition, stable geometry, or offline delivery better serves the figure. Choose by the job, not a renderer quota. Match the diagram's geometry to its meaning using the composition guidance.
 
-Representation rules:
+**Inline completion:** when an inline view answers the question, show it with brief adjacent explanation and necessary source/assumption labels, then finish. Do not select a template, create a file, or report the preparation process.
 
-- Use tables or matrices for comparison, traceability, evidence, owner routing, and status.
-- Use Mermaid diagrams for relationships, flows, dependencies, state transitions, sequence, or topology unless a stated exception justifies another representation.
-- Use timelines only when time or phase sequence is the reader question.
-- Use callouts for exceptions, risks, decisions, or read-first notes.
-- Use collapsible details only for secondary evidence, never for the main answer.
-- Use quizzes only for comprehension support, never as acceptance evidence.
+Completion: each representation earns its place; inline answers stop here after a source/meaning check.
 
-Completion criterion: each visual element has a reader question, a selected representation, and a reason it beats plain prose.
+### 5. Compose and render standalone artifacts
 
-Failure output: `Rejected: visual element has no reader job: <element>.`
+For HTML, select a purpose-appropriate starter from the template system and adapt it to the information model. Explanation, figure, and report starters have different compositions. Source-specific report starters are optional structures, not mandatory shells for their source type.
 
-### 6. Select And Adapt The Template
+Make the primary answer or figure visible first. Add source notes, navigation, comparisons, and detail only where they support the reader. Keep agent workflow rules out of visible page chrome; show only limitations that change interpretation.
 
-Load [Template System](references/template-system.md) before rendering HTML or drafting an HTML-specific structure.
+Allocate space deliberately: use content-driven columns, clear grouping, responsive gutters, and a suitable figure canvas. Text uses the full width of its assigned element. Do not constrain prose with character-based units or an arbitrary fixed-width centered strip. Do not force every paragraph across the whole viewport either. Choose the containing layout, then let the text fill it. Wide displays deserve a fresh composition check, not a scaled-up narrow page.
 
-Choose exactly one primary template from `assets/templates/` for the selected artifact type, then map the first viewport, section order, navigation, source/evidence areas, diagrams, tables, callouts, and details sections before writing HTML.
+Use an explicit output path when given. Otherwise use `.agents/visual-artifacts/` for disposable project-local artifacts, `docs/visual-artifacts/` only for requested durable documentation or an established convention, and `~/.agents/visual-artifacts/` for cross-project disposable artifacts. Inline output needs no path.
 
-The first viewport must answer:
+Prefer self-contained HTML with embedded CSS and no unnecessary external dependency. If Mermaid or another selected renderer needs an external asset, disclose that dependency and verify it. Do not silently claim offline completeness.
 
-- what this artifact is;
-- what source truth it projects;
-- what the reader should inspect first;
-- what is still unknown, unverified, or out of scope.
+Completion: a populated artifact exists at the chosen path, preserves source meaning, and has no unused sections or unresolved template tokens.
 
-Use `assets/templates/base.css` as the default visual system. Inline it into delivered HTML unless the user explicitly wants linked assets.
+### 6. Verify and deliver
 
-Completion criterion: the selected template matches the artifact type, the structure preserves source ownership, and every kept section maps to the information model.
+Check meaning and presentation separately:
 
-Failure output: `Rejected: artifact structure does not preserve source ownership or evidence traceability.`
+- the answer matches the reader's question;
+- claims, proposed behavior, omitted detail, and missing evidence have honest status;
+- diagram edges, direction, labels, quantities, and state transitions preserve the model;
+- figures render; labels and connectors remain readable and distinguishable;
+- text occupies its containing element without character-based caps;
+- desktop, narrow-screen, and wide-screen compositions use space deliberately, with no accidental page overflow;
+- color is not the only semantic cue; diagrams have a text alternative; tables and controls are accessible;
+- sources are inspectable, interactive controls work, and no placeholders or promotional attribution remain.
 
-### 7. Render When Requested Or Warranted
+For HTML, inspect browser-rendered output. Include a 4K-width check when wide-screen use is requested; do not infer that result from desktop CSS alone. Local diagram/table scrolling is acceptable when deliberate and labeled. Do not shrink labels into illegibility to avoid overflow. If a browser or renderer is unavailable, deliver the artifact with the exact rendering checks marked not verified; never claim visual acceptance from source lint alone.
 
-Load [HTML Quality](references/html-quality.md) before writing HTML, CSS, Mermaid containers, responsive navigation, or interactive disclosure.
+Open or preview the finished artifact with the available local browser capability when supported, without publishing it. Return the file link and concise outcome, with material verification limits. Do not dump reader-job, model, template, or reference-loading fields unless the user requests an audit or a blocking gap needs explanation.
 
-Prefer a self-contained HTML file when the user asks for HTML, when the artifact needs diagrams plus tables plus evidence navigation, or when the reader needs a browsable page rather than chat output.
+Completion: required meaning and rendering checks passed, or the exact unverified condition and its consequence are explicit.
 
-When rendered HTML contains Mermaid, include Mermaid initialization, accessible diagram title/description when the diagram carries material meaning, and a text alternative adjacent to the diagram. If Mermaid cannot be rendered in the target environment, keep Mermaid as the source diagram language and report the blocked render path instead of silently switching to ad hoc SVG.
+## Source and acceptance boundaries
 
-Output location policy:
+PRDs own product truth; readiness maps own readiness questions; engineering specs own requirements; plans own execution dependencies; implementation evidence and review own their actual verification/verdict state. Visuals explain these sources without changing their authority.
 
-- Use an explicit user-supplied path when provided.
-- For disposable project-local artifacts, use `.agents/visual-artifacts/`.
-- Use `docs/visual-artifacts/` only when the user wants durable tracked documentation or the project already has that convention.
-- Use `~/.agents/visual-artifacts/` only for cross-project disposable artifacts.
-- Do not silently create `.agent/diagrams/`.
+An explainer, quiz, screenshot, or attractive report does not prove implementation acceptance. If asked to implement from a derived visual, return to its canonical source or the appropriate definition owner. Do not invent a spec/plan solely to explain a supplied example.
 
-Completion criterion: a complete artifact exists at the selected path, or rendering is blocked with the reason.
+Stop or return a bounded brief when the view would require invented facts, conceal material uncertainty, leak sensitive evidence, change source truth, or imply unobserved verification. Report the specific missing condition, not a generic process block.
 
-Failure output: `Blocked: HTML rendering cannot preserve accessibility or source-truth constraints: <issue>.`
+## Failure patterns
 
-### 8. Validate And Report Evidence
-
-Validate the visual artifact before reporting it ready.
-
-Required checks:
-
-- first viewport answers the reader job;
-- selected template matches the artifact type;
-- no unresolved `{{...}}` template tokens remain;
-- material claims have source links, evidence labels, or assumption labels;
-- source/evidence links that leave the current HTML artifact open in a new tab with `target="_blank" rel="noopener noreferrer"`; in-page navigation anchors remain same-page links;
-- no material relationship exists only in a diagram;
-- Mermaid diagrams render or blocked rendering is reported with the exact cause;
-- non-Mermaid diagrams have an explicit exception rationale;
-- no `.panel` appears inside another `.panel`;
-- no nested cards, generic card grid, or decorative layout substitutes for structure;
-- useful width is used for diagrams, matrices, timelines, and source/evidence tables;
-- artifact titles, first-viewport leads, and section summaries use natural wrapping over the available content width, not arbitrary character caps or forced short measures;
-- Mermaid diagrams use the standard centered, scrollable diagram viewport and zoom controls when inspection or overflow is plausible;
-- prose uses a readable column rather than a narrow centered strip or an unbounded dashboard wall;
-- color is never the only semantic cue;
-- headings, links, tables, and disclosure controls are semantic enough to inspect;
-- no generated-by, AI attribution, or promotional footer exists.
-
-Completion criterion: checks pass or each failed check is named with impact and residual risk.
-
-Failure output: `Not ready: visual artifact quality gate failed: <specific issue>.`
-
-## Artifact Boundary
-
-| Source owner | Visual artifact may show | Visual artifact must not do |
-| --- | --- | --- |
-| PRD | Product problem, actors, workflows, assumptions, open product questions, evidence | Invent product truth or choose architecture |
-| Spec readiness map | Tickets, Fog, source authority, blockers, evidence needed, owner route | Create implementation tasks or write the spec |
-| Engineering spec | Required behavior, authority, invariants, contracts, risks, acceptance evidence | Create task order or alter requirements |
-| Implementation plan | Units, dependencies, waves, critical path, verification gates, stop rules | Change spec truth or implement code |
-| Review workflow | Diff/result evidence, verdict context, findings, blocked checks, residual risk | Replace independent review or tests |
-| Project continuity | Current focus, active artifact, blockers, next action | Become a report gallery or source of truth |
-
-## Stop Conditions
-
-Stop instead of rendering when:
-
-- source truth is missing, stale, contradicted, or owned by another workflow that has not run;
-- the reader job is only "make it pretty";
-- the artifact would hide uncertainty or unsupported claims behind polish;
-- the user asks to use the visual as implementation source instead of the canonical spec/plan;
-- a diagram would be the only place a material relationship is stated;
-- the output would require private, secret, local-only, or sensitive evidence that cannot be safely summarized;
-- validation cannot observe the thing the artifact claims is ready.
-
-## Rationalization Counters
-
-| Temptation | Reality | Required action |
-| --- | --- | --- |
-| "The user asked for visual, so make HTML." | Visual is not a reader job. | Identify the reader job and source truth first. |
-| "The artifact is long, so it needs diagrams." | Length is a weak proxy for structural complexity. | Use content-pattern triggers and skip visuals when prose is clearer. |
-| "Mermaid can show everything." | Dense diagrams hide evidence and become unreadable. | Use small diagrams plus tables, matrices, or drill-down sections. |
-| "Cards make it look professional." | Cards are for heterogeneous browsable entries, not default structure. | Use headings, tables, lists, callouts, and full-width bands by job. |
-| "The visual is clearer than the plan." | Derived clarity does not make it canonical. | Point implementation back to the source spec or plan. |
-| "A quiz proves acceptance." | Quizzes test human recall, not implementation correctness. | Keep quizzes as comprehension support and preserve review/test gates. |
-| "Progress says the old visual skill exists." | Continuity can be stale. | Verify actual skill files and source truth before relying on it. |
-
-## Output Contract
-
-For any visual artifact request, report:
-
-- reader job;
-- source artifacts and source-strength limits;
-- selected artifact type and references loaded;
-- information model summary;
-- representations chosen and why;
-- output path or reason no file was written;
-- validation evidence and failed/skipped checks;
-- residual risks or owner routes.
-
-For a visual-artifact brief without rendering, report the same fields but mark `Rendered: no` and name the blocking gate.
+| Temptation | Correction |
+| --- | --- |
+| Every visual needs an HTML report | Finish inline when the question is answered; use a figure or explanation starter when a file is needed. |
+| A spec input requires a spec-shaped page | Source type governs fidelity; purpose governs composition. |
+| A small centered text measure is always readable | Let text fill the assigned element; inspect the actual wide-screen composition. |
+| A palette makes the diagram professional | Establish geometry, hierarchy, readable labels, and unambiguous relationships first. |
+| Fewer nodes always improves clarity | Preserve material relationships; split or provide detail instead of dropping meaning. |
+| A visual report proves release readiness | Show exact evidence, skipped checks, and approval state without upgrading any of them. |

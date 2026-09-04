@@ -1,6 +1,6 @@
 # Mermaid Diagrams
 
-Use this reference after `diagram-selection.md` selects Mermaid as the diagram representation. Mermaid is the default diagram source format for visual artifacts, but not every source relationship belongs in a diagram.
+Use this reference only after `diagram-selection.md` selects Mermaid. It provides Mermaid-specific syntax and rendering; it does not require Mermaid for other visual artifacts. SVG, HTML/CSS, text trees, and diffs remain valid choices under the representation guide.
 
 Source basis: Mermaid official documentation, checked against the current Mermaid docs intro and syntax pages. Primary source index: https://mermaid.js.org/intro/
 
@@ -14,7 +14,7 @@ No material relationship may live only in Mermaid. Put the same relationship in 
 
 ## Standalone HTML Setup
 
-When a rendered HTML artifact contains one or more Mermaid diagrams, include Mermaid initialization near the end of the document. Prefer `startOnLoad: false` with `await mermaid.run({ querySelector: ".mermaid" })` so diagram controls can initialize after Mermaid has rendered SVG output.
+When a rendered HTML artifact contains one or more Mermaid diagrams, use the complete setup below near the end of the document. `await mermaid.run({ querySelector: ".mermaid" })` must finish before the control initializer queries the rendered SVG. The SVG-only script in `diagram.html` deliberately skips `.mermaid` regions; it does not initialize Mermaid controls. Use this setup once per page, including pages containing both authored SVG and Mermaid.
 
 ```html
 <script type="module">
@@ -36,23 +36,57 @@ When a rendered HTML artifact contains one or more Mermaid diagrams, include Mer
   });
 
   await mermaid.run({ querySelector: ".mermaid" });
+
+  for (const band of document.querySelectorAll("[data-diagram-band]")) {
+    const source = band.querySelector(".mermaid");
+    if (!source) continue;
+    const svg = source.querySelector("svg");
+    const viewport = band.querySelector(".diagram-viewport");
+    const value = band.querySelector("[data-diagram-zoom-value]");
+    const zoomOut = band.querySelector("[data-diagram-zoom-out]");
+    const zoomIn = band.querySelector("[data-diagram-zoom-in]");
+    const reset = band.querySelector("[data-diagram-zoom-reset]");
+    if (!svg || !viewport || !value || !zoomOut || !zoomIn || !reset) {
+      throw new Error("Mermaid inspection component is incomplete after rendering.");
+    }
+    const naturalWidth = svg.viewBox.baseVal.width;
+    if (!(naturalWidth > 0)) throw new Error("Mermaid diagram has no usable viewBox width.");
+    let scale = 1;
+    const applyScale = (next) => {
+      scale = Math.min(2, Math.max(1, next));
+      svg.style.width = `${naturalWidth * scale}px`;
+      svg.style.maxWidth = "none";
+      svg.style.height = "auto";
+      value.textContent = `${Math.round(scale * 100)}%`;
+      zoomOut.disabled = scale === 1;
+      zoomIn.disabled = scale === 2;
+      reset.disabled = false;
+    };
+    zoomOut.addEventListener("click", () => applyScale(scale - 0.25));
+    zoomIn.addEventListener("click", () => applyScale(scale + 0.25));
+    reset.addEventListener("click", () => {
+      applyScale(1);
+      viewport.scrollTo({ left: 0, top: 0, behavior: "instant" });
+    });
+    applyScale(1);
+  }
 </script>
 ```
 
-Use the standard diagram component for diagram source and inspection controls:
+Use this complete diagram component with the setup above when an inspection region and controls are needed. Buttons remain disabled until rendering and initialization succeed. Small figures can use an unframed `.mermaid` block without `data-diagram-band` or a toolbar; the same setup renders those without attaching controls. If rendering fails, report the error and retain the adjacent text alternative; disabled controls are not successful verification.
 
 ```html
 <div class="diagram-band" data-diagram-band>
-  <div class="diagram-tools" aria-label="Diagram controls">
+  <div class="diagram-tools" role="group" aria-label="Diagram controls">
     <span class="diagram-title">Implementation dependency graph</span>
     <div class="diagram-actions">
-      <button class="diagram-button" type="button" data-diagram-zoom-out aria-label="Zoom out">-</button>
-      <span class="diagram-zoom-value" data-diagram-zoom-value>100%</span>
-      <button class="diagram-button" type="button" data-diagram-zoom-in aria-label="Zoom in">+</button>
-      <button class="diagram-button" type="button" data-diagram-zoom-reset>Reset</button>
+      <button class="diagram-button" type="button" data-diagram-zoom-out aria-label="Zoom out" disabled>-</button>
+      <output class="diagram-zoom-value" data-diagram-zoom-value aria-live="polite">100%</output>
+      <button class="diagram-button" type="button" data-diagram-zoom-in aria-label="Zoom in" disabled>+</button>
+      <button class="diagram-button" type="button" data-diagram-zoom-reset disabled>Reset</button>
     </div>
   </div>
-  <div class="diagram-viewport">
+  <div class="diagram-viewport" tabindex="0" role="region" aria-label="Scrollable implementation dependency graph">
     <pre class="mermaid" aria-label="Implementation dependency graph">
 flowchart TD
   accTitle: Implementation dependency graph
@@ -108,7 +142,7 @@ flowchart TD
 
 Gotchas:
 
-- Prefer `TD`/`TB` for non-trivial diagrams; use `LR` only for short linear flows.
+- Choose `TD`/`TB` or `LR` from the relationship shape and available canvas. Inspect crossings, label size, and useful space at the intended viewport; complexity alone does not mandate a vertical layout.
 - Quote labels with punctuation, brackets, slashes, or long text.
 - Use tables for details once the graph exceeds roughly 10 to 12 meaningful nodes.
 

@@ -2,6 +2,8 @@
 
 Use this reference for implementation notes, deviations, diff/result explainers, review explainers, whole-thread recaps, and comprehension checks.
 
+Apply these evidence rules to the selected purpose, not a mandatory report shell. A focused diff or before/after explanation can finish inline. A supplied hypothetical code example is not an implementation-result report and does not require this branch.
+
 ## Reader Jobs
 
 Implementation-result visuals help the reader:
@@ -48,7 +50,7 @@ Build this before layout:
 
 | Reader question | Best visual structure | Use when |
 | --- | --- | --- |
-| What changed? | Before/after summary with changed-file map; Mermaid only for compact changed-flow orientation | The reader needs impact, not raw diff |
+| What changed? | Focused diff, aligned before/after view, or changed-file map | Choose literal shape when the change itself is the question; summarize when broader impact matters |
 | What proves it? | Evidence rail or proof chain | Verification, review, and residual risk matter |
 | Where did plan and reality diverge? | Deviation table plus ownership route | Implementation found an edge case or constraint |
 | What should reviewer inspect? | Reviewer-focus checklist with source links | Review needs orientation |
@@ -71,7 +73,7 @@ Do not turn implementation notes into permanent source truth. Route source chang
 
 ## Mermaid Fit
 
-Load [Mermaid Diagrams](mermaid-diagrams.md) when an implementation-result visual needs a diagram.
+Load [Mermaid Diagrams](mermaid-diagrams.md) only when Mermaid is selected. SVG or HTML/CSS figures also follow the representation guide and the same evidence boundary.
 
 Useful Mermaid forms:
 
