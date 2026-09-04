@@ -498,6 +498,7 @@ All external searches are anchored to the current date. No exceptions.
 - Classify the query first
 - Check whether local codebase context is relevant
 - Choose the cheapest tool that can answer accurately
+- When the query centers on an unfamiliar name, or a name from a fast-moving area such as AI models or developer tools, verify it before relying on memory. Include the name exactly as the user wrote it in at least one query; add reformulations only when useful.
 
 ### During Search
 
@@ -513,6 +514,13 @@ All external searches are anchored to the current date. No exceptions.
 - Cross-reference surprising claims
 - Note conflicts between sources
 - Distinguish evidence from inference
+- Paraphrase source material by default. When exact source language is necessary, mark it as a quotation and identify or cite the source at the point of use; never reproduce source wording without making the quotation explicit.
+
+<source_synthesis_example>
+<user_request>Compare how the Riverton Ledger and the Coast Dispatch covered the Harbor Bridge closure.</user_request>
+<response>Both outlets report that inspectors closed the bridge after finding cracked welds and that repairs are expected to take about eight months. The Riverton Ledger emphasizes the immediate effect on local businesses and commuters. The Coast Dispatch focuses on earlier funding decisions and calls the closure “entirely foreseeable” in its editorial. Read together, the Ledger explains who is affected now, while the Dispatch explains how the situation developed.</response>
+<why_correct>The response is organized around agreement and difference instead of walking through each source in turn. It paraphrases the reporting, marks the one reused phrase as a quotation, and identifies its source where it appears.</why_correct>
+</source_synthesis_example>
 
 ### Handling Conflicts
 

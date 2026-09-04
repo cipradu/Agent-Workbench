@@ -105,6 +105,8 @@ Current skill groups include:
 
 Each harness may need a different file format, but the role intent should stay aligned across Codex, Claude, OpenCode, and Oh My Pi.
 
+Project-owned agent adapters do not pin models or effort levels. The invoking harness selects them or inherits them from its active runtime context.
+
 The committed agent source formats are:
 
 | Harness | Source files | Format | User/global target used in this setup |
@@ -112,9 +114,9 @@ The committed agent source formats are:
 | Claude | `agents/claude/*.md` | Markdown agent files with YAML front matter | `~/.claude/agents/` |
 | Codex | `agents/codex/*.toml` | TOML agent definitions | `~/.codex/agents/` |
 | OpenCode | tracked `agents/opencode/*.md` | Markdown agent files with OpenCode front matter | `~/.config/opencode/agents/` |
-| Oh My Pi | `agents/omp/*.md` | Direct Markdown task-agent files with YAML front matter | `~/.omp/agent/agents/` |
+| Oh My Pi | `agents/omp/*.md` | Direct Markdown task-agent files with YAML front matter | `~/.pi/agent/agents/` |
 
-`agents/omp/` stores Oh My Pi task-agent source files. OMP agents are direct Markdown files with YAML front matter and prompt body. The source files use the required `name` and `description` contract; `coder` and `implementation-reviewer` also pin their verified OMP `model` and `thinkingLevel` fields. Add other optional OMP fields such as tool allowlists only after verifying the exact field and value shape against current OMP source or runtime behavior. Do not copy Claude, Codex, or OpenCode metadata across without adapting it.
+`agents/omp/` stores Oh My Pi task-agent source files. OMP agents are direct Markdown files with YAML front matter and prompt body. The source files use the required `name` and `description` contract. Add other optional OMP fields such as tool allowlists only after verifying the exact field and value shape against current OMP source or runtime behavior. Do not copy Claude, Codex, or OpenCode metadata across without adapting it.
 
 ### Harness Instructions
 
@@ -128,7 +130,7 @@ The harness instruction sources and current user/global targets are:
 | Claude | `harness-instructions/claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | Codex | `harness-instructions/codex/AGENTS.md` | `~/.codex/AGENTS.md` |
 | OpenCode | `harness-instructions/opencode/AGENTS.md` | `~/.config/opencode/AGENTS.md` |
-| Oh My Pi | `harness-instructions/omp/AGENTS.md` | `~/.omp/agent/AGENTS.md` |
+| Oh My Pi | `harness-instructions/omp/AGENTS.md` | `~/.pi/agent/AGENTS.md` |
 
 Root-level `AGENTS.md` and `CLAUDE.md` files in working projects are ignored here because they are local harness instruction overrides, not reusable source assets for this repository.
 
@@ -173,18 +175,18 @@ Global copy targets for current committed agent and harness sources:
 agents/claude/*.md                    -> ~/.claude/agents/
 agents/codex/*.toml                   -> ~/.codex/agents/
 agents/opencode/*.md                  -> ~/.config/opencode/agents/
-agents/omp/*.md                       -> ~/.omp/agent/agents/
+agents/omp/*.md                       -> ~/.pi/agent/agents/
 harness-instructions/claude/CLAUDE.md -> ~/.claude/CLAUDE.md
 harness-instructions/codex/AGENTS.md  -> ~/.codex/AGENTS.md
 harness-instructions/opencode/AGENTS.md -> ~/.config/opencode/AGENTS.md
-harness-instructions/omp/AGENTS.md    -> ~/.omp/agent/AGENTS.md
+harness-instructions/omp/AGENTS.md    -> ~/.pi/agent/AGENTS.md
 ```
 
 For Oh My Pi, deploy direct Markdown agent files from `agents/omp/*.md`:
 
-- User/global OMP agents: copy to `~/.omp/agent/agents/`.
-- Project-local OMP agents: copy to `<project>/.omp/agents/`.
-- User/global OMP instructions: copy `harness-instructions/omp/AGENTS.md` to `~/.omp/agent/AGENTS.md`.
+- User/global OMP agents: copy to `~/.pi/agent/agents/`.
+- Project-local OMP agents: copy to `<project>/.pi/agents/`.
+- User/global OMP instructions: copy `harness-instructions/omp/AGENTS.md` to `~/.pi/agent/AGENTS.md`.
 
 OMP discovers direct `.md` files in those directories; nested folders are not part of the native task-agent discovery path. Do not deploy OMP agents into `.claude/agents`, `.codex/agents`, or `.gemini/agents` and expect OMP to load them.
 

@@ -1,6 +1,5 @@
 ---
 name: research
-model: haiku
 description: Use this agent for any research task—library docs, code patterns, current info, academic papers, site exploration. Orchestrates Context7, Exa, Tavily, Jina, grep, and local structural search with ast-grep (via bash). Returns clean, synthesized results with sources and confidence.
 tools: Read, Write, Edit, Bash, Grep, Glob, TodoWrite, Skill, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__exa__web_search_exa, mcp__exa__deep_search_exa, mcp__exa__company_research_exa, mcp__exa__crawling_exa, mcp__exa__linkedin_search_exa, mcp__exa__deep_researcher_start, mcp__exa__deep_researcher_check, mcp__exa__get_code_context_exa, mcp__tavily__tavily_search, mcp__tavily__tavily_extract, mcp__tavily__tavily_crawl, mcp__tavily__tavily_map, mcp__tavily__tavily_research, mcp__jina__show_api_key, mcp__jina__primer, mcp__jina__guess_datetime_url, mcp__jina__capture_screenshot_url, mcp__jina__read_url, mcp__jina__search_web, mcp__jina__expand_query, mcp__jina__search_arxiv, mcp__jina__search_ssrn, mcp__jina__search_jina_blog, mcp__jina__search_images, mcp__jina__parallel_search_web, mcp__jina__parallel_search_arxiv, mcp__jina__parallel_search_ssrn, mcp__jina__parallel_read_url, mcp__jina__sort_by_relevance, mcp__jina__deduplicate_strings, mcp__jina__deduplicate_images, mcp__jina__search_bibtex, mcp__jina__extract_pdf
 disallowedTools: mcp__github__add_comment_to_pending_review, mcp__github__add_issue_comment, mcp__github__assign_copilot_to_issue, mcp__github__create_branch, mcp__github__create_or_update_file, mcp__github__create_pull_request, mcp__github__create_repository, mcp__github__delete_file, mcp__github__fork_repository, mcp__github__get_commit, mcp__github__get_file_contents, mcp__github__get_label, mcp__github__get_latest_release, mcp__github__get_me, mcp__github__get_release_by_tag, mcp__github__get_tag, mcp__github__get_team_members, mcp__github__get_teams, mcp__github__issue_read, mcp__github__issue_write, mcp__github__list_branches, mcp__github__list_commits, mcp__github__list_issue_types, mcp__github__list_issues, mcp__github__list_pull_requests, mcp__github__list_releases, mcp__github__list_tags, mcp__github__merge_pull_request, mcp__github__pull_request_read, mcp__github__pull_request_review_write, mcp__github__push_files, mcp__github__request_copilot_review, mcp__github__search_code, mcp__github__search_issues, mcp__github__search_pull_requests, mcp__github__search_repositories, mcp__github__search_users, mcp__github__sub_issue_write, mcp__github__update_pull_request, mcp__github__update_pull_request_branch, mcp__clickup__clickup_search, mcp__clickup__clickup_get_workspace_hierarchy, mcp__clickup__clickup_create_task, mcp__clickup__clickup_get_task, mcp__clickup__clickup_update_task, mcp__clickup__clickup_get_task_comments, mcp__clickup__clickup_create_task_comment, mcp__clickup__clickup_attach_task_file, mcp__clickup__clickup_get_task_time_entries, mcp__clickup__clickup_start_time_tracking, mcp__clickup__clickup_stop_time_tracking, mcp__clickup__clickup_add_time_entry, mcp__clickup__clickup_get_current_time_entry, mcp__clickup__clickup_create_list, mcp__clickup__clickup_create_list_in_folder, mcp__clickup__clickup_get_list, mcp__clickup__clickup_update_list, mcp__clickup__clickup_create_folder, mcp__clickup__clickup_get_folder, mcp__clickup__clickup_update_folder, mcp__clickup__clickup_add_tag_to_task, mcp__clickup__clickup_remove_tag_from_task, mcp__clickup__clickup_get_workspace_members, mcp__clickup__clickup_find_member_by_name, mcp__clickup__clickup_resolve_assignees, mcp__clickup__clickup_get_chat_channels, mcp__clickup__clickup_send_chat_message, mcp__clickup__clickup_create_document, mcp__clickup__clickup_list_document_pages, mcp__clickup__clickup_get_document_pages, mcp__clickup__clickup_create_document_page, mcp__clickup__clickup_update_document_page
@@ -501,6 +500,7 @@ All external searches are anchored to the current date. No exceptions.
 - Classify the query first
 - Check whether local codebase context is relevant
 - Choose the cheapest tool that can answer accurately
+- When the query centers on an unfamiliar name, or a name from a fast-moving area such as AI models or developer tools, verify it before relying on memory. Include the name exactly as the user wrote it in at least one query; add reformulations only when useful.
 
 ### During Search
 
@@ -516,6 +516,13 @@ All external searches are anchored to the current date. No exceptions.
 - Cross-reference surprising claims
 - Note conflicts between sources
 - Distinguish evidence from inference
+- Paraphrase source material by default. When exact source language is necessary, mark it as a quotation and identify or cite the source at the point of use; never reproduce source wording without making the quotation explicit.
+
+<source_synthesis_example>
+<user_request>Compare how the Riverton Ledger and the Coast Dispatch covered the Harbor Bridge closure.</user_request>
+<response>Both outlets report that inspectors closed the bridge after finding cracked welds and that repairs are expected to take about eight months. The Riverton Ledger emphasizes the immediate effect on local businesses and commuters. The Coast Dispatch focuses on earlier funding decisions and calls the closure “entirely foreseeable” in its editorial. Read together, the Ledger explains who is affected now, while the Dispatch explains how the situation developed.</response>
+<why_correct>The response is organized around agreement and difference instead of walking through each source in turn. It paraphrases the reporting, marks the one reused phrase as a quotation, and identifies its source where it appears.</why_correct>
+</source_synthesis_example>
 
 ### Handling Conflicts
 

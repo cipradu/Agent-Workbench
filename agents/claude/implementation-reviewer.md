@@ -1,7 +1,5 @@
 ---
 name: implementation-reviewer
-model: opus
-effort: xhigh
 description: Use this subagent to perform independent implementation acceptance review before completion. Reviews objective/spec/plan alignment, scope control, correctness, verification, security hotspots, contracts, maintainability risks, reusable pattern signals, and residual uncertainty. It may run read-only checks, but it must never edit or fix files.
 tools: Read, Bash, Grep, Glob, Task
 ---
