@@ -30,6 +30,8 @@ Do not use this skill as the primary workflow when:
 
 Treat every failure, review comment, bug report, and suggested fix as a signal to investigate before changing code. Do not implement from intuition, authority, social pressure, or model memory when the cause or external behavior has not been verified.
 
+Every applicable problem uses all five phases and the full investigation scratch file. Apparent simplicity, a one-line change, confidence, speed pressure, and trusted sources never exempt a problem from evidence, causal analysis, impact analysis, or verification. Record conclusions, assumptions, evidence and concise decision rationale, never private chain-of-thought.
+
 ## Core Concept
 
 Signals are hypotheses, not instructions. The job is to convert a signal into evidence, a falsifiable mechanism, an impact-aware fix, and verification. Current external facts must come from current evidence, not training data; local behavior must come from the actual code and runtime, not memory.
@@ -66,7 +68,7 @@ Every resolution starts with a signal — something that tells you attention is 
 
 ### Reference Retrieval (Conditional)
 
-Before relying on detailed guidance in a reference, evaluate every row below. Select and read each independently applicable reference before its listed decision; matching multiple rows requires multiple selections. Load only applicable references. For a non-Obvious runtime diagnosis with no matching operational row, record `none applicable` in `Reference selection` in the Simple evidence packet or full investigation record. The Phase 2 Obvious direct path requires neither a reference nor a record.
+Before relying on detailed guidance in a reference, evaluate every row below. Select and read each independently applicable reference before its listed decision; matching multiple rows requires multiple selections. Load only applicable references. Record selected paths and trigger reasons in the full investigation record, or `none applicable` with the basis when no operational row matches. The full method does not require reading unselected references.
 
 | Trigger | Select and read | Required before |
 | --- | --- | --- |
@@ -99,7 +101,7 @@ Now you can independently consider: Is it actually a cache issue? Could it be CD
 
 **The "Handed Hypothesis" problem:** When someone tells you "X is wrong, fix it by doing Y," they're handing you a pre-formed hypothesis. Your job is to _test_ that hypothesis, not _implement_ it. The reviewer may be right — but they may also be wrong, missing context, or solving a problem that doesn't exist.
 
-**The "Explain It Back" test:** Before implementing any non-trivial suggestion, restate in your own words what the problem is and why the change fixes it. If you cannot do this, you do not understand the feedback well enough to implement it correctly.
+**The "Explain It Back" test:** Before implementing any proposed correction, restate in your own words what the problem is and why the change fixes it. If you cannot do this, you do not understand the feedback well enough to implement it correctly.
 
 ### Source Trust Calibration
 
@@ -108,12 +110,12 @@ Not all signals deserve equal trust. Calibrate based on source:
 | Source                              | Trust Level                          | Key Risk                                     | Verify How                        |
 | ----------------------------------- | ------------------------------------ | -------------------------------------------- | --------------------------------- |
 | Error messages / stack traces       | High for facts, can mislead on cause | Symptom far from root cause                  | Trace backward from failure point |
-| Your human partner                  | High — implement after understanding | Scope may be unclear                         | Ask if uncertain, skip to action  |
+| Your human partner                  | High for intended outcome            | Scope or diagnosis may be unclear            | Verify cause and impact through all phases |
 | Domain expert on this code          | High for this area                   | May not know recent changes                  | Cross-reference with tests        |
 | General senior engineer             | Medium-High                          | May not know this codebase                   | Verify claims against code        |
 | External / OSS reviewer             | Medium                               | Lacks your project's context                 | Verify context assumptions        |
 | Junior team member                  | Medium                               | Less experience, but may know recent changes | Same verification as anyone       |
-| Automated linters / static analysis | Very High for what they check        | Narrow scope                                 | Almost always implement           |
+| Automated linters / static analysis | Very High for what they check        | Narrow scope                                 | Verify rule applicability, cause and impact |
 | AI-generated review                 | Medium for patterns, Low for context | Poor context awareness                       | Always verify against actual code |
 
 **Expertise is domain-specific.** A brilliant backend engineer may give poor advice about CSS. Evaluate each comment against the reviewer's expertise in the specific area being commented on, not their general reputation.
@@ -176,7 +178,7 @@ When the Phase 1 selector row applies, read [signal-evaluation.md](references/si
 
 ### Orchestrator Decision And Phase Value
 
-Consume the incoming consequence lane and gate warrants when orchestration has already classified the work. Diagnosis must name the uncertainty, unresolved cause, or acceptance gap it can resolve and how the result can change the next action. If diagnosis cannot change the next action, stop this phase and reference the existing sufficient evidence instead of repeating investigation.
+Consume the incoming consequence lane and gate warrants when orchestration has already classified the work. Diagnosis must name the uncertainty, unresolved cause, or acceptance gap it can resolve and how the result can change the next action. Current, applicable evidence may satisfy a phase without repeating its searches or experiments: record the evidence, source identity, applicability and remaining gaps in the full record. Confidence or a prior conclusion alone cannot satisfy a phase. Preserve completed phase evidence when handing off to the next owner; do not restart a completed diagnosis merely because implementation is delegated.
 
 The orchestrator owns classification. This owner may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Owner preference, artifact type, file count, delegation, or generic uncertainty cannot silently reclassify the task. Without new evidence, preserve the incoming lane and warrants.
 
@@ -184,71 +186,25 @@ The orchestrator owns classification. This owner may escalate only by returning 
 
 ## Phase 2: Triage
 
-Not every problem needs the same level of investigation. Before diving in, assess what you're dealing with.
+Triage selects the next evidence and authority needed within the full method. It never selects a shorter workflow. There are no Obvious or Simple bypasses and no compact-packet substitute for the full record.
 
-Triage is execution routing after this skill has loaded. Obvious cases still use this skill: choose the Obvious branch, make the direct fix, and verify. They do not require the full investigation loop or scratch file unless the first direct fix fails or the mechanism is not actually proven.
+Record what current evidence establishes about the source, causal chain, environment, affected boundaries and available verification. Name unresolved facts and the next observation that can decide them. A mechanical typo still requires inspecting the actual contract and affected callers; its short causal chain may make the entries brief, but does not remove them.
 
-### Obvious (seconds)
+Assess every phase and record its status:
 
-The signal tells you exactly what's wrong and the fix is unambiguous.
+| Phase | Required assessment |
+| --- | --- |
+| 1 — Receive | Observed versus expected behavior, source/context, proposed diagnosis versus verified facts, and scope |
+| 2 — Triage | Known evidence, remaining uncertainty, selected references, authority and next diagnostic action |
+| 3 — Investigate | Environment sanity, hypotheses and alternatives, current evidence, causal chain, predictions, feedback loop and contributing factors |
+| 4 — Fix | Supported correction and written impact analysis before applying it, or an evidenced no-change/blocked/handoff disposition |
+| 5 — Verify | Original-symptom and affected checks, actual results, limitations and honest resolution status |
 
-**Signals:** Clear mechanical typo, missing import, syntax error, formatting-only issue, or clear error like `NameError: name 'foob' is not defined`. One-line fix. You can explain the exact mechanism of the failure without reading surrounding code.
+Use `pending`, `in progress`, `satisfied` with evidence, or `blocked` with the missing prerequisite. An assessed but blocked phase is not completed work. A read-only diagnosis can identify a correction and required verification while recording that neither application nor final verification occurred. If evidence shows no defect or an inapplicable report, record the no-change disposition, its impact and the evidence supporting closure; do not manufacture a correction.
 
-**Action:** Fix it directly and verify. No full investigation workflow or scratch file is needed. But if your "obvious" fix doesn't work on the first try, upgrade to Simple.
+Investigate until the named evidence gaps are resolved or an actual prerequisite blocks further work. Full structure does not require irrelevant external research, unselected techniques, whole-repository reading, every test suite, or invented alternative causes. These choices follow the problem's evidence and affected boundaries; no required analysis may be dropped for brevity or confidence.
 
-### Simple (minutes)
-
-Simple is evidence-defined, not size-defined. Use it only when current evidence proves all five properties:
-
-- the failure source and cause are deterministic;
-- the causal chain from trigger to symptom is proven;
-- the correction uses an established local mechanism rather than a newly designed behavior;
-- blast radius is bounded and known;
-- direct verification can observe the correction and relevant regression boundary.
-
-**Action:** Record the five proofs in a compact Simple evidence packet, apply the established correction, and run risk-selected verification. The packet belongs in the active response or an existing task-local work record; do not create the full investigation scratch file solely because the case is Simple.
-
-The compact packet records:
-
-- `Classification`: why all five Simple properties pass;
-- `Source and cause`: the deterministic failure source and cause;
-- `Causal chain`: trigger through bad-state transition to symptom;
-- `Established correction`: the local mechanism and evidence that it is established;
-- `Blast radius`: affected callers, contracts, and interaction boundaries;
-- `Current evidence`: exact current sources and provenance;
-- `Reference selection`: selected operational references and trigger basis, or `none applicable`;
-- `Impact`: concrete regression and interaction risk of the proposed correction;
-- `Safety claims`: when acceptance depends on one or two load-bearing facts, record each fact, the bad case that would invalidate it, the bounded evidence scope, and the lowest proof level that can decide it; otherwise record `none`;
-- `Direct verification`: the original symptom plus affected checks and any justified interaction or aggregate gates;
-- `Residual state`: unverified evidence, skipped broad checks and their consequence, or `none`.
-
-If any field cannot be completed from current evidence, external or drift-prone behavior must be researched, a previous fix failed, the symptom is intermittent, or the impact expands beyond a bounded known surface, classify Complex and investigate the named gap through the full record.
-
-File count does not determine diagnosis complexity. A deterministic multi-file correction can be Simple when all five properties pass; a one-line-looking failure is Complex when source, cause, mechanism, blast radius, or verification remains uncertain.
-
-### Complex (deliberate investigation)
-
-One or more Simple proof properties is missing, multiple causes remain plausible, components interact in an unresolved way, or the signal is misleading.
-
-**Signals:** Vague or misleading error. Unresolved interaction between components. Intermittent or environment-dependent behavior. A previous fix attempt failed. Human feedback that requires verification against the codebase.
-
-**Action:** Full investigation loop (Phase 3). Invest in understanding before touching code.
-
-### Architectural (stop and discuss)
-
-The problem reveals a design issue, not just a code bug.
-
-**Signals:** Current evidence shows wrong ownership, a leaky or contradictory contract, duplicated policy, cross-boundary coupling, systemic state inconsistency, or another structural defect that a local correction cannot resolve. Failed attempts can expose this evidence, but their count alone is not an architectural signal.
-
-**Action:** Stop coding. Describe what you've found to the user. This isn't a problem to fix — it's a design to reconsider.
-
-### Default Assumption: Complex
-
-The natural instinct is to classify problems as Obvious or Simple — you see an error, you have a theory immediately, so it feels trivial. This instinct is wrong more often than it's right, and when it's wrong, it turns a 1-2 pass investigation into 5-7 passes of guess-and-check.
-
-**The default classification is Complex when Obvious or all five Simple proof properties are not affirmatively established.** The bar for Obvious remains strict: a mechanical correction whose exact failure mechanism is already visible without surrounding investigation. Simple remains available across any file count only with deterministic source/cause, proven causal chain, established local correction, bounded blast radius, and direct verification. Everything else gets the Phase 3 investigation and scratch file.
-
-If your "Obvious" fix doesn't work on the first try, you were wrong about the classification. Reclassify from current evidence; a failed prior fix makes the case Complex, so create the full scratch file immediately and start Phase 3.
+When current evidence identifies a structural defect that a local correction cannot resolve — such as contradictory ownership, contracts or systemic state inconsistency — stop the affected correction and return the evidence to the orchestrator for architecture/scope decisions. Attempt count, record length and diagnostic difficulty alone do not activate architecture, spec, plan or independent review gates. Diagnosis never grants additional mutation or recovery authority.
 
 ---
 
@@ -323,11 +279,11 @@ Form a specific, falsifiable hypothesis. Not "something's wrong with the databas
 
 **The causal-chain gate:** A hypothesis must explain the full path from trigger to symptom with no hand-waved links. For each uncertain link, state a prediction that should be visible somewhere else in the system. If the prediction fails but the proposed code change appears to help, you probably found a symptom patch rather than the root cause.
 
-**Generate alternatives.** Before investigating your first hypothesis, spend 30 seconds listing 2-3 other possible causes. Rank by likelihood and testability. This prevents anchoring on the first idea — whether it came from your own intuition, an error message, or a reviewer's suggestion.
+**Generate alternatives.** Consider plausible competing causes before accepting the first hypothesis. Record the handed hypothesis plus at least two independent alternatives, or evidence explaining why the search space is narrower. Do not invent implausible causes to fill a quota.
 
-For Complex investigations, include the handed hypothesis plus at least two independent alternatives unless you can explain why the search space is genuinely narrower. Cover different plausible axes when relevant: runtime path, data shape, environment/config, recent change, concurrency/time, external dependency, user/input boundary, and stale artifact or source window. Each candidate needs the observation it explains and the evidence that would disprove it.
+Cover different plausible axes when relevant: runtime path, data shape, environment/config, recent change, concurrency/time, external dependency, user/input boundary, and stale artifact or source window. Each candidate needs the observation it explains and the evidence that would disprove it.
 
-**State it explicitly.** Write your hypothesis down (in the conversation or as a comment). This creates accountability and makes your reasoning visible. You can't unconsciously shift your theory to match new evidence if you've committed to a specific prediction.
+**State it explicitly.** Write the hypothesis, evidence and prediction in the investigation scratch file. Update that same record when evidence changes; a conversation summary does not replace it.
 
 Label the basis for every material claim: `observed`, `reproduced`, `local-code`, `external-current`, `prior-learning`, `reasoned`, or `unsupported`. Reasoned claims can guide the next probe; they are not proof. Absence claims such as no reproducer, no callers, no similar bug, no external research needed, no regression risk, or no residual risk require evidence for the search space checked.
 
@@ -356,20 +312,20 @@ Many issues — especially those involving libraries, frameworks, version upgrad
 
 **What to do with the results:**
 
-- If you find the answer: verify it applies to your specific situation, then proceed to fix
+- If you find the answer: verify its applicability and causal prediction, complete contributing-factor and impact analysis, then apply only an authorized correction
 - If you find related issues but no direct answer: use them to refine your hypotheses before testing in Step 4
-- If you find nothing: that itself is information — the problem is likely specific to this codebase, not a known issue. Proceed to Step 4
+- If you find nothing: record the searched scope and remaining uncertainty. No search results do not prove the cause is local or unknown elsewhere. Proceed to Step 4
 - If local evidence is sufficient: cite the exact files, commands, outputs, or runtime observations that support the hypothesis
 
 **The bias you're fighting:** There is a strong pull toward figuring things out from first principles — reading code, forming theories, running experiments. This feels productive but is often catastrophically wasteful. The error message you're staring at may have a documented upstream fix. The library bug you're trying to work around may have a GitHub issue with a specific version boundary. Your training data may describe old behavior. Check before acting.
 
-**Structural enforcement for full investigations:** After triage selects Complex or Architectural, research/evidence results must be recorded in the full scratch file before you proceed to Step 4 or make source edits. The scratch file must contain current external findings when external behavior matters, or local evidence plus the reason external research is not relevant when the issue is purely local. Skipping this step is a gate violation, same as skipping the scratch file itself. Simple cases stay outside Phase 3 only while every compact-packet field remains proven; a missing or contradicted field upgrades the case to Complex before an edit. Obvious cases bypass both records only while the exact mechanism is proven, the fix is one line, and verification follows immediately; if the first fix fails, upgrade to Complex and satisfy the full gate.
+**Structural enforcement:** Every investigation records research/evidence results in the full scratch file before Step 4 or corrective source edits. Record current external findings when external behavior matters, or local evidence plus why external research is not relevant. Existing sufficient current evidence may be cited without repeating its acquisition. Missing evidence blocks the dependent action; apparent simplicity never waives this gate.
 
 ### Step 4: Test (gather evidence for or against)
 
 Design the _smallest_ experiment that would confirm or disprove your hypothesis.
 
-**Prefer observation over modification.** Before changing code, try to verify through observation: add a log or print statement, check a variable's value, read the database state, inspect network traffic. Observation is free — it doesn't risk introducing new problems.
+**Prefer observation over modification.** Use authorized read-only inspection before changing behavior. Temporary diagnostic instrumentation must be bounded, reversible, recorded and safe for the affected data and runtime. It cannot disguise a correction or authorize sensitive reads, external writes or behavior changes.
 
 **Instrument narrowly.** Prefer debugger/REPL inspection when available. If you add temporary logs or probes, each one must distinguish a specific hypothesis and use a unique searchable prefix such as `[DEBUG-<short-token>]` so cleanup is mechanical. Never "log everything and grep." For performance problems, establish a baseline measurement first; use timing harnesses, profilers, query plans, resource metrics, or benchmarks rather than intuition-heavy logging.
 
@@ -456,7 +412,7 @@ Practical starting points for common scenarios. When the Phase 3 selector row ap
 
 ## Phase 4: Fix with Impact Analysis
 
-**The applicable impact gate is active here.** For Simple work, complete `Blast radius` and `Impact` in the compact packet before the correction. For Complex or Architectural work, complete Gate 2 in the full scratch file before a source edit. "I think this is it" is not impact analysis. Trace the callers, check the contracts, identify what else touches the code, and record the concrete result at the required depth before changing it.
+**Gate 2 applies to every correction.** Complete the full scratch impact analysis before applying it. Trace callers, contracts, related paths and edge cases, and record the concrete evidence. A short change or familiar mechanism does not establish a bounded impact.
 
 ### Fix at the Source, Not the Symptom
 
@@ -470,7 +426,7 @@ Before implementing, analyze the blast radius of your proposed fix:
 - **What contracts or interfaces change?** If a function currently modifies its input in-place and you change it to return a new copy, that's a behavioral contract change. Callers that relied on the side effect will silently break.
 - **What are the edge cases of your fix?** If you remove a validation step, what happens to inputs the validation was designed to catch? If you change a type, what happens to comparisons, serialization, or storage?
 - **Could the fix introduce regressions?** Think about related functionality, not just the failing test. A fix to the payment module might affect the refund module. A fix to the config loader might affect startup time or caching behavior.
-- **What tests cover this area?** Run them in your head (or actually run them) before committing. If there's no test coverage, that's a risk to flag.
+- **What tests cover this area?** Inspect coverage and select the original-symptom and affected checks for Phase 5. Reasoning about a test is not execution evidence. Record absent coverage and its consequence.
 
 When the changed code sits on a boundary, explicitly check the interaction chain:
 
@@ -560,7 +516,13 @@ Additional requirements:
 - **Consider second-order effects.** Your fix changes behavior. Does anything downstream depend on the old (buggy) behavior? Sometimes other code has worked around the bug, and fixing it breaks the workaround.
 - **Assess regression risk.** State your confidence: "This fix is low-risk because it's isolated to one function with good test coverage" or "This fix touches shared infrastructure — recommend running the full test suite and watching for issues in [area]."
 
-**If the fix doesn't work:** Don't stack more fixes on top. Stop. Analyze _why_ it didn't work — that's new information about the problem. The failed fix tells you something about what the problem _isn't_. Record what prediction failed, invalidate or refine the current hypothesis, and return to Phase 3, Step 1 or Step 2 with this new evidence. Variants of the same theory require new evidence before another edit.
+**Classify the verification outcome before another correction:**
+
+- **Correction failed:** The intended correction is confirmed applied, the intended version and real failure path were exercised, and the predicted result did not occur. Record the contradicted prediction and what it disproves or leaves uncertain; invalidate or refine the hypothesis and return to Phase 3 observation or hypothesis formation before another edit.
+- **Verification unavailable or inconclusive:** A service/tool/environment prerequisite prevented the check, the changed version or path was not exercised, or the observation cannot decide the prediction. Record that gap and resolve the verification prerequisite within authority. This proves neither correction failure nor success and does not justify another correction variant.
+- **Correction verified:** The original symptom and required affected checks pass against the confirmed changed state, with limitations recorded. Only then report resolution.
+
+Do not stack speculative fixes. Changed symptoms, partial improvement and regressions are new evidence to investigate, not completion. Preserve the same full record across attempts. Recovery or rollback remains separately scoped and authorized.
 
 ### Responding to the Signal Source
 
@@ -570,10 +532,10 @@ How you respond depends on who sent the signal:
 
 **From your human partner:**
 
-- Implement after understanding — they're trusted
+- Apply the full method; trust in the requested outcome does not prove the diagnosis
 - Still ask if scope is unclear
 - No performative agreement
-- Skip to action or brief technical acknowledgment
+- After the required evidence and verification, give a brief technical acknowledgment
 
 **From external reviewers or bug reporters:**
 
@@ -633,8 +595,8 @@ When receiving feedback with multiple items:
 6. PRIORITIZE by impact:
    a. Blocking issues (security, data loss, crashes)
    b. Correctness issues (logic errors, wrong behavior)
-   c. Simple fixes (typos, imports, naming)
-   d. Complex changes (refactoring, redesign)
+   c. Mechanical corrections (typos, imports, naming; same full method)
+   d. Structural changes (refactoring, redesign; preserve owner and authority gates)
    e. Style/preference items
 7. RESOLVE one at a time, test each
 8. VERIFY the combined state against the original feedback loop
@@ -660,35 +622,35 @@ Diagnosis may produce the evidence, disposition, and response content for review
 
 ## The Investigation Scratch File
 
-Complex and Architectural investigation requires writing the working evidence down in a dedicated file that structures the investigation and gates source edits. Simple cases use the compact packet in Phase 2 and create this file only after an upgrade.
+Every applicable problem requires the full investigation scratch file, including mechanical corrections and read-only diagnoses. It structures the evidence and gates corrective actions. Keep one record current across phases and retries; concise entries are allowed, a compact substitute is not.
 
 ### The Gate Rule
 
-For Complex and Architectural investigations, there are two edit gates plus two trust conditions. All are non-negotiable. Simple cases use the Phase 2 compact packet while every required proof remains established. Obvious cases use the Phase 2 direct branch: make the direct fix, verify, and upgrade immediately if the first fix fails or the mechanism is not actually proven.
+Every investigation has two edit gates and two trust conditions. All are mandatory. Required evidence may already exist, but its current applicability must be recorded; confidence and classification never substitute for it.
 
-**Gate 1 — Investigation gate (before Complex or Architectural source edits):**
-**When triage selects Complex or Architectural, you may not edit source files until you have created the scratch file, written your initial hypothesis, AND recorded your research/evidence results (Step 3).** The three conditions are: (1) scratch file exists, (2) hypothesis is written, (3) current external research is recorded when drift-prone external behavior matters, or local evidence is recorded with a reason external/current research is not relevant. If the signal came from an issue, PR, review, ticket, incident, or thread, the scratch file must also record that the complete available context and latest update were read, or record why they are unavailable. All conditions must be satisfied before a Complex or Architectural source edit. Diagnostic additions (print/log statements for observation) are exempt — observation is free, changes are not.
+**Gate 1 — Investigation gate (before corrective source edits):**
+**Do not edit source to correct a problem until the scratch file exists, the hypothesis is written, and current research/evidence results are recorded (Step 3).** Record current external research when drift-prone behavior matters, or local evidence with a reason external research is not relevant. For issue/PR/review/ticket/incident/thread signals, record complete available context and latest updates read, or the unavailable context and its consequence. A missing fact required to support the correction blocks it. Temporary diagnostic instrumentation may precede causal confirmation only under Phase 3's bounded instrumentation rules; it does not bypass scratch creation, reference selection, evidence recording or authority.
 
 Gate 1 also requires `Reference selection`: selected paths and each independent trigger basis, or `none applicable` when no runtime trigger applies. Read every selected reference before its dependent decision; scratch creation or recording must not defer that read.
 
 For vague, stale, resumed, external-artifact, media, review/ticket, or multi-item signals, Gate 1 also requires the scratch file to preserve diagnostic scope, source provenance, stale-context classification, and review/ticket metadata where applicable. Use `not applicable` when the field does not apply; do not delete the field.
 
-**Feedback-loop condition (before testing Complex or Architectural hypotheses):**
-**For Complex and Architectural investigations, you may not treat a hypothesis as tested or a fix as verified until the scratch file names the feedback loop or explains why no loop can currently be built.** The scratch entry must state the loop command/artifact, what symptom it can catch, whether it is deterministic or intermittent with a measured reproduction rate, and why it reaches the real bug path. If the loop is weak, flaky, manual, or partial, record that limitation and improve it before trusting the result. A passing nearby test is not evidence unless it exercises the user's actual symptom or the minimized form of the same failure mechanism.
+**Feedback-loop condition (before trusting hypothesis tests or verification):**
+**Record the feedback loop before claiming a hypothesis was tested or a correction verified.** State the command/artifact, symptom observed, real-path coverage, deterministic behavior or measured intermittent reproduction rate, and limitations. If no loop can be built, record why and the next prerequisite; that explains the gap but cannot satisfy runtime proof. A passing nearby test does not prove the user's actual symptom or the same minimized failure mechanism.
 
-**Environment and causal-chain condition (before trusting a Complex or Architectural hypothesis):**
-**For Complex and Architectural investigations, you may not treat a hypothesis as credible until the scratch file records environment sanity, the bad-state transition, assumption audit, causal chain, and predictions for uncertain links.** If one of those fields is unknown, the next investigation action is to verify it, narrow the uncertainty, or record why it is currently unknowable. A fix attempt that contradicts the prediction invalidates or refines the hypothesis; it does not authorize another variant of the same guess.
+**Environment and causal-chain condition (before accepting a hypothesis):**
+**Do not accept a hypothesis as the basis for correction until the scratch file supports environment sanity, the bad-state transition, assumption audit, causal chain and predictions with current evidence.** Unknown facts remain explicit investigation targets; recording them does not satisfy a dependent gate. A contradicted prediction invalidates or refines the hypothesis; unavailable verification leaves it unresolved. Neither authorizes another variant of the same guess.
 
-**Gate 2 — Fix gate (before applying a Complex or Architectural fix):**
-**For Complex and Architectural investigations, you may not apply the fix until impact analysis is written in the scratch file.** Once you have a confirmed hypothesis and a proposed fix, you must write the impact analysis — callers affected, contracts changed, regression risk, edge cases — BEFORE you write fix code. This is what prevents "I think this is it, let me try it" followed by a worse situation. If you cannot articulate what your fix affects, you do not understand it well enough to apply it.
+**Gate 2 — Fix gate (before applying any correction):**
+**Do not apply a correction until a supported hypothesis and written impact analysis justify it.** Record affected callers, contracts, regression risks, edge cases and interaction paths before editing. An unresolved premise that controls safety or correctness blocks the correction until evidence resolves it. A written field alone does not pass the gate.
 
 Concise investigation notes are allowed. Missing required scratch fields are not. Brevity means short entries inside the required fields, not deleting thread/context, environment sanity, bad-state transition, assumption audit, causal chain, predictions, research/evidence, or impact-analysis fields.
 
-**Scratch validity check:** For Complex and Architectural work, before treating Gate 1, the feedback-loop condition, or the environment/causal-chain condition as satisfied, confirm the scratch file contains these literal labels: `Diagnostic scope`, `Reference selection`, `Evidence provenance`, `Stale/resumed context`, `Thread/context read?`, `Latest update considered`, `Environment sanity`, `Environment-health classification`, `Branch/version/dependencies/runtime checked`, `Config/env/services/artifacts/test-target checked`, `Bad-state transition`, `Last known valid state`, `First observed invalid state`, `Hypothesis basis`, `Alternative hypotheses`, `Assumption audit`, `Causal chain`, `Predictions`, `Prediction result`, `Invalidated/refined by`, `Absence claims checked`, `Impact analysis`, `Interaction-chain impact`, `External mutation/readback`, `Partial-success state`, `Compensation authority`, and `Handoff/residual status`. A missing label means the full scratch file is incomplete, even when the answer is intentionally concise. These literal-label requirements do not apply to the distinct Simple packet.
+**Scratch validity check:** Before treating a gate or trust condition as satisfied, confirm the full record contains these literal labels: `Diagnostic scope`, `Reference selection`, `Evidence provenance`, `Stale/resumed context`, `Thread/context read?`, `Latest update considered`, `Environment sanity`, `Environment-health classification`, `Branch/version/dependencies/runtime checked`, `Config/env/services/artifacts/test-target checked`, `Bad-state transition`, `Last known valid state`, `First observed invalid state`, `Hypothesis basis`, `Alternative hypotheses`, `Assumption audit`, `Causal chain`, `Predictions`, `Prediction result`, `Invalidated/refined by`, `Absence claims checked`, `Impact analysis`, `Interaction-chain impact`, `External mutation/readback`, `Partial-success state`, `Compensation authority`, `Phase status`, `Verification`, and `Handoff/residual status`. Preserve every template field. Field presence alone is not passing evidence: assess its content against the dependent gate. Later-phase fields may remain pending; unavailable or inapplicable entries require a reason and cannot waive an applicable prerequisite.
 
 ### Create the File
 
-At the start of any Complex or Architectural investigation, create `/tmp/debug-scratch-<brief-slug>.md` where `<brief-slug>` is a short description of the problem (e.g., `keyerror-session-token`, `flaky-auth-test`, `slow-checkout-api`).
+At the start of every applicable problem, create `/tmp/debug-scratch-<brief-slug>.md` where `<brief-slug>` uniquely identifies the investigation. On continuation, reconcile and reuse its existing full record. If writing a record is unavailable or prohibited, report the limitation, retain the complete fields in the permitted response, and stop corrective actions that require the file; do not silently downgrade to a compact packet.
 
 Use this template as the starting structure:
 
@@ -699,6 +661,13 @@ Use the field labels exactly. Do not rename, collapse, summarize, or omit requir
 
 Signal source: [error message / reviewer X / bug report / test failure]
 Signal type: [error | feedback | review | report]
+
+Phase status:
+  - Phase 1 — Receive: [pending/in progress/satisfied/blocked + evidence or prerequisite]
+  - Phase 2 — Triage: [pending/in progress/satisfied/blocked + evidence or prerequisite]
+  - Phase 3 — Investigate: [pending/in progress/satisfied/blocked + evidence or prerequisite]
+  - Phase 4 — Fix: [pending/in progress/satisfied/blocked + correction/no-change/handoff disposition]
+  - Phase 5 — Verify: [pending/in progress/satisfied/blocked + evidence or prerequisite]
 
 Observed: [exact error messages, behavior, or feedback received]
 Expected: [what should happen]
@@ -754,7 +723,7 @@ Bad-state transition:
 
 Hypothesis 1: [specific theory]
   Hypothesis basis: [observed / reproduced / local-code / external-current / prior-learning / reasoned / unsupported]
-  Alternative hypotheses: [handed hypothesis + 2 independent alternatives for Complex cases, or why not applicable]
+  Alternative hypotheses: [handed hypothesis + 2 plausible independent alternatives, or evidence explaining a narrower search space]
   Assumption audit: [verified assumptions vs unverified assumptions]
   Causal chain: [trigger -> state transition -> symptom]
   Predictions: [what else should be observable if this is true]
@@ -765,7 +734,7 @@ Hypothesis 1: [specific theory]
   Absence claims checked: [no repro/no callers/no similar bug/no external research/no residual risk claims + search space checked]
   Status: confirmed / disproven / untested
 
-Research / evidence check (REQUIRED — gate condition before Complex or Architectural source edits):
+Research / evidence check (REQUIRED — gate condition before corrective source edits):
   External/current research required? [yes/no + why]
   Search/source 1: [what you searched/read/inspected] → [what you found or "no results"]
   Search/source 2: [what you searched/read/inspected] → [what you found or "no results"]
@@ -810,6 +779,13 @@ Tried:
   - [change 2] → [result]
 
 Response plan: [how to communicate the resolution]
+Verification:
+  - Correction applied and read back: [yes/no/not applicable + evidence]
+  - Intended version and original symptom exercised: [yes/no + command/artifact and result]
+  - Affected and interaction checks: [commands/results, or unavailable + prerequisite]
+  - Skipped checks and consequence: [details or none]
+  - Outcome: [verified correction / evidenced no-change / correction failed / verification unavailable or inconclusive / pending]
+  - Next action: [closure / observation or revised hypothesis / verification prerequisite / downstream handoff]
 Handoff/residual status: [none / planning/spec/architecture/implementation/commit/learning/residual owner + evidence packet path, unresolved assumptions, durable sink if current workflow has one]
 ```
 
@@ -817,7 +793,7 @@ Update the file as you progress through investigation. This is your working docu
 
 ### Why the File Matters
 
-- **Gates premature action** — for Complex and Architectural work, you cannot skip to fixing because the file must exist, the hypothesis must be written, and research/evidence must be recorded before source edits
+- **Gates premature action** — every correction requires the full record, supported hypothesis, current evidence and written impact analysis
 - **Forces complete signal intake** — issue, PR, review, ticket, and incident signals must include the full available thread and latest update, not just a title or summary
 - **Forces a real feedback loop** — hypotheses and fixes must be tested against the actual symptom or a minimized reproduction, not a nearby green check
 - **Forces environment sanity and causal proof** — the scratch file must show the right code/environment is being exercised and that the hypothesis explains the bad-state transition
@@ -825,7 +801,7 @@ Update the file as you progress through investigation. This is your working docu
 - **Forces evidence labels and freshness checks** — observed facts, current external facts, local-code evidence, prior learning, reasoned claims, and unsupported claims cannot collapse into one confidence bucket
 - **Forces external-state readback** — ambiguous command/API results must be read back from the authoritative target before retry or completion
 - **Prevents circular investigation** — you won't re-check things you've already checked
-- **Makes reasoning transparent** — others can see and correct your thinking
+- **Makes decisions reviewable** — others can check conclusions, assumptions, evidence and concise rationale
 - **Forces signal evaluation** — the signal evaluation section prevents blind acceptance of input
 - **Gates the fix itself** — impact analysis must be written before fix code (Gate 2), preventing "I think this is it" edits that make things worse
 - **Catches fix-induced regressions** — the impact analysis forces you to think beyond the immediate problem
@@ -851,7 +827,7 @@ Unverified hypotheses must not become plan decisions, commit rationale, review d
 
 ### Summary and Cleanup
 
-After a full Complex or Architectural investigation passes verification (Phase 5), present a summary in the conversation, then delete the scratch file. Simple work summarizes its compact packet and has no dedicated scratch file to delete unless the case was upgraded. The summary is not a commit message — it is a window into the evidence and decisions. The reader should understand not just what was done, but how you got there and why the fix is supported.
+After verified resolution and completion of any warranted acceptance gate, present the evidence summary in the conversation, then delete this investigation's temporary scratch file. Retain it for blocked verification, unresolved investigation or downstream handoff. Do not delete another investigation's record. The summary explains the supported outcome, evidence, impact and residual state; it is not a commit message.
 
 The summary must show:
 
@@ -939,16 +915,16 @@ These signals mean your current approach isn't working:
 - **Optional tool treated as blocker** — if a missing optional tool is being treated as the root cause or as a reason to stop while another evidence path exists, reclassify it as an optional capability gap and continue with the valid loop.
 - **No feedback loop** — if you cannot trigger the symptom or compare before/after behavior, stop improving code and improve the loop or ask for the missing artifact/access. A hypothesis without a signal is not testable.
 - **Evidence provenance missing** — if logs, metrics, traces, screenshots, recordings, generated reports, or external artifacts lack source, time window, freshness, or redaction status, record those facts before treating them as evidence.
-- **No research/evidence recorded** — for Complex or Architectural work, if you are about to edit source files or test a hypothesis by modifying code and the full record lacks current external research or local evidence, STOP and return to Step 3. For Simple work, missing current evidence or a required external/current lookup invalidates the compact classification and upgrades the case. Obvious one-line fixes are the only record-free exception; verify immediately and upgrade if the first fix fails.
-- **No impact analysis written** — if you are about to apply a fix and the applicable impact record is empty, STOP. Simple requires `Blast radius` and `Impact` in its compact packet; Complex and Architectural work requires the full scratch impact analysis. Trace callers, contracts, interaction paths, and edge cases before applying the correction. Obvious one-line fixes are the only exception; verify immediately and upgrade if the first fix fails.
+- **No research/evidence recorded** — before corrective source edits or hypothesis experiments, complete Step 3 in the full record. Stop the dependent action when its required evidence is missing. No mechanical or one-line exception applies.
+- **No impact analysis written** — stop before any correction until the full record supports its caller, contract, interaction and edge-case impact. A placeholder is not analysis.
 - **External mutation ambiguous** — if a command/API may have partially written state, read back the authoritative target, record per-system partial-success state, and obtain separate authority for any compensation before retrying or claiming completion.
 - **Metric or screenshot treated as proof** — if success rests on one faster run, one passing flaky run, a screenshot, hot reload, or user satisfaction without causal-chain evidence and guardrails, keep investigating.
 - **Causal-chain gap** — if the hypothesis cannot explain trigger to symptom with observable intermediate states, do not fix yet. Turn the unknown link into a prediction and test it.
 - **Failed fix not invalidated** — if an attempted fix failed or contradicted a prediction and the current hypothesis is still being treated as true, stop. Record what was disproven and return to observation or hypothesis formation.
 - **2-3 hypotheses exhausted with no convergence** — summarize the evidence, ruled-out theories, remaining unknowns, and next highest-value observation. Get fresh eyes or escalate with the scratch file instead of continuing privately.
-- **3+ failed fix attempts** — you're likely misunderstanding the problem. Revert unsafe stacked changes, record what each attempt disproved, return to observation, and re-read the evidence with fresh eyes. Attempt count does not establish architecture; route there only when current evidence identifies a structural defect.
+- **3+ failed fix attempts** — repeated contradictions strengthen the need to revisit observation. Record each invalidation; do not wait for three attempts to investigate the first failure. Inspect actual state before undoing only your own changes when safe and authorized. Attempt count does not establish architecture.
 - **Circular investigation** — you've checked the same thing twice. Write down everything you know and don't know.
-- **The error keeps changing character** — each fix produces a _different_ error. You may be creating new bugs. Revert to the original state and start over.
+- **The error keeps changing character** — investigate possible fix-induced regressions and preserve evidence. Restore only your own changes when safe and authorized; never infer external rollback or discard unrelated work.
 - **Expanding scope** — your investigation pulls in more files and components with no convergence. The problem may be architectural.
 - **You don't understand the code** — if you can't explain the code, read more before debugging more. Understanding the system is prerequisite to debugging it.
 - **Emotional investment** — if you feel certain about a hypothesis but can't prove it, that's System 1 confidence, which is uncorrelated with accuracy. Force deliberate analytical thinking.
@@ -988,7 +964,7 @@ The Phase 3 selector requires [cognitive-traps.md](references/cognitive-traps.md
 
 | Situation                               | First Move                                            |
 | --------------------------------------- | ----------------------------------------------------- |
-| Clear error message, obvious fix        | Use Obvious: fix directly and verify                  |
+| Clear error message, apparent typo | Full five-phase method and record; inspect cause and affected contracts |
 | Issue/review/ticket reference           | Read the complete available thread and latest update  |
 | Vague or solution-framed signal         | Write the diagnostic scope checkpoint                 |
 | Stale scratch/prior fix/session context | Reconcile against current code/runtime/latest thread  |
@@ -1007,10 +983,10 @@ The Phase 3 selector requires [cognitive-traps.md](references/cognitive-traps.md
 | External mutation result ambiguous      | Read back authoritative state before retry/completion |
 | Fix didn't work                         | Invalidate or refine the hypothesis before more edits |
 | Fix works but prediction was wrong      | Keep investigating; likely symptom patch              |
-| Simple evidence field becomes uncertain | Upgrade to Complex before a source edit               |
-| Full record lacks research/evidence     | Complete Step 3 before Complex/Architectural edits    |
-| About to apply a Simple fix             | Complete compact packet blast radius and impact       |
-| About to apply a Complex fix            | Complete full scratch impact analysis first           |
+| A supporting fact becomes uncertain | Reopen the affected investigation before a dependent correction |
+| Full record lacks research/evidence | Complete Step 3 before corrective edits |
+| About to apply any correction | Complete supported hypothesis and full impact analysis first |
+| Verification could not run | Record unavailable/inconclusive; resolve the prerequisite, do not guess another fix |
 | 3+ fixes failed                         | Record invalidations; return to observation           |
 | Structural defect evidenced             | Stop local fixes and route to architecture discussion |
 | Don't understand the code               | Read tests and trace a request end-to-end             |
@@ -1033,7 +1009,7 @@ The Phase 3 selector requires [cognitive-traps.md](references/cognitive-traps.md
 | Verify claims against actual code            | The codebase is the source of truth, not opinions                       |
 | Build the feedback loop first                | A fast, specific signal turns debugging from guessing into learning     |
 | Read the error completely                    | It often contains the answer                                            |
-| Observe before changing                      | Changes are risky, observation is free                                  |
+| Observe before changing | Prefer authorized read-only evidence; instrumentation has scope and safety constraints |
 | One change at a time                         | Multiple changes destroy your ability to learn                          |
 | State your hypothesis explicitly             | Prevents unconscious shifting, makes reasoning visible                  |
 | Prove the causal chain                       | A hypothesis without trigger-to-symptom mechanism is just a guess       |

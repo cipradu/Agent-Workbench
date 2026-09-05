@@ -53,7 +53,7 @@ When problem resolution goes wrong, it's usually not because of lacking technica
 
 **Countermeasures:**
 
-- After your initial read of the error or feedback, deliberately pause and generate 3+ alternative hypotheses
+- Record the handed hypothesis plus at least two plausible independent alternatives, or current evidence explaining why the search space is narrower; do not invent causes to meet a quota
 - Rank them by likelihood _independently_ before investigating any
 - Be especially skeptical of the first theory that comes to mind — it's the most likely to be an anchor rather than a conclusion
 - When someone hands you a diagnosis, generate your own hypothesis before evaluating theirs
@@ -285,7 +285,7 @@ These traps are specific to processing human input — code reviews, suggestions
 
 **Countermeasures:**
 
-- Establish a personal rule: for any non-trivial suggestion, you must articulate _in your own words_ why the change is an improvement. If you cannot, you haven't evaluated it — you're complying.
+- Before any proposed correction, state the supported cause and why the change improves behavior, with impact evidence. Apparent simplicity or trust in the source never bypasses the full method.
 - Re-read the actual code before responding to feedback about it
 - If you feel pressure to agree quickly, that pressure is the signal to slow down and verify
 - Check: "Would I make this change if nobody suggested it?"
@@ -424,7 +424,7 @@ Thrashing deserves special attention because it's the end state of many of the t
 **How to break out:**
 
 1. **Stop changing code.** Literally stop. Take a breath.
-2. **Revert to a known state.** Undo all your debugging changes. Get back to the original problem, not the problem-plus-your-changes.
+2. **Inspect the actual state.** Preserve failed-attempt evidence. Restore only your own changes when safe and authorized; do not discard unrelated work or infer permission for external compensation. A check that never exercised the correction is inconclusive, not a disproven hypothesis.
 3. **Write down what you know.** Use the scratchpad template from SKILL.md. What have you observed? What have you tried? What worked, what didn't?
 4. **Get fresh eyes.** Explain the problem to the user, a colleague, or rubber duck. The act of explaining often reveals the gap in your understanding.
 5. **If you're an AI agent:** Tell the user you're stuck. Describe what you've found and tried. Ask for their input. This is not failure — this is efficient use of a resource (the human's domain knowledge) that you don't have.

@@ -1,6 +1,6 @@
 # Signal Evaluation Guide
 
-Detailed patterns for critically evaluating different types of input signals before acting on them. This reference supplements the Signal Reception phase in SKILL.md.
+Detailed patterns for evaluating input signals before acting on them. This reference supplements Phase 1 in SKILL.md. All signals, including precise errors and trusted feedback, retain the full five-phase method, record and correction gates; examples below are clues or communication patterns, never direct-fix exemptions.
 
 ## Table of Contents
 
@@ -22,11 +22,11 @@ Error messages vary enormously in helpfulness. Understanding the signal quality 
 
 ### High-Quality Signals (trust the message)
 
-These tell you exactly what's wrong:
+These identify a concrete symptom; verify its cause against the current environment, source and contract:
 
-- `NameError: name 'foob' is not defined` — typo, fix directly
+- `NameError: name 'foob' is not defined` — inspect the unresolved name, definition, imports and intended contract; a typo is a hypothesis
 - `TypeError: expected str, got int` — type mismatch, trace the value
-- `ModuleNotFoundError: No module named 'requests'` — missing dependency
+- `ModuleNotFoundError: No module named 'requests'` — inspect the intended environment, dependency declaration and import path before changing dependencies
 - `SyntaxError: unexpected indent` — formatting issue at the indicated line
 
 ### Medium-Quality Signals (trust the location, investigate the cause)
@@ -94,7 +94,7 @@ For each piece of human feedback, evaluate independently on four axes:
 
 ### The Verification Sequence
 
-Before implementing ANY non-trivial suggestion:
+Before implementing ANY proposed correction:
 
 ```
 1. Re-read the actual code being discussed (not from memory)
@@ -141,7 +141,7 @@ The classification matters because different categories require different levels
 - Trusted — implement after understanding
 - Still ask if scope is unclear
 - No performative agreement needed
-- Skip to action or brief technical acknowledgment
+- Give a brief technical acknowledgment after the required evidence, correction and verification
 
 **From external reviewers:**
 
@@ -166,7 +166,7 @@ IF conflicts with your partner's prior decisions:
 **From automated tools (linters, static analysis):**
 
 - Very high trust for what they check
-- Almost always implement
+- Verify the rule's applicability, cause and correction impact through the full method
 - But: false positives exist — if the warning seems wrong, investigate before suppressing
 - If suppressing, leave a comment explaining why
 
@@ -180,7 +180,7 @@ IF conflicts with your partner's prior decisions:
 
 ### Review, Ticket, and AI Feedback Metadata
 
-For non-obvious review, ticket, or AI feedback, preserve enough identity and scope to prevent stale or repeated feedback from being treated as new truth:
+For every review, ticket, or AI feedback signal, preserve enough identity and scope to prevent stale or repeated feedback from being treated as new truth:
 
 - stable ID: comment ID, finding ID, ticket ID, line anchor, or a local `SPR-FB-<n>` label when the source has no ID;
 - source: reviewer, tool, AI reviewer, user report, incident, ticket, or chat thread;
@@ -238,7 +238,7 @@ Observations are usually reliable (though "I definitely didn't change anything" 
 2. **Ask "what did you actually see?"** Push past interpretations to raw observations. "The API is slow" becomes "The /checkout endpoint took 12 seconds to respond at 3:00 PM for user ID 12345."
 3. **Generate your own hypothesis independently.** Based solely on the observations, what would YOU think? Only then compare with the reporter's diagnosis.
 4. **Consider the reporter's vantage point.** They may only see one part of the system. Their diagnosis is reasonable given their perspective but may miss the bigger picture.
-5. **List at least 3 different causes that could produce the same symptom.** Force yourself beyond the obvious. Blank page could be: JS error, API failure, CORS issue, DNS issue, deployment still in progress, feature flag misconfigured.
+5. Record the handed hypothesis plus at least two plausible independent alternatives, or current evidence explaining why the search space is narrower; do not invent causes to meet a quota.
 
 ### The Reproducer as Ground Truth
 
@@ -265,7 +265,7 @@ When someone gives you their diagnosis ("the bug is in X," "fix it by doing Y"),
 
 ```
 1. Receive it as one hypothesis among several — not as truth
-2. Generate 2-3 alternative explanations independently
+2. Record the handed hypothesis plus at least two plausible independent alternatives, or current evidence explaining why the search space is narrower; do not invent causes to meet a quota.
 3. Test the handed hypothesis with the same rigor as your own
 4. If it's correct — implement it (but verify the fix)
 5. If it's wrong — push back with evidence, not opinion
@@ -324,8 +324,8 @@ Reporter: "The caching layer is broken."
 4. PRIORITIZE by impact:
    a. Blocking issues (security, data loss, crashes)
    b. Correctness issues (logic errors, wrong behavior)
-   c. Simple fixes (typos, imports, naming)
-   d. Complex changes (refactoring, redesign)
+   c. Mechanical corrections (typos, imports, naming; same full method)
+   d. Structural changes (refactoring, redesign; preserve owner and authority gates)
    e. Style/preference items
 
 5. IMPLEMENT one at a time, test each
