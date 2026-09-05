@@ -1,0 +1,271 @@
+{
+  "purpose": "Finalization-only exact replacements over the accepted stop-routing and cadence preimages.",
+  "baseline_sha256": {
+    "harness-instructions/AGENTS.md": "2999f112b93d53c9a625d5c99ef6eccd28895586ee844366bf1de9139ec2b38e",
+    "harness-instructions/claude/CLAUDE.md": "16081016287bd3d1da089efb5c8805f663673637694596c5df9e078ff45af7cb",
+    "harness-instructions/codex/AGENTS.md": "5d43b86f122dcfe6903cd19898977d8ba8b396e5445b3a4bae5c84a8730bb35d",
+    "harness-instructions/opencode/AGENTS.md": "1387abec8c0c3914df35575331b3605d5dc5d3ed2186b7317a5279da30a5608b",
+    "harness-instructions/omp/AGENTS.md": "c9dc0b0207cd689a3b62ecafaea57fbfbadc0569cfeb274a3e4be00662b23e8b",
+    "skills/coding-project-orchestrator/SKILL.md": "bc17b6989686912ade713d3e2b3b35ea2b67d23b073a464018cf023e46c873e0",
+    "skills/coding-project-orchestrator/references/handoffs-and-gates.md": "9ffc760651e62243e4b7e36b26b64cc9c7e380e177e4b00f1475b3f7dad60110",
+    "skills/project-rules/SKILL.md": "485edd72a7c0e530f4f829bb6949ec8e9e4a3416b708b741d79d7cb2467ff9f3",
+    "agents/claude/coder.md": "1d678b84b56ec85f09b281ee72b9cfbac86ee7625aa733241c60d2ed5c6058cc",
+    "agents/codex/coder.toml": "d3e6b19f4820b0e29c38fa3b6a49a43a489cba21d9bba1cffb7fcb252cc2cd65",
+    "agents/opencode/coder.md": "fd89fb9f0639a4732509eca7cfdc0136819f576378f65d27cc36478b9df93087",
+    "agents/omp/coder.md": "10b90a1ebee226cbccbf94ee8b2fac48dd8691c9a3fa145e27d1f09778c16de7",
+    "agents/claude/research.md": "c9726f8c92ac97dd33879d23ba3fa023b1754deec7393371c9b8a0d43bc443b5",
+    "skills/testing-strategy/SKILL.md": "57f9fffab8d823e16fb9a718c878c570beca467575802b9070990e8e7ff573b9",
+    "skills/testing-strategy/references/test-postures.md": "60ca0048b72770566bba7d16b81f6adbe8ce463939364eb02b9ecb0dda26df0d",
+    "skills/testing-strategy/references/coverage-and-ci.md": "d41b8b48ce6c762b5783bb20385cbddc51c186b1ea9e482adf7152968477b17b"
+  },
+  "replacements": [
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "1. Preserve the user's explicit task, artifact, scope, action, and decision criterion as primary. Infer intent only to fill recoverable missing detail; never silently replace the named task.",
+      "after": "1. Apply the partnership contract to preserve the user's task and decision criterion.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- Do not validate user ideas by default. Test them for concrete material risks or contradictions before agreeing; do not let stylistic or speculative objections displace the requested task.",
+      "after": "- Apply constructive dissent when evaluating an idea; do not validate it by default.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- If confident reasoning creates a concrete material consequence, push back directly and name that consequence.\n- Lead with the most useful truth when a material consequence affects the task or decision.\n- When agreeing, add reasoning the user did not already provide.",
+      "after": "- When agreeing, add reasoning the user did not already provide.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- First, preserve the user's explicit task, artifact, scope, action, and decision criterion.\n- Second, infer only recoverable missing detail needed to answer or act safely; do not silently replace the named task with an inferred goal.\n- Third, organize the task internally without changing its explicit criterion.\n- Fourth, proceed on reversible, low-risk assumptions when a reasonable default exists.",
+      "after": "- Apply the partnership contract before organizing rough input: preserve the explicit request and repair only recoverable missing detail.\n- Proceed on reversible, low-risk assumptions when a reasonable default exists.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- If the user's requested path has a concrete material consequence, say so and recommend the better path; do not silently replace the explicit task or infer permission to act beyond it.",
+      "after": "- Use constructive dissent for material consequences and the decision explanation contract for choices the user must make.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "<off_cliff_rule>\n\n- If the requested direction creates a concrete material safety, correctness, cost, destructive, irreversible, external-side-effect, or scope-expansion consequence, do not silently comply.\n- State the consequence clearly, explain the reasoning, recommend the better path, and preserve the requested task to the extent that doing so remains safe and authorized.\n- Do not ask process questions that ignore the underlying strategic problem.\n  </off_cliff_rule>",
+      "after": "<off_cliff_rule>\n\n- Apply constructive dissent before an action with a concrete material consequence: explain the consequence and recommend the better path. Preserve the requested task to the extent that it remains safe and authorized; do not silently take an unauthorized alternative.\n- Do not ask process questions that ignore the underlying strategic problem.\n  </off_cliff_rule>",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- The user's original outcome remains controlling until current evidence proves it or establishes a genuine blocker. A downstream artifact, tool result, skill return, specialist return, or passing check does not redefine the outcome or make the whole task complete outside that owner's authority.",
+      "after": "- Preserve the original request as the baseline; only an explicit user update changes or cancels its outcome, scope, or constraints. The current user-authorized outcome controls completion. A downstream artifact, tool result, skill return, specialist return, or passing check cannot amend that authority or make the whole task complete outside its owner's responsibility.\n- Treat a new message during work as steering unless it explicitly cancels or replaces the task. Apply corrections and added constraints to the affected work; answer side questions or status requests briefly and continue the authorized task. Preserve unaffected work, constraints, and evidence.\n- Before the next dependent action, reconcile changed requirements through the owning workflow, update the affected scope or execution batch, and reassess only the warrants and evidence the update invalidates. Do not silently rewrite a governing spec or plan or treat a changed requirement as permission for unrelated actions.\n- Forward relevant updates to active delegates and stop superseded future actions using available steering or cancellation controls. An already-started tool action may still complete: inspect its actual result before retrying or claiming it was cancelled or undone. Cancellation does not authorize deletion, rollback, or another external action. Evaluate late returns against the current instruction and source identity; an old pass or verdict cannot prove an amended requirement.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- An active outcome map contains only the original outcome and scope envelope; required functions and why each is active; produced and consumed state for each function; current source and evidence identities plus invalidators; unresolved conditions or blockers; and the next required function or closure condition. Use an existing plan, continuity artifact, review packet, or task-local state when one already owns those fields. Do not create a parallel ledger.",
+      "after": "- An active outcome map contains only the original request, explicit user amendments, and current scope envelope; required functions and why each is active; produced and consumed state for each function; current source and evidence identities plus invalidators; unresolved conditions or blockers; and the next required function or closure condition. Use an existing plan, continuity artifact, review packet, or task-local state when one already owns those fields. Do not create a parallel ledger.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- Close only when the exact original outcome, acceptance proof, and every warranted gate are satisfied for the current state identity. This contract does not create a fixed pipeline, mandatory artifact, verifier, panel, durable log, or extra phase.",
+      "after": "- Close only when the current user-authorized outcome, acceptance proof, and every warranted gate are satisfied for the current state identity. This contract does not create a fixed pipeline, mandatory artifact, verifier, panel, durable log, or extra phase.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "Record the decision in this visible form:\n\n```text\nOutcome: [exact requested behavior or artifact]\nNon-goals: [explicit exclusions]\nTarget boundary: [behavior, surfaces, files, systems, or artifacts allowed to change]\nAcceptance proof: [checks or evidence that prove the outcome]\nExpansion or re-plan triggers: [new evidence that requires a scope or gate decision]\nLane: direct | standard | high_assurance\nEscalation triggers present: [named facts or none]\nNamed uncertainties: [items or none]\nDiagnosis warranted: yes/no — reason\nSpec warranted: yes/no — reason\nPlan warranted: yes/no — reason\nDelegation warranted: yes/no — reason\nImplementation review warranted: yes/no — reason\nReview cadence: none | single_final | checkpoints — reason\nReview depth: not_applicable | quick | standard | deep — reason\nReview semantic lanes: [changed surfaces or none]\nRe-review rule: contingent_acceptance | trigger_list\nFinal complete gate warranted: yes/no — reason\nState/evidence identity: method or not_applicable\n```",
+      "after": "Keep one complete consequence-and-gate decision record using the fields owned by `coding-project-orchestrator`. Use current task-local state or an existing governing artifact; do not create a separate file merely to hold the record. Carry it into required owner handoffs. For ordinary user-facing updates, report the action, material reason, scope consequence, or blocker; show the full record when the user asks to inspect routing or when those details are needed for a decision. Keeping the record internal does not make any field or gate optional.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- Keep mandatory routing, skill selection, delegation, and workflow obligations internal unless they materially change confidence, availability, blocker state, user-visible state, or the result.",
+      "after": "- Apply the routing-record visibility rule in implementation_workflow_discipline. Keep routine workflow detail in operational state and required handoffs; surface material effects on confidence, availability, scope, blockers, user-visible state, or the result.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- Keep the user's explicit task, artifact, scope, action, and decision criterion primary. Use inference only for recoverable missing detail, and surface any material reinterpretation instead of silently replacing the named task.",
+      "after": "- Apply the partnership and outcome control contracts in every response mode; a mode change does not itself cancel or expand the task.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/SKILL.md"
+      ],
+      "before": "The original outcome remains controlling until the final closure check proves it or a genuine blocker prevents it. No downstream artifact or owner return may silently replace it.",
+      "after": "The original request is the baseline. Only an explicit user update amends or cancels its outcome, scope, or constraints; the current user-authorized outcome controls the final closure check. No downstream artifact or owner return may silently replace it.\n\nWhen new user input arrives during work, distinguish a correction or added constraint from a side question, status request, cancellation, or replacement. Answer independent questions without abandoning the active task. Before affected work continues, reconcile changed requirements through the existing spec, plan, or execution owner; update the affected scope, batch, warrants, and evidence while preserving unaffected work. Send the revised authorization to affected delegates. Inspect already-started actions and late returns against the current instruction before retrying or accepting them; a stop request does not prove rollback or grant compensating-action authority.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/SKILL.md"
+      ],
+      "before": "Produce this decision record:",
+      "after": "Keep one complete operational decision record using the fields below. Retain it in task-local state or an existing governing artifact, and include it in required owner handoffs. Do not create a separate record file by default. Ordinary user replies show the selected action and material consequences, not the full schema; provide the complete record when the user requests a routing audit or the fields are needed for a decision. Internal presentation never waives classification, required fields, or gates:",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/SKILL.md"
+      ],
+      "before": "For orchestration-only turns, report:\n\n- work classification;\n- source basis and any material source-strength limits;\n- missing truth found;\n- selected workstream and why;\n- consequence lane and the complete independent gate-warrant record;\n- next action or blocker.",
+      "after": "For orchestration-only turns, explain the selected workstream, material reason or uncertainty, and next action or blocker. Apply Step 3's visibility rule: keep the full classification and gate record in operational state and required handoffs; show it when requested or needed for a user decision. Do not expose a formal schema merely because routing occurred.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/SKILL.md"
+      ],
+      "before": "- the original outcome and scope envelope;",
+      "after": "- the current user-authorized outcome and scope envelope;",
+      "count": 2
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/SKILL.md"
+      ],
+      "before": "- `whole-outcome proof`: the return proves the original outcome and all remaining warranted gates for the current state identity;",
+      "after": "- `whole-outcome proof`: the return proves the current user-authorized outcome and all remaining warranted gates for the current state identity;",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/SKILL.md"
+      ],
+      "before": "Close only when current evidence proves the exact original outcome, acceptance proof, and every warranted gate for the same state identity. An intermediate artifact, passing local check, owner-local completion claim, or stale acceptance result cannot close the task.",
+      "after": "Close only when current evidence proves the exact current user-authorized outcome, acceptance proof, and every warranted gate for the same state identity. An intermediate artifact, passing local check, owner-local completion claim, or stale acceptance result cannot close the task.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/references/handoffs-and-gates.md"
+      ],
+      "before": "The original outcome remains controlling across every handoff. Use the scope envelope alone for bounded work that one owner can complete and prove without a meaningful pause or independent acceptance. Activate a compact outcome map only when the task crosses more than one required owner, must survive a meaningful pause or context compaction, or requires independent acceptance.",
+      "after": "The current user-authorized outcome remains controlling across every handoff. Use the scope envelope alone for bounded work that one owner can complete and prove without a meaningful pause or independent acceptance. Activate a compact outcome map only when the task crosses more than one required owner, must survive a meaningful pause or context compaction, or requires independent acceptance.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/references/handoffs-and-gates.md"
+      ],
+      "before": "- original outcome and scope envelope;",
+      "after": "- current user-authorized outcome and scope envelope;",
+      "count": 2
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/references/handoffs-and-gates.md"
+      ],
+      "before": "- `whole-outcome proof`: current evidence proves the original outcome, acceptance proof, and every remaining warranted gate for the same state identity;",
+      "after": "- `whole-outcome proof`: current evidence proves the current user-authorized outcome, acceptance proof, and every remaining warranted gate for the same state identity;",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/references/handoffs-and-gates.md"
+      ],
+      "before": "A downstream owner cannot redefine the original outcome, force the old route after a premise changes, ask the user to decide when a safe authorized default exists, or declare whole-task completion outside its authority.",
+      "after": "A downstream owner cannot redefine the current user-authorized outcome, force the old route after a premise changes, ask the user to decide when a safe authorized default exists, or declare whole-task completion outside its authority.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/references/handoffs-and-gates.md"
+      ],
+      "before": "On return, compare the result to the exact authorization. Advance only proven units, preserve unproved units as pending, update active findings and state identity, and stop at a reached checkpoint. Classify an executor return as intermediate state unless it independently proves the original outcome and every remaining warranted gate for the same current identity.",
+      "after": "On return, compare the result to the exact authorization. Advance only proven units, preserve unproved units as pending, update active findings and state identity, and stop at a reached checkpoint. Classify an executor return as intermediate state unless it independently proves the current user-authorized outcome and every remaining warranted gate for the same current identity.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/coding-project-orchestrator/references/handoffs-and-gates.md"
+      ],
+      "before": "- Artifact identity and currentness: exact path, ID, URL, version, commit, review cycle, external copy, or currentness check when an artifact drives the handoff.",
+      "after": "- Artifact identity and currentness: exact path, ID, URL, version, commit, review cycle, external copy, or currentness check when an artifact drives the handoff.\n- Changed user direction when applicable: the explicit update, superseded instruction or batch, unaffected work and authority, reconciled governing artifact, invalidated evidence, and the exact next authorized action. A late result from an earlier instruction is evidence to reassess, not acceptance of a changed requirement.",
+      "count": 1
+    },
+    {
+      "paths": [
+        "skills/project-rules/SKILL.md"
+      ],
+      "before": "When work has a plan, matrix, report, run ID, log, branch, review state, generated artifact, continuity artifact, phase gate, or stable checklist, that artifact outranks conversation memory.",
+      "after": "When work has a plan, matrix, report, run ID, log, branch, review state, generated artifact, continuity artifact, phase gate, or stable checklist, use that artifact instead of relying on recollection. A new explicit user instruction is not stale conversation memory: reconcile its effect through the existing owner before dependent work continues. Preserve unaffected constraints and evidence; do not silently rewrite governing artifacts or accept a late result against superseded requirements. Side questions and status requests do not by themselves cancel the active task.",
+      "count": 1
+    }
+  ]
+}

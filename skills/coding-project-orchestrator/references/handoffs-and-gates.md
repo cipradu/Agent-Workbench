@@ -42,6 +42,7 @@ Every handoff should include:
 - Source evidence: user request, PRD, spec, plan, diagnosis, codebase evidence, rules, ADRs, research, or review report.
 - Source strength: explicit user authority, current file evidence, verified artifact evidence, inferred intent, weak signal, or contradicted source.
 - Artifact identity and currentness: exact path, ID, URL, version, commit, review cycle, external copy, or currentness check when an artifact drives the handoff.
+- Changed user direction when applicable: the explicit update, superseded instruction or batch, unaffected work and authority, reconciled governing artifact, invalidated evidence, and the exact next authorized action. A late result from an earlier instruction is evidence to reassess, not acceptance of a changed requirement.
 - Produced state and consumer: the bounded state this owner must return, who or what consumes it next, and whether it can prove the whole outcome or only one function.
 - Decisive evidence identity and invalidators: exact source, artifact, runtime, diff, review, or external-state identity that makes the return current, plus changes that make it stale.
 - Return condition: what lets the coordinator continue, reclassify, close, or report a genuine blocker.
@@ -64,11 +65,11 @@ If a handoff cannot include these fields, it is not ready.
 
 ## Outcome Map And Control Return
 
-The original outcome remains controlling across every handoff. Use the scope envelope alone for bounded work that one owner can complete and prove without a meaningful pause or independent acceptance. Activate a compact outcome map only when the task crosses more than one required owner, must survive a meaningful pause or context compaction, or requires independent acceptance.
+The current user-authorized outcome remains controlling across every handoff. Use the scope envelope alone for bounded work that one owner can complete and prove without a meaningful pause or independent acceptance. Activate a compact outcome map only when the task crosses more than one required owner, must survive a meaningful pause or context compaction, or requires independent acceptance.
 
 An active map contains only:
 
-- original outcome and scope envelope;
+- current user-authorized outcome and scope envelope;
 - required functions and the evidence-based reason each is active;
 - produced state, downstream consumer, and return condition for each function;
 - current source and evidence identities plus invalidators;
@@ -79,12 +80,12 @@ Keep these fields in an existing plan, continuity artifact, review packet, or ta
 
 The coordinator classifies each return before moving forward:
 
-- `whole-outcome proof`: current evidence proves the original outcome, acceptance proof, and every remaining warranted gate for the same state identity;
+- `whole-outcome proof`: current evidence proves the current user-authorized outcome, acceptance proof, and every remaining warranted gate for the same state identity;
 - `intermediate state`: one required function is satisfied and the return names the next consumer or closure condition;
 - `changed premise`: new concrete evidence invalidates a current scope, consequence, gate, plan, authority, or proof assumption; preserve unaffected work and reclassify;
 - `blocker`: no authorized safe path remains; return the exact unmet condition, unaffected work, evidence or authority needed, and resume point.
 
-A downstream owner cannot redefine the original outcome, force the old route after a premise changes, ask the user to decide when a safe authorized default exists, or declare whole-task completion outside its authority.
+A downstream owner cannot redefine the current user-authorized outcome, force the old route after a premise changes, ask the user to decide when a safe authorized default exists, or declare whole-task completion outside its authority.
 
 ## Plan-Backed Execution Handoff
 
@@ -92,7 +93,7 @@ Use this structure only when a current approved plan governs implementation. It 
 
 The coordinator cursor must identify:
 
-- original outcome and scope envelope;
+- current user-authorized outcome and scope envelope;
 - current spec and plan identity and currentness;
 - completed plan units with pointers to accepted evidence;
 - dependency-eligible and pending units;
@@ -117,7 +118,7 @@ The full plan may accompany the handoff for context, dependency awareness, and c
 
 Select one or more units only when dependencies are satisfied, implementation context and verification are coherent, and the batch remains within one review checkpoint. Unit, file, time, token, and cost counts do not determine the boundary. Units in one batch retain separate acceptance evidence and required dependency order.
 
-On return, compare the result to the exact authorization. Advance only proven units, preserve unproved units as pending, update active findings and state identity, and stop at a reached checkpoint. Classify an executor return as intermediate state unless it independently proves the original outcome and every remaining warranted gate for the same current identity.
+On return, compare the result to the exact authorization. Advance only proven units, preserve unproved units as pending, update active findings and state identity, and stop at a reached checkpoint. Classify an executor return as intermediate state unless it independently proves the current user-authorized outcome and every remaining warranted gate for the same current identity.
 
 ## Gate: To PRD
 

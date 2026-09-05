@@ -1,0 +1,128 @@
+{
+  "purpose": "Exact cadence-only replacements against the in-session preimage; earlier stop-routing changes are outside this delta.",
+  "replacements": [
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "<work_unit_and_verification_cadence>\n\n- A logical unit of work is declared, not judged. It is the first of these that applies: the plan unit assigned to you; the numbered step of the skill currently governing the work; the deliverable the user asked for. When none applies, it is the artifact you are producing.\n- A file edit is not a unit of work. Neither is a tool call, a section, a paragraph, or a save.\n- Verification, validation, linting, review, readback, and quality checks belong at the end of a logical unit of work, never between the edits that compose it. Run them when you do not intend to edit the artifact again before reporting or handing off; while another edit to that artifact is planned, running them is prohibited. Do not substitute a judgment about whether the work so far feels coherent or complete.\n- Do not run a check whose outcome cannot change the next action. If the next action is the same whether the check passes or fails, running it is prohibited.\n- Do not re-read, diff, lint, or validate a file to confirm an edit applied. A successful edit tool call is proof the edit applied; a failed one reports its own failure.\n- Artifact class sets what mid-unit checking is worth. For executable artifacts (code, config, schemas, migrations, generated files), tools hold information the agent does not — a compiler, type checker, or test knows whether the change is valid — so checks at task boundaries within a unit are useful and stay governed by the owning agent or skill. For document artifacts (specs, plans, skills, rules, docs, READMEs, ADRs, scratchpads, prose), no tool can judge whether the content is correct; formatting checks prove formatting only. Run them once, when the document is complete.\n- Passing a lint, format, or style check is evidence for exactly one claim: that the check is clean. It is never evidence that content is correct, complete, or does what was intended.\n\n</work_unit_and_verification_cadence>",
+      "after": "<work_unit_and_verification_cadence>\n\n- A logical unit of work is declared, not judged. It is the first of these that applies: the plan unit assigned to you; the numbered step of the skill currently governing the work; the deliverable the user asked for. When none applies, it is the artifact you are producing.\n- A file edit is not a unit of work. Neither is a tool call, a section, a paragraph, or a save.\n- Distinguish implementation feedback from completion validation. Run a focused check during unfinished work when its result can determine the next edit, test a required baseline or test-first expectation, or resolve a prerequisite before dependent work. Further planned edits do not prohibit that feedback.\n- Run completion validation after the edits that compose the declared unit, at the checkpoints required by the governing plan or workflow. Satisfy every applicable mandated check and warranted review before claiming completion or advancing past its gate. A feedback result does not complete the unit or replace those requirements.\n- Select check breadth from the changed behavior, affected dependencies, named regression risks, and governing acceptance requirements. Use the testing owner for posture, seam, and case selection. Do not run a broader suite merely because one more edit or feedback check occurred.\n- Reuse sufficient evidence only while its relevant source, fixtures, configuration, and environment remain current and the governing gate permits reuse. Repeat or broaden checks when a relevant change, failure, unresolved risk, or explicit gate requires it; otherwise stop checking once the required evidence is complete.\n- Do not re-read, diff, lint, or validate a file merely to confirm a successful structured edit applied. This does not prohibit source inspection or diagnostics needed to choose the next action.\n- For prose revisions, defer formatting and style checks until the revision is complete. Source, link, semantic, or behavior checks may run earlier when they inform a remaining edit. Skills, rules, and prompts require evidence for the behavior they govern; Markdown formatting cannot prove that behavior.\n- Passing a lint, format, or style check proves only the properties that check observes. It does not by itself prove content correctness, behavioral correctness, or completion.\n\n</work_unit_and_verification_cadence>"
+    },
+    {
+      "paths": [
+        "harness-instructions/AGENTS.md",
+        "harness-instructions/claude/CLAUDE.md",
+        "harness-instructions/codex/AGENTS.md",
+        "harness-instructions/opencode/AGENTS.md",
+        "harness-instructions/omp/AGENTS.md"
+      ],
+      "before": "- Verification during execution is for control flow: determine whether more work is required. If more work is already known to be required, skip the check and do the work.",
+      "after": "- Apply the work-unit verification cadence: use feedback when it can guide remaining work, and use completion validation at the required boundary. Skip reassurance checks that add no decision value; preserve mandatory checks even when other work remains."
+    },
+    {
+      "paths": [
+        "agents/claude/coder.md",
+        "agents/codex/coder.toml",
+        "agents/opencode/coder.md",
+        "agents/omp/coder.md"
+      ],
+      "before": "<mandatory_rule>After every meaningful edit batch, you must check for diagnostics.</mandatory_rule>",
+      "after": "<mandatory_rule>Triage diagnostics when they surface. Run focused diagnostics during unfinished work when they determine the next edit or resolve a prerequisite; check applicable diagnostics again at the completed logical-unit boundary when current evidence is insufficient.</mandatory_rule>"
+    },
+    {
+      "paths": [
+        "agents/claude/coder.md",
+        "agents/codex/coder.toml",
+        "agents/opencode/coder.md",
+        "agents/omp/coder.md"
+      ],
+      "before": "A meaningful edit batch is a logical implementation unit: a coherent set of related edits needed to complete one sub-goal from the assigned plan unit and execution intake.",
+      "after": "The governing plan unit, skill step, or requested deliverable defines the logical implementation unit. An edit batch inside that unit is a working boundary; it does not redefine the unit's acceptance criteria or review checkpoint."
+    },
+    {
+      "paths": [
+        "agents/claude/coder.md",
+        "agents/codex/coder.toml",
+        "agents/opencode/coder.md",
+        "agents/omp/coder.md"
+      ],
+      "before": "<rule>Define edit batches by logical implementation units from the execution intake.</rule>\n<rule>After completing a logical implementation unit, run the final-delta hygiene contract once before diagnostics or verification.</rule>\n<rule>After final-delta hygiene completes, run diagnostics and repository-wide checks needed to catch regressions.</rule>\n<rule>Do not limit sanity checking to only the file you just edited.</rule>\n<rule>Use repository-wide checks to discover regressions introduced by the change.</rule>",
+      "after": "<rule>Keep edit batches within the authorized unit and dependency order from the execution intake.</rule>\n<rule>Use focused test-first, characterization, or diagnostic feedback when its result guides remaining work. Do not delay it until final-delta hygiene or completion merely because edits remain.</rule>\n<rule>After completing the unit's implementation edits, run the final-delta hygiene contract once before completion validation.</rule>\n<rule>Select regression checks from the changed behavior, affected dependencies, and governing acceptance requirements. Inspect beyond the edited file when those relationships require it; use repository-wide checks when that scope is required, not after every feedback cycle.</rule>"
+    },
+    {
+      "paths": [
+        "agents/claude/coder.md",
+        "agents/codex/coder.toml",
+        "agents/opencode/coder.md",
+        "agents/omp/coder.md"
+      ],
+      "before": "<purpose>Remove accidental residue introduced by the completed implementation unit before verification without turning cleanup into broader refactoring or independent review.</purpose>",
+      "after": "<purpose>Remove accidental residue introduced by the completed implementation unit before completion validation without delaying implementation feedback or expanding into broader refactoring or independent review.</purpose>"
+    },
+    {
+      "paths": [
+        "agents/claude/coder.md",
+        "agents/codex/coder.toml",
+        "agents/opencode/coder.md",
+        "agents/omp/coder.md"
+      ],
+      "before": "<step>Ensure the codebase is green.</step>",
+      "after": "<step>Confirm all applicable required checks pass for the state being handed off.</step>"
+    },
+    {
+      "paths": [
+        "agents/claude/coder.md",
+        "agents/codex/coder.toml",
+        "agents/opencode/coder.md",
+        "agents/omp/coder.md"
+      ],
+      "before": "<rule>Do not claim success from targeted checks alone unless repo instructions explicitly allow it.</rule>",
+      "after": "<rule>Targeted checks are sufficient only when they cover the accepted behavior and regression risks and satisfy every applicable repository, plan, and workflow requirement. A required aggregate check cannot be replaced by a focused pass.</rule>\n<rule>Reuse passing evidence only when its relevant source, fixtures, configuration, and environment are unchanged and the governing gate permits it. Rerun affected checks after relevant changes; repeat or broaden checks for failures, unresolved risks, or explicit gate requirements, not for reassurance.</rule>"
+    },
+    {
+      "paths": [
+        "agents/claude/coder.md",
+        "agents/codex/coder.toml",
+        "agents/opencode/coder.md",
+        "agents/omp/coder.md"
+      ],
+      "before": "<rule>Do not say \"fixed\" when the repo is not green.</rule>",
+      "after": "<rule>Do not say \"fixed\" while an applicable required check is failing or lacks current evidence. Classify unrelated or pre-existing failures explicitly; do not silently waive a required gate.</rule>"
+    },
+    {
+      "paths": [
+        "skills/project-rules/SKILL.md"
+      ],
+      "before": "- Verification belongs at the end of a logical unit of work as defined by the governing plan unit, skill step, or requested deliverable — never between the edits that compose it. While another edit to an artifact is planned, do not verify it.\n- Do not run a check whose outcome cannot change the next action.\n- Do not re-read or diff a file to confirm an edit applied.\n- For document artifacts, the completed artifact is the verification surface. Lint, format, and style checks prove formatting only, never that content is correct.",
+      "after": "- Distinguish feedback that guides remaining work from validation that proves completion. A focused check may run while edits remain when it resolves a prerequisite, determines the next edit, or checks a required baseline or test-first expectation.\n- Run completion validation at the declared plan-unit, skill-step, or deliverable boundary and any required checkpoint. Feedback does not complete the unit or replace an applicable mandatory check or warranted review.\n- Select breadth through the testing owner from changed behavior, affected dependencies, named risks, and governing requirements. Reuse sufficient current evidence only when the gate permits it; repeat or broaden checks for relevant source, fixture, configuration, or environment changes, failures, unresolved risks, or explicit gate requirements.\n- Do not re-read or diff merely to confirm a successful structured edit applied, or run reassurance checks that cannot affect the next decision.\n- For prose revisions, defer formatting and style checks until the revision is complete. Source, link, semantic, or behavior checks may inform remaining edits. Prose-formatted skills, rules, and prompts require behavior evidence; formatting checks alone cannot prove correctness."
+    },
+    {
+      "paths": [
+        "skills/project-rules/SKILL.md"
+      ],
+      "before": "| \"A quick check after each edit is cheap.\"                         | A check that cannot change the next action is pure cost.                 | Finish the logical unit, then verify once.                                      |",
+      "after": "| \"A quick check after each edit is cheap.\" | Feedback must answer a decision or satisfy a required gate. | Run useful focused feedback; reserve completion validation for its required boundary and reuse sufficient current evidence when permitted. |"
+    },
+    {
+      "paths": [
+        "skills/project-rules/SKILL.md"
+      ],
+      "before": "- Validation, linting, or readback runs between edits to the same artifact within one revision pass.",
+      "after": "- Reassurance checks repeat between edits without resolving a decision, or useful feedback is delayed solely because more edits remain."
+    },
+    {
+      "paths": [
+        "agents/claude/coder.md",
+        "agents/codex/coder.toml",
+        "agents/opencode/coder.md",
+        "agents/omp/coder.md"
+      ],
+      "before": "<forbidden>Claim completion while the repository is not green.</forbidden>",
+      "after": "<forbidden>Claim completion while an applicable required check is failing or lacks current evidence.</forbidden>"
+    }
+  ]
+}

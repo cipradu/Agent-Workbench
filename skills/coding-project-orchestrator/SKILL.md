@@ -61,7 +61,9 @@ Bind a preliminary scope envelope before selecting consequence or ceremony:
 - `Acceptance proof`: the checks or evidence that prove the outcome;
 - `Expansion or re-plan triggers`: new facts that would require a scope, consequence, or gate decision.
 
-The original outcome remains controlling until the final closure check proves it or a genuine blocker prevents it. No downstream artifact or owner return may silently replace it.
+The original request is the baseline. Only an explicit user update amends or cancels its outcome, scope, or constraints; the current user-authorized outcome controls the final closure check. No downstream artifact or owner return may silently replace it.
+
+When new user input arrives during work, distinguish a correction or added constraint from a side question, status request, cancellation, or replacement. Answer independent questions without abandoning the active task. Before affected work continues, reconcile changed requirements through the existing spec, plan, or execution owner; update the affected scope, batch, warrants, and evidence while preserving unaffected work. Send the revised authorization to affected delegates. Inspect already-started actions and late returns against the current instruction before retrying or accepting them; a stop request does not prove rollback or grant compensating-action authority.
 
 Every proposed capability, abstraction, file, test, durable artifact, or workflow phase must trace to the outcome, a current named risk or invariant, a required compatibility obligation, or cleanup directly caused by the change. Remove an untraceable item; return newly necessary expansion to orchestration instead of silently enlarging a downstream artifact.
 
@@ -131,7 +133,7 @@ For document-only deltas, deep review and fresh validator or nested review chain
 
 Apply precedence without gate coupling. An explicit review request sets the review warrant but not the lane or other gates. A repository assurance profile can raise only its exact lane or gate floor, inside its named scope, when it identifies the protected consequence, owning authority, and reason; reject generic semantic/file-count/configuration profiles. Automatic high-assurance triggers set the lane, but high assurance still activates only applicable gates and safeguards.
 
-Produce this decision record:
+Keep one complete operational decision record using the fields below. Retain it in task-local state or an existing governing artifact, and include it in required owner handoffs. Do not create a separate record file by default. Ordinary user replies show the selected action and material consequences, not the full schema; provide the complete record when the user requests a routing audit or the fields are needed for a decision. Internal presentation never waives classification, required fields, or gates:
 
 ```text
 Outcome: [exact requested behavior or artifact]
@@ -166,7 +168,7 @@ Select `scope_only` for bounded work that one owner can complete and prove witho
 
 When `mapped`, carry only:
 
-- the original outcome and scope envelope;
+- the current user-authorized outcome and scope envelope;
 - each required function and why current evidence activates it;
 - the state each function must produce, its downstream consumer, and its return condition;
 - current source and evidence identities plus their invalidators;
@@ -267,7 +269,7 @@ A downstream owner that discovers escalation evidence must return the new concre
 
 After every selected owner returns, classify the result before advancing:
 
-- `whole-outcome proof`: the return proves the original outcome and all remaining warranted gates for the current state identity;
+- `whole-outcome proof`: the return proves the current user-authorized outcome and all remaining warranted gates for the current state identity;
 - `intermediate state`: the return satisfies one required function and identifies the next consumer or closure condition;
 - `changed premise`: new concrete evidence invalidates the current scope, lane, gate, plan, authority, or proof assumption and requires reclassification while preserving unaffected work;
 - `blocker`: the return names the exact unmet condition, why no authorized safe path remains, unaffected work, and the authority or evidence needed to resume.
@@ -284,7 +286,7 @@ Apply this step only when `Plan warranted: yes` and the approved current plan ha
 
 Before the first implementation action, initialize a compact execution cursor containing:
 
-- the original outcome and scope envelope;
+- the current user-authorized outcome and scope envelope;
 - current spec and plan identity plus currentness;
 - completed units and pointers to their accepted evidence;
 - dependency-eligible units, pending units, and the exact current batch if one exists;
@@ -323,7 +325,7 @@ Before claiming completion:
 - surface ADR candidates only when decisions meet the ADR bar;
 - route unresolved findings, blocked checks, accepted risks, and skipped verification to the appropriate durable surface when one applies, otherwise report them explicitly as residual risk.
 
-Close only when current evidence proves the exact original outcome, acceptance proof, and every warranted gate for the same state identity. An intermediate artifact, passing local check, owner-local completion claim, or stale acceptance result cannot close the task.
+Close only when current evidence proves the exact current user-authorized outcome, acceptance proof, and every warranted gate for the same state identity. An intermediate artifact, passing local check, owner-local completion claim, or stale acceptance result cannot close the task.
 
 Completion criterion: the result is proven enough for the chosen ceremony level, and any remaining risk is explicit.
 
@@ -400,14 +402,7 @@ Stop and report the blocker instead of proceeding when:
 
 ## Required Output Shape
 
-For orchestration-only turns, report:
-
-- work classification;
-- source basis and any material source-strength limits;
-- missing truth found;
-- selected workstream and why;
-- consequence lane and the complete independent gate-warrant record;
-- next action or blocker.
+For orchestration-only turns, explain the selected workstream, material reason or uncertainty, and next action or blocker. Apply Step 3's visibility rule: keep the full classification and gate record in operational state and required handoffs; show it when requested or needed for a user decision. Do not expose a formal schema merely because routing occurred.
 
 For execution turns, the downstream skill or implementation workflow owns its own output contract. This skill still owns the final check that the chosen path matched the real work.
 

@@ -186,7 +186,7 @@ Failure output: "Blocked: external/shared-state mutation lacks immutable identit
 
 ### 7. Respect Stateful Workflows And Ordered Gates
 
-When work has a plan, matrix, report, run ID, log, branch, review state, generated artifact, continuity artifact, phase gate, or stable checklist, that artifact outranks conversation memory.
+When work has a plan, matrix, report, run ID, log, branch, review state, generated artifact, continuity artifact, phase gate, or stable checklist, use that artifact instead of relying on recollection. A new explicit user instruction is not stale conversation memory: reconcile its effect through the existing owner before dependent work continues. Preserve unaffected constraints and evidence; do not silently rewrite governing artifacts or accept a late result against superseded requirements. Side questions and status requests do not by themselves cancel the active task.
 
 Rules:
 
@@ -306,10 +306,11 @@ Verification may be:
 
 Rules:
 
-- Verification belongs at the end of a logical unit of work as defined by the governing plan unit, skill step, or requested deliverable — never between the edits that compose it. While another edit to an artifact is planned, do not verify it.
-- Do not run a check whose outcome cannot change the next action.
-- Do not re-read or diff a file to confirm an edit applied.
-- For document artifacts, the completed artifact is the verification surface. Lint, format, and style checks prove formatting only, never that content is correct.
+- Distinguish feedback that guides remaining work from validation that proves completion. A focused check may run while edits remain when it resolves a prerequisite, determines the next edit, or checks a required baseline or test-first expectation.
+- Run completion validation at the declared plan-unit, skill-step, or deliverable boundary and any required checkpoint. Feedback does not complete the unit or replace an applicable mandatory check or warranted review.
+- Select breadth through the testing owner from changed behavior, affected dependencies, named risks, and governing requirements. Reuse sufficient current evidence only when the gate permits it; repeat or broaden checks for relevant source, fixture, configuration, or environment changes, failures, unresolved risks, or explicit gate requirements.
+- Do not re-read or diff merely to confirm a successful structured edit applied, or run reassurance checks that cannot affect the next decision.
+- For prose revisions, defer formatting and style checks until the revision is complete. Source, link, semantic, or behavior checks may inform remaining edits. Prose-formatted skills, rules, and prompts require behavior evidence; formatting checks alone cannot prove correctness.
 - Do not say "done" based on confidence alone.
 - Do not summarize evidence when exact evidence is required by the task or project rule.
 - If verification fails and the next fix is clear and within scope, fix it before reporting.
@@ -348,7 +349,7 @@ Stop and report the blocker instead of proceeding when:
 | "A concise answer can omit the middle."                           | Concise does not mean incomplete.                                        | Deliver every requested item without placeholders.                              |
 | "Line wrapping is best practice."                                 | Arbitrary prose wrapping damages many renderers and creates noisy diffs. | Use semantic newlines only unless local tooling requires wrapping.              |
 | "I can say tests passed."                                         | A summary is weaker than evidence when evidence is required.             | Provide command output or explain why it cannot be shown.                       |
-| "A quick check after each edit is cheap."                         | A check that cannot change the next action is pure cost.                 | Finish the logical unit, then verify once.                                      |
+| "A quick check after each edit is cheap." | Feedback must answer a decision or satisfy a required gate. | Run useful focused feedback; reserve completion validation for its required boundary and reuse sufficient current evidence when permitted. |
 | "The domain rule probably belongs here too."                      | This skill is the working contract, not the domain manual.               | Route domain rules to dedicated skills or project instructions.                 |
 | "Cleanup means removing bulky evidence."                          | Clean output still needs proof, source links, and requested content.     | Remove noise, not required evidence or safety gates.                            |
 
@@ -371,5 +372,5 @@ Stop and correct course when any of these appears:
 - A residual finding, failed check, skipped verification, or incomplete item disappears from the final state.
 - Prose has arbitrary fixed-width line breaks.
 - "Done" is reported without verification or an explicit verification limitation.
-- Validation, linting, or readback runs between edits to the same artifact within one revision pass.
+- Reassurance checks repeat between edits without resolving a decision, or useful feedback is delayed solely because more edits remain.
 - Stack-specific rules, git/PR mechanics, review verdict logic, setup scripts, browser/Xcode recipes, or external-tool APIs are being added to this portable skill.
