@@ -27,6 +27,16 @@ Search supplies evidence. It does not make product, architecture, planning, impl
 
 Use graphs to navigate. Use current sources to conclude. A graph result remains a candidate until its original source and the relationships required by the question have been checked.
 
+## Governing Context and Evidence Scope
+
+Mandatory loading and evidence discovery have different completion conditions. Before a dependent decision or action, load the applicable repository/harness instructions and owning skills, and read every selected operational reference. Read applicable instructions completely; a routing decision, known file, confidence or bounded-search label never waives that obligation. Do not enumerate or read unselected references or evaluator assets as runtime context.
+
+Determine applicability from the instruction hierarchy, declared scope, task triggers and current source relationships. When applicability is uncertain, inspect the scope-bearing source and resolve it before dependent action; do not guess that it is irrelevant or load every adjacent document by default. A rule governing a discovered dependency can apply even when its file is outside the edit boundary.
+
+Bound evidence discovery to the active question and its required proof, not to the first filename suggested. Expand whenever current evidence could materially change the claim, scope, authority, impact or verification. Dependencies, contradictory sources, alternate entry points and unexplained observations are examples, not an exhaustive list. Record the evidence and question that justify expansion; no file, query, time or token quota can waive required coverage.
+
+Use the existing search record to distinguish loaded governing context, verified evidence, source-backed exclusions and unresolved obligations. A candidate outside the edit boundary is not automatically outside the evidence boundary. If a necessary source cannot be accessed within authority, name the blocked claim instead of excluding it to pass a gate. Existing evidence is reusable only while its source identity, scope and relevant state remain current.
+
 ## Request Intake
 
 Before selecting a mechanism, choose one or more search postures and the proof target required by the question. The proof target is the evidence level the answer must reach, not a label to assume before searching.
@@ -168,18 +178,18 @@ A result enters the candidate ledger when it:
 - represents an alternate entry point, platform, environment, version, alias, or feature-flag path;
 - contradicts or qualifies a claim under investigation.
 
-Completion criterion: every result returned by the initial selected mechanisms is recorded in the ledger, and the canonical symbols, paths, source types, relationship names, configuration keys, and project vocabulary learned from those results are recorded for expansion.
+Completion criterion: every returned result has a recorded relevance disposition, individually or as a group with one source-backed exclusion basis. Record canonical symbols, paths, source types, relationships, configuration keys and vocabulary that can change the active claim or its coverage. A keyword hit alone does not require reading unrelated file bodies, but uncertain relevance remains unresolved until inspected.
 
 ### 2. Expand and Disposition
 
-Inspect every `uninspected` candidate. Follow its required callers, callees, neighbors, dependents, contracts, tests, configurations, generators, variants, and original artifacts according to the selected coverage rows.
+Resolve every `uninspected` candidate's relevance using source scope and its relationship to the active proof target. Read current source for every relevant or still-uncertain candidate; follow its required callers, callees, neighbors, dependents, contracts, tests, configurations, generators, variants and original artifacts according to the selected coverage rows. Complete applicable instruction reads even when candidate discovery can otherwise stop.
 
 Assign one final disposition:
 
 - `verified`: source inspection confirms that it contributes evidence;
 - `ruled out`: source inspection shows why it does not answer or alter the claim;
 - `duplicate or alias`: it resolves to a candidate already inspected;
-- `outside scope`: the stated boundary excludes it;
+- `outside scope`: current scope/relationship evidence excludes it from the claim and its required dependencies, not merely from the edit list;
 - `unresolved`: the source or capability is inaccessible, with the blocked claim named.
 
 Graph rank, community membership, confidence labels, inferred edges, summaries, and generated reports control inspection order only. They do not justify discarding a candidate or proving a claim.
@@ -224,14 +234,18 @@ Stop when the named historical question and permitted source boundary have been 
 
 ### 4. Close the Search
 
-Run a closure round after all current candidates have final dispositions:
+Before closing any search, confirm that applicable governing context was loaded, required coverage and current-source proof support the actual answer, and no unresolved candidate, conflicting source, truncation or pagination can change it. Resolve incomplete output unless current evidence proves the omitted scope cannot affect the claim; otherwise report the limitation and withhold the affected claim.
 
-1. repeat every selected discovery mechanism using the canonical symbols, paths, relationship names, configuration keys, and vocabulary learned during inspection;
-2. run the exact, structural, or type-aware fallback required by each selected coverage row;
-3. resolve every truncation, pagination notice, ambiguous match, alternate definition, and newly returned candidate;
-4. if the round adds a candidate, repeat Steps 2 and 3 before running another closure round.
+For a bounded question that meets those conditions, stop and return the supported answer. Do not repeat discovery merely to obtain a no-new-candidate result after the required evidence is already complete. State the evidence that satisfies the question; confidence or a plausible first match is not a stopping condition.
 
-Completion criterion: one full closure round adds no candidate, every ledger entry has a final disposition, and every mandatory evidence class has a recorded state.
+For an exhaustive-in-scope or absence claim, a closure round remains mandatory:
+
+1. use every selected discovery mechanism with the relevant canonical symbols, paths, relationships, configuration keys and vocabulary learned during inspection;
+2. run each selected coverage row's required exact, structural or type-aware fallback and account for its exclusions;
+3. resolve truncation, pagination, ambiguous matches, alternate definitions and new relevant candidates within the claim's scope;
+4. if the round adds a relevant candidate or required relationship, complete Steps 2 and 3 and repeat closure for the affected evidence boundary.
+
+Completion criterion: every candidate has an evidenced final disposition and every mandatory evidence class supports the claim. Exhaustive/absence claims additionally require a complete in-scope closure round that adds no relevant candidate or required relationship. If the proof remains incomplete, return the bounded finding and its exact gap; do not silently downgrade the user's requested outcome to claim completion.
 
 ## Common Output Contract
 
@@ -263,7 +277,7 @@ When another workflow consumes the result, provide this evidence packet before t
 | Target and state | the graph points at the intended repository and its warnings are recorded | do not guess, rebuild, refresh, or switch targets silently |
 | Graph freshness | each selected graph passes the Mandatory Freshness Contract after the latest relevant repository change and before its first query | do not query the stale or unproven graph, including for orientation; use current-source fallbacks and report the failed condition |
 | Coverage | every selected claim type has every mandatory evidence class recorded | name the missing class and withhold the blocked claim |
-| Candidate closure | every candidate has a final disposition and one closure round adds none | continue Steps 2–4 |
+| Candidate closure | every candidate has an evidenced final disposition; bounded questions meet Step 4 sufficiency; exhaustive/absence claims additionally pass its no-new-relevant-candidate closure round | resolve the named gap through Steps 2–4 or withhold the affected claim |
 | Source proof | every reported exact, behavioral, impact, exhaustive, or absence claim has its required verification | downgrade to the supported proof label |
 | Mutation and external boundary | any package, graph creation/update, provider, network, client configuration, hook, cleanup, or removal action is authorized | do not perform the action; ordinary local query state is not a separate gate |
 

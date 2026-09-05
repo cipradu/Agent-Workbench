@@ -330,7 +330,7 @@ Failure output:
 
 Pass condition:
 
-- Bounded instrumental discovery inspected only the named repository evidence needed to decide route, scope, clarification, verification, and stop conditions.
+- Bounded instrumental discovery loaded applicable governing instructions, skills and selected references, and inspected the current evidence needed to decide route, scope, clarification, verification and stop conditions, including materially relevant relationships beyond the initially named target. Routing sufficiency does not waive downstream context or proof obligations; the handoff names those still required.
 - The requested behavior is sufficiently explicit from the user request, current repository evidence, and any necessary single clarification to serve as the implementation contract.
 - Complete direct proof remains absent, no concrete high-assurance trigger applies, and `Lane: standard` is recorded.
 - Target and non-target boundaries, permission, practical recovery, verifier availability, and acceptance evidence are known enough to execute safely.

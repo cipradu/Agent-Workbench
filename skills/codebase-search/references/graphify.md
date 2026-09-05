@@ -894,6 +894,6 @@ The Graphify branch is complete only when:
 6. every original artifact used in the answer has been read;
 7. exact code relationships have been verified through CodeGraph or precise current-source search;
 8. ignored, unsupported, failed, stale, and external source classes that affect the claim are recorded;
-9. the final closure query adds no new relevant candidate.
+9. the main skill's question-specific closure conditions pass: bounded claims have sufficient current-source proof and no unresolved relevant candidate; exhaustive/absence claims additionally require a final closure query with no new relevant candidate or required relationship.
 
 Graphify’s generated graph, reports, visualizations, caches, query stamps, and optional local query log are local tool state. They remain generated evidence, not proof and not separate approval gates after their owning lifecycle or logging feature has been authorized.

@@ -823,6 +823,6 @@ The CodeGraph branch is complete only when:
 5. every relevant truncation, result cap, collision, and ambiguous definition is resolved;
 6. required callers, callees, dependents, impact nodes, or affected tests have been followed;
 7. graph-derived claims have been checked against current source and the main skill’s required coverage classes;
-8. the final closure pass adds no new relevant candidate.
+8. the main skill's question-specific closure conditions pass: bounded claims have sufficient current-source proof and no unresolved relevant candidate; exhaustive/absence claims additionally require a final closure pass with no new relevant candidate or required relationship.
 
 Ordinary CodeGraph CLI queries are local reads of the project index and source. Lifecycle and configuration actions remain user-authorized mutations. Local databases, logs, caches, and query state are ordinary local tool state once their creation has been authorized; they are not separate search approval gates.
