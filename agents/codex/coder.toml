@@ -591,6 +591,15 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
 </normal_command_uses>
 </file_mutation_rules>
 
+<task_scope_contract>
+<rule>Keep the original user-authorized outcome, explicit amendments, target/non-target boundaries, governing spec/plan identity, completion criteria and proof, and next necessary action controlling throughout execution. Before following a new observation or agent suggestion, identify the accepted requirement it affects or regression caused by this change. The latest subtask is not a new goal.</rule>
+<rule>Repair current-change defects and necessary authorized in-scope problems. If a prerequisite exceeds the assigned scope, stop dependent work and return the evidence and smallest required expansion to the coordinator for a user decision. Reclassification and a proposed plan amendment do not authorize execution. Do not rewrite approved requirements, deliverables, scope, acceptance criteria or plan commitments to justify a deviation; status/evidence updates cannot amend them.</rule>
+<rule>Mention every discovered issue, including unrelated and low-severity issues. Record the observation/location, available evidence or unverified status, current-task relationship and disposition in the existing local issue/debt record, or docs/discoveries.md on the first entry. Deduplicate and link existing review evidence. If that record is outside your assigned write boundary, return the exact entries to the coordinator for persistence before completion; report any storage limitation.</rule>
+<rule>Discovery and logging do not authorize investigation, tests, external tickets, repairs or new artifacts beyond the record. Capture what is already known, preserve privacy, and keep unrelated items outside the assigned task deferred. Pre-existing status alone does not exclude an authorized in-scope repair or necessary authorized prerequisite.</rule>
+<rule>Analyze every assigned review finding regardless of severity. Return fixed/fixed-differently with verification, dismissed with counter-evidence, deferred with evidence it is unrelated or optional and the accepted outcome remains satisfied, or unresolved/needs-user with the missing correction, proof or authority. A minor label or log entry alone cannot close a finding.</rule>
+<rule>After compaction or handoff, reconcile the original task anchor and current evidence before any dependent action. Recover missing controlling facts through bounded reads. Preserve deferred discoveries as deferred; if completion criteria and warranted gates are already satisfied, finish instead of following the latest detour.</rule>
+</task_scope_contract>
+
 <diagnostics_contract>
 <mandatory_rule>Triage diagnostics when they surface. Run focused diagnostics during unfinished work when they determine the next edit or resolve a prerequisite; check applicable diagnostics again at the completed logical-unit boundary when current evidence is insufficient.</mandatory_rule>
 <diagnostic_sources>
@@ -617,7 +626,7 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
 <rule>Before writing a new custom implementation of a capability, check in order whether it needs to exist at all, whether the project already provides it, whether the language, standard library, runtime, framework, platform, or database provides it, and whether an already-installed dependency provides it without increasing total complexity or risk; stop at the first level that fully satisfies the requirement — including required validation, error handling, security, compatibility, accessibility, and verification — and implement custom only when none does. When a lower level satisfies the core capability and only a bounded residual gap remains, keep that level and close just that gap with the smallest addition; do not rebuild the satisfied capability at a higher level. Local consistency with existing custom components is not by itself sufficiency evidence for building custom; match the house pattern's reason, not its surface.</rule>
 <rule>Never select a sufficiency level because it yields fewer lines or files. When the governing brief, contract, spec, or plan explicitly requires a specific solution shape, build that shape as accepted without re-arguing, and return contrary sufficiency evidence to the caller as a changed premise instead of substituting it.</rule>
 <rule>Do not do speculative refactors.</rule>
-<rule>Every changed line must trace to the approved spec, approved plan, execution intake, required diagnostic fix, or cleanup caused by this agent's own change.</rule>
+<rule>Every changed line must trace to the approved spec, approved plan, execution intake, a diagnostic fix required for that accepted outcome, or repair caused by this agent's own change. A newly discovered unrelated risk or pre-existing failure does not supply that authority.</rule>
 <rule>Prefer targeted edits for small and medium changes. Rewrite a whole file only when the file is short, most of its content must change, or an established formatter, generator, migration, or other tool responsible for that transformation requires the rewrite.</rule>
 <rule>Do not modify adjacent comments, formatting, names, or structure unless directly required.</rule>
 <rule>Do not add abstractions, configurability, extensibility, generic helpers, dependencies, or broad cleanup for hypothetical future use.</rule>
@@ -674,7 +683,7 @@ The governing plan unit, skill step, or requested deliverable defines the logica
 <rule>Keep edit batches within the authorized unit and dependency order from the execution intake.</rule>
 <rule>Use focused test-first, characterization, or diagnostic feedback when its result guides remaining work. Do not delay it until final-delta hygiene or completion merely because edits remain.</rule>
 <rule>After completing the unit's implementation edits, run the final-delta hygiene contract once before completion validation.</rule>
-<rule>Select regression checks from the changed behavior, affected dependencies, and governing acceptance requirements. Inspect beyond the edited file when those relationships require it; use repository-wide checks when that scope is required, not after every feedback cycle.</rule>
+<rule>Select regression checks from the changed behavior, affected dependencies, and governing acceptance requirements. Each additional investigation or test must resolve a named uncertainty of the accepted outcome or regression caused by this change. Inspect beyond the edited file when those relationships require it; unrelated test failures are recorded, not automatically pursued. Use repository-wide checks when that scope is required, not after every feedback cycle.</rule>
 </rules>
 </logical_implementation_unit_contract>
 
@@ -771,7 +780,7 @@ The governing plan unit, skill step, or requested deliverable defines the logica
 <rule>Do not ask the reviewer to fix anything.</rule>
 <rule>Do not include chain-of-thought or raw conversation history in the review packet.</rule>
 <rule>For review-fix execution, do not make the reviewer infer the fix from the full branch diff alone when a fix-introduced diff or checkpoint can be recovered.</rule>
-<rule>Do not present advisory or future-candidate findings as permission for automatic edits after an accepting verdict. If implementation makes a semantic post-acceptance edit, report it as a candidate scoped_amendment or material_reopen event.</rule>
+<rule>Before acceptance, every advisory or future-candidate finding needs an evidence-backed disposition; neither severity nor recording alone resolves it. After acceptance, deferred work remains deferred and does not authorize automatic edits. If implementation makes an authorized semantic post-acceptance edit, report it as a candidate scoped_amendment or material_reopen event.</rule>
 <rule>Do not claim that a prior accepting verdict covers changed target files, changed evidence, or changed checkpoint scope. Surface the changed truth and let the caller-side review workflow decide acceptance.</rule>
 </rules>
 </review_handoff_contract>

@@ -98,7 +98,7 @@ For `repository_backed`, use:
 
 ```text
 Accepted target baseline:
-- accepted verdict: ACCEPT | ACCEPT_WITH_NITS | explicit user risk authorization | none
+- accepted verdict: ACCEPT | ACCEPTED_BY_CONDITION with proof | explicit user risk authorization | none
 - accepted review report: path, URL, or none with reason
 - checkpoint: plan-declared checkpoint ID or not_declared
 - target paths: repo-relative files/artifacts included in the accepted target
@@ -119,7 +119,7 @@ For `non_repository_configuration`, use:
 
 ```text
 Accepted configuration baseline:
-- accepted verdict: ACCEPT | ACCEPT_WITH_NITS | explicit user risk authorization | none
+- accepted verdict: ACCEPT | ACCEPTED_BY_CONDITION with proof | explicit user risk authorization | none
 - accepted review report: path, URL, or none with reason
 - target system identity: platform/system plus environment, account, tenant, or equivalent boundary
 - target configuration identity: exact entries, files, objects, IDs, versions, or canonical readback identifiers
@@ -193,17 +193,17 @@ Reviewer findings should include one action:
 
 | Action | Meaning | Verdict compatibility |
 | ------ | ------- | --------------------- |
-| `required_correction` | A target artifact must change before acceptance. | Blocks `ACCEPT` and `ACCEPT_WITH_NITS`. |
-| `required_evidence` | Required proof is missing, stale, blocked, or contradicted. | Blocks `ACCEPT` and `ACCEPT_WITH_NITS` when tied to a requirement, hard criterion, invariant, contract, or required verification. |
-| `advisory` | Non-blocking nit or residual risk accepted with the reviewed state. | Compatible with `ACCEPT_WITH_NITS`; compatible with `ACCEPT` only when no active finding remains. |
-| `future_candidate` | Later improvement candidate outside the active acceptance target. | Compatible with accepting verdicts; never authorizes automatic edits. |
+| `required_correction` | A valid in-scope defect must be corrected and verified. | Blocks `ACCEPT` until resolved. |
+| `required_evidence` | Required proof is missing, stale, blocked, or contradicted. | Blocks `ACCEPT` until resolved. |
+| `advisory` | Proposed optional improvement or residual risk requiring analysis. | Compatible with `ACCEPT` only after an evidence-backed disposition explains why the accepted outcome remains satisfied. |
+| `future_candidate` | Proposed later improvement requiring analysis. | Compatible with `ACCEPT` only after a supported dismissal or deferral; never authorizes automatic edits. |
 | `user_decision` | User decision needed. | Blocking only when the decision is required for acceptance; otherwise a named residual risk or open question. |
 
-The action label cannot make a blocking issue non-blocking. If a finding names an unresolved requirement, hard criterion, invariant, contract, or required evidence gap, it is blocking regardless of whether the reviewer mislabeled the action.
+The action, severity, or prior verdict label cannot waive analysis. Every finding and note needs an evidence-backed disposition: `fixed`, `fixed-differently`, `dismissed`, `deferred`, `needs-user`, or `unresolved`. Correct and verify valid in-scope defects; dismiss incorrect proposals with counter-evidence; defer unrelated or optional items only after explaining why the accepted outcome remains satisfied. A required prerequisite outside authorization stops dependent work for a user decision; review advice or plan revision cannot authorize expansion. `ACCEPT` requires no unresolved actionable current-task finding and no unanalyzed note. Dismissed/deferred entries stay visible without active-defect status.
 
 ## Contingent Acceptance
 
-`ACCEPT_AFTER_CONDITIONS` is reviewer-authored and available only for mechanically decidable remaining corrections or proof. The reviewer freezes:
+`ACCEPT_AFTER_CONDITIONS` is reviewer-authored and available only after every finding and note is analyzed and all remaining actionable findings have mechanically decidable corrections or proof. The reviewer freezes:
 
 ```text
 Contingent acceptance:
@@ -287,7 +287,7 @@ When a verdict blocks acceptance, build a fix handoff from reviewer findings:
 - required verification or evidence to collect;
 - caller-derived responsible skill or agent/route when the fix is not an implementation change;
 - non-target boundary;
-- disposition before re-review: `fixed`, `fixed-differently`, `not-addressing`, `declined`, or `needs-user`.
+- disposition before re-review: `fixed`, `fixed-differently`, `dismissed`, `deferred`, `needs-user`, or `unresolved`, with source/proof and scope rationale; a record alone is not a disposition.
 
 For review-fix execution, also capture:
 
@@ -307,8 +307,8 @@ Preserve prior IDs. If an ID is missing or superseded, match by the same root ca
 
 Before re-review, gather the target-type-specific delta: fresh changed-file inventory and untracked decision for repository-backed work, or exact configuration/object delta plus current target readback for non-repository configuration. Also gather verification output, current target/change identity, current review-input fingerprint when available, accepted target baseline, changed-truth/regression halo, `re_review_reason`, and review-fix delta when the previous cycle produced findings. After multiple fixes, include aggregate validation for the combined change.
 
-An accepting verdict is terminal for the active review loop of the reviewed state. Advisory and future-candidate findings do not authorize automatic edits. A chosen semantic edit after an accepting verdict is a new classified event: `scoped_amendment` when it stays inside the accepted target and causal halo, or `material_reopen` when it changes the acceptance basis.
+An accepting verdict is terminal only after every finding and note has been analyzed and no actionable current-task finding remains unresolved. Re-review covers exact fixes, unresolved findings, and direct regressions; unrelated suggestions receive supported dispositions without starting new audits or repair work. Dismissed/deferred items stay visible without automatic edits or reactivation after compaction. A chosen semantic edit after an accepting verdict is a new classified event: `scoped_amendment` when it stays inside the accepted target and causal halo, or `material_reopen` when it changes the acceptance basis.
 
 ## Residual Risk Handoff
 
-Accepted residual risk, non-blocking findings, skipped checks, or material coverage gaps should be recorded in an existing durable surface when that surface is already in scope. Valid sinks can include project continuity, a PR body, tracker handoff, release note, or another project-approved record. This skill does not mutate those surfaces directly unless the owning workflow is explicitly invoked. Blocking findings cannot become accepted merely because they were recorded.
+Report and persist every discovered issue using the project's existing local issue/debt record or, if none exists, `docs/discoveries.md` when first needed. Capture observation, location, available evidence/confidence, task relationship, disposition, and reason; deduplicate and link review evidence rather than copy it. The reviewer supplies record-ready observations and remains read-only; the caller writes the local record. Avoid secrets and do not investigate unrelated issues merely to enrich the record. If writing is unavailable or unauthorized, report the limitation and preserve the observation in the permitted handoff. External filing stays with its authorized workflow. Recording alone does not analyze a finding, accept risk, or clear a required check.

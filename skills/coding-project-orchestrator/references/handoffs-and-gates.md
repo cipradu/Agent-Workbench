@@ -53,7 +53,8 @@ Every handoff should include:
 - Isolation and overlap: current checkout/workspace, intended isolation, overlapping files or generated artifacts, shared mutable state, and collision strategy when delegation or parallelism is involved.
 - Required context: rules, skills, ADRs, references, and code paths to read first.
 - Verification: exact command, inspection, evidence type, review expected, verifier availability, automation limits, human-only checks, and skipped-check rationale.
-- Residual route: continuity, PR body, tracker workflow, owning artifact revision, final-answer residual risk, or none with reason.
+- Residual route: continuity, PR body, tracker workflow, owning artifact revision, final-answer residual risk, or none with reason; external routes retain their separate authorization requirements.
+- Discovery route: mention every discovered issue and record its observation, location, available evidence or unverified status, current-task relationship, and disposition in the existing local issue/debt record or `docs/discoveries.md` on first entry. Deduplicate, link review evidence, exclude secrets, and report recording limitations in the permitted handoff. Recording does not authorize investigation, repair, or external ticket creation.
 - External action scope: draft-only, read-only, local file write, generated artifact write, local config/preference write, commit, push, PR create/update, publish, pull/sync, schedule, tracker update, or metadata mutation when applicable.
 - Canonical source and privacy: local authoritative artifact, external copy role, sync direction, source window, sensitive/local-only artifact handling, and explicit permission status when applicable.
 - Stop triggers: conditions that require returning to user, diagnosis, spec, plan, or architecture.
@@ -77,6 +78,8 @@ An active map contains only:
 - next required function or exact closure condition.
 
 Keep these fields in an existing plan, continuity artifact, review packet, or task-local state when available. Do not create a duplicate ledger or copy the full source corpus.
+
+Preserve the original task and explicit user amendments, authorized scope/exclusions, completion proof, current spec/plan identity, completed/pending work, next necessary action and rationale, and discovery-record pointer with deferred dispositions. After compaction or handoff, recover and compare this authoritative task state before dependent actions; bound recovery to what can change that action. The newest subtask or debt entry cannot replace the objective. When current proof satisfies the accepted criteria and required gates, close instead of pursuing deferred work.
 
 The coordinator classifies each return before moving forward:
 
@@ -413,24 +416,24 @@ Failure output:
 
 ## Re-Plan Triggers During Execution
 
-Stop execution and return to the appropriate upstream workflow when:
+Stop the dependent execution branch and return to the appropriate upstream workflow when:
 
 - codebase evidence contradicts the spec or plan;
 - source artifacts are stale, missing, externally edited, inferred, contradicted, or not canonical enough for the next action;
 - external collaboration copies, generated reports, local config, runtime evidence, PR metadata, or source-control state conflict with accepted source truth;
 - required changes exceed the target boundary;
 - new public behavior, contract, state, migration, dependency, permission, generated artifact, or operational concern appears;
-- verification cannot be run or gives unexpected failure;
+- required verification cannot be run or a failure invalidates the accepted implementation contract; repair a current-change regression and verify it within existing authority, and mention, record, and defer unrelated failures without chasing them;
 - the required verifier is unavailable or cannot observe the behavior it was expected to prove;
 - delegated or parallel work overlaps unexpectedly or touches shared mutable state without a safe collision strategy;
-- unresolved findings, blocked checks, or accepted risks need a durable route that was not planned;
+- a required acceptance gate remains blocked; report and record the issue without treating its record as permission for expanded work;
 - a requested commit, push, PR, publish, sync, schedule, tracker update, or metadata mutation lacks explicit approval or current target readback;
 - review finds a product, architecture, or spec issue rather than a local implementation defect;
 - a direct fix becomes multi-surface or uncertain;
 - a downstream addition cannot trace to the accepted scope envelope;
 - user intent changes materially.
 
-Do not silently revise the plan while implementing. Return to spec or plan when upstream truth changes.
+Do not revise approved requirements, scope, deliverables, acceptance criteria, or plan commitments to justify deviations. Return concrete evidence for a user decision when a prerequisite expands scope; internal reclassification or routing to the spec/plan skill cannot grant approval. Keep dependent work stopped until that decision authorizes the amendment, continue independent authorized work, and keep status/evidence updates distinct from governing changes.
 
 ## Source And Verification Fields
 

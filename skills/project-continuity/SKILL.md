@@ -43,7 +43,7 @@ Project continuity sits between workflow artifacts and conversation memory. It d
 
 The default portable artifact path is `docs/progress.md`. If project instructions name a different path, use the project path. If both exist, prefer the project instruction and note the conflict.
 
-The continuity set is the continuity artifact plus only the source-truth items needed for the current state question or update: relevant git state, active PRD/spec/plan/ADR/review, verification output, issue or PR state already in scope, explicit user status, and workflow-local report paths when they affect resume.
+The continuity set is the continuity artifact plus only the source-truth items needed for the current state question or update: the original task and explicit user amendments, relevant git state, active PRD/spec/plan/ADR/review, verification output, discovery dispositions, issue or PR state already in scope, explicit user status, and workflow-local report paths when they affect resume. Status and evidence updates cannot amend approved requirements, scope, deliverables, acceptance criteria, or plan commitments; a change to those commitments requires user authority before the responsible spec or plan skill applies it.
 
 ## Artifact Boundary
 
@@ -160,12 +160,16 @@ Failure output: `Blocked: project continuity conflicts with source truth and can
 
 When starting or resuming work, use continuity to orient the workflow:
 
-- current focus;
-- active authoritative artifact;
-- last completed checkpoint;
+- original task and explicit user amendments, authorized scope and exclusions;
+- current focus and its relationship to that task;
+- active authoritative artifact, including current spec/plan identity when applicable;
+- completed and pending work, last completed checkpoint, and acceptance proof;
 - known blockers or unresolved questions;
-- next valid action;
+- next necessary action and why it advances the original task, or closure when its criteria and required gates are proved;
+- discovery-record pointer and issue dispositions, preserving deferred work as outside the current task;
 - risks, stale assumptions, or source-truth conflicts.
+
+After compaction or handoff, recover and compare these fields against authoritative task state before dependent actions. Do not promote the latest summary, subtask, or debt entry into the objective. Read only sources needed to resolve the next action; do not restart broad discovery. If the accepted outcome and required gates already have current proof, finish rather than pursue deferred issues.
 
 When a current approved plan governs implementation, also reconcile the plan-backed resume boundary: governing spec and plan identity/currentness; last accepted execution batch or review checkpoint with an evidence pointer; exact next authorized batch or workflow action; active review finding IDs and dispositions; and evidence changes that invalidate direct resume or require re-planning. If these fields are absent, use the plan, review source, and repository state to recover them before implementation; do not translate a vague `continue implementation` note into authority.
 
@@ -180,10 +184,13 @@ Update the artifact only after meaningful state changes or when the user explici
 Capture:
 
 - last meaningful checkpoint and evidence;
+- original task, explicit user amendments, authorized scope and exclusions, and completion criteria with current proof;
+- completed and pending work, with governing spec/plan identity when applicable;
 - current focus or `none`;
 - active authoritative artifact or `none`;
 - blockers and unblocking action;
-- next valid action;
+- next necessary action and rationale, or `none` when completion is proved;
+- discovery-record pointer and dispositions, including explicit deferred status;
 - source-truth links or paths;
 - compact update entry with date and what changed.
 
@@ -231,7 +238,7 @@ Allowed resume-critical links and summaries include:
 
 Do not create, validate, publish, update, or copy these artifacts from this skill. Link to their durable source and summarize only the state needed to resume.
 
-Do not copy raw implementation notes into continuity. If notes mention deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers, first route durable truth to the owning plan, review packet, ADR/pattern candidate, `create-engineering-spec`/`create-project-prd` skill, or final residual-risk report. Continuity records only the resulting resume-critical state.
+Do not copy raw implementation notes into continuity. Mention and record every discovered issue under the `project-rules` discovery contract using available evidence; link that record and existing review evidence rather than duplicating entries. A discovery or deviation does not authorize investigation, repair, or a governing amendment. Preserve scope-expanding prerequisites as blocked for a user decision and unrelated issues outside the authorized task as deferred. Preserve pre-existing defects and necessary prerequisites within the authorized task as required work until their acceptance evidence is complete; age alone does not make an issue deferred. Route an authorized governing amendment through the responsible artifact skill; continuity records only resulting state and authority, never retroactively changes the task to match implementation.
 
 ## Blocker And Next-Action Precision
 

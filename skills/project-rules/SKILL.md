@@ -65,14 +65,16 @@ Classify the evidence behind that envelope in four buckets:
 Rules:
 
 - Do only the requested work and the cleanup required to make that work correct.
+- Preserve the original task and explicit user amendments before each next action. Approved requirements, scope, deliverables, acceptance criteria, and plan commitments cannot be rewritten to justify deviations. Status and evidence updates do not amend governing truth; internal reclassification or routing to another skill cannot grant user approval. Existing user authorization remains valid for in-scope decisions and repairs.
 - Require every proposed capability, abstraction, file, test, artifact, workflow phase, and compatibility path to trace to the outcome, a current named risk or invariant, a required compatibility obligation, or cleanup directly caused by the change. Remove an item that has no such trace.
 - Reuse existing code, helpers, dependencies, patterns, and test setup before adding a new path. A new abstraction needs a current evidenced force such as real duplication, an established local pattern, a domain invariant, a changing external or security boundary, or a test seam required to prove accepted behavior; a second caller is evidence, not a universal prerequisite.
 - Do not add adjacent features, metadata changes, refactors, dependencies, durable settings, external edits, or policy changes unless explicitly approved.
 - Do not treat "sounds good", "makes sense", "go with that", or design agreement as approval for a different mutation.
 - Before file edits or external mutations, name the intended files/systems and why each one must change.
 - Ask only real-choice questions. A real choice changes a risky, irreversible, external, durable, or materially different outcome. Do not ask for permission to do obvious in-scope cleanup, but do not silently default when the choice controls commits, pushes, PRs, external fields, durable preferences, publication, deletion, or broad scope.
-- If work reveals a broader problem, surface it separately instead of silently expanding scope.
-- If required work exceeds the envelope or changes accepted outcome, authority, compatibility, risk, or proof, stop and return to the owning workflow for reclassification. Do not silently enlarge a spec or plan, stack workaround layers, retain obsolete and replacement paths without a requirement, or use minimal scope to omit a required safeguard.
+- Mention and record every discovered issue regardless of relevance or severity. Use only available evidence: the observation, location, evidence or explicit unverified status, relationship to the current task, and disposition. Reuse the project's existing local issue/debt record; otherwise create `docs/discoveries.md` on the first entry. Deduplicate entries, link existing review evidence instead of maintaining a second ledger, and exclude secrets. Do not investigate merely to enrich a record or create external tickets automatically. If recording is unavailable or unauthorized, report the limitation and preserve the observation in the permitted handoff.
+- Classify action separately from recording: repair regressions introduced by the current change; perform required authorized in-scope work, including pre-existing defects and necessary authorized prerequisites; stop dependent work for a user decision on a scope-expanding prerequisite; report, record, and defer unrelated issues outside the authorized task. Pre-existing status alone does not justify deferral. Recording does not authorize investigation or repair. Investigate uncertain relevance only as needed to resolve a named uncertainty about the accepted outcome or a current-change regression.
+- If required work exceeds the envelope or changes accepted outcome, authority, compatibility, risk, or proof, stop the dependent branch and return the concrete evidence to the owning workflow. Reclassification does not authorize expanding or reducing approved commitments: obtain the needed user decision before amending governing artifacts or continuing dependent work. Continue independent authorized work; do not stack workaround layers, retain obsolete and replacement paths without a requirement, or omit a required safeguard.
 
 Completion criterion: the five envelope fields are explicit enough to constrain the next action, every proposed addition has a valid scope trace, and unapproved adjacent work is excluded.
 
@@ -96,7 +98,7 @@ Rules:
 - Do not enforce remembered policy when the governing source is available to read.
 - Do not convert generic best practice, stale notes, examples, or another repository's habit into project law.
 - Do not apply a rule to the wrong artifact type, directory, phase, tool, or user request.
-- Suppress false positives when the rule does not apply, the issue is pre-existing and out of scope, or the evidence does not support the claimed consequence.
+- Reject unsupported rule claims with evidence. A verified issue is not a false positive merely because it predates the task or lies outside its scope. Mention and record it; defer it when it is unrelated and outside the authorized task, without applying the rule to expand this task. Preserve required authorized in-scope repairs even when the defect is pre-existing.
 
 Completion criterion: every material rule claim can point to source authority, current applicability evidence, and consequence.
 
@@ -190,7 +192,7 @@ When work has a plan, matrix, report, run ID, log, branch, review state, generat
 
 Rules:
 
-- Read the authoritative state artifact before resuming, reporting status, or advancing phases.
+- Read the authoritative state artifact before resuming, reporting status, or advancing phases. After compaction or handoff, recover and compare the original task, explicit amendments, authorized boundaries and exclusions, acceptance proof, current spec/plan identity, completed/pending work, next necessary action and rationale, and discovery dispositions against authoritative state. Bound recovery to what can change the next action; do not let the newest subtask or deferred issue become the objective. If the original criteria and warranted gates are proved, finish.
 - Execute ordered gates in order unless the owning artifact or user explicitly revises the order.
 - Do not mark a row, item, phase, or route complete without evidence.
 - Every required item must be passed, fixed, skipped with rationale, explicitly deferred to an approved durable surface, or blocked.
@@ -220,7 +222,7 @@ Rules:
 
 - Do not delegate raw ambiguity when local context can resolve it.
 - Do not treat a worker result, review note, or tool report as self-validating. The caller verifies it against the original request, governing rules, changed files, and required evidence.
-- Review findings, failed checks, skipped verification, incomplete follow-through, and residual work must be fixed in scope, explicitly deferred with reason, routed to an approved durable record, or reported unresolved.
+- Review findings, failed checks, skipped verification, incomplete follow-through, and residual work must be mentioned and recorded with evidence and disposition under Step 2; the caller checks each return without promoting recorded work into implementation authority.
 - Do not let residual findings disappear behind completion language.
 
 Completion criterion: delegated output is checked against the objective, boundaries, and evidence requirements before it affects the final answer or next mutation.

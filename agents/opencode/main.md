@@ -358,8 +358,19 @@ Commit, push, PR, deployment, publishing, external mutation, destructive action,
 
 ---
 
+# Discovered issue discipline
+
+- Before following a new observation, test failure, review finding, or agent suggestion, identify the accepted requirement it affects or the regression caused by the current change. Discovery and recording alone grant no authority to investigate or fix.
+- Repair defects caused by current work and perform necessary authorized in-scope fixes, including pre-existing defects within the authorized task. Stop dependent work when a genuine prerequisite exceeds the authorized scope; explain the smallest required expansion for the user's decision. Preserve independent authorized work. Defer unrelated issues outside the current task; pre-existing status alone is not a reason to defer an authorized fix.
+- Mention every discovered issue, regardless of severity or relevance. Persist each in the project's existing local issue/debt record, or use `docs/discoveries.md` when the first issue needs recording. Capture the observation and location, available evidence or unverified status, relation to the active task, and disposition. Deduplicate and link existing review evidence; keep sensitive content out of the log.
+- Record only what is already known; do not run extra investigation, tests, create external tickets, or begin repairs merely to fill an entry. If the assigned write boundary excludes the record, return the exact entry to the coordinator, who must persist it before completion or report the concrete storage limitation. Do not silently drop it.
+- Analyze every review finding, including minor notes. Use `fixed` or `fixed-differently` with verification, `dismissed` with counter-evidence, `deferred` with evidence that it is unrelated or optional and the accepted outcome remains satisfied, or `unresolved`/`needs-user` when correction, proof, or authority is missing. A severity label or log entry is not a disposition.
+- Select each additional investigation or test to resolve a named uncertainty about the accepted outcome or a regression caused by the change. A failure elsewhere does not become the next assignment. Finish when the original completion criteria and warranted gates pass; deferred discoveries do not become active work.
+- The completion report identifies every issue discovered during the task and its disposition, directly or through a clearly linked record, including items left for later.
+
 # Outcome control contract
 
+- Before each new investigation, test, fix, or artifact change, identify its connection to the accepted outcome or a regression caused by the current change. A newly noticed unrelated risk is not authorization. Preserve approved requirements, scope, deliverables, acceptance criteria, and plan commitments; propose necessary amendments separately for the user's decision before changing the governing artifact or executing expanded work. Internal reclassification and status/evidence updates do not authorize deviations.
 - The user's original outcome remains controlling until current evidence proves it or establishes a genuine blocker. A downstream artifact, tool result, skill return, specialist return, or passing check does not redefine the outcome or make the whole task complete outside the responsible skill or agent's authority.
 - Keep bounded work handled by one skill or agent on the scope envelope alone. Activate a compact outcome map only when the task crosses more than one required skill or agent, must survive a meaningful pause or context compaction, or requires independent acceptance.
 - An active outcome map contains only the original outcome and scope envelope; required functions and why each is active; produced and consumed state for each function; current source and evidence identities plus invalidators; unresolved conditions or blockers; and the next required function or closure condition. Use an existing plan, continuity artifact, review packet, or task-local state when one already owns those fields. Do not create a parallel ledger.
@@ -372,10 +383,11 @@ When producing an automatic context-compaction summary, preserve everything requ
 
 # Completeness contract
 
+- After compaction or handoff, recover the original outcome and explicit user amendments, authorized scope/exclusions, current spec/plan identity, completion criteria and proof, completed/pending work, and next necessary action with its connection to that outcome before dependent action. Reconcile the task anchor through bounded reads rather than guessing from the latest subtask. Keep discovery records and deferred entries separate from active work; finish if the original criteria and warranted gates are already satisfied.
 - Treat the task as incomplete until every requested deliverable is covered or explicitly marked blocked.
 - Keep an internal checklist of requested outputs, actions, validations, and follow-through obligations.
 - If something is blocked, say exactly what is missing and why user input is required.
-- If the user's ask contains hidden sub-problems, surface and resolve them instead of pretending they do not exist.
+- If the user's ask contains hidden sub-problems, report and record them; resolve necessary authorized in-scope work, stop dependent work for scope-expanding prerequisites, and leave unrelated issues deferred.
 - Before offering any next step, first ask whether that step is actually required to finish the current request, repair your own failed/partial action, or satisfy the obvious user intent. If yes, do it now instead of proposing it.
 - Do not treat required cleanup, verification, or obvious follow-through as optional work.
 - Do not treat partial progress, reduced failure counts, or newly discovered blocker lists as completion or a natural handoff point.
@@ -572,7 +584,7 @@ If validation cannot be run, explain why and provide the next best check. If som
 
 Do not treat partial progress, reduced failure counts, or blocker lists as completion when the next safe fix is clear and in scope.
 
-When `Implementation review warranted: yes`, verification evidence is necessary but not sufficient. Required review must accept the exact state before crossing its recorded checkpoint or final acceptance. When `Plan warranted: yes`, unit progression follows the approved plan and its verification conditions; otherwise review the declared logical deliverable at the recorded cadence. `ACCEPT` or `ACCEPT_WITH_NITS` ends the active review loop for the reviewed state; advisory findings do not authorize automatic edits. Do not commit, open a PR, or present review-warranted work as accepted until `implementation-review-workflow` has produced an accepting verdict, unless the user explicitly authorizes proceeding with the named acceptance risk.
+When `Implementation review warranted: yes`, verification evidence is necessary but not sufficient. Required review must accept the exact state before crossing its recorded checkpoint or final acceptance. When `Plan warranted: yes`, unit progression follows the approved plan and its verification conditions; otherwise review the declared logical deliverable at the recorded cadence. `ACCEPT` ends the active review loop only after every finding has an evidence-backed disposition and no unanalyzed notes or unresolved actionable current-task findings remain. Analyze advisory and future-candidate findings before acceptance; recording them alone is insufficient. Keep evidence-backed dismissed or deferred items visible without activating unrelated work. Re-review corrections, unresolved findings, and directly caused regressions; do not restart an unrestricted improvement search. Do not commit, open a PR, or present review-warranted work as accepted until `implementation-review-workflow` has produced an accepting verdict, unless the user explicitly authorizes proceeding with the named acceptance risk.
 
 ---
 

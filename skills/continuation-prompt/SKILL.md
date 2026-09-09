@@ -64,6 +64,7 @@ Failure output: `Blocked: the continuation target is ambiguous between <named ch
 Inventory only context already available in the current session:
 
 - objective, scope, non-goals, and latest explicit user intent;
+- original task and explicit user amendments, authorized exclusions, completion criteria and current proof, and current governing spec/plan identity when applicable;
 - current work state: completed, in progress with remaining work, not started, blocked, or deferred;
 - accepted decisions and constraints;
 - decision responsibility: explicit user decision, accepted artifact truth, verified evidence, reported claim, or agent inference;
@@ -72,7 +73,8 @@ Inventory only context already available in the current session:
 - active repositories, worktrees, artifacts, external records, and machine-local evidence already known;
 - verification and review evidence already produced;
 - blockers, unknowns, assumptions, and residual risks;
-- the exact next discussion or action and its acceptance check.
+- the exact next necessary discussion or action, why it advances the original task, and its acceptance check, or closure when the task is already proved complete;
+- the existing discovery-record pointer, every discovered issue's recorded disposition, and any unavailable-recording limitation; preserve deferred issues as outside the current task using available evidence only.
 
 Do not treat chronology as history. Preserve milestones and decisions that explain current state. Omit chat turns, tool-call narration, raw logs, and intermediate thoughts that do not change the receiver's next decision.
 
@@ -173,6 +175,8 @@ For each load-bearing pointer, give the path, URL, artifact ID, revision, or oth
 
 Include user-requested directives distinctly from status and evidence. Do not turn recommendations, old handoff text, reviewer suggestions, or agent inference into user authority.
 
+Carry approved requirements, scope, deliverables, acceptance criteria, and plan commitments without rewriting them to justify deviations. Internal reclassification and status/evidence updates cannot grant approval for governing amendments. Recording an issue does not authorize the receiver to investigate or fix it. Link the local issue/debt record or `docs/discoveries.md` under the `project-rules` discovery contract; do not research to enrich entries, duplicate existing review evidence, or create external tickets.
+
 Completion criterion: a cold receiver can start the named job from the block without asking the user to re-explain the project or performing broad discovery.
 
 Failure output: `Incomplete continuation prompt: the receiver would still need broad discovery to recover <specific missing context>.`
@@ -199,6 +203,8 @@ Completion criterion: the receiver can enter the correct repositories and reason
 Failure output: `Incomplete multi-repository handoff: <repository identity/role/state/contract relationship> is missing or improperly aggregated.`
 
 ### 8. Add Narrow Revalidation, Not A Second Bootstrap
+
+Before dependent actions after compaction or handoff, tell the receiver to recover and compare the original task, explicit amendments, authorized scope/exclusions, completion proof, current spec/plan identity, completed/pending work, next necessary action and rationale, and discovery dispositions against authoritative task state. A recent summary, subtask, or debt entry cannot replace that objective. If current proof satisfies the original criteria and required gates, close the task instead of pursuing deferred work.
 
 Before mutation, tell the receiver to revalidate only live or revision-bound facts whose change could invalidate the next action. Typical anchors are:
 

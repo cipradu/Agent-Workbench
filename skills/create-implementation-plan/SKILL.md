@@ -49,6 +49,8 @@ Consume the accepted scope envelope: `Outcome`, `Non-goals`, `Target boundary`, 
 
 Require every proposed unit, capability, abstraction, file, test, artifact, compatibility path, and checkpoint to trace to the accepted outcome, a current named risk or invariant, a required compatibility obligation, or cleanup directly caused by the change. Remove an untraceable item. If current implementation evidence makes expansion necessary, return the concrete evidence to the orchestrator or `create-engineering-spec` skill instead of silently revising the plan boundary.
 
+Approved requirements, scope, deliverables, acceptance criteria, and plan commitments must not be amended to justify implementation deviations. Internal reclassification, research findings, review advice, and `amend` or `supersede` freshness labels do not grant user approval. Stop dependent work for the needed user decision before changing governing commitments; keep status/evidence updates separate and preserve existing authority for in-scope implementation decisions and repairs. Mention and record discovered issues under the `project-rules` discovery contract; unrelated items remain deferred rather than becoming plan units.
+
 Name the uncertainty or acceptance gap the plan can resolve and how its result changes the next action. If planning cannot change the next action, stop and reference the accepted implementation contract. If `Plan warranted: no`, do not create a plan merely because this skill was invoked; preserve any valid completed plan and return to the recorded route.
 
 Use the compact Standard form when the sequencing need is bounded and deeper research, source redecomposition, discovery, or task-graph analysis cannot change the plan. The compact minimum is: the linked spec or accepted implementation contract; exact reason planning is warranted; objective and boundaries; current evidence for affected surfaces; dependent units and order; relevant verification and state identity; re-plan triggers; and review decision. Do not perform generic research or full source redecomposition, ask a generic TDD-preference question, construct unwarranted checkpoints, or require independent plan review without separate named warrants. Select checkpoint cadence and independent review separately; either may apply to a compact plan when its own warrant passes.
@@ -286,7 +288,7 @@ Before task decomposition, decide whether the spec is satisfied by:
 5. new unit inside existing architecture;
 6. broader refactor or migration.
 
-Prefer the smallest path that satisfies the spec and preserves rules/ADRs. Do not rebuild, add dependencies, create new abstractions, or broaden scope unless evidence shows smaller paths fail.
+Prefer the smallest path that satisfies the spec and preserves rules/ADRs. Evidence that smaller paths fail can justify a proposal to rebuild, add dependencies, create abstractions, or broaden scope; it cannot authorize changing approved scope. Obtain the needed user decision before amending governing commitments or planning the expanded work as approved.
 
 Record rejected paths with cause/effect reasoning: what would happen if chosen, what would break or remain unsolved, and why it was rejected.
 
