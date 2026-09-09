@@ -23,7 +23,7 @@ Apply these tests before accepting a new interface or boundary.
 | Deletion test     | Deleting the module would push real complexity back into many callers. | Deleting the module mostly removes a pass-through name.                               |
 | Locality test     | A likely future change lands primarily behind the interface.           | The same change still requires edits across callers and adapters.                     |
 | Test surface test | Tests can verify behavior through the public contract.                 | Tests must reach into internals to prove important behavior.                          |
-| Variation test    | The seam has real production, test, ownership, or volatility value.    | The seam exists only because interfaces feel cleaner.                                 |
+| Variation test    | The seam has real production, test, responsibility, or volatility value.    | The seam exists only because interfaces feel cleaner.                                 |
 
 ## Designing The Interface
 
@@ -47,7 +47,7 @@ Sketch the call from the caller's side before accepting the interface. Use one s
 Use the sketches to detect:
 
 - placeholder values or optional parameters needed only because another caller has them;
-- storage, provider, transport, framework, timeout, retry, or configuration details the owner should hide;
+- storage, provider, transport, framework, timeout, retry, or configuration details the component should hide;
 - setup or call-order choreography repeated across callers;
 - raw result or error shapes that force callers to reconstruct the same policy;
 - valid states the interface cannot express and invalid combinations it permits.
@@ -60,7 +60,7 @@ Change the proposed contract when a sketch exposes unjustified caller burden. St
 - A test double can justify a seam only when it lets tests exercise policy through the same interface callers use.
 - A local substitute such as an in-memory filesystem, embedded database, or fake clock may be better than a mock-heavy port.
 - Internal seams may exist inside a deep module for its own tests, but they should not leak into the external interface.
-- Do not create a seam for a dependency that does not block testing, variation, ownership, or volatility.
+- Do not create a seam for a dependency that does not block testing, variation, responsibility, or volatility.
 
 ## Dependency Categories For Deepening
 
@@ -73,7 +73,7 @@ When deepening shallow modules, classify dependencies before choosing the seam. 
 | Remote but owned    | Another service, worker, API, or process owned by the same project/team.                                                                          | Put the port at the network/process seam; keep policy in the owning module and transport in adapters.    | Use production transport adapter plus in-memory/fake adapter or contract test that exercises the same policy-facing port.                  |
 | True external       | Vendor, SaaS, third-party SDK/API, payment/email/telco/cloud provider, or dependency outside project control.                                     | Inject an explicit external-service boundary and normalize vendor concepts before they reach policy.     | Mock or fake the external boundary for policy tests; add adapter/contract/integration evidence where the real dependency behavior matters. |
 
-Do not introduce a port just because a dependency exists. Introduce it when the category creates real variation, test substitution, volatility isolation, ownership separation, or external-mechanism protection.
+Do not introduce a port just because a dependency exists. Introduce it when the category creates real variation, test substitution, volatility isolation, responsibility separation, or external-mechanism protection.
 
 ## Common Shallow Interfaces
 

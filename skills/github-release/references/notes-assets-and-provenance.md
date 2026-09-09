@@ -4,7 +4,7 @@ Use this reference when the primary request concerns Release notes, attached ass
 
 ## Notes Authority
 
-Discover whether notes come from automation, a changelog, a version PR, generated comparison, a human owner, or a custom policy. Preserve automation-owned content. Generated notes are a draft source, not proof of correctness, compatibility, or adjacent delivery.
+Discover whether notes come from automation, a changelog, a version PR, generated comparison, the user, or a custom policy. Preserve automation-owned content. Generated notes are a draft source, not proof of correctness, compatibility, or adjacent delivery.
 
 Map each requested notes edit to its source and authority. Do not silently rewrite changelog or version metadata owned elsewhere.
 
@@ -35,4 +35,4 @@ Before an upload, require the exact local/source artifact identity, current host
 - `conflicting`: same name with different content, duplicate candidates, or provenance mismatch; do not delete, overwrite, rename, or reupload.
 - `unknown`: incomplete response, timeout without readback, unavailable digest, or non-authoritative listing; stop pending authoritative evidence.
 
-Report notes source/owner, each asset identity, exact comparison, provenance limits, action or no-op, post-readback, and residual unknowns. Never claim package, image, deployment, or full release-chain completion from Release assets.
+Report notes source/responsible mechanism, each asset identity, exact comparison, provenance limits, action or no-op, post-readback, and residual unknowns. Never claim package, image, deployment, or full release-chain completion from Release assets.

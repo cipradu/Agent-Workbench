@@ -19,7 +19,7 @@ For writes:
 
 Failure output: `Rejected: SQLAlchemy transaction boundary is nested, split, or includes avoidable side effects.`
 
-For transaction failures, capture the current session state, active transaction owner, async/sync session type, call stack boundary where `begin()` is entered, adapter/engine version, database error code, and whether helpers receive the ambient session or create their own. Do not fix "transaction already in progress" by adding another top-level `begin()` around a helper.
+For transaction failures, capture the current session state, active transaction-controlling component, async/sync session type, call stack boundary where `begin()` is entered, adapter/engine version, database error code, and whether helpers receive the ambient session or create their own. Do not fix "transaction already in progress" by adding another top-level `begin()` around a helper.
 
 ## Error Handling
 
@@ -65,7 +65,7 @@ If an Alembic migration or backfill fails, capture the current revision, partial
 
 ## Review Checklist
 
-- SQLAlchemy writes use one clear session/transaction owner.
+- SQLAlchemy writes use one clear session/transaction-controlling component.
 - Async session boundaries match project convention and do not hide nested top-level transactions.
 - Row locks and isolation choices protect named invariants.
 - Alembic autogeneration is reviewed against current models and deployed schema.

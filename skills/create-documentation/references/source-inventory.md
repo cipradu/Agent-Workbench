@@ -143,7 +143,7 @@ For docs about generated reports, metrics, dashboards, health reports, generated
 - source system, query shape, source window, freshness, ingestion lag, comparison window, and missing-data semantics;
 - configured thresholds before using labels such as "good", "bad", "high", or "low";
 - privacy constraints for saved reports, screenshots, logs, examples, and error summaries;
-- regeneration path, generated-file ownership, and whether manual edits would be overwritten;
+- regeneration path, generated-file responsibility, and whether manual edits would be overwritten;
 - whether the artifact is point-in-time evidence rather than current product state.
 
 Observed numbers and generated reports must be separated from interpretation and follow-up recommendations.
@@ -187,7 +187,7 @@ For each substantive claim, know which source supports it:
 | "This option defaults to..." | config schema, code default, documented config file               |
 | "The architecture uses..."   | code structure, deployment config, ADR, architecture doc          |
 | "This is deprecated"         | code annotation, changelog, ADR, official external docs           |
-| "This is safe to operate"    | runbook, tests, monitoring, rollback procedure, operational owner |
+| "This is safe to operate"    | runbook, tests, monitoring, rollback procedure, operational responder |
 
 ## Blockers
 

@@ -38,10 +38,10 @@ For public repositories:
 
 For private/internal repositories:
 
-- prioritize onboarding, local development, operational boundaries, and ownership when known;
+- prioritize onboarding, local development, operational boundaries, and responsibility when known;
 - avoid public-facing marketing tone;
 - do not expose secrets, customer data, credentials, private endpoints, incident details, or sensitive operational procedures;
-- include internal support or ownership only when explicitly documented or supplied by the user.
+- include internal support or responsibility only when explicitly documented or supplied by the user.
 - still avoid unnecessary sensitive detail: prefer role, system, or repo-relative descriptions over raw endpoints, customer identifiers, access tokens, production incident timelines, or private report contents;
 - distinguish local config shape from local values, especially for gitignored files, MCP/server config, API keys, database credentials, analytics queries, launch files, and machine-specific paths.
 

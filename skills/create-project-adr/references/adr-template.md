@@ -242,7 +242,7 @@ Use structured findings when validating a draft ADR or evaluating an ADR candida
 | Evidence | exact text, source artifact, related ADR, rule, code path, or missing required section |
 | Affected section | ADR section or source decision field affected |
 | Consequence | why future maintainers would be misled or blocked |
-| Suggested correction | one concrete correction, owner route, or blocked next action |
+| Suggested correction | one concrete correction, skill or agent route, or blocked next action |
 | Readiness state | ready to write, ready for approval as Proposed, rejected below ADR bar, blocked for missing evidence, supersession required |
 
 Suppress false positives:
@@ -281,7 +281,7 @@ Use this when the ADR cannot be created safely.
 Status: Blocked
 Requested ADR path: [path or unknown]
 Blocking gate: [decision readiness | ADR bar | project convention | existing coverage | source authority | context | one decision | alternatives | consequences | immutability | freshness]
-Readiness state: [blocked for missing evidence | rejected below ADR bar | supersession required | owner decision needed]
+Readiness state: [blocked for missing evidence | rejected below ADR bar | supersession required | user decision needed]
 
 ## Missing Evidence
 

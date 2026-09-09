@@ -29,7 +29,7 @@ Separate constraints from background before comparing options.
 | Inference           | Agent reasoning from forces when source evidence is incomplete.                                                 |
 | Background          | External prior art, examples, Slack notes, issue discussion, or product context not accepted as authority.      |
 
-Normative architecture decisions can rely on constraints and current evidence. Candidate evidence, inference, and background can guide option discovery, but they need verification or owner acceptance before they become binding.
+Normative architecture decisions can rely on constraints and current evidence. Candidate evidence, inference, and background can guide option discovery, but they need verification or user acceptance before they become binding.
 
 ## Pattern Proof
 
@@ -49,7 +49,7 @@ Use option discovery when the prompt is broad, solution-shaped, pattern-attached
 
 Generate materially different candidates across relevant axes:
 
-- ownership model;
+- responsibility model;
 - boundary placement;
 - interface depth and caller obligations;
 - seam timing: now, deferred, or compatibility shim;
@@ -64,7 +64,7 @@ Each candidate should state its basis:
 - `external`: grounded in current outside behavior, protocol, vendor, standard, or operational prior art;
 - `reasoned`: inferred from forces and trade-offs, with uncertainty named.
 
-Reject candidates before the final recommendation when they fail an architecture gate: missing force, ambiguous ownership, shallow interface, boundary leak, unjustified pattern, brownfield gap, compatibility risk, unacceptable caller burden, weak verification, or unresolved source authority.
+Reject candidates before the final recommendation when they fail an architecture gate: missing force, ambiguous responsibility, shallow interface, boundary leak, unjustified pattern, brownfield gap, compatibility risk, unacceptable caller burden, weak verification, or unresolved source authority.
 
 ## Option Comparison
 
@@ -81,7 +81,7 @@ Do not compare options by preference alone. Tie every reason to a force, constra
 
 Do not turn every architecture comparison into a user choice. Ask only when user authority is required, no safe authorized default exists, and the answer changes the architecture recommendation or accepted trade-off.
 
-Before routing or asking, preserve: the user-visible situation and consequence; why the architecture owner cannot choose safely; the exact boundary, contract, requirement, or downstream work blocked; unaffected work; one recommended resolution; the exact decision approval would authorize; its material effect; its material cost and risk; what happens if no change is made; materially distinct alternatives only when they differ in behavior, cost, risk, authority, compatibility, or future obligation; and supporting evidence or limits. Merge candidates with the same practical result before presenting them.
+Before routing or asking, preserve: the user-visible situation and consequence; why the `architecture-design` skill cannot choose safely; the exact boundary, contract, requirement, or downstream work blocked; unaffected work; one recommended resolution; the exact decision approval would authorize; its material effect; its material cost and risk; what happens if no change is made; materially distinct alternatives only when they differ in behavior, cost, risk, authority, compatibility, or future obligation; and supporting evidence or limits. Merge candidates with the same practical result before presenting them.
 
 If the active agent is user-facing, translate this evidence through the harness decision-readiness gate and explain the user-visible behavior before pattern names, module names, interfaces, or source identifiers. Otherwise return the evidence to the orchestrator. Do not paste the option table as the user-facing explanation.
 
@@ -94,7 +94,7 @@ Force or constraint:
 <what matters and source basis>
 
 Decision:
-<boundary, owner, seam, adapter, pattern, or trade-off>
+<boundary, component, seam, adapter, pattern, or trade-off>
 
 Rejected alternative:
 <alternative and why it failed>
@@ -116,13 +116,13 @@ Common trade-offs:
 - synchronous consistency versus latency and availability;
 - asynchronous resilience versus eventual consistency and operational complexity;
 - reuse versus wrong abstraction risk;
-- centralization versus bottleneck or ownership contention;
+- centralization versus bottleneck or responsibility contention;
 - performance optimization versus readability and portability;
 - stricter validation versus compatibility with existing data or consumers.
 
-When measurement materially shapes the decision, state the baseline, evidence source, hard gates, diagnostics, and stopping condition. Treat metrics as supporting evidence, not authority over missing forces, ambiguous ownership, shallow interfaces, boundary leaks, uncharacterized brownfield behavior, security/privacy gates, or public compatibility.
+When measurement materially shapes the decision, state the baseline, evidence source, hard gates, diagnostics, and stopping condition. Treat metrics as supporting evidence, not authority over missing forces, ambiguous responsibility, shallow interfaces, boundary leaks, uncharacterized brownfield behavior, security/privacy gates, or public compatibility.
 
-Proxy metrics can mislead. Fewer files, shorter code, lower latency, higher coverage, or cleaner folder shape can still be worse architecture if caller burden, coupling, ownership ambiguity, stale authority, or policy/mechanism leakage increases.
+Proxy metrics can mislead. Fewer files, shorter code, lower latency, higher coverage, or cleaner folder shape can still be worse architecture if caller burden, coupling, responsibility ambiguity, stale authority, or policy/mechanism leakage increases.
 
 ## ADR Handoff
 
@@ -154,7 +154,7 @@ Forces:
 - <force and evidence>
 
 Why this boundary:
-- <ownership and interface reason>
+- <responsibility and interface reason>
 
 Alternatives rejected:
 - <alternative>: <reason tied to force>
@@ -166,5 +166,5 @@ ADR candidates:
 - <decision or "none">
 
 Handoff:
-- <architecture facts downstream owners must preserve, or "none">
+- <architecture facts responsible downstream skills or agents must preserve, or "none">
 ```

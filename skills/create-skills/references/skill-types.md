@@ -104,7 +104,7 @@ Required structure:
 - exact commands or tool actions;
 - prerequisites;
 - preflight state and availability checks;
-- native owner or preferred tool, plus substitution policy;
+- native mechanism or preferred tool, plus substitution policy;
 - output contracts, sentinel meanings, and error meanings;
 - safety boundaries;
 - side-effect, credential, privacy, and local-state boundaries;

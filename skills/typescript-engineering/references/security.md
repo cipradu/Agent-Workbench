@@ -2,9 +2,9 @@
 
 Load for security-specific handling of untrusted input, raw-body authentication, processes, paths, prototype/property hazards, dependencies, lifecycle scripts, secrets, or TypeScript/JavaScript security mechanics.
 
-Project/security owners decide authorization, encryption, retention, compliance, and threat-model policy. This reference enforces the language/runtime mechanics after those decisions exist.
+Project/security policy defines authorization, encryption, retention, compliance, and threat-model policy. This reference enforces the language/runtime mechanics after those decisions exist.
 
-`types-and-runtime-boundaries.md` owns runtime schemas, parsing, parse-once trust transitions, trusted types, and serialization. This reference adds security-specific resource bounds, raw-byte authentication, secret/exposure constraints, process/path controls, dependency trust, and supply-chain controls around that same boundary. It does not define a second parser or schema owner.
+`types-and-runtime-boundaries.md` owns runtime schemas, parsing, parse-once trust transitions, trusted types, and serialization. This reference adds security-specific resource bounds, raw-byte authentication, secret/exposure constraints, process/path controls, dependency trust, and supply-chain controls around that same boundary. It does not define a second parser or schema definition.
 
 ## Trust Boundaries
 

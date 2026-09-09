@@ -11,7 +11,7 @@ Every material claim should be classified before rendering.
 | Claim class | Meaning | Allowed treatment |
 | --- | --- | --- |
 | Source-traced | Directly supported by a named PRD, map, spec, plan, review, code file, command output, or approved artifact | Include with source link or path |
-| Approved-artifact-backed | Supported by an approved or current source artifact | Include and label source owner |
+| Approved-artifact-backed | Supported by an approved or current source artifact | Include and label authoritative source |
 | Current-system evidence | Supported by current files, tests, configs, schemas, diffs, or runtime evidence | Include with path, command, or artifact pointer |
 | External-current | Supported by current official docs, standards, vendor docs, or credible current research | Include with URL and date/context when important |
 | User-provided | Explicitly stated by the user for this task | Include and label as user-provided |
@@ -26,7 +26,7 @@ For dense artifacts, include a trace table or evidence rail instead of relying o
 Useful trace forms:
 
 - PRD visual: product claim -> source/evidence -> assumption/open question -> downstream consequence.
-- Spec-readiness visual: unknown/ticket/Fog -> evidence needed -> owner route -> spec impact.
+- Spec-readiness visual: unknown/ticket/Fog -> evidence needed -> skill or agent route -> spec impact.
 - Engineering-spec visual: requirement/invariant -> authority -> acceptance evidence -> risk.
 - Implementation-plan visual: plan unit -> dependency -> verification gate -> re-plan trigger.
 - Result/review visual: goal -> changed surface -> verification output -> reviewer finding or residual risk.
@@ -93,6 +93,6 @@ Never let styling make unsupported claims look as certain as verified evidence.
 
 Generated visual artifacts are projections. They do not become source truth.
 
-If a visual artifact reveals a source-truth problem, route the correction back to the owner: PRD, spec-readiness map, engineering spec, implementation plan, review workflow, ADR, documentation, or project continuity.
+If a visual artifact reveals a source-truth problem, route the correction back to the responsible skill: PRD, spec-readiness map, engineering spec, implementation plan, review workflow, ADR, documentation, or project continuity.
 
 If the user asks to implement from the visual, point to the canonical spec/plan or block until the owning artifact exists.

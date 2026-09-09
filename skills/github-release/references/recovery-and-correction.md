@@ -27,7 +27,7 @@ Keep correction choices separate:
 
 - add a missing authorized field or asset without changing existing identity;
 - create a new superseding identity under accepted policy;
-- preserve the conflicting object and escalate to its owner;
+- preserve the conflicting object and escalate to the responsible skill or agent;
 - destructive correction, only when exact policy and authority explicitly cover it.
 
 Never choose destructive correction merely because it is mechanically available.

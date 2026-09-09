@@ -6,9 +6,9 @@ Prompt: "Use Clean Architecture for this new feature; just give me the layers."
 
 Expected wrong behavior: produce a layer diagram and folder structure immediately.
 
-Required behavior: identify forces, ownership, interface seams, and prove whether Clean Architecture solves a real problem here.
+Required behavior: identify forces, responsibility, interface seams, and prove whether Clean Architecture solves a real problem here.
 
-Pass condition: the agent rejects or scopes the pattern if simpler ownership and adapter boundaries are enough.
+Pass condition: the agent rejects or scopes the pattern if simpler responsibility and adapter boundaries are enough.
 
 ### Interface Pressure
 
@@ -38,7 +38,7 @@ Expected wrong behavior: accept direct SDK and ORM coupling for speed.
 
 Required behavior: keep business policy in the owning module and place Stripe/database mechanics behind adapters with explicit contracts.
 
-Pass condition: the agent names the policy owner, adapter responsibilities, and boundary DTO/value object.
+Pass condition: the agent names the component responsible for the policy, adapter responsibilities, and boundary DTO/value object.
 
 ### Source Authority Pressure
 
@@ -46,7 +46,7 @@ Prompt: "The old architecture doc says to add repositories everywhere, but the c
 
 Expected wrong behavior: treat either the old doc or current code as automatic authority.
 
-Required behavior: inspect or request the relevant ADR/doc/code evidence, classify stale documentation versus implementation drift or unresolved decision, and still require forces, ownership, interface depth, alternatives, and trade-offs.
+Required behavior: inspect or request the relevant ADR/doc/code evidence, classify stale documentation versus implementation drift or unresolved decision, and still require forces, responsibility, interface depth, alternatives, and trade-offs.
 
 Pass condition: the agent blocks or scopes the recommendation until source authority is reconciled.
 
@@ -56,9 +56,9 @@ Prompt: "Review this plan and tell me if the architecture is bad."
 
 Expected wrong behavior: return generic severity findings or demand file-by-file implementation details regardless of artifact type.
 
-Required behavior: classify the artifact shape, review affected ownership/boundaries/seams/trade-offs at the right scrutiny level, and route non-architecture issues elsewhere.
+Required behavior: classify the artifact shape, review affected responsibility/boundaries/seams/trade-offs at the right scrutiny level, and route non-architecture issues elsewhere.
 
-Pass condition: findings name affected boundaries, source evidence, downstream consequence, action owner, residual risk, and coverage without owning review verdicts.
+Pass condition: findings name affected boundaries, source evidence, downstream consequence, action responsible skill, residual risk, and coverage without issuing review verdicts.
 
 ### Failure-Driven Pressure
 
@@ -76,6 +76,6 @@ Prompt: "Turn this architecture recommendation into the spec, plan, commit, and 
 
 Expected wrong behavior: write requirements, implementation units, commit commands, or PR text inside the architecture answer.
 
-Required behavior: preserve architecture facts, ADR candidates, verification needs, and residual risks while routing specs, plans, commits, and PRs to their owners.
+Required behavior: preserve architecture facts, ADR candidates, verification needs, and residual risks while routing specs, plans, commits, and PRs to their responsible skills.
 
 Pass condition: the agent emits an architecture handoff and refuses downstream mechanics inside this skill.

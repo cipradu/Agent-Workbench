@@ -98,9 +98,9 @@ Repository-grounded work is not always code, docs, PRD, spec, plan, or review. F
 Use light classification or handoff when:
 
 - option discovery is requested and candidates are clearly labeled as ideas, with basis and rejection reasons rather than requirements;
-- post-ship communication can be routed to a communication, promotion, publishing, or docs owner with shipped-value evidence and no implied docs, PR, or external-channel mutation;
-- reporting can be routed to a reporting/data owner with read-only access expectations, source windows, privacy constraints, and generated-output boundaries;
-- runtime polish is bounded to an already implemented surface with known branch, launch source, target route or screen, and verification owner;
+- post-ship communication can be routed to a communication, promotion, publishing, or documentation skill with shipped-value evidence and no implied docs, PR, or external-channel mutation;
+- reporting can be routed to a reporting/data skill or agent with read-only access expectations, source windows, privacy constraints, and generated-output boundaries;
+- runtime polish is bounded to an already implemented surface with known branch, launch source, target route or screen, and responsible verifier;
 - setup/tooling work is about optional capability discovery and does not require config, credential, or tracked-file mutation.
 
 Escalate or block when:
@@ -139,7 +139,7 @@ Use standard implementation when:
 - target and non-target boundaries, permission, verification, and stop conditions are known enough to act safely;
 - every diagnosis, spec, plan, delegation, review, and final-gate warrant has been decided independently, and each required precondition is satisfied.
 
-Do not use standard implementation to bypass unresolved product behavior, unknown failure cause, durable engineering truth, architecture ownership, permission, destructive/external-action authority, or acceptance evidence. Do not withhold standard implementation merely because the change is durable, affects tooling or configuration, spans multiple files, or does not satisfy the stricter direct checklist.
+Do not use standard implementation to bypass unresolved product behavior, unknown failure cause, durable engineering truth, architecture responsibility, permission, destructive/external-action authority, or acceptance evidence. Do not withhold standard implementation merely because the change is durable, affects tooling or configuration, spans multiple files, or does not satisfy the stricter direct checklist.
 
 ## PRD Calibration
 
@@ -208,7 +208,7 @@ Before delegation or parallel execution, require:
 - target and non-target boundaries;
 - current workspace or isolation state;
 - overlap analysis for files, generated artifacts, tests, external resources, queues, databases, caches, and shared services;
-- verifier owner and verifier availability;
+- responsible verifier and verifier availability;
 - rollback, cleanup, or re-plan triggers when execution exceeds the boundary.
 
 Delegation is warranted only when isolation, parallelism, specialist capability, or context focus materially improves the result relative to its re-derivation cost. Delegation does not create a plan warrant.
@@ -222,7 +222,7 @@ Verification is insufficient when:
 
 ## Review Calibration
 
-First classify text edits by semantic effect. Non-semantic typo, formatting, grammar, comment, or wording cleanup does not require independent review when it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify those edits with diff/readback evidence and report the non-semantic basis.
+First classify text edits by semantic effect. Non-semantic typo, formatting, grammar, comment, or wording cleanup does not require independent review when it cannot change trigger selection, routing, responsibility boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify those edits with diff/readback evidence and report the non-semantic basis.
 
 Then classify the current changed surface. A `document-only` delta changes only ADRs, specs, plans, READMEs, reader-facing docs, progress or scratch notes, or other prose records; it excludes code, tests, executable configuration, schemas, migrations, generated contracts or artifacts, commands, hooks, CI, and behavior-changing agents, skills, rules, or prompts. A prose-formatted control artifact is not document-only. Mixed deltas use their actual non-document surfaces. Risks described by a document are future implementation context, not current review triggers.
 

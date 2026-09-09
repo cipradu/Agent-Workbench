@@ -58,7 +58,7 @@ Prompt: "These three modules all parse input. Make one parsing pattern."
 
 Expected failure mode: Abstract coincidental similarity.
 
-Required behavior: Compare source trust, failure behavior, schema stability, ownership, runtime constraints, and downstream effects. If forces differ, reject one shared pattern or split into narrower patterns.
+Required behavior: Compare source trust, failure behavior, schema stability, responsibility, runtime constraints, and downstream effects. If forces differ, reject one shared pattern or split into narrower patterns.
 
 Pass condition: The answer does not create a broad parsing pattern unless the underlying forces match.
 
@@ -120,7 +120,7 @@ Expected failure mode: Create a duplicate pattern because the exact title differ
 
 Required behavior: Search existing patterns, ADRs, specs, docs, rules, and durable learnings when present; compare problem shape, forces, invariants, examples, and non-use cases; update, consolidate, or reject when overlap is material.
 
-Pass condition: The answer does not create parallel doctrine without checking overlap and canonical ownership.
+Pass condition: The answer does not create parallel doctrine without checking overlap and canonical responsibility.
 
 ## Test 13: No-Artifact Decision Preservation
 

@@ -1,10 +1,10 @@
 # Runtime Foundation Templates
 
-Load when creating or materially revising centralized settings, error catalogs, logger construction/injection, correlation context, or throw/catch ownership. Replace every example code, key, path, and surface with project-owned values. These modules are separate owners in a real project; the snippets are grouped here only to show how their contracts connect.
+Load when creating or materially revising centralized settings, error catalogs, logger construction/injection, correlation context, or throw/catch responsibility. Replace every example code, key, path, and surface with project-owned values. These modules are separate components in a real project; the snippets are grouped here only to show how their contracts connect.
 
 ## Central Error Contract And Catalog
 
-Use one stable runtime type plus one strict, sanitized, transport-neutral payload schema. Expand fields only when the project's error contract owns them. This payload is not a public response, event, webhook, or job envelope; the contracts owner declares and maps each external shape.
+Use one stable runtime type plus one strict, sanitized, transport-neutral payload schema. Expand fields only when the project's error contract owns them. This payload is not a public response, event, webhook, or job envelope; the contracts component declares and maps each external shape.
 
 ```ts
 import { z } from "zod";
@@ -171,7 +171,7 @@ export function toAppErrorPayload(
 }
 ```
 
-`toSerializablePayload()` produces the errors owner's sanitized, transport-neutral payload; it is not an external wire boundary and must not be passed directly to a response, message, or storage serializer. The errors owner calls `toAppErrorPayload()`, which validates that projection and owns parse failure through catch, normalization, structured logging, and throw. The contracts owner then maps the validated payload into the separately declared external envelope, and the exit adapter applies that mapping.
+`toSerializablePayload()` produces the errors component's sanitized, transport-neutral payload; it is not an external wire boundary and must not be passed directly to a response, message, or storage serializer. The errors component calls `toAppErrorPayload()`, which validates that projection and owns parse failure through catch, normalization, structured logging, and throw. The contracts component then maps the validated payload into the separately declared external envelope, and the exit adapter applies that mapping.
 
 The payload parser treats the code only as a catalog lookup key. It does not trust inbound reason, message, severity, retryability, or correlation values as classification authority. Internal diagnostic context never enters this payload contract. If an external boundary needs selected diagnostic fields, declare them explicitly in that boundary's schema and copy only a bounded, sanitized allowlist after the catalog helper restores the fixed classification.
 
@@ -245,7 +245,7 @@ export interface LogSink {
 }
 ```
 
-The logging owner builds the Pino logger with UTC timestamps, correlation enrichment, the centralized error serializer, immutable redaction paths, and the configured sink. The composition root creates and injects it. Its typed factory seam lets tests substitute package-owned doubles without changing production callers:
+The logging component builds the Pino logger with UTC timestamps, correlation enrichment, the centralized error serializer, immutable redaction paths, and the configured sink. The composition root creates and injects it. Its typed factory seam lets tests substitute package-owned doubles without changing production callers:
 
 ```ts
 interface RuntimeFactories {
@@ -295,7 +295,7 @@ export function composeRuntime(
 }
 ```
 
-The settings schema must declare every field used above. The settings loader logs its local validation failure; the composition catch records the terminal startup disposition. The fallback writer is the logging owner's sole pre-logger channel. Do not access a settings singleton or create a fallback logger inside `createProvider`.
+The settings schema must declare every field used above. The settings loader logs its local validation failure; the composition catch records the terminal startup disposition. The fallback writer is the logging component's sole pre-logger channel. Do not access a settings singleton or create a fallback logger inside `createProvider`.
 
 ## Catch, Normalize, Log, Then Throw
 
@@ -343,7 +343,7 @@ export async function fetchRecord(input: {
 }
 ```
 
-The example intentionally logs twice when the local deliberate throw is caught by the function's terminal catch: one event records the validation decision; the next records terminal disposition. In a real implementation, place the terminal catch at the owner that can decide the final outcome; do not add a catch merely to satisfy syntax.
+The example intentionally logs twice when the local deliberate throw is caught by the function's terminal catch: one event records the validation decision; the next records terminal disposition. In a real implementation, place the terminal catch at the boundary that can decide the final outcome; do not add a catch merely to satisfy syntax.
 
 ## Correlation Boundary
 
@@ -384,4 +384,4 @@ export async function runRequestBoundary(input: {
 
 The logger mixin reads this context on every event and falls back to `correlationId: "bootstrap"` before a request/job scope exists. The context helper clears storage when the awaited scope completes. The framework's terminal response/error adapter logs its own final disposition when this boundary rethrows.
 
-Failure output: `Blocked: runtime foundation template lacks a project-owned catalog, settings source, logger/correlation path, or catch/log/throw owner.`
+Failure output: `Blocked: runtime foundation template lacks a project-owned catalog, settings source, logger/correlation path, or catch/log/throw component.`

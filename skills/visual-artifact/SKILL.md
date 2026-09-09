@@ -15,7 +15,7 @@ Use it when relationships, behavior, differences, quantities, or evidence are ea
 
 Do not force a visual when a sentence or ordinary table answers the question more clearly.
 
-Do not use this skill to author source requirements, approve plans, implement product UI, change code, issue review verdicts, create slide decks, generate images, or publish a site. Those actions keep their existing owners. A diagram can explain a proposal without making it an approved design.
+Do not use this skill to author source requirements, approve plans, implement product UI, change code, issue review verdicts, create slide decks, generate images, or publish a site. Those actions keep their existing responsible skills. A diagram can explain a proposal without making it an approved design.
 
 Do not present stale summaries, assumed repository behavior, invented data, or unrun checks as verified facts. Do not create a generic repository map unless orientation is the reader's actual task.
 
@@ -34,7 +34,7 @@ Identify what the reader needs to understand or decide. Infer it from the curren
 Distinguish:
 
 - focused explanation: answer one question about an idea or behavior;
-- technical view: inspect structure, sequence, state, ownership, or a code change;
+- technical view: inspect structure, sequence, state, responsibility, or a code change;
 - quantitative view: compare magnitudes, distributions, trends, or coverage;
 - evidence report: assess findings, outcomes, unknowns, or a decision with supporting evidence.
 
@@ -52,7 +52,7 @@ Evaluate every row; load matching references before using their guidance. Do not
 
 | Trigger | Read |
 | --- | --- |
-| Choosing purpose, output form, or source-owner branch | [Artifact Routing](references/artifact-routing.md) |
+| Choosing purpose, output form, or source-authority branch | [Artifact Routing](references/artifact-routing.md) |
 | Material claims, source links, evidence, uncertainty, or proposal/current-state distinctions | [Evidence and Traceability](references/evidence-and-traceability.md) |
 | Pseudocode, trees, diffs, diagrams, charts, timelines, or representation/composition choices | [Diagram Selection](references/diagram-selection.md) |
 | Mermaid selected as the diagram source | [Mermaid Diagrams](references/mermaid-diagrams.md) |
@@ -63,7 +63,7 @@ Evaluate every row; load matching references before using their guidance. Do not
 | Projecting implementation results, review evidence, a whole-workstream recap, or comprehension questions | [Implementation Result Visuals](references/implementation-result-visuals.md) |
 | Writing a standalone HTML artifact | [Template System](references/template-system.md) and [HTML Quality](references/html-quality.md) |
 
-Source branches preserve ownership and completeness; they do not select the visual purpose or require all their report sections. Standalone diagrams about ordinary supplied systems need no invented PRD/spec/result classification.
+Source branches preserve responsibility and completeness; they do not select the visual purpose or require all their report sections. Standalone diagrams about ordinary supplied systems need no invented PRD/spec/result classification.
 
 Completion: selected references fit the actual task; unmatched branches and evaluator assets stay unread.
 
@@ -71,7 +71,7 @@ Completion: selected references fit the actual task; unmatched branches and eval
 
 Extract the facts needed to answer the question: actors, entities, ordered actions, branches, edges, states, comparisons, values, unknowns, and supporting evidence. Keep this preparation internal unless it helps the reader.
 
-Preserve material direction, order, ownership, guards, retries, failure paths, units, and uncertainty. A call tree does not prove timing; a data-flow arrow does not prove a synchronous call. Mark intentional omissions when they could change interpretation. Do not simplify away a boundary or outcome just to reduce node count.
+Preserve material direction, order, responsibility, guards, retries, failure paths, units, and uncertainty. A call tree does not prove timing; a data-flow arrow does not prove a synchronous call. Mark intentional omissions when they could change interpretation. Do not simplify away a boundary or outcome just to reduce node count.
 
 For reports, relate each conclusion to its evidence and any missing proof. Compute derived numbers from the source model; do not invent summary metrics to fill a template.
 
@@ -82,7 +82,7 @@ Completion: the selected view can preserve the source meaning at the needed leve
 Use the smallest view that answers the question:
 
 - pseudocode for branching logic or algorithms;
-- call trees for call relationships, component trees for UI/state ownership, shallow file trees for responsibility;
+- call trees for call relationships, component trees for UI/state responsibility, shallow file trees for responsibility;
 - focused diffs when the surrounding shape is already understood, whole blocks when context or order would otherwise disappear;
 - diagrams for relationships that benefit from spatial structure;
 - charts for quantitative encoding, tables for exact comparisons and evidence;
@@ -132,7 +132,7 @@ Completion: required meaning and rendering checks passed, or the exact unverifie
 
 PRDs own product truth; readiness maps own readiness questions; engineering specs own requirements; plans own execution dependencies; implementation evidence and review own their actual verification/verdict state. Visuals explain these sources without changing their authority.
 
-An explainer, quiz, screenshot, or attractive report does not prove implementation acceptance. If asked to implement from a derived visual, return to its canonical source or the appropriate definition owner. Do not invent a spec/plan solely to explain a supplied example.
+An explainer, quiz, screenshot, or attractive report does not prove implementation acceptance. If asked to implement from a derived visual, return to its canonical source or the appropriate definition skill. Do not invent a spec/plan solely to explain a supplied example.
 
 Stop or return a bounded brief when the view would require invented facts, conceal material uncertainty, leak sensitive evidence, change source truth, or imply unobserved verification. Report the specific missing condition, not a generic process block.
 

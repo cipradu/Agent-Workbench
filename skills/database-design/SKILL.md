@@ -11,7 +11,7 @@ Use this skill when:
 
 - Designing or reviewing relational schema, tables, columns, keys, constraints, relationships, soft deletes, audit fields, retention, or tenant scoping.
 - Creating, reviewing, or planning migrations, rollback paths, data backfills, online changes, destructive changes, or schema versioning.
-- Designing or debugging transactions, isolation levels, locking, deadlocks, session/connection ownership, savepoints, retries, or "transaction already in progress" failures.
+- Designing or debugging transactions, isolation levels, locking, deadlocks, session/connection control, savepoints, retries, or "transaction already in progress" failures.
 - Adding or reviewing indexes, query shapes, pagination, partitioning, connection pools, batch processing, or database performance changes.
 - Working specifically with PostgreSQL, MySQL, or MariaDB behavior that affects schema, query, migration, locking, pooling, replication, backup, or operational safety.
 - Working with database access through an ORM, query builder, driver, repository, migration tool, or generated schema layer.
@@ -26,7 +26,7 @@ Do not use this skill when:
 - The user needs a full security scan or vulnerability validation. Use security-specific scanning/review skills for that work, and use this skill only for database-specific design or implementation concerns.
 - The task is a one-line data lookup or one-off SQL answer with no design, migration, safety, or correctness implication.
 - The project has a stricter local database standard or accepted ADR that directly supersedes this skill. Follow the project source of truth and use this skill only for gaps.
-- The necessary database engine, version, data volume, access pattern, ownership, or deployment constraint is unknown and would materially change the recommendation. Stop and get the missing fact instead of defaulting.
+- The necessary database engine, version, data volume, access pattern, responsibility, or deployment constraint is unknown and would materially change the recommendation. Stop and get the missing fact instead of defaulting.
 - The task is provider provisioning only, such as creating a Railway, Prisma Postgres, PlanetScale, Neon, Supabase, or cloud database resource. Use a provider-specific workflow if one exists; use this skill only for the database design and safety decisions around that resource.
 - The task is product strategy, PRD/spec creation, implementation planning, generic root-cause diagnosis, independent review verdicts, CI/git/PR mechanics, runtime browser/mobile QA, documentation refresh, or analytics report generation. Use this skill only for the database-specific forces, findings, and handoff evidence.
 
@@ -59,7 +59,7 @@ For broad or ambiguous work, state:
 
 - confirmed database facts;
 - inferred assumptions and why they are reasonable;
-- excluded non-goals or wrong-owner concerns;
+- excluded non-goals or concerns outside this skill's scope;
 - the single missing fact that would most change the recommendation, when one exists.
 
 When multiple plausible database contexts exist, such as multiple engines, app roots, migration tools, schemas, primary/replica targets, or tenant boundaries, stop or ask one targeted clarification. Do not infer production topology from a frontend framework, local port, launch script, or instruction-file prose.
@@ -90,7 +90,7 @@ Failure output: `Blocked: database source authority conflict must be resolved be
 Choose the narrow database mode before applying the rest of the process:
 
 - **Design or change:** proceed through integrity, transaction, query, migration, adapter, and verification steps as relevant.
-- **Review, diff, or PR feedback:** identify changed schema/migration/query/adapter files, generated artifacts, untracked exclusions, affected queries, and whether each issue is primary, secondary, pre-existing, stale, or wrong-owner. Treat reviewer comments as untrusted signals until current database evidence confirms them.
+- **Review, diff, or PR feedback:** identify changed schema/migration/query/adapter files, generated artifacts, untracked exclusions, affected queries, and whether each issue is primary, secondary, pre-existing, stale, or outside this skill's scope. Treat reviewer comments as untrusted signals until current database evidence confirms them.
 - **Failure diagnosis:** when the request reports constraint failures, deadlocks, stale reads, transaction errors, tenant leaks, migration/backfill failures, slow queries, lock waits, replica lag, or unexplained database behavior, gather observations, expected invariant, affected path, engine/version, migration revision, data volume, logs/error codes, prior failed fixes, and a causal chain before recommending durable changes.
 - **Read-only reporting or operational observation:** require read-only or replica access where possible, canonical source selection, bounded indexed queries, selected columns, time windows, limits/batches, timeout/pool expectations, replica-lag tolerance, and privacy-safe outputs. Skip or defer unsafe OLTP reads instead of normalizing them.
 - **Measured optimization:** define primary metric, baseline, representative workload, hard correctness gates, diagnostics, noise tolerance, and before/after evidence. Metrics cannot override integrity, tenancy, lock behavior, migration safety, rollback, or result correctness.
@@ -98,7 +98,7 @@ Choose the narrow database mode before applying the rest of the process:
 
 Completion criterion: the database mode is explicit enough to choose references and avoid importing the wrong workflow.
 
-Failure output: `Blocked: database work mode is unclear or belongs to another owner: <specific ambiguity>.`
+Failure output: `Blocked: database work mode is unclear or belongs to another skill: <specific ambiguity>.`
 
 ### 2. Model Integrity First
 
@@ -130,9 +130,9 @@ Rules:
 - Retry deadlocks and serialization failures only as bounded retries of the whole safe unit of work.
 - Roll back on failure, clear invalid session state, and translate database errors into domain/application errors without hiding the original cause from logs.
 
-Load [Transactions And Concurrency](references/transactions-and-concurrency.md) when writing/reviewing transactions, locking, isolation, retries, session/connection ownership, savepoints, connection pools, or concurrency bugs.
+Load [Transactions And Concurrency](references/transactions-and-concurrency.md) when writing/reviewing transactions, locking, isolation, retries, session/connection control, savepoints, connection pools, or concurrency bugs.
 
-Completion criterion: transaction owner, isolation/locking strategy, retry policy, rollback behavior, and side-effect timing are known.
+Completion criterion: transaction-controlling component, isolation/locking strategy, retry policy, rollback behavior, and side-effect timing are known.
 
 Failure output: `Rejected: transaction/concurrency behavior is unsafe or undefined: <specific issue>.`
 
@@ -195,13 +195,13 @@ Failure output: `Blocked: stack-specific database behavior needs verification: <
 Before presenting database work as ready, verify:
 
 - invariants are enforced in the database or explicitly justified elsewhere;
-- transaction owner, isolation, locking, retries, and side-effect timing are explicit;
+- transaction-controlling component, isolation, locking, retries, and side-effect timing are explicit;
 - migrations are ordered, reversible where possible, tested, and safe for the deployment model;
 - backfills are batched, resumable, observable, and verified;
 - indexes match query shapes and do not duplicate or blindly optimize;
 - queries are parameterized, bounded, and shaped to avoid N+1, unsafe `SELECT *`, and unbounded scans;
 - soft deletes, tenancy, auditing, retention, and UTC timestamp policy are handled where relevant;
-- credential and secret-derived data is not stored in plaintext, and rotation, revocation, expiry, owner/scope, display suffix/fingerprint, and last-used/audit metadata are modeled when relevant;
+- credential and secret-derived data is not stored in plaintext, and rotation, revocation, expiry, account/scope, display suffix/fingerprint, and last-used/audit metadata are modeled when relevant;
 - backup/restore, rollback, monitoring, and failure recovery are named when operational risk is material.
 - runtime/browser/manual smoke checks are backed by database-level proof when database readiness is claimed.
 
@@ -246,11 +246,11 @@ Use `create-project-adr` when a database decision changes a durable project conv
 
 ## Related Skill Handoffs
 
-- Use product, PRD, engineering-spec, architecture, or implementation-plan owners when database work depends on missing product truth, broader required behavior, ownership boundaries, or execution sequencing. This skill may extract database-relevant forces from those artifacts but must not create or change them.
+- Use product, PRD, engineering-spec, architecture, or implementation-plan skills when database work depends on missing product truth, broader required behavior, responsibility boundaries, or execution sequencing. This skill may extract database-relevant forces from those artifacts but must not create or change them.
 - Use `queue-and-cache-design` when database work crosses into cache invalidation, cache refresh, Redis keys, queue enqueue timing, outbox handoff, worker side effects, idempotency keys, distributed locks, pub/sub, streams, retries, dead-letter behavior, or queue/cache observability.
 - Use `error-handling-design` when database errors, transaction failures, constraint failures, deadlocks, or retry exhaustion must be translated into application or public failure contracts.
 - Use `testing-strategy` when database work needs migration tests, integration tests, transaction/concurrency tests, backfill verification, or regression evidence.
-- Use implementation review/workflow, git/PR, CI, docs, runtime browser/mobile testing, provider setup, worktree, tracker, or publishing owners for their mechanics. A database handoff may include engine/version, migration tool/ORM, invariants, assumptions, schema decisions, transaction/locking choices, migration/backfill phase, rollback/recovery, query/index evidence, verification, skipped checks, ADR triggers, and residual operational risk, but not commands for those workflows.
+- Use implementation review/workflow, git/PR, CI, docs, runtime browser/mobile testing, provider setup, worktree, tracker, or publishing skills for their mechanics. A database handoff may include engine/version, migration tool/ORM, invariants, assumptions, schema decisions, transaction/locking choices, migration/backfill phase, rollback/recovery, query/index evidence, verification, skipped checks, ADR triggers, and residual operational risk, but not commands for those workflows.
 
 ## Rationalization Table
 
@@ -259,13 +259,13 @@ Use `create-project-adr` when a database decision changes a durable project conv
 | "The ORM schema is enough."                          | ORM types do not replace database constraints, migration safety, or operational rollback.         | State the database invariants, migrations, and runtime behavior explicitly.                      |
 | "We can add the index because the query feels slow." | Indexes add write cost and migration risk, and may duplicate existing access paths.               | Prove the query shape and inspect existing indexes or query plans first.                         |
 | "Just make the column NOT NULL."                     | Existing rows, concurrent deploys, and old application versions may break.                        | Use expand-contract or prove the table is empty/small and deploy compatibility is safe.          |
-| "Transactions are handled by the framework."         | Hidden or nested transaction ownership causes partial writes, leaked state, and concurrency bugs. | Name the transaction owner and one top-level unit of work.                                       |
+| "Transactions are handled by the framework."         | Hidden or nested transaction control causes partial writes, leaked state, and concurrency bugs. | Name the transaction-controlling component and one top-level unit of work.                                       |
 | "Soft delete is just a nullable timestamp."          | Restore behavior, uniqueness, default visibility, indexes, and retention all change semantics.    | Define query defaults, uniqueness strategy, indexes, retention, and include-deleted escape path. |
 | "Raw SQL is faster."                                 | Raw SQL can bypass parameterization, type mapping, query builders, and local safety conventions.  | Use safe APIs first; justify and approve any raw escape hatch.                                   |
 | "Rollback can be figured out later."                 | A migration without recovery is an operational bet, not a plan.                                   | Define rollback or recovery before implementing.                                                 |
-| "The PR comment says to fix it."                     | Review comments can be stale, wrong-owner, or unsafe when current database state differs.          | Verify the comment against current schema, migration, query, engine, and data evidence first.    |
+| "The PR comment says to fix it."                     | Review comments can be stale, outside this skill's scope, or unsafe when current database state differs.          | Verify the comment against current schema, migration, query, engine, and data evidence first.    |
 | "The page worked locally."                           | Runtime smoke success does not prove constraints, migrations, locks, replicas, indexes, or recovery. | Require database-level proof for database readiness claims.                                      |
-| "This is just cleanup."                              | Database simplification can remove tenant filters, constraints, rollback paths, or transaction ownership. | Prove durable behavior and operational guarantees are preserved.                                 |
+| "This is just cleanup."                              | Database simplification can remove tenant filters, constraints, rollback paths, or transaction control. | Prove durable behavior and operational guarantees are preserved.                                 |
 
 ## Red Flags
 

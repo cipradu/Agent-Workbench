@@ -97,9 +97,9 @@ Claimed by/session: <agent/session or blank>
 
 - <Repository file, code path, rule, ADR, external docs, user decision, verifier, or research source needed to answer.>
 
-## Owner Route
+## Skill Or Agent Route
 
-<Inline investigation | research subagent | architecture-design | structured-problem-resolution | create-project-prd | testing-strategy | other named owner>
+<Inline investigation | research subagent | architecture-design | structured-problem-resolution | create-project-prd | testing-strategy | other named skill or agent>
 
 ## User Decision Evidence
 
@@ -152,11 +152,11 @@ A question is ticket-ready only when all are true:
 - The question can be stated in one sentence.
 - The answer could change a future engineering requirement, authority map, risk, acceptance criterion, or planning-relevant impact surface.
 - The evidence needed can be named before work starts.
-- The owner route is known or can be discovered without answering the ticket first.
+- The skill or agent route is known or can be discovered without answering the ticket first.
 
 If any item fails, keep it in Fog.
 
-Generic categories such as security, performance, data, accessibility, or integration do not pass the sharpness test by themselves. Blindspot-derived tickets still need a one-sentence question, named evidence, owner route, and expected spec impact.
+Generic categories such as security, performance, data, accessibility, or integration do not pass the sharpness test by themselves. Blindspot-derived tickets still need a one-sentence question, named evidence, skill or agent route, and expected spec impact.
 
 ## Status Meanings
 

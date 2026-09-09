@@ -24,9 +24,9 @@ Choose the shape from caller needs, protocol, and project convention.
 House doctrine (operator convention, proven in one production project and adopted into a second (2026-08); a greenfield default, not external consensus): organize error code as a vocabulary/catalog split. An incumbent project's accepted stricter or different organization remains authoritative until a change is approved.
 
 - **Vocabulary**: pure types such as category enums, severity or retryability markers, and frozen base shapes. Vocabulary modules have no dependencies beyond the language and validation library, so every layer may import them without pulling in application behavior.
-- **Catalog**: the concrete failure definitions that consume the vocabulary. Keep the catalog in the errors purpose as the single owner of the project's complete concrete failure set. Each definition carries the stable category and public code, static safe message, and any retryability or disclosure metadata required by the project.
+- **Catalog**: the concrete failure definitions that consume the vocabulary. Keep the catalog in the errors component as the single authoritative definition of the project's complete concrete failure set. Each definition carries the stable category and public code, static safe message, and any retryability or disclosure metadata required by the project.
 
-The split keeps the type surface broadly importable while concrete failure contracts remain centralized and enumerable for tests and documentation. It does not require a centralized catalog for unrelated log events, audit actions, or telemetry names; centralize those only when their own owner and evidence justify it. Message text in the error catalog follows the static-message rule in [Logging And Redaction](logging-and-redaction.md).
+The split keeps the type surface broadly importable while concrete failure contracts remain centralized and enumerable for tests and documentation. It does not require a centralized catalog for unrelated log events, audit actions, or telemetry names; centralize those only when their own component responsibility and evidence justify it. Message text in the error catalog follows the static-message rule in [Logging And Redaction](logging-and-redaction.md).
 
 ### Catalog Entries Ship As Vertical Slices
 

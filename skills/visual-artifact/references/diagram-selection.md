@@ -7,21 +7,21 @@ Use this reference for code-shaped explanations, diagrams, charts, and spatial c
 | Question | Prefer | Preserve |
 | --- | --- | --- |
 | What does the algorithm do? | Pseudocode | Branches, guards, order, side effects and returned result |
-| What calls what? | Call tree | Call ownership; mark asynchronous/event boundaries without implying a stack or timing not in evidence |
+| What calls what? | Call tree | Call responsibility; mark asynchronous/event boundaries without implying a stack or timing not in evidence |
 | Where do UI components and state belong? | Component tree | Relevant state hooks, module boundaries and verified file paths |
-| Which files own which responsibilities? | Shallow file tree | Relevant owners, not an exhaustive file inventory |
-| What changes? | Focused diff | Correct baseline, additions/removals, surrounding ownership and execution order |
+| Which files own which responsibilities? | Shallow file tree | Relevant files, not an exhaustive file inventory |
+| What changes? | Focused diff | Correct baseline, additions/removals, surrounding responsibility and execution order |
 | What is the complete target shape? | Whole block | Enough context to be copied or understood without inventing omitted structure |
 | Who interacts over time? | Sequence diagram | Actors, messages, temporal order, errors or retries relevant to the question |
 | What states and transitions are allowed? | State diagram | Guards, outcomes, forbidden transitions and terminal states |
 | What depends on what? | Dependency graph | Direction, fan-in/fan-out, gates; critical path only if supported by source |
-| What belongs inside which boundary? | Grouped architecture/hierarchy diagram | Containment, trust/ownership boundary meaning and labeled links |
+| What belongs inside which boundary? | Grouped architecture/hierarchy diagram | Containment, trust/responsibility boundary meaning and labeled links |
 | How does work circulate or accumulate? | Cycle with distinct shared-state links when applicable | Recurrence versus state read/write; do not imply a loop for a linear process |
 | How do alternatives or exact values compare? | Table or aligned before/after view | Comparable rows, same axes, honest missing data |
 | How do values vary? | Chart plus source/units | Quantitative encoding, scale, denominator and uncertainty |
 | What proves the conclusion? | Evidence table or short source notes | Claim, actual evidence, missing checks and status |
 
-A focused diff is an explanatory representation, not automatically a patch. Label conceptual diffs when they are not exact source edits. Show the whole block when most content is new or omitted context would hide order or ownership.
+A focused diff is an explanatory representation, not automatically a patch. Label conceptual diffs when they are not exact source edits. Show the whole block when most content is new or omitted context would hide order or responsibility.
 
 ## Code-shape examples
 
@@ -47,7 +47,7 @@ submitForm
   navigateToSession
 ```
 
-Illustrative component ownership:
+Illustrative component responsibility:
 
 ```text
 SessionPage
@@ -80,7 +80,7 @@ Use verified names/paths for real code; examples above are not claims about the 
 
 ## Diagram method
 
-1. Identify the semantic relationship: sequence, containment, dependency, state transition, feedback, shared state, ownership, or quantity.
+1. Identify the semantic relationship: sequence, containment, dependency, state transition, feedback, shared state, responsibility, or quantity.
 2. List entities and typed edges, including direction and any guard or uncertainty. Separate calls, data movement, events, and containment instead of using one anonymous arrow for all of them.
 3. Choose spatial composition that makes that relationship visible.
 4. Establish hierarchy: primary path or comparison, secondary context, source notes.
@@ -96,7 +96,7 @@ Completion: a reader can trace the important relationship without guessing what 
 | Feedback cycle | Recurring stages around a loop; shared state distinct from the circulation if present | Every stage connected to every other stage; a central hub with no source meaning |
 | Temporal interaction | Aligned actors and ordered messages | Spatial proximity mistaken for message order |
 | State machine | Group states by lifecycle; label transition triggers and outcomes | Failure/retry paths omitted to make the happy path neat |
-| Hierarchy | Explicit levels and containment | Similar visual treatment for ownership and communication |
+| Hierarchy | Explicit levels and containment | Similar visual treatment for responsibility and communication |
 | Before/after | Stable alignment and labels across both views; emphasize the actual difference | Rearranging every node so the reader cannot locate the change |
 | Dependency graph | Topological tiers and separated branches; reserve space for joins | Declaring unsupported parallel execution or a critical path |
 | Queue/capacity | Distinguish admission, waiting, processing and retry/overflow when source supplies them | Invented capacity, exactly-once guarantees, or decorative queue slots |
@@ -120,7 +120,7 @@ Align related elements and reserve actual routing space between groups. Connect 
 
 SVG source should use meaningful groups, reusable markers where appropriate, explicit viewBox geometry, an accessible title/description, and text rather than rasterized labels. Scaling must not make text illegible. Allow a labeled local scroll region or a simpler overview with full detail when a mobile canvas cannot hold the whole structure.
 
-Do not add decorative frames around the figure. Group outlines inside a diagram are valid when they encode real ownership/containment and are labeled.
+Do not add decorative frames around the figure. Group outlines inside a diagram are valid when they encode component responsibility/containment and are labeled.
 
 ## Quantitative fidelity
 

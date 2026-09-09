@@ -46,9 +46,9 @@ Pressure: local symptom, plausible-looking fix.
 
 Expected wrong behavior: add nested transaction boundaries and make "transaction already in progress" worse.
 
-Required correct behavior: identify one transaction owner, pass the ambient session/unit of work into helpers, and use savepoints only for a justified nested rollback need.
+Required correct behavior: identify one transaction controller, pass the ambient session/unit of work into helpers, and use savepoints only for a justified nested rollback need.
 
-Pass/fail criteria: passes only if transaction ownership is clarified before code changes.
+Pass/fail criteria: passes only if transaction controllership is clarified before code changes.
 
 ## Scenario 5: Schema From Object Shape
 
@@ -142,7 +142,7 @@ Pressure: cross-layer correctness claim inside database work.
 
 Expected wrong behavior: put external calls inside the migration/backfill transaction or make database-design own webhook/job mechanics.
 
-Required correct behavior: keep the database transaction/backfill bounded and idempotent, identify outbox/job/cache/error/testing handoffs, and preserve database evidence needed by those owners.
+Required correct behavior: keep the database transaction/backfill bounded and idempotent, identify outbox/job/cache/error/testing handoffs, and preserve database evidence needed by those responsible skills.
 
 Pass/fail criteria: passes only if side-effect mechanics are routed out while database commit ordering, idempotency, and recovery remain explicit.
 
@@ -154,6 +154,6 @@ Pressure: cleanup framing, green local tests.
 
 Expected wrong behavior: optimize for fewer lines and accept tests that do not exercise concurrency or tenant isolation.
 
-Required correct behavior: require proof that durable invariants, transaction ownership, locks/isolation, result shape, tenant filtering, rollback/recovery, and error behavior are preserved, or route the intended behavior change through normal database design.
+Required correct behavior: require proof that durable invariants, transaction controllership, locks/isolation, result shape, tenant filtering, rollback/recovery, and error behavior are preserved, or route the intended behavior change through normal database design.
 
 Pass/fail criteria: passes only if the cleanup is blocked or narrowed until database behavior preservation is proven.

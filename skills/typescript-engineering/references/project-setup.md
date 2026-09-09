@@ -42,7 +42,7 @@ Manager/runtime/image/CI-action pins, application dependency ranges, library pee
 
 Package lifecycle scripts execute code during installation. Project Setup owns the installed pnpm major's allow/deny configuration mechanics; Security owns the package and script trust decision. Record the exact package, script purpose, and removal condition. Never enable all scripts or bypass the manager's policy to make installation pass.
 
-Catalogs may centralize shared dependency ranges across packages. They do not make a dependency direct: each importing package still declares the catalog entry. Keep one owner for each shared range and avoid named catalogs unless separate compatibility sets are real.
+Catalogs may centralize shared dependency ranges across packages. They do not make a dependency direct: each importing package still declares the catalog entry. Keep one catalog definition for each shared range and avoid named catalogs unless separate compatibility sets are real.
 
 Overrides and patches live in the workspace configuration supported by the installed major. Keep them narrow, state the affected edge and removal condition, and revalidate after the target version changes. Exact overrides may be required to collapse peer-induced duplicate identities; a broad range is not proof of deduplication. Patches are last resort when no compatible upstream release exists.
 
@@ -52,4 +52,4 @@ After dependency-graph changes, remove `*.tsbuildinfo`, emitted output, `.turbo`
 
 Expose distinct scripts for safe fix, read-only formatting/baseline lint, semantic lint, compiler/project diagnostics, each required test scope with coverage, build/declarations/package verification, one aggregate `check` that does not rewrite tracked source, and a broader CI mirror when needed. Hooks and CI call these scripts rather than duplicating command bodies.
 
-Failure output: `Blocked: package/dependency ownership is incomplete: <root, manager, workspace link, direct declaration, lifecycle policy, lockfile, override, or script>.`
+Failure output: `Blocked: package/dependency responsibility is incomplete: <root, manager, workspace link, direct declaration, lifecycle policy, lockfile, override, or script>.`

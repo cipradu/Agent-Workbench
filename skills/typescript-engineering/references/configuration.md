@@ -2,7 +2,7 @@
 
 Load for environment values, `.env`, runtime settings stores, secret delivery, startup validation, behavior-affecting values, settings access, or dependency injection.
 
-## One Settings Owner Per Process
+## One Settings Component Per Process
 
 Every process has one settings package/module and one authorized path for reading configuration sources. It must:
 
@@ -28,7 +28,7 @@ Keep these sources distinct:
 - request/job/correlation context;
 - browser-safe public settings.
 
-Local and Docker Compose development use one project-designated `.env`, normally at the repository or application root. Commit a safe `.env.example`; never commit live values. Do not create service-local or task-local `.env` files that establish competing settings owners.
+Local and Docker Compose development use one project-designated `.env`, normally at the repository or application root. Commit a safe `.env.example`; never commit live values. Do not create service-local or task-local `.env` files that establish competing settings components.
 
 Recorded CI definitions, container specifications, service-manager/orchestrator manifests, and secret-injection manifests are project-designated configuration. Ad hoc, unrecorded environment values added at process launch—including `PYTHONPATH`-style path changes or JavaScript runtime equivalents—are forbidden.
 
@@ -62,10 +62,10 @@ Only composition roots may obtain complete settings. They pass narrow readonly c
 
 If a singleton is required by the host, initialization is explicit and one-time, access before initialization fails with a logged catalog error, the returned value is immutable, and lazy loading is forbidden. The singleton remains a composition-root mechanism rather than a leaf dependency locator.
 
-Tests construct fresh validated settings or initialize sources before importing the settings owner. They do not mutate process-global settings between cases.
+Tests construct fresh validated settings or initialize sources before importing the settings component. They do not mutate process-global settings between cases.
 
 ## Required Failure Shape
 
-Bootstrap failure uses the centralized error catalog and a stable bootstrap correlation sentinel. Before the operational logger exists, the settings owner calls the logging package's narrow safe fallback writer with key names, issue paths/codes, and bounded safe metadata only; it then throws the same typed error. Never emit secret values or a raw validation dump.
+Bootstrap failure uses the centralized error catalog and a stable bootstrap correlation sentinel. Before the operational logger exists, the settings component calls the logging package's narrow safe fallback writer with key names, issue paths/codes, and bounded safe metadata only; it then throws the same typed error. Never emit secret values or a raw validation dump.
 
-Failure output: `Blocked: centralized settings contract is incomplete: <source, allowlist, schema, protected key, failure path, or injection owner>.`
+Failure output: `Blocked: centralized settings contract is incomplete: <source, allowlist, schema, protected key, failure path, or injecting component>.`

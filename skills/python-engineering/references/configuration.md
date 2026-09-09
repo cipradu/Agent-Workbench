@@ -44,7 +44,7 @@ Source precedence (official docs, verified 2026-07), highest first: CLI args (wh
 ## Rules
 
 - Environment variables are the deploy-config channel (12-factor); files are delivery mechanisms — `.env` for local dev (gitignored, with a committed `.env.example` documenting every variable), mounted secret files for containers.
-- Namespace with `env_prefix` and nest with `env_nested_delimiter` so ownership is greppable.
+- Namespace with `env_prefix` and nest with `env_nested_delimiter` so responsibility is greppable.
 - Every secret field is `SecretStr`/`SecretBytes` — value never leaks through repr/logs; access is explicit `get_secret_value()`. Secrets get no defaults; convenience values (timeouts, flags, local URLs) may.
 - High-security production secrets prefer mounted files (`secrets_dir`) over env vars — env vars leak to child processes and process listings (OWASP guidance). Env delivery is acceptable in single-tenant containers and dev.
 - Instantiate once at the composition root. Where a framework supports it, prefer injection over a bare module-global: the `@lru_cache def get_settings()` + dependency pattern (FastAPI's documented approach) keeps tests able to override cleanly. Domain logic receives plain typed values, not the settings module.
@@ -69,6 +69,6 @@ Override via constructor kwargs (`Settings(api_key=..., _env_file=None)`) or `mo
 - Secrets in code, committed files, logs, exception messages, or test fixtures — see security reference; a leaked secret is rotated, not scrubbed from history and forgotten.
 - Feature flags scattered as ad-hoc booleans instead of declared settings fields.
 
-Failure output: `Blocked: configuration surface unclear: <missing source/owner/validation>.`
+Failure output: `Blocked: configuration surface unclear: <missing source/responsible component/validation>.`
 
 Re-verify: pydantic-settings precedence and API on major releases; verified-as-of 2026-07.

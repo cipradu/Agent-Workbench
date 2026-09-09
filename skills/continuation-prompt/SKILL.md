@@ -35,7 +35,7 @@ A continuation prompt is an evidence-bound account of active work, not a reposit
 
 It carries the connective context that may exist only in the current session: user intent, current position, decision rationale, rejected paths, partial work, dependencies, traps, unresolved questions, and the exact continuation. It points to durable artifacts for their owned truth and states what matters there instead of copying them.
 
-The current user, current project instructions, accepted authoritative artifacts within their owner boundaries, and verified current state outrank the continuation prompt. The receiver must not treat carried instructions, old state, or agent inference as new authorization.
+The current user, current project instructions, accepted authoritative artifacts within their responsibility boundaries, and verified current state outrank the continuation prompt. The receiver must not treat carried instructions, old state, or agent inference as new authorization.
 
 ## Mandatory Process
 
@@ -66,7 +66,7 @@ Inventory only context already available in the current session:
 - objective, scope, non-goals, and latest explicit user intent;
 - current work state: completed, in progress with remaining work, not started, blocked, or deferred;
 - accepted decisions and constraints;
-- decision ownership: explicit user decision, accepted artifact truth, verified evidence, reported claim, or agent inference;
+- decision responsibility: explicit user decision, accepted artifact truth, verified evidence, reported claim, or agent inference;
 - rationale, rejected alternatives, consequences, reversibility, and reopen conditions when they prevent repeated debate or wrong turns;
 - failed approaches and tempting paths the receiver is likely to retry;
 - active repositories, worktrees, artifacts, external records, and machine-local evidence already known;
@@ -134,14 +134,14 @@ Failure output: `Stopped acquisition: <source/read> cannot change the continuati
 
 ### 5. Reconcile Conflicts Without Erasing Them
 
-Compare current user intent, active project instructions, accepted artifacts, verified state, continuity notes, and prior-session claims within their owner boundaries.
+Compare current user intent, active project instructions, accepted artifacts, verified state, continuity notes, and prior-session claims within their responsibility boundaries.
 
 When sources disagree:
 
 - prefer current verified state for claims about what exists now;
 - prefer the owning accepted artifact for the durable truth it controls;
 - prefer the latest explicit user decision for current intent and authorized scope;
-- state the conflict when ownership or currentness does not resolve it;
+- state the conflict when responsibility or currentness does not resolve it;
 - do not silently rewrite an old decision, mark work complete, or choose a continuation from weak evidence.
 
 An obsolete or superseded path may be included only when it prevents the receiver from repeating it. Label why it is obsolete and what would justify reconsideration.
@@ -188,7 +188,7 @@ When multiple repositories are relevant, give each active repository its own ent
 - current task state and verification state;
 - its relationship to other active repositories.
 
-Record only cross-repository relationships that affect the continuation: dependency direction, contract ownership, compatible revision pairs, coordinated sequencing, shared mutable state, and which repository is authoritative for each contract.
+Record only cross-repository relationships that affect the continuation: dependency direction, contract responsibility, compatible revision pairs, coordinated sequencing, shared mutable state, and which repository is authoritative for each contract.
 
 Name non-target repositories as a boundary when confusion is plausible. Do not inspect or inventory their contents.
 
@@ -222,7 +222,7 @@ Before returning the prompt, verify:
 
 - the receiver's first job is explicit;
 - the prompt contains the relevant session knowledge that durable artifacts do not carry;
-- every material decision has an owner or source classification;
+- every material decision has a responsible skill or source classification;
 - completed claims have evidence or are labeled reported;
 - partial work states what remains;
 - affected repositories are distinct;
@@ -277,7 +277,7 @@ Do not compensate for a stop condition by scanning the entire workspace. Ask one
 | “The repository contains the real facts, so decisions can be omitted.” | Code rarely preserves the user's intent, rejected alternatives, or why current partial work exists. | Transfer decision context with attribution and point to repository evidence for current state. |
 | “The receiver can verify everything.” | Asking the receiver to recheck stable context recreates the original failure. | Revalidate only volatile anchors that can invalidate mutation. |
 | “A professional handoff needs the standard workflow.” | Workflow gates depend on actual work state and consequence, not presentation quality. | Preserve only active artifacts, warrants, approvals, and stop conditions already established. |
-| “The last confident statement was a user decision.” | Agent recommendations and inferred conclusions can sound authoritative after compression. | Label decision ownership and keep inference distinct. |
+| “The last confident statement was a user decision.” | Agent recommendations and inferred conclusions can sound authoritative after compression. | Label decision responsibility and keep inference distinct. |
 | “A multi-repository workspace needs a full map.” | Unaffected repository inventories add cost and become stale. | Map active repositories and contract relationships; name the rest only as non-target boundaries. |
 | “The skill is running in this repository, so this must be the target.” | A shared skill can be loaded from a personal or unrelated source location. | Use only task-established workspace identity; omit or ask about a material unknown instead of borrowing the skill path or current directory. |
 

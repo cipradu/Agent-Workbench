@@ -35,7 +35,7 @@ Preserve scenario text and pass/fail criteria once GREEN work starts. If criteri
 
 ## Journey Integrity
 
-Test the behavior from the earliest decision point that failed. Do not give the target classification facts, owner choices, gate results, risk labels, or final answers that the skill is supposed to derive.
+Test the behavior from the earliest decision point that failed. Do not give the target classification facts, skill or agent choices, gate results, risk labels, or final answers that the skill is supposed to derive.
 
 When the required behavior includes inspection, reference selection, clarification, or tool use, provide only the real task prompt and a bounded discoverable source or synthetic fixture. Record the fixture as synthetic, freeze its identity, and keep expected behavior and criteria evaluator-only. A final-label prompt is not a valid substitute for a journey test when the failure occurred before the label was known.
 
@@ -84,7 +84,7 @@ Stop when the named behavior and controls pass. Do not add scenarios, targets, m
 
 ## Evaluator and Target Context
 
-Evaluator data and target runtime context have different owners. The evaluator may read pressure scenarios, expected wrong behavior, required behavior, pass/fail criteria, and prior verdict records. The target receives only the task prompt plus allowed runtime skill context.
+Evaluator data and target runtime context have different responsible agents. The evaluator may read pressure scenarios, expected wrong behavior, required behavior, pass/fail criteria, and prior verdict records. The target receives only the task prompt plus allowed runtime skill context.
 
 Do not provide expected behavior, selector inventories, pass/fail criteria, evaluator notes, or verdict records to the target session. Do not ask the target to read evaluator data. If the target reads evaluator data anyway, the scenario fails even when the final answer looks correct.
 
@@ -100,7 +100,7 @@ When the agent finds a new shortcut:
 
 Do not add speculative counters. Untested warnings become sediment.
 
-For skill-behavior debugging, record the predicted causal lever before editing: trigger did not fire, skill was not visible, frontmatter/path failed, reference pointer was missed, gate was optional in practice, scenario was weak, or a tool/rule/loader owner must fix the real cause. Change one lever at a time and rerun the relevant scenario.
+For skill-behavior debugging, record the predicted causal lever before editing: trigger did not fire, skill was not visible, frontmatter/path failed, reference pointer was missed, gate was optional in practice, scenario was weak, or a component responsible for the tool/rule/loader must fix the real cause. Change one lever at a time and rerun the relevant scenario.
 
 ## Test Report
 

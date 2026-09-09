@@ -2,23 +2,23 @@
 
 Use this reference for Actions orchestration around release builds, language packages, build-once artifact flow, attestations, multi-platform containers, OCI identity, and handoff to separately owned publication or deployment.
 
-## Owner Composition
+## Skill Composition
 
 `github-actions` owns workflow YAML, events, permissions, job dependencies, trust boundaries, artifact wiring, attestations as workflow evidence, and proof classification.
 
-Domain owners retain exact mechanics:
+Domain skills retain exact mechanics:
 
 - `python-engineering` owns Python build, test, package, and publish commands and artifact names;
 - `typescript-engineering` owns TypeScript/JavaScript build, test, package, and publish commands and artifact names;
 - `git-tag` owns tag identity and lifecycle;
 - `github-release` owns the GitHub Release record, notes, and assets;
-- registry publication and deployment execution remain with an existing exact owner or use the main skill's missing-owner blocker.
+- registry publication and deployment execution remain with an existing named skill or agent or use the main skill's missing-responsibility blocker.
 
 Do not invent domain commands, version policy, tag patterns, credentials, registry behavior, or deployment steps.
 
 ## Build Once, Promote Exact Identity
 
-Use the release owner's approved event and immutable source identity. Test and build using the domain owner's commands. Upload the exact output once, record its digest and provenance, and make later jobs download and verify the same artifact rather than rebuild it.
+Use the release skill's approved event and immutable source identity. Test and build using the domain skill's commands. Upload the exact output once, record its digest and provenance, and make later jobs download and verify the same artifact rather than rebuild it.
 
 An attestation hook belongs after the artifact identity is fixed and before a publication handoff. An attestation or workflow artifact is evidence about the built object; it does not prove a registry accepted it, a GitHub Release contains it, or deployment occurred.
 
@@ -32,6 +32,6 @@ Verify the requested platform set and the relationship between each manifest, th
 
 ## Release Workflow Proof
 
-Report the source identity, domain command owner, artifact names and digests, job flow, permissions, attestation points, handoff owner, and proof limits. Name every external action not performed.
+Report the source identity, domain command's defining skill or component, artifact names and digests, job flow, permissions, attestation points, handoff recipient, and proof limits. Name every external action not performed.
 
-Failure output: `Blocked: release workflow handoff is unresolved: <domain command/artifact identity/publication owner>.`
+Failure output: `Blocked: release workflow handoff is unresolved: <domain command/artifact identity/publication skill or agent>.`

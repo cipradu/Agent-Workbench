@@ -2,7 +2,7 @@
 
 Load this reference when writing or reviewing Python for style and structure, choosing between language constructs, hunting code smells, or debugging interactively.
 
-Owner boundary: system-level architecture judgment (service boundaries, layering) belongs to `architecture-design`; this reference stays at language level.
+Responsibility boundary: system-level architecture judgment (service boundaries, layering) belongs to `architecture-design`; this reference stays at language level.
 
 ## Idiom Table (since-versions verified 2026-07)
 

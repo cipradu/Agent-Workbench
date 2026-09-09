@@ -61,7 +61,7 @@ Check:
 - retry/idempotency behavior if callbacks, jobs, outbox rows, cache refresh, or external events depend on the migrated data;
 - partial deploy, failed migration, failed backfill, and rollback/recovery paths.
 
-When cross-layer mechanics matter, hand off queue/cache/outbox, error-contract, test, implementation-plan, and review mechanics to their owners while preserving the database evidence they need.
+When cross-layer mechanics matter, hand off queue/cache/outbox, error-contract, test, implementation-plan, and review mechanics to the responsible skills or agents while preserving the database evidence they need.
 
 Failure output: `Rejected: migration deploy-window compatibility is not proven: <specific old/new/partial-state risk>.`
 

@@ -98,7 +98,7 @@ Template rules:
 - Replace `<STATE_DIRECTORY_NAME>` with one plain directory segment, or delete the `CODEGRAPH_DIR` line to use `.codegraph/`.
 - Keep `CODEGRAPH_NO_UPDATE_CHECK=1` only when the same MCP process must also avoid the daily GitHub release check; delete it for normal CLI-only use.
 - `DO_NOT_TRACK=1` can replace the telemetry and update-check lines when the owning environment intentionally applies the cross-tool setting.
-- Apply the variables through the active process environment or the target harness’s verified environment field. Do not create or commit an `.env` file merely to hold them, and do not create or edit an environment owner without user authorization.
+- Apply the variables through the active process environment or the target harness’s verified environment field. Do not create or commit an `.env` file merely to hold them, and do not create or edit an environment configuration source without user authorization.
 
 When telemetry is enabled, CodeGraph can send install, index, daily usage-rollup, and uninstall events. The documented payload includes a random machine ID, CodeGraph version, OS and architecture, Node major version, CI state, schema version, language names, coarse file-count and duration buckets, command or MCP tool counts and errors, and connecting agent name/version. It does not send source code, repository names or URLs, file paths or names, symbol names, search queries, usernames, hostnames, emails, environment variables, or client IP addresses. Events go to `telemetry.getcodegraph.com` and are forwarded to PostHog in the US after allowlist validation and IP stripping.
 
@@ -237,7 +237,7 @@ Do not map an extension to `unknown`.
 
 The audited CodeGraph 1.5.0 repository includes agent-facing files, but none is required for normal consumer use of this CLI-first codebase-search skill:
 
-| Upstream artifact | Actual owner and purpose | Consumer disposition |
+| Upstream artifact | Actual responsible component and purpose | Consumer disposition |
 | --- | --- | --- |
 | `.claude/skills/add-lang/SKILL.md` | CodeGraph maintainers adding or benchmarking a new parser language inside the CodeGraph repository | do not copy, install, or load for repository search |
 | `.claude/skills/agent-eval/SKILL.md` | CodeGraph maintainers running paid Claude benchmark comparisons against CodeGraph itself | do not copy, install, or load for repository search |
@@ -752,7 +752,7 @@ mcp_servers:
 Template rules:
 
 - Merge the `codegraph` entry into the harness’s existing configuration; do not overwrite unrelated servers or settings.
-- Use the harness-specific configuration owner and supported location.
+- Use the harness-specific configuration source and supported location.
 - Do not add a project `--path` argument except where the harness template requires it.
 - Restart the agent after changing MCP configuration; index and `codegraph.json` changes do not require an agent restart.
 - Antigravity can require an absolute executable path on macOS. Generate its exact current template with `codegraph install --print-config antigravity` instead of guessing.

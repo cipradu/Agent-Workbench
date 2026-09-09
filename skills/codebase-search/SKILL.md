@@ -44,7 +44,7 @@ Before selecting a mechanism, choose one or more search postures and the proof t
 | Search posture | Use when | Required proof target |
 | --- | --- | --- |
 | Lightweight lookup | locate a known file, path, symbol, string, or setting | read the matching file or exact hit when the answer depends on it |
-| Exact-symbol search | establish a definition, signature, owner, reference, caller, or override | `verified definition` or a source-confirmed reference set |
+| Exact-symbol search | establish a definition, signature, defining module, reference, caller, or override | `verified definition` or a source-confirmed reference set |
 | Concept orientation | find likely subsystems, files, symbols, artifacts, and project vocabulary from a broad question | bounded candidates plus source reads before any precise claim |
 | Pattern and reuse search | find comparable implementations and determine whether they represent an accepted or repeated approach | exact or structural matches, source comparison, project guidance, and meaningful counterexamples |
 | Artifact search | locate and reconcile docs, ADRs, specifications, configuration, schemas, manifests, reports, generated files, or other non-code sources | original artifact read, source authority classified, and owning code checked when the claim spans implementation |
@@ -151,7 +151,7 @@ Use every row that matches the question. The required evidence column is mandato
 
 | Claim type | Required evidence |
 | --- | --- |
-| Location or definition | owning definition; aliases, exports, overloads, or generated owner when present |
+| Location or definition | owning definition; aliases, exports, overloads, or generating tool when present |
 | Behavior | entry points; controlling branches; callees and side effects; configuration or registration; tests or runtime evidence when source alone cannot establish the claim |
 | Usage or callers | exact or type-aware references where available; graph callers; registrations, callbacks, dependency injection, reflection, or generated wiring that static calls may miss |
 | Change impact | changed definition; upstream callers and dependents; downstream calls, data, and side effects; interfaces, schemas, configuration, and generated contracts; tests; alternate entry points and variants |

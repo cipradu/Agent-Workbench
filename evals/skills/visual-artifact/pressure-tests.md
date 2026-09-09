@@ -121,7 +121,7 @@ Expected wrong behavior:
 
 Required correct behavior:
 
-- Shows source truth, tickets, Fog, route-outs, blockers, evidence needed, owner route, and handoff readiness.
+- Shows source truth, tickets, Fog, route-outs, blockers, evidence needed, responsible workflow, and handoff readiness.
 - Does not create implementation units or spec requirements.
 
 Pass/fail criteria:
@@ -239,7 +239,7 @@ Expected wrong behavior:
 Required correct behavior:
 
 - Uses Mermaid only for a small overview when useful.
-- Moves dense evidence, owner, confidence, and status into tables or sections.
+- Moves dense evidence, responsible skill, confidence, and status into tables or sections.
 
 Pass/fail criteria:
 
@@ -272,7 +272,7 @@ Required correct behavior:
 
 Pass/fail criteria:
 
-- Pass only if source-truth ownership is preserved.
+- Pass only if source-truth responsibility is preserved.
 
 ## Scenario 10: Comprehension Check As Gate
 
@@ -424,7 +424,7 @@ Expected wrong behavior:
 Required correct behavior:
 
 - Uses an unframed figure or one inspection frame, without nested decorative borders.
-- Uses the selected renderer without an extra decorative inner frame; labeled ownership groups are permitted when they encode source meaning.
+- Uses the selected renderer without an extra decorative inner frame; labeled responsibility groups are permitted when they encode source meaning.
 - Uses legible semantic labels for source/evidence/status.
 - Keeps material meaning in adjacent prose, tables, or evidence rows.
 

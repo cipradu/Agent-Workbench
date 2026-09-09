@@ -8,9 +8,9 @@ Start from repository-owned facts: exact events, supported runner, canonical com
 
 - Give workflows, jobs, and material steps stable purpose-revealing names.
 - Keep each job to one responsibility and express ordering with explicit `needs`.
-- Invoke the domain owner's exact canonical command; do not copy its body or invent setup, test, build, publish, or deploy mechanics.
+- Invoke the domain skill's exact canonical command; do not copy its body or invent setup, test, build, publish, or deploy mechanics.
 - Declare an input or output only when a real caller or downstream job consumes it.
-- Use the minimum workflow and job permissions. Pin actions to current full commit SHAs when repository policy permits, retain readable version context, and identify update ownership.
+- Use the minimum workflow and job permissions. Pin actions to current full commit SHAs when repository policy permits, retain readable version context, and identify update responsibility.
 - Preserve event/ref policy as supplied or discovered. Do not add schedules, releases, matrices, environments, or publication because they are common in templates.
 
 For a fixed ordinary check command on supplied push and pull-request events, a single check job with ordered checkout, repository-owned setup, and exact command is usually sufficient. Do not turn that bounded authoring request into a full hardening, deployment, or optimization audit unless another selector independently matches.
@@ -31,6 +31,6 @@ A reusable validation contract does not authorize registry publication or deploy
 
 ## Authoring Decision Record
 
-Report the exact event, runner, canonical command owner, job graph, inputs, outputs, secrets, permissions, action pin/currentness basis, and proof limits. If any controlling repository fact is missing, leave the dependent field unresolved instead of emitting a generic template.
+Report the exact event, runner, canonical command's defining skill or component, job graph, inputs, outputs, secrets, permissions, action pin/currentness basis, and proof limits. If any controlling repository fact is missing, leave the dependent field unresolved instead of emitting a generic template.
 
 Failure output: `Blocked: workflow authoring contract is unresolved: <event/runner/command/input/output/secret/permission>.`

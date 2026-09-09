@@ -9,7 +9,7 @@ description: Use when designing or reviewing software architecture, module bound
 
 - Designing a new module, service, subsystem, feature slice, integration, or architectural boundary.
 - Deciding where business logic, validation, persistence, IO, retries, timeouts, mapping, configuration, or error handling belongs.
-- Reviewing whether an existing design has unclear ownership, leaky interfaces, pass-through layers, shallow abstractions, hidden coupling, or framework/SDK leakage.
+- Reviewing whether an existing design has unclear responsibility, leaky interfaces, pass-through layers, shallow abstractions, hidden coupling, or framework/SDK leakage.
 - Reviewing architecture in a diff, proposal document, ADR candidate, implementation plan, review comment, or migration/refactor note.
 - Considering Clean Architecture, Hexagonal Architecture, DDD, repositories, CQRS, events, queues, microservices, plugins, shared libraries, or other structural patterns.
 - Refactoring architecture in brownfield code where tests, behavior, compatibility, or runtime wiring may constrain the change.
@@ -23,7 +23,7 @@ description: Use when designing or reviewing software architecture, module bound
 
 ## Iron Law
 
-Architecture is ownership and trade-off discipline, not pattern decoration. Do not recommend a layer, service, adapter, repository, event, queue, abstraction, framework pattern, or rewrite until the forces, ownership, interface, seam, and accepted trade-offs are explicit.
+Architecture is responsibility and trade-off discipline, not pattern decoration. Do not recommend a layer, service, adapter, repository, event, queue, abstraction, framework pattern, or rewrite until the forces, responsibility, interface, seam, and accepted trade-offs are explicit.
 
 ## Operating Process
 
@@ -45,7 +45,7 @@ Before accepting the user's proposed shape, run a source and framing gate:
 
 - If the request starts with a named pattern, layer, service split, adapter, repository, event, queue, plugin model, rewrite, or abstraction, identify the concrete pain, affected callers, current workaround, and consequence of doing nothing.
 - Classify material inputs as confirmed fact, source-backed constraint, inferred assumption, background context, stale or conflicting source, or missing force.
-- Before claiming the project lacks an ADR, boundary, adapter, seam, ownership convention, dependency direction, or local pattern, inspect the relevant source or label the claim as an assumption.
+- Before claiming the project lacks an ADR, boundary, adapter, seam, responsibility convention, dependency direction, or local pattern, inspect the relevant source or label the claim as an assumption.
 - When code, ADRs, docs, diagrams, generated findings, runtime behavior, review comments, or external state disagree, classify the conflict before choosing authority: stale documentation, implementation drift, unresolved architecture decision, compatibility exception, or source-of-truth ambiguity.
 - Carry exact source identifiers when available, such as paths, ADR IDs, module names, API or schema names, diagram names, runtime config names, or review-comment anchors.
 
@@ -53,20 +53,20 @@ Completion criterion: the architecture recommendation can name the forces it is 
 
 Failure output: `Blocked: architecture decision depends on missing force: <specific missing fact>.`
 
-### 2. Locate Ownership
+### 2. Locate Responsibility
 
-Assign each important policy, invariant, state transition, data transformation, and side effect to an owner.
+Assign each important policy, invariant, state transition, data transformation, and side effect to a component.
 
 Rules:
 
 - Business policy belongs in the module that owns the domain concept, not in controllers, routes, UI components, database callbacks, SDK wrappers, or glue code.
 - Persistence, network, filesystem, clock, random, process, queue, cache, analytics, and third-party calls belong behind adapters or tools unless the containing module's purpose is that mechanism.
 - Validation splits by purpose: reject malformed input at system boundaries, enforce business invariants in the owning domain/application module, and enforce uniqueness/integrity in persistence where applicable.
-- One conceptual change should have one primary edit site. If a change spreads across unrelated files, ownership is probably wrong or duplicated.
+- One conceptual change should have one primary edit site. If a change spreads across unrelated files, responsibility is probably wrong or duplicated.
 
-Completion criterion: every named policy, invariant, state transition, and side effect has a clear owner, and each owner can explain why the knowledge belongs there.
+Completion criterion: every named policy, invariant, state transition, and side effect has a clear component, and the rationale explains why the knowledge belongs in each component.
 
-Failure output: `Blocked: ownership is ambiguous for <policy/invariant/side effect>.`
+Failure output: `Blocked: responsibility is ambiguous for <policy/invariant/side effect>.`
 
 ### 3. Design The Interface And Seam
 
@@ -119,7 +119,7 @@ For each significant pattern or abstraction, answer:
 
 Use [Decision Framing](references/decision-framing.md) for option comparison, quality attributes, and ADR handoff.
 
-For broad or solution-shaped prompts, discover at least two materially different architecture options before recommending one. Candidate options may differ by owner, boundary placement, seam timing, migration direction, policy/mechanism split, or compatibility strategy. Reject weak options with reasons tied to missing forces, shallow interfaces, boundary leaks, brownfield gaps, compatibility risks, or weak verification paths.
+For broad or solution-shaped prompts, discover at least two materially different architecture options before recommending one. Candidate options may differ by component, boundary placement, seam timing, migration direction, policy/mechanism split, or compatibility strategy. Reject weak options with reasons tied to missing forces, shallow interfaces, boundary leaks, brownfield gaps, compatibility risks, or weak verification paths.
 
 Completion criterion: each architectural choice has a concrete problem, rejected alternatives, accepted costs, and a revisit trigger when appropriate.
 
@@ -137,7 +137,7 @@ Rules:
 - Keep behavior changes, refactoring, and cleanup separate unless the spec explicitly binds them.
 - Preserve public compatibility or provide a transition path when changing externally reachable interfaces.
 
-If the request comes from a bug, regression, repeated workaround, review finding, incident, or unexplained behavior, treat it as failure-driven architecture. Require causal evidence that the symptom is architectural before moving ownership or boundaries: wrong responsibility, leaky interface, duplicated policy, cross-subsystem interaction, unsafe side effect ordering, or a local fix that would only hide the design problem.
+If the request comes from a bug, regression, repeated workaround, review finding, incident, or unexplained behavior, treat it as failure-driven architecture. Require causal evidence that the symptom is architectural before moving responsibility or boundaries: wrong responsibility, leaky interface, duplicated policy, cross-subsystem interaction, unsafe side effect ordering, or a local fix that would only hide the design problem.
 
 Use [Brownfield Architecture](references/brownfield-architecture.md) before recommending migration, extraction, broad refactor, or replacement.
 
@@ -152,7 +152,7 @@ Before presenting a recommendation as ready, run [Architecture Review Checklist]
 Minimum output:
 
 - problem and forces;
-- recommended ownership and boundaries;
+- recommended responsibility and boundaries;
 - interface/seam summary;
 - policy/mechanism split;
 - alternatives rejected and why;
@@ -164,7 +164,7 @@ When reviewing an existing artifact instead of designing from scratch, use bound
 
 - Classify the artifact shape first: requirements-level architecture direction, ADR candidate, implementation plan, diff, migration/refactor proposal, interface sketch, or review comment.
 - Match scrutiny to the artifact. Do not demand implementation sequencing from requirements-level architecture notes; do require implementability, transition, compatibility, and verification from plan-shaped artifacts.
-- Report findings only when they name the affected owner, boundary, interface, seam, pattern, or trade-off; cite the source evidence; explain the downstream consequence; and route the correction to the right owner.
+- Report findings only when they name the affected component, boundary, interface, seam, pattern, or trade-off; cite the source evidence; explain the downstream consequence; and route the correction to the responsible skill or component.
 - Treat weak or speculative concerns as residual risk, not confident findings.
 - Do not own independent review verdicts, severity policy, reviewer dispatch, PR-comment resolution, or auto-application.
 
@@ -182,13 +182,13 @@ Architecture handoff should preserve:
 
 - source evidence and unresolved authority conflicts;
 - forces optimized for and deliberately not optimized for;
-- ownership decisions and affected boundaries;
+- responsibility decisions and affected boundaries;
 - interfaces, seams, caller obligations, and hidden complexity;
 - policy/mechanism split and adapter responsibilities;
 - alternatives rejected and accepted trade-offs;
 - brownfield behavior to preserve, compatibility surfaces, and transition notes;
 - verification strategy and residual risks;
-- ADR candidates and decisions that require another owner.
+- ADR candidates and decisions that require another skill.
 
 Do not add implementation units, file-list choreography, branch creation, commits, pushes, PR mutation, CI watching, tracker filing, review verdicts, or external publishing steps.
 
@@ -198,20 +198,20 @@ Do not add implementation units, file-list choreography, branch creation, commit
 | ---------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | "This is standard Clean Architecture."         | Pattern names do not prove fit.                                                     | Prove the problem, simpler alternative, added complexity, and accepted trade-off.   |
 | "We need an interface for testing."            | A seam is real only when it enables useful substitution, observation, or variation. | Show the test or production adapter that needs it, or keep the dependency concrete. |
-| "Put all business logic in services."          | "Service" is not ownership by itself.                                               | Name the policy owner and define the interface callers need.                        |
+| "Put all business logic in services."          | "Service" is not responsibility by itself.                                               | Name the component responsible for the policy and define the interface callers need.                        |
 | "The code is messy, so rewrite it."            | Weakly tested code needs control before redesign.                                   | Characterize behavior, create the smallest useful seam, then refactor locally.      |
 | "This wrapper makes the architecture cleaner." | Pass-through wrappers add names without reducing complexity.                        | Apply the deletion test and reject wrappers that do not concentrate knowledge.      |
 | "The database model is convenient to return."  | Persistence shape leaks storage decisions and coupling.                             | Map to an explicit contract at the boundary.                                        |
 | "We can document the weird sequence."          | Documentation does not fix temporal coupling.                                       | Redesign the interface so valid usage is harder to misuse.                          |
 | "The old ADR or diagram says so."              | Architecture sources can be stale, partial, or contradicted by accepted rules.      | Reconcile source authority before treating the artifact as binding.                 |
-| "The reviewer asked for it."                   | Review comments are evidence, not architecture authority.                           | Verify the affected boundary and route non-architecture work to the owner.          |
+| "The reviewer asked for it."                   | Review comments are evidence, not architecture authority.                           | Verify the affected boundary and route non-architecture work to the responsible skill.          |
 | "Implementation needs this now."               | Handoffs preserve decisions; they do not turn architecture into planning or git.    | Hand off forces, decisions, risks, and verification without execution mechanics.     |
 
 ## Red Flags
 
-- The recommendation starts with a named pattern before stating forces and ownership.
+- The recommendation starts with a named pattern before stating forces and responsibility.
 - A new layer mostly forwards calls.
-- A proposed interface has one implementation and no test, variation, or ownership reason.
+- A proposed interface has one implementation and no test, variation, or responsibility reason.
 - Controllers, routes, UI components, SDK wrappers, or database callbacks contain business decisions.
 - Raw ORM/database/SDK/framework objects cross into policy modules.
 - A brownfield design changes behavior and structure in the same unsafely broad move.
@@ -219,5 +219,5 @@ Do not add implementation units, file-list choreography, branch creation, commit
 - The design optimizes for file organization aesthetics rather than lower cognitive load, locality, and testability.
 - The recommendation trusts a stale or conflicting source without classifying authority.
 - Architecture review findings lack affected boundary, source evidence, or downstream consequence.
-- A failure-driven architecture change moves ownership before causal evidence shows a design signal.
+- A failure-driven architecture change moves responsibility before causal evidence shows a design signal.
 - The output smuggles implementation units, commits, PRs, review verdicts, or delivery steps into architecture guidance.

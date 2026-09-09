@@ -142,7 +142,7 @@ Model only the domain elements that affect product truth:
 
 Do not turn PRD domain modeling into database design, API design, class modeling, schema modeling, or implementation architecture. A PRD can define what a `case` is, what product states it can move through, who may act on it, and what transitions are forbidden. It should not decide tables, endpoints, models, services, packages, migrations, or file structure.
 
-When agents, assistants, tools, plugins, MCP servers, prompts, automations, generated artifacts, or shared workspaces appear in the product, treat them as possible product actors. Decide what they can see, what they can do, when they need human approval, what remains human-only, how their actions are visible, how generated artifacts are trusted, and how context parity works. Leave tool APIs, prompt internals, dispatch mechanics, and schemas to downstream engineering artifacts.
+When agents, assistants, tools, plugins, MCP servers, prompts, automations, generated artifacts, or shared workspaces appear in the product, treat them as possible product actors. Decide what they can see, what they can do, when they need user approval, what remains human-only, how their actions are visible, how generated artifacts are trusted, and how context parity works. Leave tool APIs, prompt internals, dispatch mechanics, and schemas to downstream engineering artifacts.
 
 Use concrete scenarios to pressure-test the model:
 
@@ -168,7 +168,7 @@ Then present a short user-facing synthesis before writing when material inferenc
 - what the PRD will define;
 - key trade-offs or product decisions;
 - what's not in scope;
-- call-outs where a reasonable product owner might redirect the scope.
+- call-outs where a reasonable user might redirect the scope.
 
 The synthesis is a confirmation checkpoint, not the PRD and not a preview of every section. It should be short enough for the user to correct the shape quickly. If the user revises it, integrate the revision and re-present the changed synthesis before writing. Do not turn a revision into implicit approval.
 
@@ -313,7 +313,7 @@ Prioritization can use MoSCoW, but do not use prioritization to shrink the targe
 - Could: valuable but not required for the target outcome.
 - Won't: explicitly out of scope for this version or this product, with a reason.
 
-Test: For each requirement, can you answer why it exists and how the product owner will know it is met?
+Test: For each requirement, can you answer why it exists and how the user will know it is met?
 
 User stories can support requirements, but they are not a substitute for requirements. Use stories or journeys when they clarify actor, intent, and acceptance behavior. Do not generate a long exhaustive story list merely to make the PRD look complete.
 
@@ -350,7 +350,7 @@ Effective assumptions and constraints include:
 - testable assumptions;
 - high-risk assumptions with validation path;
 - technical, business, regulatory, operational, budget, timeline, and dependency constraints;
-- owner or source for each material constraint when known.
+- responsible component or source for each material constraint when known.
 
 Test: What has to be true for this product to succeed, and what could block it?
 
@@ -529,7 +529,7 @@ Requirements unclear:
 - What does the product need to do?
 - Which capabilities are required for the target product to fulfill its purpose?
 - Which capabilities can be sequenced later?
-- How will the product owner know each requirement is met?
+- How will the user know each requirement is met?
 
 Scope unclear:
 
@@ -542,13 +542,13 @@ Source conflict unclear:
 - Which source should have product authority here, and why?
 - Is the current implementation accepted product behavior or possible drift?
 - Has this assumption been validated, invalidated, or aged past usefulness?
-- Should this PRD be amended, superseded, or blocked until a product owner decides?
+- Should this PRD be amended, superseded, or blocked until the user decides?
 
 Agent actor unclear:
 
 - Is the agent a user, operator, assistant, reviewer, tool caller, or implementation detail?
 - What can the agent do that a human can also do?
-- What requires human approval or must remain human-only?
+- What requires user approval or must remain human-only?
 - How should the product expose agent actions, context, and generated artifacts?
 
 Push back when the user cannot answer foundational questions. It is better to say "this PRD is blocked on problem and audience clarity" than to produce a polished document built on assumptions.

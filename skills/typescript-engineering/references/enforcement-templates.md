@@ -1,6 +1,6 @@
 # Enforcement Templates
 
-Load when creating or materially revising TypeScript project enforcement. These are starting structures, not project facts. Resolve actual roots, package names, runtime hosts, settings/logging/error owners, surface maps, dependency law, installed tool majors, and current command syntax before using them.
+Load when creating or materially revising TypeScript project enforcement. These are starting structures, not project facts. Resolve actual roots, package names, runtime hosts, settings/logging/error components, surface maps, dependency law, installed tool majors, and current command syntax before using them.
 
 ## Root Manifest And Canonical Scripts
 
@@ -193,8 +193,8 @@ const rootDir = dirname(fileURLToPath(import.meta.url));
 
 const POLICY = Object.freeze({
   settingsReaders: ["packages/settings/src/load-environment.ts"],
-  stdoutOwners: ["packages/logging/src/sinks.ts"],
-  stderrOwners: [
+  stdoutComponents: ["packages/logging/src/sinks.ts"],
+  stderrComponents: [
     "packages/logging/src/fallback-diagnostics.ts",
     "packages/settings/src/bootstrap-diagnostics.ts",
   ],
@@ -280,13 +280,13 @@ export default tseslint.config(
     },
   },
   {
-    files: POLICY.stdoutOwners,
+    files: POLICY.stdoutComponents,
     rules: {
       "project/no-direct-stdout": "off",
     },
   },
   {
-    files: POLICY.stderrOwners,
+    files: POLICY.stderrComponents,
     rules: {
       "project/no-direct-stderr": "off",
     },
@@ -296,7 +296,7 @@ export default tseslint.config(
 
 The template names project rules to make every required policy visible. Implement only rules the repository needs, but do not omit a mandatory invariant because no off-the-shelf rule exists. Each custom rule must use TypeScript-aware AST/services where semantics require them, accept exact source-derived policy data, report the smallest violating node, and include valid/invalid rule tests without suppressions.
 
-Do not add a global `no-restricted-properties` ban for environment/stdout/stderr beside these owner-aware rules: it would also reject the legitimate owner, and disabling it in an owner block would erase unrelated restrictions. The exact owner blocks above disable only the matching project rule and leave the other global restrictions active.
+Do not add a global `no-restricted-properties` ban for environment/stdout/stderr beside these component-aware rules: it would also reject the legitimate component, and disabling it in a component block would erase unrelated restrictions. The exact component blocks above disable only the matching project rule and leave the other global restrictions active.
 
 ### Required custom-rule behavior
 
@@ -309,9 +309,9 @@ Do not add a global `no-restricted-properties` ban for environment/stdout/stderr
 
 `require-catalog-throw` must permit only the exact shared/surface factory results and reject native/local errors, raw caught identifiers, strings, objects, and another surface's helper.
 
-`no-direct-environment`, `no-direct-stdout`, and `no-direct-stderr` stay separate so allowing one owner cannot accidentally allow another global. The environment rule must also cover `import.meta.env` and framework-specific runtime-setting globals used by the project.
+`no-direct-environment`, `no-direct-stdout`, and `no-direct-stderr` stay separate so allowing one component cannot accidentally allow another global. The environment rule must also cover `import.meta.env` and framework-specific runtime-setting globals used by the project.
 
-`no-boundary-escape` and `require-owned-io` must enforce the declared package/layer graph, dynamic imports, composition-root constructors, and route/service/tool ownership. They must derive package membership from workspace/source truth rather than a partial scan list.
+`no-boundary-escape` and `require-owned-io` must enforce the declared package/layer graph, dynamic imports, composition-root constructors, and route/service/tool responsibility. They must derive package membership from workspace/source truth rather than a partial scan list.
 
 `no-test-only-production` must reject test-framework imports, `.only`/`.skip` and equivalents, reset hooks, test flags, and alternate test dependency paths under every production root.
 
@@ -385,12 +385,12 @@ For a nested workspace, retain the Git-root hook, match the exact staged path se
 
 Before using any template:
 
-- replace every example root, owner path, package map, catalog/helper name, and runtime host;
+- replace every example root, component path, package map, catalog/helper name, and runtime host;
 - confirm installed-version schema, rule names, and command syntax;
 - prove all source, test, config, generated-declaration, and package roots are discovered;
 - ensure later flat-config blocks do not replace earlier `no-restricted-*` values;
-- ensure each rule/autofix family has one owner;
-- keep all exceptions configuration-level, exact, and owner-backed;
+- ensure each rule/autofix family has one responsible tool;
+- keep all exceptions configuration-level, exact, and component-backed;
 - run the complete project gate from a clean dependency/incremental state when the graph changed.
 
-Failure output: `Blocked: enforcement template contains unresolved project data or incomplete policy coverage: <owner, path, rule, file set, or command>.`
+Failure output: `Blocked: enforcement template contains unresolved project data or incomplete policy coverage: <component, path, rule, file set, or command>.`

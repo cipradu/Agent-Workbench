@@ -21,10 +21,10 @@ SemVer, a `v` prefix, synchronized monorepo versions, and `1.0.0` as an initial 
 
 Use a version only when the accepted policy and responsible product/domain authority determine it. The Release coordinator may carry that identity into the hosted Release record; it does not choose compatibility meaning or edit automation-owned metadata.
 
-When a version choice affects package compatibility, route it to the current product/domain authority and the applicable Python or TypeScript owner. When a configured Release Please, Changesets, CI, or custom path owns the transition, preserve that path. Route exact tag mechanics separately to `git-tag`.
+When a version choice affects package compatibility, route it to the current product/domain authority and the applicable `python-engineering` or `typescript-engineering` skill. When a configured Release Please, Changesets, CI, or custom path owns the transition, preserve that path. Route exact tag mechanics separately to `git-tag`.
 
-If a required decision is unresolved, stop with `Blocked: release/version owner or policy is unresolved: <item>.` State which policy source, component decision, compatibility meaning, prefix mapping, or authority is missing.
+If a required decision is unresolved, stop with `Blocked: release/version mechanism or policy is unresolved: <item>.` State which policy source, component decision, compatibility meaning, prefix mapping, or authority is missing.
 
 ## Completion Evidence
 
-Report policy source, owner, component scope, chosen identity supplied by that owner, tag mapping, automation-owned fields preserved, unresolved decisions, and downstream handoffs. Do not present a plausible version as an accepted one.
+Report policy source, responsible release mechanism, component scope, chosen identity supplied by that mechanism, tag mapping, automation-owned fields preserved, unresolved decisions, and downstream handoffs. Do not present a plausible version as an accepted one.

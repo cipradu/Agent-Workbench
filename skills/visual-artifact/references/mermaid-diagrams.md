@@ -6,7 +6,7 @@ Source basis: Mermaid official documentation, checked against the current Mermai
 
 ## Mermaid Rule
 
-Use Mermaid for compact structural relationships: flows, dependencies, states, sequences, boundaries, ownership lanes, charts, and small topology sketches.
+Use Mermaid for compact structural relationships: flows, dependencies, states, sequences, boundaries, responsibility lanes, charts, and small topology sketches.
 
 Do not use Mermaid for dense evidence, long prose, source excerpts, many similar rows, verification coverage, risk registers, or anything where the reader must compare details. Use tables, matrices, evidence rails, or prose for those.
 
@@ -119,7 +119,7 @@ Rendering notes:
 - Mermaid labels can break on special characters. Quote labels with `["..."]` or use entity codes when needed.
 - Avoid lowercase `end` as a flowchart node label. It can terminate a subgraph.
 - Avoid node IDs or labels that start with ambiguous edge markers such as lowercase `o` or `x` after an edge unless quoted.
-- Keep labels short. Put evidence, owner, confidence, and status in adjacent tables.
+- Keep labels short. Put evidence, responsibility, confidence, and status in adjacent tables.
 - Mermaid styling is most reliable with Mermaid `classDef` rules inside the diagram source. External CSS often loses to Mermaid's generated SVG styles.
 
 ## Default Diagram Types
@@ -167,7 +167,7 @@ sequenceDiagram
 
 Gotchas:
 
-- Use for time/order, not ownership matrices or dense evidence.
+- Use for time/order, not responsibility matrices or dense evidence.
 - Keep participant count low.
 
 Docs: https://mermaid.js.org/syntax/sequenceDiagram.html
@@ -398,7 +398,7 @@ These are documented by Mermaid but should be opt-in for visual artifacts. Use t
 
 ### Swimlanes
 
-Use for ownership and handoffs across lanes.
+Use for responsibility and handoffs across lanes.
 
 ```mermaid
 swimlane-beta LR
@@ -753,7 +753,7 @@ Docs: https://mermaid.js.org/syntax/treeView.html
 | How do options compare on two axes? | `quadrantChart` |
 | What broad hierarchy should we explore? | `mindmap` |
 | What requirement maps to what verification? | `requirementDiagram` plus trace table |
-| Who owns each handoff? | `swimlane-beta` only when lanes are central; otherwise an owner matrix |
+| Who owns each handoff? | `swimlane-beta` only when lanes are central; otherwise a responsibility matrix |
 | What system context or container view matters? | `C4Context`/`C4Container` only when C4 is accepted; otherwise `flowchart` plus table |
 | What is the topology? | `architecture-beta` only when verified; otherwise compact `flowchart` |
 | What changed over time? | `timeline` when chronology is central; otherwise a table |

@@ -42,7 +42,7 @@ For each known lower-level failure, define:
 - public message and field/domain details if safe;
 - private diagnostic fields;
 - retryability, rollback, compensation, or dead-letter behavior;
-- owner of the mapping and tests.
+- component responsible for the mapping and its tests.
 
 Failure output: `Blocked: known lower-level failure lacks application mapping: <failure>.`
 
@@ -131,7 +131,7 @@ If a fix changes the observed error without resolving the source, update the hyp
 
 ## Mapping Checklist
 
-- Mapping owner is clear.
+- Mapping responsibility is clear.
 - Known lower-level failures map to stable application categories.
 - Unknown failures have sanitized fallback.
 - Unknown outcomes are reread or bounded before retry or terminal reporting.

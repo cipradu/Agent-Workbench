@@ -10,7 +10,7 @@ Spec-readiness visuals help the reader:
 
 - see why an honest engineering spec cannot yet be written;
 - distinguish sharp tickets from Fog;
-- understand source authority, blockers, owner routes, and evidence still needed;
+- understand source authority, blockers, skill or agent routes, and evidence still needed;
 - see which unresolved items can change the future spec;
 - choose the next valid investigation or decision.
 
@@ -33,9 +33,9 @@ Build this before layout:
 
 - source artifact and product truth to preserve;
 - decisions so far;
-- open tickets with type, status, blocker, owner route, and spec impact;
+- open tickets with type, status, blocker, skill or agent route, and spec impact;
 - Fog items with suspected blind spot, evidence found, evidence missing, and sharpness condition;
-- route-out items and owner workflow;
+- route-out items and responsible workflow;
 - no-op or non-material items;
 - evidence needed for each unresolved item;
 - next valid action;
@@ -48,7 +48,7 @@ Build this before layout:
 | What blocks spec creation? | Readiness conclusion with blocker table or dependency figure | Show relevant tickets, Fog, route-outs, and handoff gate |
 | Which questions depend on which evidence? | Mermaid `flowchart TD` dependency or authority graph plus evidence-needed table | Use graph only for sparse dependencies; use table for details |
 | What is known versus assumed versus unknown? | Unknowns matrix or CSD-style table | Preserve uncertainty state explicitly |
-| Who owns each unresolved item? | Owner-route matrix; Mermaid `swimlane-beta` only by verified exception | Route to PRD, architecture, diagnosis, research, current-system discovery, or testing |
+| Who owns each unresolved item? | Responsibility matrix; Mermaid `swimlane-beta` only by verified exception | Route to PRD, architecture, diagnosis, research, current-system discovery, or testing |
 | What can become a spec requirement? | Decision pointer and spec-impact table | Do not write the spec here |
 
 ## Ticket And Fog Rules
@@ -57,7 +57,7 @@ Show tickets only when they are sharp:
 
 - one-sentence question;
 - evidence needed can be named;
-- owner route is known;
+- skill or agent route is known;
 - answer can change future spec truth, authority, risk, acceptance evidence, or planning impact.
 
 Show Fog separately:
@@ -77,9 +77,9 @@ Useful Mermaid forms:
 
 - `flowchart TD` for sparse ticket/evidence dependencies, blocker chains, and source-authority paths;
 - `mindmap` for Fog exploration only when hierarchy is the reader question;
-- `swimlane-beta` only when owner lanes are central and the rendered output is verified.
+- `swimlane-beta` only when responsibility lanes are central and the rendered output is verified.
 
-Keep ticket status, Fog sharpness, evidence needed, owner route, and spec impact in tables. Mermaid must not turn readiness work into implementation tasks.
+Keep ticket status, Fog sharpness, evidence needed, skill or agent route, and spec impact in tables. Mermaid must not turn readiness work into implementation tasks.
 
 ## Handoff Visualization
 
@@ -119,7 +119,7 @@ Use only the sections that serve the reader job:
 - readiness blockers;
 - tickets;
 - Fog;
-- owner routes;
+- skill or agent routes;
 - evidence needed;
 - decisions so far;
 - handoff readiness;

@@ -239,7 +239,7 @@ Required categories:
 - facts known from source material;
 - assumptions that need validation;
 - constraints that shape product scope;
-- dependencies and owners when known;
+- dependencies and maintenance responsibilities when known;
 - open questions split into blocking and deferred.
 
 Material assumptions cannot become product truth. Either validate them, mark them as assumptions, or block the affected section.
@@ -259,7 +259,7 @@ Use two stages:
 
 The synthesis is not the PRD. It is the last cheap correction point before the PRD lands. Keep it conversational and scope-level; do not include implementation details, file paths, schemas, package names, or task order.
 
-Keep only call-outs a product owner can affirm or redirect without reading code: problem frame, primary actor, product-domain meaning, tacit/reference-derived product expectation, success definition, material source conflict, scope boundary, non-goal, assumption, or downstream blocker. Do not preview every section. Do not include process narration, research plumbing, implementation units, or decorative findings.
+Keep only call-outs a user can affirm or redirect without reading code: problem frame, primary actor, product-domain meaning, tacit/reference-derived product expectation, success definition, material source conflict, scope boundary, non-goal, assumption, or downstream blocker. Do not preview every section. Do not include process narration, research plumbing, implementation units, or decorative findings.
 
 Ask for confirmation before writing when the PRD is full depth, when any product-scope inference is material, or when the user has not already approved the scope. If the user revises the synthesis, integrate the revision and re-present the changed synthesis before writing. A revision is not confirmation.
 

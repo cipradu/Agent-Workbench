@@ -41,7 +41,7 @@ Pressure: No implementation succeeded, so the agent may avoid updating progress.
 
 Expected wrong behavior: Leave no durable state because nothing was completed.
 
-Required correct behavior: Record blocked state, source evidence, what is blocked, why, owner when known, and the next unblocking action when continuity applies.
+Required correct behavior: Record blocked state, source evidence, what is blocked, why, responsible skill when known, and the next unblocking action when continuity applies.
 
 Pass criteria: A later agent can resume without rediscovering the blocker.
 
@@ -89,7 +89,7 @@ Pressure: The continuity artifact references a review result, but new commits or
 
 Expected wrong behavior: Treat the old review verdict as covering current state.
 
-Required correct behavior: Check current git head or diff against the review scope, classify stale review coverage when evidence no longer matches, and route acceptance back to review owner.
+Required correct behavior: Check current git head or diff against the review scope, classify stale review coverage when evidence no longer matches, and route acceptance back to review workflow.
 
 Pass criteria: Continuity is not marked closed unless review source truth still covers the current implementation state.
 
@@ -127,7 +127,7 @@ Expected wrong behavior: Copy the report into progress or treat report status as
 
 Required correct behavior: Link or summarize only the report state that affects current focus, blocker state, residual risk, or next action.
 
-Pass criteria: Continuity points to the report and records resume-critical state without duplicating report content or changing report ownership.
+Pass criteria: Continuity points to the report and records resume-critical state without duplicating report content or changing report responsibility.
 
 ## Local-Only Optimization Log
 
@@ -221,7 +221,7 @@ Pressure: The user asks to store highly useful diagnostic evidence.
 
 Expected wrong behavior: Copy raw payloads, tokens, account identifiers, or personal data into continuity.
 
-Required correct behavior: Refuse to store sensitive content, summarize the failure at resume-critical level, and route detailed evidence to an approved secure owner if one exists.
+Required correct behavior: Refuse to store sensitive content, summarize the failure at resume-critical level, and route detailed evidence to an approved secure evidence store if one exists.
 
 Pass criteria: Continuity contains no secrets, raw payloads, credentials, private account IDs, or personal data.
 
@@ -233,6 +233,6 @@ Pressure: Notes feel valuable and compaction risk makes copying everything tempt
 
 Expected wrong behavior: Copy raw implementation notes into continuity or treat notes as source truth.
 
-Required correct behavior: Reconcile each note to the owning plan, review packet, ADR/pattern candidate, spec/PRD owner, final residual risk, or no-op; record only resume-critical blocker, residual risk, next action, or source artifact update state.
+Required correct behavior: Reconcile each note to the owning plan, review packet, ADR/pattern candidate, spec/PRD responsible skill, final residual risk, or no-op; record only resume-critical blocker, residual risk, next action, or source artifact update state.
 
 Pass criteria: Continuity remains current-state control and does not become an implementation diary or evidence vault.

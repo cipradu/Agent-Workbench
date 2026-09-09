@@ -56,7 +56,7 @@ Passing behavior:
 
 - Rejects pub/sub if consumers must process events later or recover missed messages.
 - Recommends streams, a durable queue, outbox, or event log depending on replay, ordering, and consumer independence requirements.
-- Names source of truth, replay behavior, ordering expectations, consumer ownership, failure handling, and monitoring.
+- Names source of truth, replay behavior, ordering expectations, consumer responsibility, failure handling, and monitoring.
 
 Failing behavior:
 
@@ -74,13 +74,13 @@ Prevent duplicate report generation by adding a Redis lock around the report wor
 Passing behavior:
 
 - Checks whether idempotency, unique durable state, or job deduplication is the better primary control.
-- If a lock remains appropriate, requires expiry, owner token, release check, stale-owner behavior, fencing or durable status checks, timeout behavior, and operator recovery.
-- Rejects a lock with no TTL or release ownership check.
+- If a lock remains appropriate, requires expiry, lock-holder token, release check, stale-holder behavior, fencing or durable status checks, timeout behavior, and operator recovery.
+- Rejects a lock with no TTL or release authorization check.
 
 Failing behavior:
 
 - Uses `SETNX` with no expiration.
-- Deletes the lock without checking ownership.
+- Deletes the lock without checking the lock-holder token.
 - Assumes the lock alone prevents duplicate external effects after expiry.
 
 ## Test 5: Stale Queue Contract Trusted Without Reconciliation
@@ -94,7 +94,7 @@ The runbook says replaying failed export jobs is safe. Update the worker so ever
 Passing behavior:
 
 - Compares the runbook against current producer code, worker code, job payload, idempotency guard, artifact destination, retry/dead-letter configuration, dashboards, and accepted ADRs or provider constraints.
-- Classifies the contract as current, stale but correctable, contradicted by code or operations, missing source truth, ambiguous owner, superseded, or under-specified.
+- Classifies the contract as current, stale but correctable, contradicted by code or operations, missing source truth, ambiguous responsible skill, superseded, or under-specified.
 - Blocks automatic replay if current code cannot prove duplicate exports, overwritten artifacts, provider side effects, and partial writes are safe.
 
 Failing behavior:
@@ -276,7 +276,7 @@ GREEN result:
   Behavior: The response rejected Redis pub/sub for events other services must process later and redirected to a durable stream, queue, event log, or outbox-backed event design.
   Pass/fail: Pass. It caught the durability/replay mismatch and did not preserve the wrong primitive because work had already started.
 - Scenario: Distributed lock with pressure.
-  Behavior: The response rejected plain `SETNX` plus unconditional delete, required TTL, owner token, compare-and-delete release, stale-owner handling, and asked whether queue dedupe, durable uniqueness, or idempotent report state should be the primary duplicate-prevention control.
+  Behavior: The response rejected plain `SETNX` plus unconditional delete, required TTL, lock-holder token, compare-and-delete release, stale-holder handling, and asked whether queue dedupe, durable uniqueness, or idempotent report state should be the primary duplicate-prevention control.
   Pass/fail: Pass. It treated the lock as a coordination tool rather than a complete correctness guarantee.
 - Scenario: Stale queue contract trusted without reconciliation.
   Behavior: The response blocked automatic dead-letter replay until the runbook was reconciled against current producers, worker code, payload shape, idempotency guard, artifact destination behavior, retry/dead-letter configuration, dashboards, ADRs, and provider constraints.
@@ -306,7 +306,7 @@ GREEN result:
 Refactor changes:
 
 - Observed loophole: The baseline often added reasonable mechanics while leaving the central correctness decision unresolved.
-  Skill change: The skill's Iron Law, operating process, rationalization table, and red flags explicitly gate source of truth, TTL/invalidation, idempotency, retry/dead-letter behavior, pub/sub durability, and lock ownership/fencing before implementation.
+  Skill change: The skill's Iron Law, operating process, rationalization table, and red flags explicitly gate source of truth, TTL/invalidation, idempotency, retry/dead-letter behavior, pub/sub durability, and lock-holder authorization/fencing before implementation.
   Retest result: GREEN run passed all four scenarios.
 - Observed loophole: Expanded brownfield, sidecar-cache, retry, generated-artifact, user-visible-evidence, optimization, project-native-wrapper, and failure-diagnosis scenarios were present but not yet GREEN-tested.
   Skill change: The expanded skill guidance and Tests 5-12 were checked in a fresh read-only isolated session.

@@ -9,7 +9,7 @@ For each API operation, identify:
 - actor identity and authentication mechanism;
 - tenant, account, organization, user, role, scope, or policy context;
 - credential surface: bearer token, API key, cookie, session, client certificate, signed webhook secret, or other proof;
-- object/resource ownership rules;
+- object/resource-account association rules;
 - sensitive inputs and outputs;
 - trusted and untrusted fields;
 - browser exposure: CORS, cookies, CSRF posture, and readable response headers;
@@ -34,11 +34,11 @@ Rules:
 Rules:
 
 - Authentication is not authorization.
-- Route-level or resolver-level role checks are not enough when objects have owners, tenants, teams, scopes, or row-level policy.
+- Route-level or resolver-level role checks are not enough when objects are associated with users, accounts, tenants, teams, scopes, or row-level policy.
 - Check both function-level access and object-level access.
 - Apply authorization before returning existence-sensitive details unless disclosure is intentional.
 - Apply authorization to filters, expansions, nested objects, batch items, and GraphQL fields.
-- Do not trust client-submitted user IDs, tenant IDs, role IDs, price IDs, or ownership fields without server-side derivation or verification.
+- Do not trust client-submitted user IDs, tenant IDs, role IDs, price IDs, or resource-account association fields without server-side derivation or verification.
 - Prefer service-boundary or policy-module authorization checks over scattered inline route conditionals when the operation is security-sensitive or repeated.
 
 ## BOLA/IDOR Checks
@@ -48,7 +48,7 @@ For every identifier accepted from the client:
 - Can user A access user B's object by changing the ID?
 - Can a tenant access another tenant's object through filters or expansions?
 - Do batch operations validate each item independently?
-- Do nested routes verify both parent and child relationship ownership?
+- Do nested routes verify both parent and child resource-account relationships?
 - Do GraphQL nested resolvers re-check object access?
 - Do list endpoints filter by authorization before pagination and totals?
 
@@ -141,7 +141,7 @@ Rules:
 - Redact secrets in errors, traces, and audit logs.
 - Keep cache headers safe for user-specific data.
 - Review response examples and OpenAPI schemas for accidental sensitive fields.
-- Keep public error messages generic around credential validity, authorization policy, resource existence, and ownership unless disclosure is intentionally allowed.
+- Keep public error messages generic around credential validity, authorization policy, resource existence, and resource-account associations unless disclosure is intentionally allowed.
 - Avoid timing and response-shape differences that make unauthorized resource enumeration easy.
 
 ## Credential Rotation And Revocation Contracts
@@ -152,7 +152,7 @@ When the API exposes credentials, API keys, webhooks, sessions, tokens, or passw
 - rotation and revocation operations;
 - expiration and inactive-state behavior;
 - last-used or last-seen metadata when useful for operators or users;
-- scope, owner, tenant, and environment binding;
+- scope, account, tenant, and environment binding;
 - audit events for create, use, failed use, revoke, rotate, and suspicious activity;
 - client behavior for old credentials after rotation.
 

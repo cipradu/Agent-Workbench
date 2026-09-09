@@ -21,9 +21,9 @@ Production code exposes no test-only branches, flags, reset hooks, mutable regis
 - No `.only`, `.skip`, conditional silent skip, raw sleep, shared mutable global state, leaked handle, unhandled rejection, or missing await.
 - Missing database/browser/service prerequisites fail the applicable integration/E2E job rather than turning it green.
 - Await every promise the assertion depends on. Prefer `async`/promise-returning tests; do not use `done` callbacks.
-- Restore DOM, spies/mocks, fake time, environment state, database state, connections, contexts, servers, workers, and files after each owner scope.
+- Restore DOM, spies/mocks, fake time, environment state, database state, connections, contexts, servers, workers, and files after each test scope.
 - Use the runner's controlled clock and restore real time.
-- Keep assertions inside `it`/`test` and suite nesting shallow enough to expose ownership/setup.
+- Keep assertions inside `it`/`test` and suite nesting shallow enough to expose responsibility/setup.
 
 ## Boundary And Contract Tests
 
@@ -33,7 +33,7 @@ Test success, catalog-backed failures, malformed/missing/extra boundary fields, 
 
 ## Package-Owned Test Support
 
-Composition roots expose typed factory-injection seams for replaceable external dependencies. Production callers omit overrides; tests inject complete package-owned doubles. A declared central testing-support owner governs shared conventions and only genuinely shared primitives; it does not absorb helpers whose behavior belongs to one package.
+Composition roots expose typed factory-injection seams for replaceable external dependencies. Production callers omit overrides; tests inject complete package-owned doubles. A declared central testing-support component governs shared conventions and only genuinely shared primitives; it does not absorb helpers whose behavior belongs to one package.
 
 A workspace package that needs package-specific test support exposes a deliberate testing subpath containing both:
 
@@ -48,7 +48,7 @@ Do not `vi.mock` transitive package internals across workspace boundaries when t
 
 Use the stricter existing policy. New projects enforce at least 85% branches, functions, lines, and statements **per file**. Coverage includes every handwritten production file even when no test imports it.
 
-Do not exclude a difficult file, branch, adapter, composition root, or framework shell merely to increase coverage. A complete generated/vendor category may be excluded by exact owner. A handwritten surface may rely on an explicitly named integration/E2E gate only when project policy assigns that gate as its proof; never use exclusion alone as proof.
+Do not exclude a difficult file, branch, adapter, composition root, or framework shell merely to increase coverage. A complete generated/vendor category may be excluded by exact generator or vendor source. A handwritten surface may rely on an explicitly named integration/E2E gate only when project policy assigns that gate as its proof; never use exclusion alone as proof.
 
 Verify source maps and transforms attribute coverage to the intended production sources.
 

@@ -11,7 +11,7 @@ Prefer short-lived OIDC credentials when the provider supports them, but do not 
 - GitHub issuer and provider configuration;
 - exact audience;
 - subject and any custom claim format;
-- repository, owner, workflow, ref, branch/tag, and environment binding;
+- repository, repository namespace, workflow, ref, branch/tag, and environment binding;
 - protected environment and approval expectations;
 - cloud role or service identity and minimal session permissions;
 - session lifetime and audit/readback path.
@@ -26,7 +26,7 @@ Bind deployment jobs to the exact environment and immutable input artifact or im
 
 ## Currentness And Proof
 
-Verify current official action/provider documentation and repository update ownership before selecting an action release and full commit SHA. Never invent the SHA. Label YAML review as static, environment inspection as hosted/manual, cloud trust inspection as external-system, and a deployment result as external-system evidence for only the exact observed target.
+Verify current official action/provider documentation and repository update responsibility before selecting an action release and full commit SHA. Never invent the SHA. Label YAML review as static, environment inspection as hosted/manual, cloud trust inspection as external-system, and a deployment result as external-system evidence for only the exact observed target.
 
 No local parser, emulator, or successful build proves environment approval, OIDC issuance, cloud trust, secret availability, or deployment. No deployment may be performed or claimed without separate exact authority and readback.
 

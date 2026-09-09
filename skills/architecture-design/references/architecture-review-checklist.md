@@ -10,9 +10,9 @@ Use this before presenting an architecture recommendation, reviewing a proposed 
 - [ ] Absence claims about ADRs, boundaries, adapters, seams, conventions, dependency direction, or local patterns were verified against relevant sources or labeled as assumptions.
 - [ ] Source-authority conflicts among code, ADRs, docs, diagrams, runtime behavior, generated findings, external state, or comments are classified before one source is treated as binding.
 - [ ] Existing rules, ADRs, codebase patterns, and relevant domain skills were checked or marked missing.
-- [ ] Ownership is clear for policies, invariants, state transitions, data transformations, and side effects.
+- [ ] Responsibility is clear for policies, invariants, state transitions, data transformations, and side effects.
 - [ ] Interfaces state caller obligations, hidden complexity, invariants, errors, ordering, and performance expectations.
-- [ ] Seams are justified by variation, testability, ownership, volatility, or observation value.
+- [ ] Seams are justified by variation, testability, responsibility, volatility, or observation value.
 - [ ] Policy and mechanism are separated.
 - [ ] External IO, persistence, SDKs, caches, clocks, queues, and framework lifecycle details are behind appropriate adapters or explicit contracts.
 - [ ] Raw database, SDK, framework, and transport objects do not leak across policy boundaries unless they are the deliberate public contract.
@@ -21,7 +21,7 @@ Use this before presenting an architecture recommendation, reviewing a proposed 
 - [ ] Accepted trade-offs, risks, mitigations, and revisit triggers are stated.
 - [ ] Verification strategy matches the boundary: unit, characterization, integration, contract, migration, observability, or manual review.
 - [ ] ADR candidates are identified and routed to the `create-project-adr` skill when recording is requested.
-- [ ] Downstream handoff preserves architecture facts for spec, plan, review, commit, or PR owners without importing their mechanics.
+- [ ] Downstream handoff preserves architecture facts for spec, plan, review, commit, or `git-pull-request` skills without importing their mechanics.
 
 ## Review Mode
 
@@ -33,22 +33,22 @@ Classify by content shape, not file path.
 
 | Artifact shape                          | Architecture scrutiny                                                                                                              |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Requirements-level architecture note    | Missing forces, ownership ambiguity, trust-boundary omissions, incompatible assumptions, and conflicts with existing capabilities. |
+| Requirements-level architecture note    | Missing forces, responsibility ambiguity, trust-boundary omissions, incompatible assumptions, and conflicts with existing capabilities. |
 | ADR candidate                           | Decision readiness, alternatives, consequences, reversal cost, source authority, and whether architecture analysis is settled.     |
-| Implementation plan                     | Implementable ownership, seams, policy/mechanism split, brownfield compatibility, migration path, verification, and ADR handoff.  |
+| Implementation plan                     | Implementable responsibility, seams, policy/mechanism split, brownfield compatibility, migration path, verification, and ADR handoff.  |
 | Diff or code review                     | Primary changed boundary, secondary touched surfaces, pre-existing architecture debt, concrete caller/operator consequence.        |
 | Migration or refactor proposal          | Behavior preservation, compatibility surfaces, smallest useful seam, transition path, rollback or recovery, and verification.      |
-| Interface sketch                        | Caller burden, hidden complexity, invariants, error modes, ordering, performance, and variation/test/ownership value.             |
-| Review comment or feedback              | Treat as a claim to verify against current sources; route non-architecture work to its owner.                                      |
+| Interface sketch                        | Caller burden, hidden complexity, invariants, error modes, ordering, performance, and variation/test/responsibility value.             |
+| Review comment or feedback              | Treat as a claim to verify against current sources; route non-architecture work to the responsible skill or agent.                                      |
 
 ### Architecture Finding Shape
 
 Architecture review findings should include:
 
-- affected owner, boundary, interface, seam, adapter, pattern, or trade-off;
+- affected component, boundary, interface, seam, adapter, pattern, or trade-off;
 - source evidence, such as path, section, code symbol, ADR ID, diagram, runtime source, or quoted artifact text;
 - downstream consequence for callers, maintainers, operators, future contributors, compatibility, or verification;
-- suggested architecture correction or owner route;
+- suggested architecture correction or skill or agent route;
 - evidence strength and residual risk;
 - whether the issue is primary to the change, secondary to a touched surface, or pre-existing context.
 
@@ -59,7 +59,7 @@ Do not report generic pattern preference, style-only diagram complaints, missing
 Name the surfaces inspected and unverified:
 
 - forces and source authority;
-- ownership and boundaries;
+- responsibility and boundaries;
 - interfaces and seams;
 - adapters and policy/mechanism split;
 - brownfield behavior and compatibility;
@@ -73,7 +73,7 @@ Ask these questions when something feels architecturally weak.
 
 | Concern           | Question                                                                           |
 | ----------------- | ---------------------------------------------------------------------------------- |
-| Ownership         | Which module owns this decision, and why does the knowledge belong there?          |
+| Responsibility         | Which module owns this decision, and why does the knowledge belong there?          |
 | Locality          | If this concept changes, where are the edit sites?                                 |
 | Interface depth   | Does the interface hide meaningful complexity or mostly forward calls?             |
 | Caller burden     | What must callers know that they should not need to know?                          |
@@ -85,7 +85,7 @@ Ask these questions when something feels architecturally weak.
 | Reversibility     | What would make this decision expensive to undo?                                   |
 | Source authority  | Which source is binding here, and what conflicts or stale evidence were checked?   |
 | Runtime impact    | What callbacks, jobs, middleware, persistence, alternate entry points, or IO fire? |
-| Handoff           | Which facts must downstream owners preserve, and which mechanics stay out of scope? |
+| Handoff           | Which facts must responsible downstream skills or agents preserve, and which mechanics stay out of scope? |
 
 ## Output Checklist
 
@@ -101,14 +101,14 @@ Forces:
 Source evidence:
 - <confirmed source, assumption, or conflict>
 
-Ownership and boundaries:
-- <owner, responsibility, boundary>
+Responsibility and boundaries:
+- <component, responsibility, boundary>
 
 Interfaces and seams:
 - <interface, hidden complexity, seam justification>
 
 Policy/mechanism split:
-- <policy owner and adapter/tool responsibility>
+- <component responsible for the policy and adapter/tool responsibility>
 
 Alternatives rejected:
 - <alternative and reason>
@@ -133,7 +133,7 @@ Return the matching failure instead of a confident recommendation.
 | Failure                   | Output                                                                                                                             |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | Missing force             | `Blocked: architecture decision depends on missing force: <specific missing fact>.`                                                |
-| Ambiguous ownership       | `Blocked: ownership is ambiguous for <policy/invariant/side effect>.`                                                              |
+| Ambiguous responsibility       | `Blocked: responsibility is ambiguous for <policy/invariant/side effect>.`                                                              |
 | Shallow interface         | `Rejected: proposed interface is shallow or leaky: <specific reason>.`                                                             |
 | Boundary leak             | `Rejected: policy/mechanism boundary is leaking through <specific object/call/dependency>.`                                        |
 | Unjustified pattern       | `Rejected: pattern not justified: <pattern> does not solve a proven problem in this context.`                                      |

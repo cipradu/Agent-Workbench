@@ -47,7 +47,7 @@ Consume the orchestrator assurance decision before planning. A plan is warranted
 
 Consume the accepted scope envelope: `Outcome`, `Non-goals`, `Target boundary`, `Acceptance proof`, and `Expansion or re-plan triggers`. Planning may order and constrain accepted work; it must not add behavior, capability, compatibility, files, tests, artifacts, or phases merely to make execution comprehensive or future-ready.
 
-Require every proposed unit, capability, abstraction, file, test, artifact, compatibility path, and checkpoint to trace to the accepted outcome, a current named risk or invariant, a required compatibility obligation, or cleanup directly caused by the change. Remove an untraceable item. If current implementation evidence makes expansion necessary, return the concrete evidence to the orchestrator or spec owner instead of silently revising the plan boundary.
+Require every proposed unit, capability, abstraction, file, test, artifact, compatibility path, and checkpoint to trace to the accepted outcome, a current named risk or invariant, a required compatibility obligation, or cleanup directly caused by the change. Remove an untraceable item. If current implementation evidence makes expansion necessary, return the concrete evidence to the orchestrator or `create-engineering-spec` skill instead of silently revising the plan boundary.
 
 Name the uncertainty or acceptance gap the plan can resolve and how its result changes the next action. If planning cannot change the next action, stop and reference the accepted implementation contract. If `Plan warranted: no`, do not create a plan merely because this skill was invoked; preserve any valid completed plan and return to the recorded route.
 
@@ -55,7 +55,7 @@ Use the compact Standard form when the sequencing need is bounded and deeper res
 
 Use the full form only when its deeper planning controls are individually warranted. Preserve spec coverage, source and authority traceability, current codebase evidence, dependency ordering, verification, and rollback/recovery at the depth justified by those warrants. Select checkpoint cadence and independent artifact review independently from the plan form.
 
-This owner may challenge insufficient intake, but it may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Owner preference, artifact type, file count, delegation, or generic uncertainty cannot silently reclassify the task.
+This skill may challenge insufficient intake, but it may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Skill or agent preference, artifact type, file count, delegation, or generic uncertainty cannot silently reclassify the task.
 
 ## Mandatory Sequence
 
@@ -105,7 +105,7 @@ If the user asks to revise, validate, execute, or continue an existing plan, fir
 - `current`: linked spec, upstream sources, rules, ADRs, current code evidence, verification commands, review status, and unit graph still align;
 - `amend`: paths, commands, examples, or narrow evidence changed, but spec truth, unit graph, risk tier, approach, TDD posture, and acceptance evidence still hold;
 - `supersede`: requirements, architecture, dependency order, TDD posture, library reality, risk tier, acceptance evidence, or plan-level approach changed materially;
-- `blocked`: authority conflicts, stale linked spec, missing review state, contradictory current code/spec/ADR/rules, or ambiguous active-plan ownership prevents safe planning or execution.
+- `blocked`: authority conflicts, stale linked spec, missing review state, contradictory current code/spec/ADR/rules, or ambiguous active-plan responsibility prevents safe planning or execution.
 
 Do not follow whichever artifact looks newest. Current code is evidence, not automatic authority; approved specs, ADRs, public contracts, security rules, compliance constraints, and repository instructions may require code to change.
 
@@ -180,7 +180,7 @@ Declare executor mode:
 - **AI Agent** — plan for a coding agent with bounded files, explicit context, re-plan triggers, and the recorded independent-review decision.
 - **Hybrid** — default to AI Agent rigor when an AI will execute any unit.
 
-For AI Agent or Hybrid plans, record workspace and isolation assumptions. State whether execution assumes the current checkout, an existing isolated workspace, or a separate workspace to be prepared by the execution/worktree owner before edits. The plan may name isolation requirements and shared-resource conflicts; it must not create worktrees, branches, or git state.
+For AI Agent or Hybrid plans, record workspace and isolation assumptions. State whether execution assumes the current checkout, an existing isolated workspace, or a separate workspace to be prepared by the implementing agent or `git-branch` skill before edits. The plan may name isolation requirements and shared-resource conflicts; it must not create worktrees, branches, or git state.
 
 Declare risk tier:
 
@@ -268,7 +268,7 @@ Use these facets only when the paired spec or discovered implementation surface 
 
 - **Load-bearing decisions:** Record pinned choices, rationale, rejected alternatives, source evidence, affected units, and ADR-candidate status in the plan output. If no material plan-level decision exists beyond direct spec decomposition, say so.
 - **Optimization or comparison:** Define baseline, primary metric or rubric, hard gates, diagnostics, measurement source, immutable fixtures/examples, noise policy, dependency approvals, candidate/hypothesis units, and stopping or re-plan criteria before execution.
-- **Reporting or observability:** Name source systems, event definitions, instrumentation status, query shape, source conflicts, freshness/comparison windows, read-only access, credential non-capture, expensive-query skip behavior, privacy checks, generated artifact lifecycle, and scheduling ownership.
+- **Reporting or observability:** Name source systems, event definitions, instrumentation status, query shape, source conflicts, freshness/comparison windows, read-only access, credential non-capture, expensive-query skip behavior, privacy checks, generated artifact lifecycle, and scheduling responsibility.
 - **External provider or generated output:** Distinguish core behavior from optional enhancement, structured output contract from brittle parsing, credential handling, provider state detection, fallback semantics, hidden/internal fields, and mutation boundary.
 - **Agent, skill, prompt, MCP/tool, plugin, command, hook, or workflow surface:** Cover action parity, context parity, shared workspace assumptions, tool/request granularity, approval and human-only boundaries, lifecycle/failure recovery, observability, generated artifacts, and agent-native verification.
 - **Refactor or simplification:** Preserve behavior, errors, side effects, ordering, validation, authorization, escaping, sanitization, accessibility, cleanup, and safety checks. Success is not fewer lines; it is reduced duplication, clearer reuse, lower complexity risk, or less unnecessary work with preserved behavior.
@@ -300,9 +300,9 @@ Each unit must be independently understandable and use stable IDs such as `UNIT-
 
 The plan must expose the facts a coordinator needs to choose a runtime execution batch without making that choice prematurely. For each unit, identify any batch affinity with other units from shared implementation context or coherent verification, and identify exclusions from dependencies, checkpoints, shared state, isolation, or incompatible proof boundaries. The coordinator authorizes the exact batch from the current execution cursor. The plan never grants blanket authority to implement every remaining unit and never fixes batch size from unit, file, time, token, or cost counts.
 
-When `Review cadence: checkpoints` is warranted, define checkpoints by the named acceptance risk and change coupling, not convenience. Consider a checkpoint before a public-contract, security, data/persistence, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-owner boundary only when review there can change the next action. Reject per-unit review explosion and unwarranted checkpoints; one final review is sufficient when no intermediate result can change execution.
+When `Review cadence: checkpoints` is warranted, define checkpoints by the named acceptance risk and change coupling, not convenience. Consider a checkpoint before a public-contract, security, data/persistence, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-responsibility boundary only when review there can change the next action. Reject per-unit review explosion and unwarranted checkpoints; one final review is sufficient when no intermediate result can change execution.
 
-A document-producing unit does not establish one of those boundaries merely because its ADR, spec, plan, README, reader-facing docs, progress note, scratch note, or other prose describes high-consequence implementation. Do not place an implementation-review checkpoint after a document-only unit or assign it deep review or fresh validation. Place any warranted checkpoint at the later unit that actually changes or crosses the executable public-contract, security, data, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or cross-owner surface. A prose-formatted agent, skill, rule, prompt, hook, executable configuration, schema, or generated contract is a control or executable artifact, not document-only.
+A document-producing unit does not establish one of those boundaries merely because its ADR, spec, plan, README, reader-facing docs, progress note, scratch note, or other prose describes high-consequence implementation. Do not place an implementation-review checkpoint after a document-only unit or assign it deep review or fresh validation. Place any warranted checkpoint at the later unit that actually changes or crosses the executable public-contract, security, data, migration, permission, generated-artifact, release/deploy, irreversible, high-blast-radius, or surface spanning multiple responsibilities. A prose-formatted agent, skill, rule, prompt, hook, executable configuration, schema, or generated contract is a control or executable artifact, not document-only.
 
 Each unit must include:
 
@@ -342,7 +342,7 @@ Manual, screenshot, log, demo, or audit evidence is acceptable only when it is m
 
 When TDD is enabled for a unit, verification must follow [TDD Planning](references/tdd-planning.md): behavior-facing seam, one red-capable test, minimal implementation, green verification, refactor after green, and independent verification for spec-critical or high-risk behavior. Same-agent TDD is a feedback loop, not independent proof.
 
-Define review checkpoint gates and approval gates separately. Review checkpoints control when independent implementation review is required. Approval gates control human or owner authorization for high-risk surfaces such as data contracts, migrations, external APIs, auth, secrets, permissions, audit trails, production rollout, generated artifacts, CI/CD, dependency additions, and scope changes.
+Define review checkpoint gates and approval gates separately. Review checkpoints control when independent implementation review is required. Approval gates control user authorization for high-risk surfaces such as data contracts, migrations, external APIs, auth, secrets, permissions, audit trails, production rollout, generated artifacts, CI/CD, dependency additions, and scope changes.
 
 Record the independent review decision separately from unit verification. When cadence is `checkpoints`, include a Review Checkpoint Summary naming each checkpoint, units covered, crossing rule, independent-review requirement, within-checkpoint progression rule, required verification, and re-plan triggers. When cadence is `none` or `single_final`, record that decision and reason without constructing intermediate checkpoints.
 
@@ -436,7 +436,7 @@ Use dispositions:
 - `addressed differently`: resolved with a different evidence-backed correction;
 - `not addressing`: finding is false positive, out of scope, duplicate, or not plan-owned;
 - `declined`: user or owning authority explicitly rejects the change;
-- `needs user decision`: product, spec, architecture, approval, or ownership decision is required;
+- `needs user decision`: product, spec, architecture, approval, or responsibility decision is required;
 - `blocked`: planning cannot continue safely.
 
 Before applying a finding, verify it still applies to the current spec, current draft plan, and current evidence. Separate new findings from already-resolved or still-pending decisions. When a user or reviewer asks about one specific finding, revise only that finding and directly affected plan sections unless source preservation or dependency evidence proves broader changes are required.
@@ -449,7 +449,7 @@ When a plan outcome feeds implementation, commits, PRs, publishing, external rev
 
 Also hand off the review checkpoint summary, current checkpoint, assigned unit checkpoint, whether the next action crosses a checkpoint, the rule for within-checkpoint progression, and each unit's batch affinity and exclusions. The executor contract must leave the exact authorized batch, accepted prior-state identity, and satisfied dependency evidence for the coordinator to fill from the current cursor. A plan path or full remaining unit list is context, not execution authority. If a legacy plan lacks checkpoint or batch-readiness fields, amend or conservatively classify them before further execution; do not invent permission to cross a material boundary or implement all remaining units.
 
-Do not include git commands, branch creation, staging, pushes, PR mutation, CI watching, tracker filing, browser/Xcode operation, setup repair, worktree creation, publishing API calls, or shipping mechanics. Those owners consume planning evidence without changing plan truth.
+Do not include git commands, branch creation, staging, pushes, PR mutation, CI watching, tracker filing, browser/Xcode operation, setup repair, worktree creation, publishing API calls, or shipping mechanics. Those skills consume planning evidence without changing plan truth.
 
 If a shareable human-review surface is explicitly requested, publish or copy the saved local plan only through the appropriate publishing workflow. The local plan remains canonical. Shared-doc comments or edits are feedback until explicitly pulled into the local plan and passed through revision and review.
 
@@ -490,7 +490,7 @@ When a gate fails, do not improvise a shorter packet and do not emit the full pl
 | “The ideation artifact already did the thinking.”     | Ideas, rankings, and rationale are not approved engineering truth.                             | Block or trace through the approved spec before planning units.   |
 | “The old reviewed plan is still fine.”                | Plans go stale when specs, ADRs, code, dependencies, verification, or review state change.     | Run freshness and document-set reconciliation before execution.   |
 | “The reviewer said to add a task.”                    | Review findings are signals, not scope authority.                                             | Map to spec/evidence, choose a disposition, and re-review.        |
-| “Implementation notes should capture everything.”      | Free-form notes become a diary and duplicate source truth.                                     | Require notes only for deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers, and close them out through plan/review/continuity owners. |
+| “Implementation notes should capture everything.”      | Free-form notes become a diary and duplicate source truth.                                     | Require notes only for deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers, and close them out through plan/review/`project-continuity` skills. |
 | “The unit graph is what reviewers need first.”         | Some plans have expensive-to-change decisions that should be reviewed before task sequencing.  | Surface high-leverage decision areas in the summary and keep the task graph as execution detail. |
 | “The metric improved, so the plan is good.”           | Proxy gains can violate the real requirement.                                                  | Protect hard gates, fixtures, source truth, and degenerate cases. |
 | “The PR is open, so the plan is ready.”               | Source-control state is packaging evidence, not planning evidence.                             | Preserve plan status and review gates in downstream handoff.      |

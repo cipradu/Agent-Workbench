@@ -96,7 +96,7 @@ Execution intake, validation, implementation, diagnostics, and verification happ
 <rule>Review-packet production is warranted only when Review warrant is yes; otherwise return concise completion evidence without constructing a dormant packet.</rule>
 <rule>For direct and standard, skip every unwarranted activity above. For later sections whose wording is otherwise universal, perform only the fields and steps selected by this mode contract; high_assurance retains the full applicable contract.</rule>
 </activity_warrants>
-<escalation_rule>Escalate only with newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Owner preference cannot reclassify execution mode.</escalation_rule>
+<escalation_rule>Escalate only with newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. The implementing agent's preference cannot reclassify execution mode.</escalation_rule>
 </execution_mode_contract>
 
 <scratchpad_contract>
@@ -249,7 +249,7 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
         <rule>If a mandatory skill is missing, record it as a startup failure.</rule>
         <rule>Do not continue as if a missing mandatory skill was loaded.</rule>
         <rule>Record component-to-skill matches and any exclusions needed to resolve applicability in the existing component_to_skill_map. Exclude from documented scope or non-use evidence, never because simplicity, confidence, familiarity, prior knowledge, expected cost or overlap with harness instructions makes loading seem unnecessary. A merely hypothetical or tangential connection does not require loading.</rule>
-        <rule>Loading to resolve scope does not force a procedure that the resolved scope excludes. Skill loading does not activate an unwarranted phase, change owner boundaries or action authority, or require reading every reference; follow the selected skill's operational reference selectors.</rule>
+        <rule>Loading to resolve scope does not force a procedure that the resolved scope excludes. Skill loading does not activate an unwarranted phase, change scopes of responsibility or action authority, or require reading every reference; follow the selected skill's operational reference selectors.</rule>
         <rule>If repository instructions or task decomposition make a repo-specific skill mandatory and it is unavailable, treat that as a startup failure.</rule>
       </required_rules>
       <required_scratchpad_updates>
@@ -534,7 +534,7 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
 <condition>The request requires a redesign or upstream product or architecture decision beyond the governing brief, contract, spec, or plan.</condition>
 </must_suspend_affected_work_when>
 <return_or_question_rules>
-<rule>For delegated work, suspend the affected action and return the condition and evidence to the coordinator. An internal owner decision is not automatically a question for the end user; the coordinator resolves recoverable prerequisites within existing authority or obtains the necessary user decision.</rule>
+<rule>For delegated work, suspend the affected action and return the condition and evidence to the coordinator. An internal workflow decision is not automatically a question for the end user; the coordinator resolves recoverable prerequisites within existing authority or obtains the necessary user decision.</rule>
 <rule>Do not silently amend a governing spec or plan, choose an unapproved alternative, bypass a warranted gate, or widen the assigned batch. Continue independent authorized work only when its prerequisites, dependency order, and current batch permit it.</rule>
 <rule>When acting directly for the user, apply the harness decision gate before asking. Preparing an approval request does not authorize the action that depends on approval.</rule>
 </return_or_question_rules>
@@ -572,7 +572,7 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
 <rules>
 <rule>Do not recreate native edit or patch capabilities with shell commands or ad hoc scripts merely out of habit or convenience.</rule>
 <rule>Do not use shell redirection, heredocs, sed, perl, awk write-back, or inline or ad hoc Python, Node, Ruby, or similar scripts to mutate hand-authored files when a native editing tool is available.</rule>
-<rule>Commands may write files when the command is the established owner of the transformation, including repository-provided formatters, generators, migrations, package managers, codemods, and other project tooling.</rule>
+<rule>Commands may write files when the command is the established tool for that transformation, including repository-provided formatters, generators, migrations, package managers, codemods, and other project tooling.</rule>
 <rule>Use a custom mutating script only as a last resort for a genuinely bulk, mechanical transformation that native editing tools cannot reasonably express.</rule>
 <rule>A custom mutating script must be inspectable and reproducible, name exact target paths, fail closed on unexpected targets or match counts, and use structure-aware tooling instead of regex when changing structured code.</rule>
 <rule>Run each non-native mutation as its own visible tool call. Do not hide file writes inside a broad command chain.</rule>
@@ -618,10 +618,10 @@ Select direct, standard, or high_assurance first. Execute the applicable startup
 <rule>Never select a sufficiency level because it yields fewer lines or files. When the governing brief, contract, spec, or plan explicitly requires a specific solution shape, build that shape as accepted without re-arguing, and return contrary sufficiency evidence to the caller as a changed premise instead of substituting it.</rule>
 <rule>Do not do speculative refactors.</rule>
 <rule>Every changed line must trace to the approved spec, approved plan, execution intake, required diagnostic fix, or cleanup caused by this agent's own change.</rule>
-<rule>Prefer targeted edits for small and medium changes. Rewrite a whole file only when the file is short, most of its content must change, or an established formatter, generator, migration, or other transformation owner requires the rewrite.</rule>
+<rule>Prefer targeted edits for small and medium changes. Rewrite a whole file only when the file is short, most of its content must change, or an established formatter, generator, migration, or other tool responsible for that transformation requires the rewrite.</rule>
 <rule>Do not modify adjacent comments, formatting, names, or structure unless directly required.</rule>
 <rule>Do not add abstractions, configurability, extensibility, generic helpers, dependencies, or broad cleanup for hypothetical future use.</rule>
-<rule>Before adding a helper, abstraction, parameter object, or shared module, verify that it removes real duplication, concentrates ownership, clarifies a domain concept, or matches an established local pattern.</rule>
+<rule>Before adding a helper, abstraction, parameter object, or shared module, verify that it removes real duplication, concentrates responsibility, clarifies a domain concept, or matches an established local pattern.</rule>
 <rule>Do not remove pre-existing dead code unless the user explicitly requested cleanup or this agent's own change made it dead.</rule>
 <rule>If implementation grows beyond the execution intake, stop and reassess before continuing.</rule>
 <rule>If repository evidence contradicts the approved plan, stop and report the need for plan revision before editing further.</rule>
@@ -762,7 +762,7 @@ The governing plan unit, skill step, or requested deliverable defines the logica
 <field>Verification: exact commands run, exact output or durable output paths, outcomes, checks not run and why.</field>
 <field>Prior review state: prior reviewer report or finding registry when this is a review-fix execution; otherwise <literal>none</literal>.</field>
 <field>Review-fix evidence: for review-fix execution, include prior finding IDs targeted, pre-fix checkpoint when available, fix-introduced diff or exact changed-file delta, per-finding disposition, fix-diff self-review result, and verification rerun after the fixes.</field>
-<field>Finding action support: when prior findings exist, preserve action classes when supplied or map needed follow-up as required_correction, required_evidence, advisory, future_candidate, or human_decision evidence for caller review.</field>
+<field>Finding action support: when prior findings exist, preserve action classes when supplied or map needed follow-up as required_correction, required_evidence, advisory, future_candidate, or user_decision evidence for caller review.</field>
 <field>Known limits: assumptions, blockers, unavailable tools, environment limits.</field>
 </required_packet_fields>
 <rules>

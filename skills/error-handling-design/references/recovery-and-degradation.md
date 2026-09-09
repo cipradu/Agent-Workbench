@@ -14,7 +14,7 @@ Choose recovery from caller safety, side-effect safety, and contract truthfulnes
 | Partial success                  | Independent items can succeed/fail separately                                                | Include item identity, ordering, retryability, and final status semantics                                          |
 | Error aggregation                | Caller benefits from all independent validation or per-item failures                         | Do not continue dependent work after an invalid prerequisite                                                       |
 | Rollback or compensation         | Work changed state before failure                                                            | Roll back the unit of work or define compensating action and residual risk                                         |
-| Dead-letter or terminal state    | Async work cannot continue automatically                                                     | Include retry count, terminal reason, recovery owner, and private cause pointer                                    |
+| Dead-letter or terminal state    | Async work cannot continue automatically                                                     | Include retry count, terminal reason, agent or system responsible for recovery, and private cause pointer                                    |
 | Circuit breaker or degraded mode | Repeated dependency failure threatens caller survival or wider system stability              | Coordinate thresholds, health, metrics, logs, fallback, and reset behavior with observability/operations standards |
 
 Failure output: `Rejected: recovery choice is unsafe or untruthful: <specific issue>.`
@@ -47,7 +47,7 @@ Allowed degradation examples:
 - nonessential local preference persistence fails after the primary action completed, with a warning and diagnostic path;
 - no configured destination or sink produces a `no_sink` or blocked state instead of silently discarding output.
 
-Fail closed or route to an owner decision when the failure affects required auth, billing, audit, integrity, authorization, external mutation, data deletion, legal/compliance output, or a user-requested safety guarantee.
+Fail closed or route to a user decision when the failure affects required auth, billing, audit, integrity, authorization, external mutation, data deletion, legal/compliance output, or a user-requested safety guarantee.
 
 Failure output: `Rejected: optional-provider degradation changes required semantics: <specific dependency>.`
 
@@ -116,7 +116,7 @@ Before retrying after timeout, network failure, `5xx`, pending async status, syn
 - verify whether the operation landed, partially landed, or is still pending;
 - use exact idempotency scope for operation, target, body, key, actor/tenant, and replay window;
 - bound attempts, total time, and backoff;
-- avoid retrying at multiple layers unless one owner controls the policy;
+- avoid retrying at multiple layers unless one component controls the policy;
 - surface conflict or state-refresh requirements when the authoritative state changed.
 
 Failure output: `Rejected: retry proceeds without authoritative outcome check or idempotency scope: <specific operation>.`
@@ -132,13 +132,13 @@ Define:
 - failure signal and threshold;
 - open, half-open, and closed behavior if using a breaker;
 - fallback or fast-fail behavior while degraded;
-- metrics/logs/health signals and alerting ownership;
+- metrics/logs/health signals and alerting responsibility;
 - reset behavior and manual override path if applicable;
 - interaction with retries so retries do not amplify the outage.
 
 Coordinate with architecture, operations, or observability guidance when those skills or project standards exist.
 
-Failure output: `Blocked: circuit-breaker/degraded-mode behavior needs production-readiness design: <specific missing signal or owner>.`
+Failure output: `Blocked: circuit-breaker/degraded-mode behavior needs production-readiness design: <specific missing signal or responsible component>.`
 
 ## Measured Recovery Evaluation
 

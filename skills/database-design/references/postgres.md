@@ -61,7 +61,7 @@ Rules:
 
 - name important constraints and indexes deterministically when migration tooling permits it;
 - pair foreign keys with explicit indexes on the referencing columns when joins, parent updates, or parent deletes need them;
-- choose `ON DELETE` and `ON UPDATE` actions from lifecycle ownership, not convenience;
+- choose `ON DELETE` and `ON UPDATE` actions from lifecycle responsibility, not convenience;
 - use `DEFERRABLE INITIALLY DEFERRED` only when a real transaction-level invariant, such as circular references, requires end-of-transaction validation;
 - remember that `CHECK` constraints pass when the expression evaluates to unknown because of `NULL`; combine `CHECK` with `NOT NULL` when null values are invalid;
 - use `UNIQUE (...) NULLS NOT DISTINCT` on PostgreSQL 15+ when duplicate nulls would violate the domain;
@@ -88,7 +88,7 @@ Rules:
 - confirm planner use with `EXPLAIN` or `EXPLAIN (ANALYZE, BUFFERS)` when safe;
 - when reviewing PostgreSQL plans, check scan type, join strategy, estimated versus actual rows, loops, sort/hash spills, buffer reads, and whether index-only scans still visit the heap;
 - use `CREATE INDEX CONCURRENTLY` for production tables when avoiding blocking writes matters;
-- avoid dropping indexes solely because recent stats show low usage; confirm with a human/project owner because stats windows can miss periodic jobs.
+- avoid dropping indexes solely because recent stats show low usage; confirm with the user because stats windows can miss periodic jobs.
 
 Failure output: `Rejected: PostgreSQL index change lacks access-path evidence or operational safety.`
 

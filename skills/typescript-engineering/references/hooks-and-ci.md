@@ -30,7 +30,7 @@ CI must:
 
 - select the exact declared pnpm version and install with `--frozen-lockfile` from a clean checkout;
 - run read-only formatting/baseline lint, semantic lint, compiler/projects, tests with coverage, build/declarations/package surfaces, and required integration/E2E scopes;
-- keep one compiler-diagnostic owner while retaining distinct build/declaration/reference gates;
+- keep one compiler-diagnostic tool while retaining distinct build/declaration/reference gates;
 - use least-privilege permissions and project-approved action pinning;
 - upload failure artifacts only after proving they contain no secrets.
 

@@ -86,7 +86,7 @@ Use this reference before presenting technical documentation as ready.
 - ADR decisions are not made in the docs.
 - Implementation plan steps are not embedded as durable user docs unless they are an approved runbook.
 - PR comments, issue text, review suggestions, commit messages, changelogs, generated reports, screenshots, and shared collaboration copies are not treated as source truth by themselves.
-- Release announcements, promotional copy, PR descriptions, commit messages, publishing steps, and tracker updates are routed to their owners.
+- Release announcements, promotional copy, PR descriptions, commit messages, publishing steps, and tracker updates are routed to the responsible skills or agents.
 - Debug summaries are translated into the selected reader-facing doc type; they are not published verbatim unless the requested artifact is a technical investigation report.
 - Unknown root cause is routed to diagnosis instead of documented as a known fix.
 
@@ -119,14 +119,14 @@ Each finding should include:
 - suggested fix only when concrete and within documentation scope;
 - confidence: high when directly source-proven, medium when strongly supported but context-bound, low/advisory when reader-fit or premise-dependent;
 - status: blocking or advisory;
-- owner route when the fix requires product, engineering, architecture, API, operational, diagnosis, review, git/PR, publishing, or tracker truth.
+- skill or agent route when the fix requires product, engineering, architecture, API, operational, diagnosis, review, git/PR, publishing, or tracker truth.
 
 Suppress:
 
 - pure style preference;
 - deliberate local docs convention;
 - issue handled in a linked doc;
-- missing implementation detail that belongs to a spec, ADR, API design, or architecture owner;
+- missing implementation detail that belongs to a spec, ADR, API design, or `architecture-design` skill;
 - pre-existing drift outside the requested scope unless reported separately.
 
 For audits, report coverage: sources checked, pages inspected, examples or commands tested, links checked, accessibility inspected, sensitive-content scan performed, external facts verified, and skipped checks with reasons.
@@ -139,7 +139,7 @@ When docs build, lint, link, spell, example, screenshot, command, API, or genera
 2. Fix the documentation issue within the requested scope when the correction is source-supported.
 3. Route upstream when the failure exposes missing product, engineering, API, architecture, operational, or diagnostic truth.
 4. Do not disable, weaken, delete, or skip the failing check to make validation pass.
-5. If still blocked, report the failed check, source evidence, reader impact, and required owner.
+5. If still blocked, report the failed check, source evidence, reader impact, and required skill or agent.
 
 ## Proxy-Metric Caution
 
@@ -164,7 +164,7 @@ These can improve while the docs become less accurate, less safe, less maintaina
 - Did any sentence survive only because it sounds professional?
 - Are unsupported claims omitted, marked, or blocked?
 - Are pre-existing drift and adjacent affected docs separated from the direct target?
-- Are skipped checks harmless, explained, and visible to the next owner?
+- Are skipped checks harmless, explained, and visible to the next skill or agent?
 
 ## Failure Output
 

@@ -21,9 +21,9 @@ Run categories in order. Later categories depend on earlier findings.
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | Domain research           | two consecutive targeted searches add no new material fact                                                                        |
 | Authority hunt            | each material data concept/rule has an authority or explicit blocker                                                              |
-| Existing-system discovery | current behavior, owners, contracts, dependencies, tests, consumers, and impact surfaces are known enough for spec-level fit      |
+| Existing-system discovery | current behavior, responsible components, contracts, dependencies, tests, consumers, and impact surfaces are known enough for spec-level fit      |
 | Library/protocol/vendor   | each serious option has current support status, target-environment fit, limitation notes, and at least one alternative considered |
-| Compliance/risk           | each applicable constraint has source, owner/authority, and verification implication                                              |
+| Compliance/risk           | each applicable constraint has source, responsibility/authority, and verification implication                                              |
 | Measurement feasibility   | each measurable or externally verified outcome has proof source, modality, baseline or blocker, and hard-gate/diagnostic split   |
 | Constraint validation     | each material goal/constraint/option conflict is answered yes, no, blocked, or decision-needed                                    |
 
@@ -45,7 +45,7 @@ Every material evidence item must affect at least one requirement, authority-map
 Before declaring research blocked by missing tools or skills, classify the missing capability:
 
 - `required blocker`: no adequate source, skill, agent, tool, or access path exists to establish authority, current behavior, current external fact, or acceptance evidence;
-- `fallback-covered`: another available skill, direct source inspection, current official docs, or user/owner authority can provide equivalent evidence;
+- `fallback-covered`: another available skill, direct source inspection, current official docs, or user authority can provide equivalent evidence;
 - `optional capability`: would improve confidence or speed but is not required for this spec.
 
 Record the fallback or blocked-packet impact.
@@ -74,4 +74,4 @@ Ask only when research cannot resolve the decision or when user authority is req
 
 ## Over-Research Guard
 
-Stop when new searches only confirm known facts, when every material claim has authority, or when remaining unknowns require user/owner decision rather than more research. Do not research broad candidate ideas, product strategy, or alternatives beyond what can change requirements, authority, constraints, risks, acceptance evidence, or fit.
+Stop when new searches only confirm known facts, when every material claim has authority, or when remaining unknowns require user decision rather than more research. Do not research broad candidate ideas, product strategy, or alternatives beyond what can change requirements, authority, constraints, risks, acceptance evidence, or fit.

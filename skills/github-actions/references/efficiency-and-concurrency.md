@@ -12,16 +12,16 @@ Collect repository evidence before changing YAML:
 - failure, retry, rerun, flaky, and platform-exclusive failure rates;
 - duplicated work across events, jobs, or workflows;
 - supported-platform policy and required-check configuration;
-- migration, release, security, compliance, and compatibility gate ownership;
+- migration, release, security, compliance, and compatibility gate responsibility;
 - overlap patterns and which runs are safe to supersede.
 
 Distinguish PR wall-clock latency, queue time, total runner minutes/cost, and duplicated computation. Improving one can worsen another.
 
 ## Preserve Acceptance Coverage
 
-Never remove a platform, matrix cell, migration check, release packaging check, or required gate because it is expensive without its owner's evidence that the coverage is redundant or no longer required. Path filters must route relevant changes to their required checks; ignoring migration or release paths can suppress the exact validation those paths require.
+Never remove a platform, matrix cell, migration check, release packaging check, or required gate because it is expensive without evidence from the skill responsible for that gate that the coverage is redundant or no longer required. Path filters must route relevant changes to their required checks; ignoring migration or release paths can suppress the exact validation those paths require.
 
-Candidate mechanisms remain evidence-contingent: cache only stable dependency inputs, split or combine jobs based on measured setup/parallelism cost, use path routing that preserves required gates, and reduce a matrix only after compatibility ownership changes.
+Candidate mechanisms remain evidence-contingent: cache only stable dependency inputs, split or combine jobs based on measured setup/parallelism cost, use path routing that preserves required gates, and reduce a matrix only after compatibility responsibility changes.
 
 ## Concurrency Identity
 

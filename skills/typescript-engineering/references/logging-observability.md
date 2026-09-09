@@ -24,9 +24,9 @@ Avoid per-row/per-item logs in hot loops and blocking destinations on request pa
 
 ## Error Serialization
 
-The logging owner serializes errors and delegates application-error conversion to the centralized error owner. It must handle native errors, typed application errors, causes, and unexpected thrown values without recursive failure. Stack traces and source paths appear only at explicitly verbose levels; normal production levels keep bounded type/message/code/cause information.
+The logging component serializes errors and delegates application-error conversion to the centralized error component. It must handle native errors, typed application errors, causes, and unexpected thrown values without recursive failure. Stack traces and source paths appear only at explicitly verbose levels; normal production levels keep bounded type/message/code/cause information.
 
-Every catch and deliberate throw follows [Errors And Resilience](errors-and-resilience.md): log at the closest source before control changes. Logging at a terminal boundary does not excuse an intermediate owner from logging its conversion/rethrow.
+Every catch and deliberate throw follows [Errors And Resilience](errors-and-resilience.md): log at the closest source before control changes. Logging at a terminal boundary does not excuse an intermediate handler from logging its conversion/rethrow.
 
 ## Correlation Context
 
@@ -47,7 +47,7 @@ Operational redaction does not authorize mutating valid business/API data. The r
 
 Runtime application and library code does not call `console.*` or write to `process.stdout`/`process.stderr`.
 
-Exact owner exceptions are permitted only for:
+Exact component exceptions are permitted only for:
 
 - a CLI's declared user-output surface;
 - a safe bootstrap diagnostic before the operational logger exists;
@@ -61,4 +61,4 @@ Encode these as exact config-level file/category allowlists, never inline ignore
 
 Extend the incumbent telemetry stack at I/O and lifecycle boundaries. Use bounded labels, propagate the approved context, and flush/shut down explicitly. Telemetry failure is logged through its owned fallback and never replaces or hides the primary application failure.
 
-Failure output: `Blocked: centralized logging contract is incomplete: <construction, injection, event, correlation, serializer, redaction, sink, or fallback owner>.`
+Failure output: `Blocked: centralized logging contract is incomplete: <construction, injection, event, correlation, serializer, redaction, sink, or fallback component>.`

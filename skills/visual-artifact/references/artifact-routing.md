@@ -15,7 +15,7 @@ A report may contain technical or quantitative views. An explanation may use a d
 
 If inline output fully answers the question, finish inline without HTML, template selection, or a workflow report. A request for a standalone diagram selects a figure-led page; a request for HTML alone does not imply a report.
 
-## Source ownership
+## Source authority
 
 After purpose selection, load the source branch that protects the truth being projected:
 
@@ -34,7 +34,7 @@ A PRD unknowns view stays in product discovery until an actual readiness map or 
 
 ## Mixed inputs
 
-Use the primary reader question to determine the page or inline hierarchy. Preserve the source owner and status of each material claim. A proposed change can be compared with current behavior when both are labeled; the comparison does not approve the proposal.
+Use the primary reader question to determine the page or inline hierarchy. Preserve the authoritative source and status of each material claim. A proposed change can be compared with current behavior when both are labeled; the comparison does not approve the proposal.
 
 Use a whole-thread recap only when reconstructing the workstream is the reader's job. Do not expand a focused question into a generic project map.
 

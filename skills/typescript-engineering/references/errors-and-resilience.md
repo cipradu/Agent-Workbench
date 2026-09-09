@@ -1,12 +1,12 @@
 # Errors And Resilience
 
-Load for error catalogs, runtime error creation, caught-value normalization, throw/catch ownership, framework control errors, retries, timeout/error integration, cancellation-to-error/control mapping, or cleanup.
+Load for error catalogs, runtime error creation, caught-value normalization, throw/catch responsibility, framework control errors, retries, timeout/error integration, cancellation-to-error/control mapping, or cleanup.
 
 Route error taxonomy, retryability, message/disclosure policy, log-field/redaction policy, and degraded-mode decisions to `error-handling-design`. Route public API error shapes, envelopes, and compatibility contracts to `api-design`. This reference owns only the TypeScript mechanics that make those accepted decisions safe and enforceable.
 
-Cancellation ownership is split explicitly: this reference owns how cancellation and timeout become typed errors or control outcomes, how those outcomes are logged, and how cleanup integrates with them. `async-and-concurrency.md` owns `AbortSignal` propagation, controller creation, abort authority, listener/resource removal, sibling cancellation, and settlement. Neither reference invents the product cancellation policy.
+Cancellation responsibility is split explicitly: this reference owns how cancellation and timeout become typed errors or control outcomes, how those outcomes are logged, and how cleanup integrates with them. `async-and-concurrency.md` owns `AbortSignal` propagation, controller creation, abort authority, listener/resource removal, sibling cancellation, and settlement. Neither reference invents the product cancellation policy.
 
-## Central Error Owner
+## Central Error Component
 
 One errors package owns:
 
@@ -18,9 +18,9 @@ One errors package owns:
 - bounded, cycle-safe cause handling;
 - external-boundary sanitization helpers.
 
-In-process errors may extend `Error`; `instanceof` proves identity only inside one compatible process/module graph. The errors owner may expose a strict, sanitized, transport-neutral payload with a stable literal brand/discriminator, code, reason, message, correlation identifier, and other project-approved fields. It does not own a public API, event, webhook, or job envelope.
+In-process errors may extend `Error`; `instanceof` proves identity only inside one compatible process/module graph. The errors component may expose a strict, sanitized, transport-neutral payload with a stable literal brand/discriminator, code, reason, message, correlation identifier, and other project-approved fields. It does not own a public API, event, webhook, or job envelope.
 
-The errors owner converts the class/runtime value to its validated internal payload and removes internal context and sensitive diagnostic content. The contracts owner declares each external envelope and the mapping from that payload; the exit adapter applies that mapping. Internal logging may retain safe operational detail through the centralized serializer. Missing ownership for either conversion blocks authoring.
+The errors component converts the class/runtime value to its validated internal payload and removes internal context and sensitive diagnostic content. The contracts component declares each external envelope and the mapping from that payload; the exit adapter applies that mapping. Internal logging may retain safe operational detail through the centralized serializer. Missing responsibility for either conversion blocks authoring.
 
 ## Catalog Use Is Mandatory
 
@@ -33,11 +33,11 @@ The errors owner converts the class/runtime value to its validated internal payl
 
 A framework-required control exception exists only at its exact integration boundary. A narrow factory returns the library-native control value without throwing it. The boundary logs the typed catalog error and control decision, then throws that value because the framework is its immediate consumer. The library exception never becomes the application taxonomy.
 
-## Absolute Throw-Risk Ownership
+## Absolute Throw-Risk Responsibility
 
 Every potentially throwing operation must be inside an owned `try/catch` or have a guaranteed immediate caller catch. Throw-risk operations include parsing/deserialization, JSON, database, filesystem, crypto/token, network/HTTP, queue, process, provider/SDK, plugin/dynamic module, worker, and external-tool calls.
 
-Relying on a caller is valid only when the direct call chain and catch owner are explicit and mechanically stable. A comment that “the caller handles it” is insufficient. Leaf packages with throw-risk paths accept a logger/log function through their public factory or API; they cannot create an unloggable failure path or construct their own logger.
+Relying on a caller is valid only when the direct call chain and catching function are explicit and mechanically stable. A comment that “the caller handles it” is insufficient. Leaf packages with throw-risk paths accept a logger/log function through their public factory or API; they cannot create an unloggable failure path or construct their own logger.
 
 ## Log Before Control Changes
 
@@ -52,18 +52,18 @@ Every deliberate runtime `throw` has a structured log immediately before it in t
 
 One terminal exception exists for the centralized fallback writer itself: if its final low-level sink write fails and no independent operational or fallback sink remains, its catch must contain the failure and return without recursively attempting another log. That catch may perform no feature, retry, mapping, or success behavior, and the writer must remain bounded, non-throwing, and confined to bootstrap/logger-sink failure. This physical last-sink exception is not available to application code.
 
-Intermediate owners log conversions/rethrows and terminal owners log the final HTTP/job/process disposition. These are different handoffs; duplicate records are intentional.
+Intermediate handlers log conversions/rethrows and terminal handlers log the final HTTP/job/process disposition. These are different handoffs; duplicate records are intentional.
 
 ## Timeouts, Cancellation, Cleanup, And Retries
 
 - External interactions use timeouts from centralized settings.
-- Propagate owner-created cancellation through `AbortSignal` or the host mechanism.
+- Propagate cancellation created by the controlling operation through `AbortSignal` or the host mechanism.
 - A timeout aborts underlying work where supported; rejecting while owned work continues is incomplete.
 - Cleanup runs on success, failure, timeout, and cancellation through `finally` or the host disposal primitive.
 - When cleanup also fails, preserve the primary error and log the cleanup failure separately.
-- Retry policy names retryable errors, attempt and elapsed budgets, exponential backoff with jitter, idempotency, observability, and exactly one retry owner.
+- Retry policy names retryable errors, attempt and elapsed budgets, exponential backoff with jitter, idempotency, observability, and exactly one retry controller.
 - Inspect SDK, client, proxy, queue, and infrastructure retries before adding application retry.
 - Authentication, validation, programmer, and non-idempotent failures are not retried without a specific safe policy.
 - Every retry and give-up transition follows the same log-before-control rule.
 
-Failure output: `Blocked: runtime error ownership is incomplete: <catch owner, catalog, normalizer, log handoff, timeout, retry, cancellation, or cleanup>.`
+Failure output: `Blocked: runtime error component responsibility is incomplete: <catching function, catalog, normalizer, log handoff, timeout, retry, cancellation, or cleanup>.`

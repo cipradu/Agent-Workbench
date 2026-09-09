@@ -60,7 +60,7 @@ Use this bundle when automation is infeasible, unsafe, unavailable, or dispropor
 - steps performed and branch points exercised;
 - observed true end state and side effects;
 - console, network, runtime log, device log, trace, screenshot, video, receipt, email, notification, or provider artifact path when available;
-- human verifier and status: `pass`, `fixed`, `skipped`, `blocked-needs-human`, or `blocked-human-decision`;
+- human verifier and status: `pass`, `fixed`, `skipped`, `blocked-needs-human`, or `blocked-user-decision`;
 - skipped automation reason and residual risk.
 
 Localhost reachability, dev-server startup, simulator launch, page load, screenshot capture, or user satisfaction is setup/supporting evidence. It is not behavior proof unless tied to the protected route, action, assertion, end state, and residual risk.

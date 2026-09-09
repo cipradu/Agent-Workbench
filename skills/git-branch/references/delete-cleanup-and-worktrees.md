@@ -70,7 +70,7 @@ Do not use blanket cleanup, broad patterns, implicit current-branch deletion, or
 
 After each authorized transition, reread the exact affected layer:
 
-- local ref existence and current branch/worktree ownership after local deletion;
+- local ref existence and current branch/worktree association after local deletion;
 - linked worktree inventory after an authorized worktree change;
 - remote-tracking ref after prune or local tracking cleanup;
 - actual remote ref after remote deletion when authoritative readback is available;

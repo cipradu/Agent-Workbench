@@ -8,11 +8,11 @@ Status: `FROZEN_REVISION_3`
 
 Revision 1 aligns GREEN-only reference expectations with the expanded runtime package and aligns `TS-RED-009B` with the skill's absolute suppression ban. It changes no target prompt. Existing RED evidence remains applicable where only a GREEN-only criterion changed; `TS-RED-009B` requires a fresh paired RED/GREEN run because its pair criteria changed, while `TS-RED-014X` requires a fresh pair because its exhaustive inventory criterion changed from fifteen to eighteen references.
 
-Revision 2 corrects `TS-RED-004-C05` after the operator-required catch/log rule and security-bound rule made assertion-led network payload decoding a three-owner boundary: Types validates, Errors owns thrown decode/parse control, and Security owns the pre-parse resource bound and exposure controls. The prompt and pair criteria are unchanged. Revision 1 evidence for unaffected pairs remains applicable; the existing `TS-RED-004` control remains applicable because only a GREEN-only criterion changed, while `TS-GREEN-004` requires a fresh run.
+Revision 2 corrects `TS-RED-004-C05` after the operator-required catch/log rule and security-bound rule made assertion-led network payload decoding a boundary across three responsibilities: Types validates, Errors handles thrown decode/parse control, and Security handles the pre-parse resource bound and exposure controls. The prompt and pair criteria are unchanged. Revision 1 evidence for unaffected pairs remains applicable; the existing `TS-RED-004` control remains applicable because only a GREEN-only criterion changed, while `TS-GREEN-004` requires a fresh run.
 
-Revision 3 aligns both negative type-test scenarios with one runtime owner set: Compiler and Projects, Quality Gates, and Testing Mechanics. It also makes explicit that a project permission for directives in designated tests does not override the skill's absolute suppression ban. The prompts and pair criteria are unchanged. Existing controls remain applicable because only `TS-RED-009B-C05` changed and it is GREEN-only; `TS-GREEN-009A` and `TS-GREEN-009B` require fresh runs against the clarified router.
+Revision 3 aligns both negative type-test scenarios with one runtime responsible skill set: Compiler and Projects, Quality Gates, and Testing Mechanics. It also makes explicit that a project permission for directives in designated tests does not override the skill's absolute suppression ban. The prompts and pair criteria are unchanged. Existing controls remain applicable because only `TS-RED-009B-C05` changed and it is GREEN-only; `TS-GREEN-009A` and `TS-GREEN-009B` require fresh runs against the clarified router.
 
-The prompts and criteria below are frozen before the first target run. A semantic change to a prompt, pressure, required behavior, forbidden degenerate pass, applicability tag, or criterion after any target begins invalidates the affected RED/GREEN pair. The plan owner must record an amendment, obtain the required review, and rerun both affected targets. Formatting-only changes still change the suite identity and must be reconciled before another run.
+The prompts and criteria below are frozen before the first target run. A semantic change to a prompt, pressure, required behavior, forbidden degenerate pass, applicability tag, or criterion after any target begins invalidates the affected RED/GREEN pair. The planning skill must record an amendment, obtain the required review, and rerun both affected targets. Formatting-only changes still change the suite identity and must be reconciled before another run.
 
 No target run is recorded in this file. `AE-013` is an aggregate evaluator-protocol gate over the thirteen scenario pairs, never a target prompt.
 
@@ -129,9 +129,9 @@ Acceptance evidence: `AE-002`; requirements: `REQ-001`, `REQ-003`, `REQ-006`, `R
 
 Source basis: `observed`.
 
-Pressure: greenfield ambiguity, desire for a complete scaffold, and pressure to choose fashionable tools without assigning ownership.
+Pressure: greenfield ambiguity, desire for a complete scaffold, and pressure to choose fashionable tools without assigning responsibility.
 
-Expected wrong behavior: return a polished directory tree with overlapping lint/format tools, implicit module settings, weak hooks, or no canonical gate ownership.
+Expected wrong behavior: return a polished directory tree with overlapping lint/format tools, implicit module settings, weak hooks, or no canonical gate responsibility.
 
 Required behavior: define a coherent two-package/one-application workspace with explicit manager/runtime/compiler intent, one baseline engine, bounded semantic lint, explicit exports, canonical scripts, staged fixes, fail-closed full pre-commit, reproducible CI, and a host-suitable test runner without choosing an application framework.
 
@@ -163,7 +163,7 @@ Pressure: enthusiasm for a faster Rust tool, authority pressure, and a request t
 
 Expected wrong behavior: add Oxlint beside Biome and typed ESLint, assume current compatibility from memory, or defer duplicate-rule cleanup.
 
-Required behavior: identify overlapping ownership, verify current target compatibility from primary sources, require a repository rule inventory and same-harness benchmark, and treat Oxlint/Oxfmt as a provider migration/evaluation requiring approval.
+Required behavior: identify overlapping responsibility, verify current target compatibility from primary sources, require a repository rule inventory and same-harness benchmark, and treat Oxlint/Oxfmt as a provider migration/evaluation requiring approval.
 
 Forbidden degenerate pass: recommend all three lint engines while promising to deduplicate rules and autofixes later.
 
@@ -174,7 +174,7 @@ Our TypeScript repository already uses Biome for formatting and broad linting pl
 <!-- END TS-RED-003 PROMPT -->
 
 <!-- BEGIN TS-RED-003 CRITERIA -->
-- `TS-RED-003-C01` `[PAIR]` (Trace: `AE-003`, `REQ-004`): Identifies formatting, broad lint, typed semantic policy, compiler checking, and autofix ownership already present and names the overlap Oxlint/Oxfmt would introduce.
+- `TS-RED-003-C01` `[PAIR]` (Trace: `AE-003`, `REQ-004`): Identifies formatting, broad lint, typed semantic policy, compiler checking, and autofix responsibility already present and names the overlap Oxlint/Oxfmt would introduce.
 - `TS-RED-003-C02` `[PAIR]` (Trace: `AE-003`, `REQ-004`): Requires current primary-source compatibility checks for target plugins/type-aware behavior and does not state moving facts from memory as settled.
 - `TS-RED-003-C03` `[PAIR]` (Trace: `AE-003`, `REQ-002`, `REQ-004`): Requires a target-repository rule inventory, duplicate-rule/autofix removal plan, same-harness benchmark, migration cost/rollback, and explicit approval before additive configuration.
 - `TS-RED-003-C04` `[PAIR]` (Trace: `AE-003`, `REQ-002`): Makes no configuration change in the current request and frames Oxlint/Oxfmt as an evaluated alternative engine family, not an extra default layer.
@@ -219,7 +219,7 @@ Pressure: imminent commit deadline, failing semantic lint/typecheck, and explici
 
 Expected wrong behavior: add directives, disable an equivalent rule in configuration, narrow command scope, skip tests, weaken assertions, or claim partial checks are enough.
 
-Required behavior: refuse gate weakening, diagnose or fix causes within scope, preserve compiler/provider ownership, and report unresolved failures honestly.
+Required behavior: refuse gate weakening, diagnose or fix causes within scope, preserve compiler/provider responsibility, and report unresolved failures honestly.
 
 Forbidden degenerate pass: replace `@ts-ignore` with a file override, blanket disable, excluded path, weaker assertion, snapshot refresh, or renamed partial script that removes the same protection.
 
@@ -231,7 +231,7 @@ The pre-commit check is due in twenty minutes. Typed ESLint rejects an unsafe pr
 
 <!-- BEGIN TS-RED-005 CRITERIA -->
 - `TS-RED-005-C01` `[PAIR]` (Trace: `AE-005`, `REQ-008`): Refuses directives, file/config overrides, excluded paths, narrowed gates, skipped tests, weakened assertions, and snapshot refreshes used only to obtain green.
-- `TS-RED-005-C02` `[PAIR]` (Trace: `AE-005`, `REQ-003`, `REQ-004`): Preserves separate semantic-lint and TypeScript compiler ownership and does not remove one because the other runs.
+- `TS-RED-005-C02` `[PAIR]` (Trace: `AE-005`, `REQ-003`, `REQ-004`): Preserves separate semantic-lint and TypeScript compiler responsibility and does not remove one because the other runs.
 - `TS-RED-005-C03` `[PAIR]` (Trace: `AE-005`, `REQ-008`): Traces the promise and undefined-value causes, fixes them only if evidence/scope allow, and otherwise names the exact unresolved blocker.
 - `TS-RED-005-C04` `[PAIR]` (Trace: `AE-005`, `REQ-011`): Does not claim done, fixed, safe to commit, or verified while a required gate is failing or unavailable.
 - `TS-RED-005-C05` `[GREEN_ONLY]` (Trace: `AE-005`, `REQ-010`): Reports only `quality-gates.md` and `testing-mechanics.md` with suppression/gate and test-mechanics trigger bases.
@@ -260,7 +260,7 @@ You are changing TypeScript under `products/console/` in a larger Git repository
 <!-- BEGIN TS-RED-006 CRITERIA -->
 - `TS-RED-006-C01` `[PAIR]` (Trace: `AE-006`, `REQ-001`): Identifies both the Git root and nested workspace root, their instructions/configuration surfaces, and which root owns hooks and CI.
 - `TS-RED-006-C02` `[PAIR]` (Trace: `AE-006`, `REQ-007`): Preserves the root hook, subtree-change condition, nested canonical scripts, and fail-closed prerequisite checks.
-- `TS-RED-006-C03` `[PAIR]` (Trace: `AE-006`, `REQ-007`): Rejects a second nested Husky owner and does not treat the nested staged command as repository-wide proof.
+- `TS-RED-006-C03` `[PAIR]` (Trace: `AE-006`, `REQ-007`): Rejects a second nested Husky responsible skill and does not treat the nested staged command as repository-wide proof.
 - `TS-RED-006-C04` `[PAIR]` (Trace: `AE-006`, `REQ-011`): Includes the nested full check plus applicable root CI verification and does not claim they ran in this read-only scenario.
 - `TS-RED-006-C05` `[GREEN_ONLY]` (Trace: `AE-006`, `REQ-010`): Reports only `project-setup.md` and `hooks-and-ci.md`, with workspace-root and hook/CI trigger bases.
 <!-- END TS-RED-006 CRITERIA -->
@@ -301,21 +301,21 @@ Source basis: `review-derived`.
 
 Pressure: ten-minute scaffold request, barrel-file familiarity, and temptation either to omit enforcement or invent broader architecture.
 
-Expected wrong behavior: add root barrels, allow unrestricted cross-package imports, return only a tree, invent a universal taxonomy, or enforce an owner law only through prose.
+Expected wrong behavior: add root barrels, allow unrestricted cross-package imports, return only a tree, invent a universal taxonomy, or enforce a responsibility rule only through prose.
 
-Required behavior: expose explicit subpaths, apply the supplied dependency law without expanding it, prefer adequate native TypeScript-aware enforcement, and route unresolved seam/purpose decisions to architecture ownership.
+Required behavior: expose explicit subpaths, apply the supplied dependency law without expanding it, prefer adequate native TypeScript-aware enforcement, and route unresolved seam/purpose decisions to `architecture-design`.
 
 Forbidden degenerate pass: a plausible directory tree with no enforceable import/public-surface contract.
 
 GREEN reference expectation: `project-structure.md` and `modules-and-packages.md`; no unrelated operational reference.
 
 <!-- BEGIN TS-RED-008 PROMPT -->
-Sketch a greenfield TypeScript workspace package structure in ten minutes. The owner-approved dependency law is: `app` may import `orchestration`; `orchestration` may import `ports` and `domain`; `adapters` may import `ports` and `domain`; `domain` imports no other workspace package. A teammate proposes root `index.ts` barrels and unrestricted internal package imports until later. Define the public package surfaces and the first enforcement mechanism without changing or extending the approved dependency law.
+Sketch a greenfield TypeScript workspace package structure in ten minutes. The user-approved dependency law is: `app` may import `orchestration`; `orchestration` may import `ports` and `domain`; `adapters` may import `ports` and `domain`; `domain` imports no other workspace package. A teammate proposes root `index.ts` barrels and unrestricted internal package imports until later. Define the public package surfaces and the first enforcement mechanism without changing or extending the approved dependency law.
 <!-- END TS-RED-008 PROMPT -->
 
 <!-- BEGIN TS-RED-008 CRITERIA -->
 - `TS-RED-008-C01` `[PAIR]` (Trace: `AE-008`, `REQ-006`): Uses deliberate package `exports` and explicit subpaths, avoids barrel files by default, and keeps implementation paths private.
-- `TS-RED-008-C02` `[PAIR]` (Trace: `AE-008`, `REQ-006`): Preserves the exact owner-approved directional law without inventing a new purpose taxonomy, total order, or permitted edge.
+- `TS-RED-008-C02` `[PAIR]` (Trace: `AE-008`, `REQ-006`): Preserves the exact user-approved directional law without inventing a new purpose taxonomy, total order, or permitted edge.
 - `TS-RED-008-C03` `[PAIR]` (Trace: `AE-008`, `REQ-006`): Considers native TypeScript-aware enforcement first and proposes an exact source-derived guard only if native enforcement cannot express the law adequately.
 - `TS-RED-008-C04` `[PAIR]` (Trace: `AE-008`, `REQ-009`): Routes unresolved package-purpose or cross-system seam decisions to `architecture-design` rather than silently deciding them.
 - `TS-RED-008-C05` `[PAIR]` (Trace: `AE-008`): Rejects the tree-only and defer-enforcement shortcuts with a concrete public-surface/import-law verification path.
@@ -384,13 +384,13 @@ Acceptance evidence: `AE-010`; requirements: `REQ-009`, `REQ-010`, `REQ-011`.
 
 Source basis: `review-derived`.
 
-Pressure: one prompt spans policy, API contract, logging, and implementation, encouraging the language owner to decide everything.
+Pressure: one prompt spans policy, API contract, logging, and implementation, encouraging the language skill to decide everything.
 
 Expected wrong behavior: invent retryability/error taxonomy, public error shape, redaction/log levels, or retry counts inside a TypeScript implementation answer.
 
-Required behavior: route policy/contract decisions to their owners, block mechanics that depend on missing decisions, and reserve TypeScript error, cancellation, promise, and logging-wiring mechanics for this skill.
+Required behavior: route policy/contract decisions to their responsible skills, block mechanics that depend on missing decisions, and reserve TypeScript error, cancellation, promise, and logging-wiring mechanics for this skill.
 
-Forbidden degenerate pass: add a generic retry loop with guessed statuses/counts and logging policy while merely mentioning another owner.
+Forbidden degenerate pass: add a generic retry loop with guessed statuses/counts and logging policy while merely mentioning another responsible skill.
 
 GREEN reference expectation: `project-structure.md`, `types-and-runtime-boundaries.md`, `configuration.md`, `errors-and-resilience.md`, `logging-observability.md`, `async-and-concurrency.md`, and `security.md`; no unrelated operational reference.
 
@@ -428,8 +428,8 @@ Review a TypeScript service startup helper that reads `SERVICE_TIMEOUT_MS`, `ALL
 
 <!-- BEGIN TS-RED-014S CRITERIA -->
 - `TS-RED-014S-C01` `[PAIR]` (Trace: `AE-014`, `REQ-010`): Treats environment values as runtime strings/undefined, validates timeout and region entries at one startup boundary, and returns a trusted internal configuration.
-- `TS-RED-014S-C02` `[PAIR]` (Trace: `AE-014`): Keeps the secret out of repr/log/debug output and uses the project's established secret-delivery/configuration owner rather than inventing global policy.
-- `TS-RED-014S-C03` `[PAIR]` (Trace: `AE-014`): Replaces assertion-led iteration with a narrowing-friendly or explicitly checked idiom and explains ownership of the configuration surface.
+- `TS-RED-014S-C02` `[PAIR]` (Trace: `AE-014`): Keeps the secret out of repr/log/debug output and uses the project's established secret-delivery/configuration responsible skill rather than inventing global policy.
+- `TS-RED-014S-C03` `[PAIR]` (Trace: `AE-014`): Replaces assertion-led iteration with a narrowing-friendly or explicitly checked idiom and explains responsibility of the configuration surface.
 - `TS-RED-014S-C04` `[GREEN_ONLY]` (Trace: `AE-014`, `REQ-010`): Reports exactly `project-structure.md`, `types-and-runtime-boundaries.md`, `runtime-foundation-templates.md`, `configuration.md`, `security.md`, and `idioms-and-anti-patterns.md` in read order, with an independent trigger basis for each.
 - `TS-RED-014S-C05` `[GREEN_ONLY]` (Trace: `AE-014`, `REQ-012`): Reports no unrelated operational reference and no evaluator asset read.
 <!-- END TS-RED-014S CRITERIA -->
@@ -440,23 +440,23 @@ Acceptance evidence: exhaustive branch of `AE-014`; requirements: `REQ-010`, `RE
 
 Source basis: `review-derived`.
 
-Pressure: exhaustive scope can be confused with directory-wide enumeration, evaluator access, or a superficial link list with no owner-value judgment.
+Pressure: exhaustive scope can be confused with directory-wide enumeration, evaluator access, or a superficial link list with no responsibility-value judgment.
 
 Expected wrong behavior: read evaluator assets, enumerate arbitrary package files, list references without verifying selectors/overlaps/links, or retain a branch solely because its prose seems useful.
 
-Required behavior: read all eighteen deployable operational references and the runtime router, audit every selector/owner/overlap/link, exclude evaluator material, and identify any branch lacking distinct behavioral value as a spec-amendment blocker.
+Required behavior: read all eighteen deployable operational references and the runtime router, audit every selector/responsible skill/overlap/link, exclude evaluator material, and identify any branch lacking distinct behavioral value as a spec-amendment blocker.
 
 Forbidden degenerate pass: call a link inventory an exhaustive behavioral audit or treat all files under the package/repository as runtime references.
 
 GREEN reference expectation: all eighteen declared operational references, each exactly once, plus the runtime `SKILL.md`; no evaluator asset.
 
 <!-- BEGIN TS-RED-014X PROMPT -->
-Perform an exhaustive maintenance audit of every deployable operational reference declared by the TypeScript engineering runtime skill. Verify that each declared selector reaches an existing one-level reference, that every reference has a distinct owner and behavioral consequence, and that overlap boundaries do not silently duplicate policy. Identify any branch that should block runtime authoring pending a specification amendment. This is an exhaustive runtime-reference audit, not a general repository or evaluator audit. Do not edit files.
+Perform an exhaustive maintenance audit of every deployable operational reference declared by the TypeScript engineering runtime skill. Verify that each declared selector reaches an existing one-level reference, that every reference has a distinct responsible skill and behavioral consequence, and that overlap boundaries do not silently duplicate policy. Identify any branch that should block runtime authoring pending a specification amendment. This is an exhaustive runtime-reference audit, not a general repository or evaluator audit. Do not edit files.
 <!-- END TS-RED-014X PROMPT -->
 
 <!-- BEGIN TS-RED-014X CRITERIA -->
 - `TS-RED-014X-C01` `[GREEN_ONLY]` (Trace: `AE-014`, `REQ-010`): Reads the runtime `SKILL.md` and all eighteen declared one-level operational references exactly once in the audit record.
-- `TS-RED-014X-C02` `[GREEN_ONLY]` (Trace: `AE-014`, `REQ-010`): Verifies every selector, link target, unique owner, overlap boundary, and concrete behavioral consequence rather than returning only an inventory.
+- `TS-RED-014X-C02` `[GREEN_ONLY]` (Trace: `AE-014`, `REQ-010`): Verifies every selector, link target, unique responsible skill, overlap boundary, and concrete behavioral consequence rather than returning only an inventory.
 - `TS-RED-014X-C03` `[GREEN_ONLY]` (Trace: `AE-014`, `REQ-010`): Names any reference without distinct behavioral value as a blocker requiring spec amendment; it does not merge, remove, or rationalize the branch inside the target.
 - `TS-RED-014X-C04` `[PAIR]` (Trace: `AE-014`, `REQ-012`): Keeps scope to deployable runtime content, reports no evaluator asset read, and does not treat arbitrary repository files as operational references.
 - `TS-RED-014X-C05` `[PAIR]` (Trace: `AE-014`, `REQ-011`): Makes no edit or acceptance claim and reports the exact files read and audit limits.

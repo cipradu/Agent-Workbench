@@ -13,7 +13,7 @@ Graphify outputs are discovery evidence:
 - `EXTRACTED` relationships come from an extractor but still require source verification for exact claims.
 - `INFERRED` relationships are derived during resolution or semantic processing and are leads, not proof.
 - `AMBIGUOUS` relationships are explicitly unresolved.
-- communities, labels, hubs, surprising connections, paths, generated reports, and suggested questions organize inspection; they do not establish architectural intent, ownership, runtime causality, or completeness.
+- communities, labels, hubs, surprising connections, paths, generated reports, and suggested questions organize inspection; they do not establish architectural intent, responsibility, runtime causality, or completeness.
 
 Read the original artifact and current owning source before concluding.
 
@@ -43,7 +43,7 @@ Operate on the current repository by default.
 
 Bracketed values in this reference are placeholders. Replace them with real values; do not type the brackets literally.
 
-## CLI Availability and Package Ownership
+## CLI Availability and Package Responsibility
 
 Check the installed executable:
 
@@ -137,7 +137,7 @@ Authorized extra installation template:
 uv tool install "graphifyy[<COMMA_SEPARATED_EXTRAS>]"
 ```
 
-Replace the placeholder with only the required extras. If Graphify already has an isolated uv tool environment, use the uv-supported upgrade/reinstall path for that same owner; do not create a second conflicting installation.
+Replace the placeholder with only the required extras. If Graphify already has an isolated uv tool environment, use the uv-supported upgrade/reinstall path for that same tool environment; do not create a second conflicting installation.
 
 ## Telemetry, Local Logs, and Network Behavior
 
@@ -316,7 +316,7 @@ Graphify has two different provider concepts:
 
 This workflow does not use provider exports, shell startup files, `.env`, auto-detection, or the user-global `~/.graphify/providers.json`. It uses:
 
-| Project file | Owner | Purpose |
+| Project file | Responsible tool | Purpose |
 | --- | --- | --- |
 | `.graphify/config.json` | this codebase-search package | retained corpus, output, extraction, and community-label selections |
 | `.graphify/providers.json` | native Graphify provider registry | OpenAI-compatible endpoint, model, request behavior, and credential-key name |
@@ -859,7 +859,7 @@ Template rules:
 
 - Replace the placeholder with the canonical absolute path to the verified graph.
 - Merge the server entry into existing configuration; do not overwrite unrelated servers.
-- Use the target harness’s supported MCP config owner and syntax.
+- Use the target harness’s supported MCP configuration source and syntax.
 - Restart the client after a configuration change.
 - MCP configuration does not create or refresh a graph.
 

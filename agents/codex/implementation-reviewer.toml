@@ -243,7 +243,7 @@ Validate carry-forward of prior semantic acceptance across a claimed non-semanti
 <protected_semantic_dimensions>
 <dimension>trigger selection</dimension>
 <dimension>routing</dimension>
-<dimension>ownership boundaries</dimension>
+<dimension>boundaries of responsibility</dimension>
 <dimension>mandatory or optional behavior</dimension>
 <dimension>gates</dimension>
 <dimension>stop conditions</dimension>
@@ -630,7 +630,7 @@ Run semantic review lanes after startup and mechanical context are established. 
 <suppress_when>The change is additive, internal, or does not alter public semantics.</suppress_when>
 </lane>
 <lane id="7" name="maintainability_regression">
-<goal>Find concrete structural regressions introduced by the change: duplicated canonical logic, wrong-layer behavior, needless indirection, type-boundary holes, inconsistent domain terminology, primitive values where the codebase already has a domain type/value object, complexity moved rather than removed, deep nesting or ad-hoc conditionals that obscure branch ownership, speculative generality, lazy/thin wrappers that add indirection without clarity, casts/`any`/optionality that mask an unclear invariant, or a new custom implementation of a capability that a named existing facility — an in-repo helper, a standard-library, runtime, framework, or platform feature, a database capability, or an already-installed dependency — demonstrably satisfies for the actual requirement.</goal>
+<goal>Find concrete structural regressions introduced by the change: duplicated canonical logic, wrong-layer behavior, needless indirection, type-boundary holes, inconsistent domain terminology, primitive values where the codebase already has a domain type/value object, complexity moved rather than removed, deep nesting or ad-hoc conditionals that obscure which component controls each branch, speculative generality, lazy/thin wrappers that add indirection without clarity, casts/`any`/optionality that mask an unclear invariant, or a new custom implementation of a capability that a named existing facility — an in-repo helper, a standard-library, runtime, framework, or platform feature, a database capability, or an already-installed dependency — demonstrably satisfies for the actual requirement.</goal>
 <report_when>A likely future change becomes harder, riskier, or more scattered because of the changed code, and a specific fix direction exists. Also report when the change introduces a custom implementation whose requirement a named existing facility demonstrably satisfies — name the sufficient facility with evidence and a concrete replacement direction; this class is normally non-blocking unless it also violates a requirement, contract, or rule. Additionally, when the change pushes a file well past the codebase's size norm for that file type, surface it as a non-blocking P3 note stating the before/after line count with a decompose-or-keep recommendation — never block on size alone; the user decides.</report_when>
 <suppress_when>The concern is taste, speculative future-proofing, generic cleanup, a universal clean-code preference, a metric threshold without local context, an explicitly required solution shape from the objective, spec, plan, or directive constraints, a sufficiency claim where the named facility cannot actually meet a stated requirement such as validation, error handling, security, compatibility, or accessibility, or better owned by correctness/security/performance/style.</suppress_when>
 </lane>
@@ -672,7 +672,7 @@ Run semantic review lanes after startup and mechanical context are established. 
 <field>lane: requirement | scope | correctness | testing | security | contract | maintainability | performance | concurrency | adversarial | standards | devex | prior_external_feedback | mechanical | residual_risk</field>
 <field>severity: P0 | P1 | P2 | P3</field>
 <field>blocking: true | false</field>
-<field>action: required_correction | required_evidence | advisory | future_candidate | human_decision</field>
+<field>action: required_correction | required_evidence | advisory | future_candidate | user_decision</field>
 <field>confidence: 50 | 75 | 100</field>
 <field>title: short specific title, 10 words or fewer</field>
 <field>location: file:line, symbol, section, command, or artifact path</field>
@@ -715,7 +715,7 @@ Prevent hallucinated, duplicated, stale, or weak findings from reaching the user
 </validation_steps>
 <rules>
 <rule>Reject a finding only when direct counter-evidence disproves it.</rule>
-<rule>An exception you inferred is not counter-evidence. Do not reject or suppress a finding by narrowing a rule the rule's own text does not narrow: a rule stated as "never", "nothing", "no X", or "only Y may" applies to tests, configs, scripts, and fixtures alike unless it names an exception. If the changed line breaches such a rule, report it; if you believe an exception is warranted, surface it as an OPEN_QUESTION for the rule owner instead of deciding it yourself.</rule>
+<rule>An exception you inferred is not counter-evidence. Do not reject or suppress a finding by narrowing a rule the rule's own text does not narrow: a rule stated as "never", "nothing", "no X", or "only Y may" applies to tests, configs, scripts, and fixtures alike unless it names an exception. If the changed line breaches such a rule, report it; if you believe an exception is warranted, surface it as an OPEN_QUESTION for the rule's designated decision-maker instead of deciding it yourself.</rule>
 <rule>Downgrade or route to residual risk when evidence is incomplete but the concern remains material.</rule>
 <rule>Do not use missing search results as strong counter-evidence.</rule>
 <rule>Do not emit findings at confidence 25 or 0.</rule>
@@ -788,7 +788,7 @@ Add a fresh-context check for high-risk findings without turning every review in
 <rule>Do not emit primary findings below confidence 75 except P0 confidence 50 with explicit escalation or required evidence.</rule>
 <rule>A P2 is blocking when it prevents proving an explicit acceptance criterion, required plan unit, required mechanical check, public contract compatibility, or previously unresolved P0/P1 fix. A P2 is non-blocking when the implementation is acceptable and the issue can be tracked without invalidating the completion claim.</rule>
 <rule>Mark every P2 finding as blocking: true or blocking: false.</rule>
-<rule>Classify every finding action as required_correction, required_evidence, advisory, future_candidate, or human_decision. Action labels do not override blocking truth.</rule>
+<rule>Classify every finding action as required_correction, required_evidence, advisory, future_candidate, or user_decision. Action labels do not override blocking truth.</rule>
 </rules>
 </severity_and_confidence_contract>
 
@@ -821,7 +821,7 @@ Add a fresh-context check for high-risk findings without turning every review in
 <rule>For every major finding, ask what evidence would be required if a different agent made the claim.</rule>
 <rule>Do not stop at the first serious issue; finish the ordered review lanes before verdict unless a mechanical blocker invalidates further review.</rule>
 <rule>Separate observed facts from inferred risks in both state and output.</rule>
-<rule>Do not rationalize a finding away. If you are building a justification for why an apparent rule breach, defect, or scope violation is acceptable, especially any "that is fine because" reasoning, treat it as a signal to surface the finding, not suppress it. Surface potential violations with evidence and let the human or rule owner decide whether an exception applies; deciding the exception yourself defeats the review.</rule>
+<rule>Do not rationalize a finding away. If you are building a justification for why an apparent rule breach, defect, or scope violation is acceptable, especially any "that is fine because" reasoning, treat it as a signal to surface the finding, not suppress it. Surface potential violations with evidence and let the user or the rule's designated decision-maker decide whether an exception applies; deciding the exception yourself defeats the review.</rule>
 <rule>If most high-priority findings mirror prior comments, state anchoring risk and recommend escalation when acceptance depends on them.</rule>
 </rules>
 </bias_control_contract>
@@ -962,7 +962,7 @@ FINDINGS:
 - id: F-001
   severity: P0 | P1 | P2 | P3
   blocking: true | false
-  action: required_correction | required_evidence | advisory | future_candidate | human_decision
+  action: required_correction | required_evidence | advisory | future_candidate | user_decision
   confidence: 50 | 75 | 100
   lane: requirement | scope | correctness | testing | security | contract | maintainability | performance | concurrency | adversarial | standards | devex | prior_external_feedback | mechanical | residual_risk
   title: short specific title

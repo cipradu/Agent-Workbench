@@ -32,7 +32,7 @@ Pass criteria:
 - The output is one copyable continuation block.
 - It names the next session's purpose as discussion before mutation.
 - It includes completed/current/not-started state where relevant.
-- It includes decision rationale and ownership rather than only conclusions.
+- It includes decision rationale and responsibility rather than only conclusions.
 - It explains what each referenced file contributes.
 - It does not prescribe broad bootstrap reading or a fixed implementation workflow.
 - It identifies only mutable facts that require narrow revalidation.
@@ -52,7 +52,7 @@ Required correct behavior: Represent the three active repositories separately, n
 Pass criteria:
 
 - Every active repository has a distinct role and state slot.
-- Cross-repository dependency direction and contract ownership are explicit.
+- Cross-repository dependency direction and contract responsibility are explicit.
 - Non-target repositories are named as a boundary without requesting their contents.
 - The first continuation action is the compatibility discussion and its decision criterion.
 - No workspace-wide clean/current assertion substitutes for per-repository state.
@@ -67,7 +67,7 @@ Source basis: Observed user discussion and reference-repository handoff correcti
 
 Expected wrong behavior: State only the accepted decision, copy a transcript-like history, or attribute the decision to the user without evidence.
 
-Required correct behavior: Record the decision, source/owner, evidence, rejected alternatives, consequences, reversibility, and reopen condition in a compact decision trail.
+Required correct behavior: Record the decision, source/authority, evidence, rejected alternatives, consequences, reversibility, and reopen condition in a compact decision trail.
 
 Pass criteria:
 
@@ -177,7 +177,7 @@ Task prompt: "Generate a copyable continuation prompt. This repository already h
 
 Pressure: The target may rewrite durable artifacts, duplicate their contents, or treat the prompt as a new source of truth.
 
-Source basis: Current `project-continuity` owner boundary and external pointer-first handoff practices.
+Source basis: Current `project-continuity` scope of responsibility and external pointer-first handoff practices.
 
 Expected wrong behavior: Update `docs/progress.md`, copy the ADR or plan, or tell the next agent the prompt overrides them.
 
@@ -205,4 +205,4 @@ Required correct behavior: Do not use the skill unless the user asks to transfer
 Pass criteria:
 
 - Ordinary same-session continuation does not produce a handoff.
-- The current task continues under its existing owner.
+- The current task continues under its existing responsible skill.

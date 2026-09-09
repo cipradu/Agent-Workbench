@@ -24,7 +24,7 @@ Do not use this skill when:
 - The requested action is to abort, reset, force-push, drop commits, rewrite published history, or discard work. Those are separate high-impact actions requiring explicit user instruction.
 - A project-specific workflow says this conflict must be surfaced, aborted, or re-dispatched instead of hand-resolved, such as stash-pop recovery, generated registry refreshes, or isolated subagent branch integration.
 - The conflict arose while merging isolated delegated work in an orchestrated workflow and the governing workflow owns abort, serial re-dispatch, or rerun policy. Report the Git state and return control to that workflow unless the user explicitly authorizes manual resolution with the named loss-of-intent risk.
-- Conflict resolution depends on a product, legal, release, or ownership decision that cannot be inferred from repository evidence.
+- Conflict resolution depends on a product, legal, release, or responsibility decision that cannot be inferred from repository evidence.
 
 ## Iron Law
 
@@ -166,7 +166,7 @@ Resolution rules:
 
 - Preserve both sides when they are compatible.
 - If intents conflict, prefer the side matching the merge/rebase/cherry-pick goal, accepted spec/ADR/plan, current contract, or explicit user instruction.
-- If one side deleted a file and the other modified it, verify whether the deleted responsibility moved elsewhere before keeping the modification. A delete/modify conflict is not resolved until the surviving owner is known or the missing ownership decision is named as a blocker.
+- If one side deleted a file and the other modified it, verify whether the deleted responsibility moved elsewhere before keeping the modification. A delete/modify conflict is not resolved until the surviving component is known or the missing responsibility decision is named as a blocker.
 - If a file was renamed or moved, apply the surviving behavioral change to the surviving path instead of resurrecting duplicate structure.
 - If a generated file or lockfile conflicts, resolve source inputs first, regenerate with the project's normal package manager or generator, review the regenerated diff, and stage it only when it matches the intended dependency/artifact state.
 - If a binary, submodule, image, or opaque artifact conflicts, choose or regenerate it from explicit evidence; otherwise stop for user decision.
@@ -241,8 +241,8 @@ Rules:
 
 - `git diff --name-only --diff-filter=U` must produce no unresolved paths before the operation continues.
 - Passing unrelated tests is not evidence for the conflict resolution.
-- Do not start browser/dev-server/dogfood/optimization workflows from this skill. When those checks are needed, identify the affected surface, cite existing evidence if available, and report the required owner-owned follow-up or residual risk.
-- Review `git diff --staged` as if reviewing someone else's conflict resolution before continuation. Check each selected outcome against its stated basis, especially for rebase side reversal, delete/modify ownership, generated artifacts, lockfiles, behavior-bearing tests, and workflow-owned artifacts.
+- Do not start browser/dev-server/dogfood/optimization workflows from this skill. When those checks are needed, identify the affected surface, cite existing evidence if available, and report the required follow-up through the responsible skill or residual risk.
+- Review `git diff --staged` as if reviewing someone else's conflict resolution before continuation. Check each selected outcome against its stated basis, especially for rebase side reversal, delete/modify responsibility, generated artifacts, lockfiles, behavior-bearing tests, and workflow-owned artifacts.
 - If a check fails, classify it before continuing: conflict-caused, demonstrably pre-existing, unrelated to the resolved surface, or unknown. Conflict-caused and unknown failures block continuation unless the user explicitly accepts the named risk.
 - If verification cannot run, record the exact blocked check and residual risk before continuing.
 
@@ -302,7 +302,7 @@ Stop instead of resolving when:
 - a revert conflict involves a merge commit and the mainline parent or future-merge consequence is not explicit;
 - pre-existing user edits are mixed with conflict edits and cannot be separated safely;
 - verification requires unavailable credentials, services, files, or tools and the risk is material;
-- a product, legal, release, marketing, naming, ownership, privacy, or user-facing announcement decision is needed to decide the resolution;
+- a product, legal, release, marketing, naming, responsibility, privacy, or user-facing announcement decision is needed to decide the resolution;
 - the user asks for destructive recovery without naming the exact acceptable loss.
 
 When blocked on a decision, ask one targeted question for the specific path or decision. Include the recovered evidence and the consequence of each plausible choice. Do not ask broad multi-issue questions or keep interrogating when the next safe action is to stop.

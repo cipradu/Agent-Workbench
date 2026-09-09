@@ -2,7 +2,7 @@
 
 Load this reference for pytest execution mechanics: configuration, fixtures, parametrization, async tests, plugins, coverage wiring, and debugging test failures.
 
-Owner boundary: what to test, posture (TDD/characterization/acceptance), seams, mocking judgment, and coverage sufficiency belong to `testing-strategy` — this reference executes those decisions in pytest.
+Responsibility boundary: what to test, posture (TDD/characterization/acceptance), seams, mocking judgment, and coverage sufficiency belong to `testing-strategy` — this reference executes those decisions in pytest.
 
 ## Configuration
 

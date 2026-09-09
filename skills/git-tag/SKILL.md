@@ -22,7 +22,7 @@ Route adjacent work without absorbing it:
 - GitHub Release records, notes, assets, and hosted Release state: `github-release`;
 - Python package mechanics: `python-engineering`;
 - workflow YAML and GitHub Actions trust or execution design: `github-actions`;
-- generic package/image publication or production deployment with no current domain owner: `Blocked: no current publication/deployment execution owner for <object/system>.` Replace the placeholder with the user's exact object or system noun without adding a broader action label. For a request to deploy production, the exact blocker is `Blocked: no current publication/deployment execution owner for production.`
+- generic package/image publication or production deployment with no current domain skill: `Blocked: no current skill or agent can execute publication/deployment for <object/system>.` Replace the placeholder with the user's exact object or system noun without adding a broader action label. For a request to deploy production, the exact blocker is `Blocked: no current skill or agent can execute publication/deployment for production.`
 
 A request only about an already-associated GitHub Release record belongs to `github-release`; no `git-tag` operational reference applies unless tag inspection or lifecycle work is separately requested.
 
@@ -71,7 +71,7 @@ Failure output: `Blocked: tag action scope is unresolved: <missing repository/re
 
 ### 2. Discover Authority And Policy Before Convention
 
-Inspect current repository evidence for tag naming, version ownership, release model, tag type, annotations/messages, signing, protected or immutable history, remotes, and correction/deletion rules. Evidence can include repository instructions, contribution or release documentation, configuration, automation, package metadata, existing tag structure, and hosted policy when an authorized current read is available.
+Inspect current repository evidence for tag naming, version responsibility, release model, tag type, annotations/messages, signing, protected or immutable history, remotes, and correction/deletion rules. Evidence can include repository instructions, contribution or release documentation, configuration, automation, package metadata, existing tag structure, and hosted policy when an authorized current read is available.
 
 Examples reveal candidates, not universal rules. Do not infer a version system, prefix, first version, lightweight versus annotated type, signature requirement, message format, remote name, or published-correction policy from common practice or absence of evidence. Local Git cannot prove hosted rulesets.
 
@@ -112,7 +112,7 @@ Failure output: `Blocked: tag identity is unresolved: <field or layer>.`
 
 Before a mutation, require authority for the exact action, exact full ref, exact repository, and exact local or remote layer. Recheck that policy still permits the transition and that the inspected preimage has not become stale.
 
-Published tag movement, deletion, or reuse is protected-history work. It requires discovered repository policy plus explicit user authority for the exact remote ref and transition. Urgency, release naming, a local object, prior ownership, or a broad “fix the tag” request is not enough. Signing-policy decisions and trust roots also require repository or human authority.
+Published tag movement, deletion, or reuse is protected-history work. It requires discovered repository policy plus explicit user authority for the exact remote ref and transition. Urgency, release naming, a local object, prior responsibility, or a broad “fix the tag” request is not enough. Signing-policy decisions and trust roots also require repository or human authority.
 
 Completion criterion: the exact allowed mutation and expected pre/post state are named; every adjacent mutation remains excluded.
 
@@ -143,7 +143,7 @@ Failure output: `Blocked: tag result remains unknown after readback: <evidence g
 Report:
 
 - repository and exact tag/ref identity;
-- requested action and primary owner;
+- requested action and primary skill;
 - selected operational references and trigger basis;
 - discovered policy and its source, plus unresolved policy;
 - local and remote pre-state classifications and evidence;
@@ -151,7 +151,7 @@ Report:
 - actions taken, including `none`, without hiding incidental reads or mutations;
 - local and remote post-state/readback separately;
 - signature proof and its trust limit when applicable;
-- adjacent objects routed to their owners;
+- adjacent objects routed to the responsible skills or agents;
 - exact completed scope, unknown state, and residual external proof.
 
 Do not report “released,” “published,” “deployed,” or “verified” without naming the exact object and proof source.
@@ -166,7 +166,7 @@ Stop without mutation when:
 - a published move, deletion, or reuse lacks both policy and explicit exact-ref authority;
 - required signing trust cannot be proved without installing or configuring a backend;
 - a remote result is ambiguous and exact readback is unavailable;
-- a request would require a broad push, wildcard, force shortcut, coupled local/remote action, or unrelated owner mechanics;
+- a request would require a broad push, wildcard, force shortcut, coupled local/remote action, or unrelated skill mechanics;
 - hosted rules, Release state, registry publication, or deployment proof is required but unavailable.
 
 Complete safe read-only classification and routing before stopping. Do not replace a bounded decision with a blanket refusal when the supplied evidence supports a narrower conclusion.

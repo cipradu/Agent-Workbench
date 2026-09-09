@@ -11,11 +11,11 @@ Before proposing a schema, identify:
 - invariants that must survive concurrency, retries, and application bugs;
 - data volume and growth pattern;
 - write, read, search, reporting, and pagination paths;
-- tenant, ownership, retention, audit, and deletion requirements;
+- tenant, account associations, retention, audit, and deletion requirements;
 - data sensitivity and fields that should not be exposed broadly;
 - compatibility with existing data and consumers.
 
-Use upstream product, strategy, PRD, spec, or workflow artifacts only to extract database-relevant forces such as entity vocabulary, lifecycle states, retention expectations, canonical metrics, reporting paths, access priority, and user-visible consistency expectations. If those artifacts are missing or contradictory, route the product/engineering truth gap to its owner instead of inventing it in the schema.
+Use upstream product, strategy, PRD, spec, or workflow artifacts only to extract database-relevant forces such as entity vocabulary, lifecycle states, retention expectations, canonical metrics, reporting paths, access priority, and user-visible consistency expectations. If those artifacts are missing or contradictory, route the product/engineering truth gap to the responsible product or engineering skill instead of inventing it in the schema.
 
 Completion criterion: each table and relationship exists because it supports an invariant or access pattern, not because the object model happens to look that way.
 
@@ -81,7 +81,7 @@ Completion criterion: the key choice explains uniqueness, external exposure, ord
 
 ## Relationships And Deletes
 
-Define relationship ownership before choosing delete behavior:
+Define relationship responsibility before choosing delete behavior:
 
 - restrict/delete prevention when children cannot exist without explicit review;
 - cascade only when child lifecycle is truly owned by the parent and deletion blast radius is acceptable;
@@ -97,12 +97,12 @@ For soft deletes:
 - account for uniqueness among active rows, restore conflicts, retention, and purge jobs;
 - index common active-row predicates so hidden rows do not degrade hot paths.
 
-## Tenancy And Ownership
+## Tenancy And Account Associations
 
 For tenant-scoped data:
 
 - choose the tenant boundary explicitly: database, schema, table key, row-level policy, or hybrid;
-- include tenant/owner keys in tables that carry tenant-owned data;
+- include tenant/account keys in tables that carry tenant-owned data;
 - include tenant keys in indexes for common tenant-scoped access paths;
 - enforce tenant filtering in repositories/query builders rather than relying on callers to remember it;
 - treat row-level security or database policies as an additional enforcement layer only after their operational behavior is understood and tested.
@@ -131,7 +131,7 @@ Rules:
 - Passwords are never stored directly. Store a verifier produced by a project-approved password hashing scheme, plus algorithm/version/parameter metadata when needed for future rehashing.
 - API keys, bearer tokens, refresh tokens, webhook secrets, recovery tokens, and one-time codes should be stored as non-reversible verifiers, keyed hashes, token fingerprints, or secret-manager references unless plaintext recovery is explicitly required and protected.
 - If plaintext recovery is truly required, state why, encrypt at rest with key-management boundaries outside the application table, and define who or what can decrypt.
-- Store display-safe metadata separately from the secret verifier: prefix or last characters for user display, created time, last-used time, expiry, revoked time, owner, tenant, scope, environment, and credential name/label when relevant.
+- Store display-safe metadata separately from the secret verifier: prefix or last characters for user display, created time, last-used time, expiry, revoked time, account, tenant, scope, environment, and credential name/label when relevant.
 - Model rotation and revocation as lifecycle state, not as an afterthought. Unique constraints and indexes should prevent duplicate active credentials where the domain requires it.
 - Do not index or expose raw sensitive values. Index verifier/fingerprint columns only when lookup requires it, and keep response mappers from returning verifier columns.
 - Treat credential records as audit-sensitive: define retention, purge, restore, and incident investigation behavior deliberately.
@@ -150,7 +150,7 @@ Classify state before persisting it:
 - user-account settings belong in the database when they must follow the user across devices or collaborators;
 - shared product state belongs in the database when other users, jobs, reports, permissions, or recovery paths depend on it.
 
-For provider credentials or provider references, store secret-manager references, non-reversible verifiers, fingerprints, owner, tenant, scope, environment, expiry, revocation, rotation metadata, display-safe labels, last-used time, and audit fields as needed. Do not persist raw provider tokens or full external payloads by default.
+For provider credentials or provider references, store secret-manager references, non-reversible verifiers, fingerprints, account, tenant, scope, environment, expiry, revocation, rotation metadata, display-safe labels, last-used time, and audit fields as needed. Do not persist raw provider tokens or full external payloads by default.
 
 Completion criterion: persistence is justified by shared durability, recovery, audit, or access needs, not by convenience.
 

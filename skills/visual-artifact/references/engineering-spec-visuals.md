@@ -50,7 +50,7 @@ Build this before layout:
 | What states are allowed? | Mermaid `stateDiagram-v2` | Lifecycle, modes, retries, or transitions are central |
 | What requirement maps to what proof? | Traceability matrix | Requirement/evidence/risk coverage matters |
 | What is current versus target? | Before/after behavior table or flow | Brownfield fit or behavior change needs inspection |
-| What owns authority? | Authority map or ownership table | Requirements depend on source precedence |
+| What owns authority? | Authority map or responsibility table | Requirements depend on source precedence |
 
 ## Diagram Discipline
 
@@ -105,7 +105,7 @@ Show risk as structured evidence, not decoration:
 - requirement or surface affected;
 - mitigation or acceptance;
 - verification evidence;
-- owner or authority.
+- responsible component or authority.
 
 Use color only as a redundant cue with text labels.
 

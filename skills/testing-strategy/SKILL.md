@@ -64,13 +64,13 @@ Select exactly one lifecycle mode:
 
 For `bootstrap`, `use`, or `maintain`, select and read [Verification Harness Lifecycle](references/verification-harness-lifecycle.md) before designing or accepting evidence. Apply the testing target, posture, seam, risk, and evidence process below. Keep exact project commands, selectors, drivers, credentials, fixtures, and mutation mechanics in project-owned surfaces.
 
-`testing-strategy` owns lifecycle design, evidence semantics, feature-map truth, and acceptance of the returned capability. It does not become the project implementation owner. When project-local files or commands must be created or repaired, send a bounded implementation contract to the normal project implementation owner and consume its exact return. A pre-existing verifier-specific owner or command is not required.
+`testing-strategy` owns lifecycle design, evidence semantics, feature-map truth, and acceptance of the returned capability. It does not become the project implementing agent. When project-local files or commands must be created or repaired, send a bounded implementation contract to the normal project implementing agent and consume its exact return. A pre-existing verifier-specific skill or agent or command is not required.
 
-Prefer composition over construction. Reuse current project launch, health, test, drive, inspection, evidence, and cleanup commands when they provide the required stages. Add a wrapper, CLI, helper, adapter, or skill-shaped package only when current evidence names a missing reusable control or observer seam and the project already has an appropriate owner for that artifact.
+Prefer composition over construction. Reuse current project launch, health, test, drive, inspection, evidence, and cleanup commands when they provide the required stages. Add a wrapper, CLI, helper, adapter, or skill-shaped package only when current evidence names a missing reusable control or observer seam and the project already has an appropriate skill or implementing agent for that artifact.
 
 Completion criterion: the mode is explicit; `not_applicable` returns to the ordinary evidence path; every other mode has current project authority, a real observer, exact source/build identity, a discoverable capability and feature-map path, an applicable lifecycle run, authoritative cleanup readback, and a downstream consumer for the evidence.
 
-Failure output: `Blocked: project verifier <bootstrap/use/maintain> lacks <runnable target/mutation authority/live authority/implementation owner/feature map/discovery pointer/observer/source identity/cleanup/evidence consumer>.`
+Failure output: `Blocked: project verifier <bootstrap/use/maintain> lacks <runnable target/mutation authority/live authority/implementing agent/feature map/discovery pointer/observer/source identity/cleanup/evidence consumer>.`
 
 ### 1. Establish The Testing Target
 
@@ -82,7 +82,7 @@ State the target in behavior terms:
 - expected observable outcome and meaningful failure modes;
 - constraints from project rules, existing test framework, CI, runtime, data setup, external services, and local test placement conventions.
 
-When an accepted scope envelope exists, preserve its `Outcome`, `Non-goals`, `Target boundary`, `Acceptance proof`, and `Expansion or re-plan triggers`. Every proposed test, fixture, helper, harness change, generated artifact, or verification phase must protect changed behavior, a current invariant, a material regression risk, or an explicit acceptance criterion. Reuse the narrowest sufficient existing seam and setup. Do not add unrelated coverage, broad test infrastructure, or future-use fixtures; return newly necessary expansion to the orchestrator or plan owner.
+When an accepted scope envelope exists, preserve its `Outcome`, `Non-goals`, `Target boundary`, `Acceptance proof`, and `Expansion or re-plan triggers`. Every proposed test, fixture, helper, harness change, generated artifact, or verification phase must protect changed behavior, a current invariant, a material regression risk, or an explicit acceptance criterion. Reuse the narrowest sufficient existing seam and setup. Do not add unrelated coverage, broad test infrastructure, or future-use fixtures; return newly necessary expansion to the orchestrator or `create-implementation-plan` skill.
 
 For vague, multi-surface, or tactic-framed requests, first split:
 
@@ -216,7 +216,7 @@ For each test/evidence path, record:
 
 For implementation acceptance, pass this evidence to `implementation-review-workflow`; do not treat same-agent tests as independent review. Treat public contracts, persisted data, auth/permission behavior, migrations, cross-system workflows, irreversible changes, operationally risky behavior, and security-sensitive boundaries as high-risk unless project evidence says otherwise.
 
-When verification may mutate the checkout, generate tracked or untracked artifacts, require destructive local state, or run in parallel with unrelated user work, route workspace isolation to the repository's worktree or workflow owner instead of embedding setup mechanics here.
+When verification may mutate the checkout, generate tracked or untracked artifacts, require destructive local state, or run in parallel with unrelated user work, route workspace isolation to the repository's worktree or workflow skill instead of embedding setup mechanics here.
 
 For downstream handoff, preserve the testing target, source truth, posture, seam, key cases, mocks/fixtures rationale, exact commands and outcomes, artifacts, skipped checks, residual risk, manual evidence details, existing tests inspected, likely affected files, and whether evidence is implementation feedback or independent acceptance.
 
@@ -263,7 +263,7 @@ Testing evidence states:
 | "The metric got better, so the test passed." | Metrics can improve while behavior evidence gets weaker.                                                    | Keep hard behavior gates, baseline, repeat policy, diagnostics, and anti-gaming checks.     |
 | "This existing test probably covers it."   | Nearby tests can be stale, wrong-seam, over-mocked, or fixture-drifted.                                       | Inspect the existing evidence and classify freshness before relying on it.                  |
 | "The user did not ask for the verifier."    | Internal capability names are routing details; relevant runtime acceptance still needs the project's declared live observer. | Discover and use an adequate verifier automatically, or return the exact applicability or authority gap. |
-| "We need a verifier owner before bootstrap." | A new project has no verifier-specific owner by definition.                                                  | Define the bounded lifecycle contract and route project-local creation through the normal implementation owner. |
+| "We need a responsible verifier before bootstrap." | A new project has no verifier-specific skill or agent by definition.                                                  | Define the bounded lifecycle contract and route project-local creation through the normal implementing agent. |
 | "A control CLI is the reusable capability." | Existing project commands may already supply every required stage.                                           | Compose current mechanisms first; add a wrapper only for a proven missing reusable seam.    |
 | "Run maintenance every day to keep it fresh." | Elapsed time alone does not identify which claim changed, and this portable workflow owns no scheduler.       | Trigger affected maintenance from source, control, observer, evidence, or explicit audit changes. |
 
@@ -286,7 +286,7 @@ Testing evidence states:
 - A retry, skipped check, snapshot refresh, weaker assertion, broader mock, or narrowed fixture is used to make a gate green.
 - Review feedback says "add tests" but no source truth, protected risk, existing evidence inspection, or failure mode is named.
 - Runtime-relevant work ignores a declared adequate project verifier because the user did not name it.
-- Bootstrap requires a pre-existing verifier-specific owner, starts before a runnable slice exists, or creates unsupported future controls.
+- Bootstrap requires a pre-existing verifier-specific skill or agent, starts before a runnable slice exists, or creates unsupported future controls.
 - A new wrapper, CLI, helper, skill package, dependency, screenshot/video requirement, schedule, cloud route, swarm, or harness-specific path is added without a current project seam that requires it.
 - Feature-map or verifier evidence is produced but not consumed by implementation acceptance.
 

@@ -1,6 +1,6 @@
 # Transactions And Concurrency
 
-Use this reference when writing or reviewing transaction boundaries, isolation levels, row locks, retries, session/connection ownership, savepoints, deadlocks, connection pools, or concurrency bugs.
+Use this reference when writing or reviewing transaction boundaries, isolation levels, row locks, retries, session/connection control, savepoints, deadlocks, connection pools, or concurrency bugs.
 
 ## Unit Of Work
 
@@ -14,7 +14,7 @@ Rules:
 - inner functions receive the active connection/session/transaction or an explicit unit-of-work object;
 - inner functions do not secretly start, commit, or roll back top-level transactions.
 
-Failure output: `Rejected: transaction ownership is split across layers: <specific layers/functions>.`
+Failure output: `Rejected: transaction control is split across layers: <specific layers/functions>.`
 
 ## Transaction Duration
 
@@ -65,7 +65,7 @@ Gather:
 
 - observed symptom and expected invariant;
 - affected read/write path and exact SQL shape when available;
-- engine/version, isolation level, transaction owner, migration revision, and primary/replica path;
+- engine/version, isolation level, transaction-controlling component, migration revision, and primary/replica path;
 - database error class/code, lock wait/deadlock diagnostics, query duration, row counts, and relevant logs;
 - prior failed fixes and what each one disproved;
 - a causal chain from trigger to database observation to user-visible symptom.
@@ -74,7 +74,7 @@ Use predictions to test uncertain hypotheses:
 
 - missing lock predicts concurrent writes can read the same pre-update value;
 - replica lag predicts primary reads are correct while replica reads are stale;
-- nested transaction ownership predicts the error occurs before the inner helper can commit independently;
+- nested transaction control predicts the error occurs before the inner helper can commit independently;
 - missing retry of the whole unit predicts partial statement retry can duplicate side effects or leave stale session state.
 
 Completion criterion: the proposed transaction change is tied to an observation that could disprove it.
@@ -90,7 +90,7 @@ Rules:
 - prefer simpler single-transaction success/failure when possible;
 - name why the nested rollback is needed;
 - test savepoint behavior on the target engine and adapter;
-- do not use savepoints to paper over unclear transaction ownership.
+- do not use savepoints to paper over unclear transaction control.
 
 ## Deadlocks, Serialization Failures, And Retries
 

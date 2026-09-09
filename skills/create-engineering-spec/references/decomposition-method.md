@@ -13,7 +13,7 @@ For every request, produce one evidence-anchored statement for each facet. Unans
 | Desired impact    | For each actor, identify observable behavior or responsibility change                                                                              | one observable impact per actor                     | a third party can observe whether it happened                     |
 | Deliverable class | Classify the request as feature, service, system, model, report, process, policy, migration, integration, or bug target                            | named class or blocker                              | deliverable class is explicit                                     |
 | Events/processes  | Identify triggers, happy path, failure path, lifecycle, handoff, and end state                                                                     | sequence or event list                              | at least one happy path and one failure path are known or blocked |
-| Rules/invariants  | Extract always-true rules, forbidden states, calculations, policies, validations, and ordering constraints                                         | rule list with owner/status                         | each rule is current, target, disputed, or blocked                |
+| Rules/invariants  | Extract always-true rules, forbidden states, calculations, policies, validations, and ordering constraints                                         | rule list with responsibility/status                         | each rule is current, target, disputed, or blocked                |
 | Data concepts     | Extract nouns from product-domain inputs and system evidence: records, identifiers, states, schemas, policies, ledgers, messages, exports, configs | concept list with lifecycle and candidate authority | every concept has candidate authority or blocker                  |
 | Constraints/NFRs  | Extract performance, security, privacy, compliance, operational, compatibility, usability, reliability, cost, and deployment constraints           | categorized constraints                             | each constraint has authority or is blocked                       |
 
@@ -95,7 +95,7 @@ For workflow-heavy, UI, runtime, reporting, platform, or agent-system specs, add
 - runtime/UI: app root, route/screen, launch/runtime source, visible state, logs, environment, and blocked/manual-only evidence;
 - reporting/metrics: metric or event definition, canonical source, source window, freshness/lag, missing-data behavior, comparison baseline, and privacy boundary;
 - platform/external system: automation limit, human verification need, provider state, and external confirmation signal;
-- agent/workflow: action owner, context owner, shared workspace, tool primitive, approval boundary, interruption/recovery, and agent-native proof.
+- agent/workflow: acting agent, context-managing component, shared workspace, tool primitive, approval boundary, interruption/recovery, and agent-native proof.
 
 If a scenario reveals that two terms are being conflated, split them. If two names mean the same thing, choose the canonical term or mark the conflict as blocked. Do not silently rename or drop PRD/product-domain terms; preserve the mapping from original term to refined engineering term and record why the refinement is justified. Do not invent a data model from nouns alone; terms become data concepts only after lifecycle, authority, and use are understood.
 

@@ -67,7 +67,7 @@ Avoid:
 - deep `OFFSET` pagination;
 - N+1 query loops;
 - functions on indexed columns in predicates;
-- JSON for relational ownership, foreign keys, tenant keys, lifecycle state, or heavily filtered fields;
+- JSON for relational account associations, foreign keys, tenant keys, lifecycle state, or heavily filtered fields;
 - full-text search when the requirements need typo tolerance, advanced ranking, multi-table facets, or language features beyond MySQL built-ins.
 
 Prefer:

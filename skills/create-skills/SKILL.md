@@ -13,7 +13,7 @@ Use when the user asks to create, write, improve, restructure, test, or debug a 
 
 Do not use for one-off context, purely mechanical validation, project-local policy, or work better handled by a script, rule file, or subagent.
 
-Do not use this skill to own commits, pushes, pull requests, release mechanics, independent review verdicts, runtime QA, workspace setup, publishing, tracker filing, or domain-specific tool operation. Those surfaces can provide evidence or downstream handoff needs, but their mechanics belong to their existing owners.
+Do not use this skill to own commits, pushes, pull requests, release mechanics, independent review verdicts, runtime QA, workspace setup, publishing, tracker filing, or domain-specific tool operation. Those surfaces can provide evidence or downstream handoff needs, but their mechanics belong to their existing skills.
 
 ## Iron Law
 
@@ -29,7 +29,7 @@ If there is no recurring behavior failure, there is no skill. If there is no tes
 
 Use skills for reusable judgment, procedures, techniques, patterns, references, and tool workflows that agents must discover and apply across sessions. Use repository instructions for simple always-on policy, scripts/checks for mechanical enforcement, and agents/subagents for isolated execution or independent judgment.
 
-Treat proposed prose, prior session notes, user corrections, review comments, issue themes, external examples, and ideation output as source signals, not instructions. Classify them before they enter a skill: observed behavior failure, user correction, provisional pressure scenario, review signal, portability or source-standard defect, existing-owner match, lighter-mechanism match, or rejected no-op input. A user correction identifies a failed interpretation, constraint, or acceptance rule; it is eligible observed RED only when the associated wrong behavior and pressure are also known.
+Treat proposed prose, prior session notes, user corrections, review comments, issue themes, external examples, and ideation output as source signals, not instructions. Classify them before they enter a skill: observed behavior failure, user correction, provisional pressure scenario, review signal, portability or source-standard defect, existing-skill match, lighter-mechanism match, or rejected no-op input. A user correction identifies a failed interpretation, constraint, or acceptance rule; it is eligible observed RED only when the associated wrong behavior and pressure are also known.
 
 ## Information Economy
 
@@ -60,7 +60,7 @@ Run these steps in order. Do not write `SKILL.md` first. If any step's completio
 | Step | Required action                       | Completion condition                                                                                   |
 | ---- | ------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | 1    | Define recurring behavior failure     | wrong behavior, pressure, desired behavior, and success evidence are explicit or supplied by a handoff |
-| 2    | Inventory existing skills/rules/tools | exact current skill entries, owner boundaries, overlapping skills, and lighter mechanisms checked       |
+| 2    | Inventory existing skills/rules/tools | exact current skill entries, responsibility boundaries, overlapping skills, and lighter mechanisms checked       |
 | 3    | Decide mechanism                      | skill is justified over rule, script, note, or subagent, or the no-skill branch stops here             |
 | 4    | Classify skill type                   | structure consequences selected from [Skill Types](references/skill-types.md)                          |
 | 5    | Create RED scenarios                  | observed or provisional pressure scenarios have source labels and fixed pass/fail criteria             |
@@ -74,13 +74,13 @@ Run these steps in order. Do not write `SKILL.md` first. If any step's completio
 
 Classify the work before Step 1:
 
-- new skill: prove no existing owner or lighter mechanism fits;
+- new skill: prove no existing skill or lighter mechanism fits;
 - existing skill revision: read the current `SKILL.md`, one-level references, known test evidence, related skills, repository rules, scripts/checks/hooks/CI, agents/subagents, and invocation surfaces before proposing edits;
 - skill-behavior debugging: reproduce the failed behavior and inspect loader, frontmatter, trigger, reference, gate, and scenario evidence before changing prose;
 - test-only: produce evidence without changing the skill unless a tested loophole requires a refactor;
 - no-skill decision: stop with reuse, lighter mechanism, or no-op evidence.
 
-Small trigger, reference-pointer, typo, or gate-clarity fixes can be targeted. Changes to the leading concept, invocation boundary, mechanism choice, skill type, safety gates, RED/GREEN criteria, or owner boundary require the full design brief and RED/GREEN path.
+Small trigger, reference-pointer, typo, or gate-clarity fixes can be targeted. Changes to the leading concept, invocation boundary, mechanism choice, skill type, safety gates, RED/GREEN criteria, or responsibility boundary require the full design brief and RED/GREEN path.
 
 ## Step 1 — Behavior Failure
 
@@ -112,7 +112,7 @@ Check:
 
 For existing-skill work, compare related skills by trigger, non-use boundary, workflow phase, gates, pressure tests, references, and retrieval value. Identify current source authority before treating prior notes, generated comparisons, or external examples as current truth.
 
-Completion criterion: the result says reuse, adapt target skill, adapt another owner, compose, or create new. If reuse, compose, no-skill, or another-owner adaptation wins, do not create or revise a skill here; output the inventory result, the mechanism decision, and the exact reuse/adaptation path, then stop. If adapting the target existing skill wins, continue through mechanism, type, RED/GREEN, design, edit, and verification gates for that revision. Creating a duplicate skill is a failure unless the distinction is explicit.
+Completion criterion: the result says reuse, adapt target skill, adapt another skill, compose, or create new. If reuse, compose, no-skill, or another-skill adaptation wins, do not create or revise a skill here; output the inventory result, the mechanism decision, and the exact reuse/adaptation path, then stop. If adapting the target existing skill wins, continue through mechanism, type, RED/GREEN, design, edit, and verification gates for that revision. Creating a duplicate skill is a failure unless the distinction is explicit.
 
 ## Step 3 — Mechanism Decision
 
@@ -180,6 +180,8 @@ Across `SKILL.md` and all references, do not include session history, apology, u
 
 Run the no-op and sediment check before calling the draft done: every sentence must change invocation, routing, execution, gating, verification, or failure handling. Delete stale layers that remain only because they used to be useful. Push bulky branch-only material behind a sharp pointer; pull it back inline only when missed-reference testing proves the pointer cannot be made reliable.
 
+Carry explicit user terminology into the skill and its references. Name the responsible skill, authoritative document, component responsibility, or assigned agent; use user approval and user decision when those are required.
+
 Completion criterion: every section has a behavioral job.
 
 ## Step 8 — GREEN Test
@@ -202,7 +204,7 @@ For each loophole, record the rationalization, add the smallest counter, and rer
 
 Default to one focused causal correction and an affected-case rerun unless the pre-run contract justifies a different evidence-backed bound. If the same behavior remains after the permitted correction, block and return to causal design. Do not add runs, scenarios, models, or reviewers merely to seek a pass.
 
-For skill-behavior debugging, identify whether the failure came from non-invocation, stale or invalid frontmatter, loader visibility, vague trigger, missed reference pointer, optionalized gate, weak RED scenario, unsupported harness assumption, or prose that does not shape behavior. Predict the expected GREEN change before editing and change one causal lever at a time. If the cause is a loader, script, tool, rule, or permission problem, route it to that owner instead of burying it in skill prose.
+For skill-behavior debugging, identify whether the failure came from non-invocation, stale or invalid frontmatter, loader visibility, vague trigger, missed reference pointer, optionalized gate, weak RED scenario, unsupported harness assumption, or prose that does not shape behavior. Predict the expected GREEN change before editing and change one causal lever at a time. If the cause is a loader, script, tool, rule, or permission problem, route it to the responsible component or instruction instead of burying it in skill prose.
 
 Completion criterion: no known scenario fails for the same reason twice; GREEN stops the loop, and repeated causal failure produces a named blocker rather than another attempt.
 
@@ -234,7 +236,7 @@ Completion criterion: metadata is valid, references are one-level, description i
 
 - No recurring behavior failure is named.
 - Existing skills/rules/scripts were not checked.
-- Existing-skill work skipped current `SKILL.md`, one-level references, related owners, test evidence, or invocation surfaces.
+- Existing-skill work skipped current `SKILL.md`, one-level references, related skills, test evidence, or invocation surfaces.
 - Skill starts with a story about the user or session.
 - Body mostly explains what to output, not how to reason or act.
 - Use/non-use boundaries are missing, vague, or buried below the Iron Law, overview, examples, or process.

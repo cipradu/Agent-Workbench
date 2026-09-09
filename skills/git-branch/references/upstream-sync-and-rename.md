@@ -66,7 +66,7 @@ Immediately after an authorized local rename, reread:
 - linked worktrees for both names;
 - staged, unstaged, untracked, and unpushed work.
 
-Report local rename completion even when adjacent work remains blocked. Then describe each remaining object and owner separately:
+Report local rename completion even when adjacent work remains blocked. Then describe each remaining object and responsible skill separately:
 
 - upstream configuration or remote branch publication remains a separately authorized branch action;
 - deletion of the old remote branch remains a separately authorized destructive branch action;

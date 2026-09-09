@@ -59,7 +59,7 @@ Pool settings are workload and database-capacity decisions, not constants to cop
 
 ## Behavior-Preserving Simplification
 
-Before simplifying Go database code, prove that parameterization, context deadlines, row cleanup, nullable handling, not-found distinction, transaction ownership, isolation/locks, rollback behavior, pool observability, and tenant/sensitive-column filtering are preserved.
+Before simplifying Go database code, prove that parameterization, context deadlines, row cleanup, nullable handling, not-found distinction, transaction control, isolation/locks, rollback behavior, pool observability, and tenant/sensitive-column filtering are preserved.
 
 Rejected shortcut: do not remove explicit SQL columns, context-aware methods, transaction parameters, nullable wrappers, or error checks because the shorter code still compiles.
 

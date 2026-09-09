@@ -24,7 +24,7 @@ Entry mode: new skill / existing-skill revision / skill-behavior debug / test-on
 - Ideation, prior learning, issue theme, or external example:
 - Current source evidence checked:
 - Assumptions or inferred choices:
-- Rejected no-op, wrapper text, or wrong-owner input:
+- Rejected no-op input, wrapper text, or input outside this skill's scope:
 
 ## Existing Inventory
 
@@ -34,7 +34,7 @@ Entry mode: new skill / existing-skill revision / skill-behavior debug / test-on
 - Scripts/checks/hooks/CI checked:
 - Agents/subagents checked:
 - References/templates/ADRs/patterns/learning stores checked:
-- Related owner boundaries and overlap:
+- Related responsibility boundaries and overlap:
 - Reuse/adapt/create decision:
 
 ## Mechanism Decision
@@ -82,7 +82,7 @@ Entry mode: new skill / existing-skill revision / skill-behavior debug / test-on
 - Current behavior model:
 - Target loophole or drift:
 - Trigger/reference/frontmatter/loader sanity checked:
-- Preserved behavior and owner boundary:
+- Preserved behavior and responsibility boundary:
 - Targeted edit or full redesign path:
 - Retest or blocked evidence:
 
@@ -94,7 +94,7 @@ Entry mode: new skill / existing-skill revision / skill-behavior debug / test-on
 
 ## Tool Workflow Surface
 
-- Tool owner and native/preferred mechanism:
+- Responsible tool and native/preferred mechanism:
 - Preflight state and availability checks:
 - Exact command/action and expected output contract:
 - Sentinel, nonzero, timeout, or ambiguous-result meanings:
@@ -161,7 +161,7 @@ Entry mode: new skill / existing-skill revision / skill-behavior debug / test-on
 - RED/GREEN evidence:
 - Quality/portability checks:
 - Skipped checks and residual risks:
-- Downstream owner or reviewer focus:
+- Responsible downstream skill or agent or reviewer focus:
 ```
 
 The brief is complete only when every major instruction planned for the skill traces to observed failure, user intent, official requirement, source reference, or test scenario.

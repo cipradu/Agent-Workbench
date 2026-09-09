@@ -14,7 +14,7 @@ For every path, inspect:
 - checkout ref and `persist-credentials`, dependency lifecycle scripts, scripts, actions, containers, and reusable workflows;
 - attacker-controlled event fields or inputs entering expressions, shell, scripts, paths, matrices, commands, or summaries;
 - artifact producer/consumer trust and provenance; cache key, write scope, restore scope, content, and poisoning risk;
-- runner ownership, persistence, labels, image, network, and environment;
+- runner responsibility, persistence, labels, image, network, and environment;
 - environment approvals, branch/tag rules, secret scope, and OIDC/cloud trust;
 - the exact mutation or effect available at the end.
 
@@ -31,7 +31,7 @@ Do not solve one crossing by banning all fork tests, removing a required check, 
 
 ## Action And Expression Integrity
 
-Use current full commit SHA identities for third-party actions and reusable workflows when policy permits. Keep readable release context and update ownership; never invent a SHA. Mutable branches and version tags are not immutable proof.
+Use current full commit SHA identities for third-party actions and reusable workflows when policy permits. Keep readable release context and update responsibility; never invent a SHA. Mutable branches and version tags are not immutable proof.
 
 Do not interpolate attacker-controlled expressions directly into shell or script source. Pass validated values through data channels such as environment variables or action inputs, quote them for the receiving language, and constrain allowed values where the domain permits.
 

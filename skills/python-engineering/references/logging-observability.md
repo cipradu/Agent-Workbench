@@ -2,7 +2,7 @@
 
 Load this reference when adding or reviewing logging, log configuration, correlation context, metrics, or tracing wiring in Python.
 
-Owner boundary: log-level policy, redaction rules, and public-versus-private message design belong to `error-handling-design` — load it for what may be logged; this reference owns the Python mechanics that implement it.
+Responsibility boundary: log-level policy, redaction rules, and public-versus-private message design belong to `error-handling-design` — load it for what may be logged; this reference owns the Python mechanics that implement it.
 
 ## Stdlib Rules (always apply, official logging HOWTO/cookbook)
 
@@ -68,6 +68,6 @@ structlog.contextvars.bind_contextvars(request_id=request_id)   # middleware / j
 - Double emission: logging and re-raising up a stack that logs again.
 - Binding per-request context globally at import time instead of per unit of work.
 
-Failure output: `Blocked: logging configuration owner unclear: <library vs application entrypoint>.`
+Failure output: `Blocked: logging configuration component unclear: <library vs application entrypoint>.`
 
 Re-verify: OTel logs-signal status quarterly; structlog majors; verified-as-of 2026-07.

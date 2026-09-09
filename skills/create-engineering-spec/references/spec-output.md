@@ -147,7 +147,7 @@ Source request: concise summary
 
 ### Scope Additions / Displacement
 
-### Lifecycle Ownership Cost
+### Lifecycle Responsibility Cost
 
 ## Scope
 
@@ -240,7 +240,7 @@ Description:
 Severity:
 Likelihood:
 Mitigation or acceptance:
-Owner/authority:
+Responsibility/authority:
 Verification evidence:
 ```
 
@@ -249,7 +249,7 @@ Verification evidence:
 ```markdown
 AUTH-001 — concept or rule name
 Authority type: data | business rule | process | interface/API | schema | operational policy | compliance/regulatory | other
-Owner/role:
+Responsibility/role:
 Location/source:
 Source scope:
 Source confidence:

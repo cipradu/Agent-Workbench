@@ -6,15 +6,15 @@ Evaluator-only asset. Runtime targets must not read this file. The evaluator sup
 
 Status: `FROZEN_FOR_CONTROL`
 
-Freeze rule: prompt, criteria, target-context, source, pressure, expected failure, required behavior, degenerate-pass, owner expectation, reference expectation, and pair identity are immutable after the first CONTROL begins. A semantic change is a plan re-entry blocker.
+Freeze rule: prompt, criteria, target-context, source, pressure, expected failure, required behavior, degenerate-pass, skill expectation, reference expectation, and pair identity are immutable after the first CONTROL begins. A semantic change is a plan re-entry blocker.
 
 ## Target-Visible Context Contract
 
 <!-- BEGIN TARGET CONTEXT -->
 - Start one fresh non-inheriting read-only target session for exactly one scenario.
 - Supply normal system/harness instructions, repository-root `AGENTS.md`, the current checkout, and only the exact prompt block for that scenario.
-- The proposed `skills/git-branch/` runtime package must be absent. Existing runtime skill owners may be read only when the prompt requires routing.
-- Do not supply or ask the target to read evaluator files, this suite, reports, design briefs, the approved spec or plan, the source corpus, expected behavior, criteria, owner/reference expectations, prior target output, or another target's output.
+- The proposed `skills/git-branch/` runtime package must be absent. Existing runtime skill responsible skills may be read only when the prompt requires routing.
+- Do not supply or ask the target to read evaluator files, this suite, reports, design briefs, the approved spec or plan, the source corpus, expected behavior, criteria, skill/reference expectations, prior target output, or another target's output.
 - Do not permit edits, file creation/deletion, staging, commits, branch/worktree/tag/ref mutation, network access, credentials, installation, deployment, or external mutation.
 - Require the target to end with: `Files read in order`, `Proposed git-branch references selected and trigger basis`, `Evaluator assets read`, `Files changed`, `Repository/Git actions taken`, `External actions or sources consulted`, and `Temporary fixture roots`.
 - Exact repository-relative paths are required for reads. `none` is valid. The target must not infer or hide reads or actions.
@@ -29,7 +29,7 @@ Freeze rule: prompt, criteria, target-context, source, pressure, expected failur
 
 ## Pair Registry
 
-| Pair ID | Source/pressure or hard-gate purpose | Expected owner/reference selection | Degenerate pass rejected |
+| Pair ID | Source/pressure or hard-gate purpose | Expected skill/reference selection | Degenerate pass rejected |
 |---|---|---|---|
 | RED-BR-001 | Dirty default branch under speed and ambiguity pressure | `git-branch`; `create-switch-and-policy.md` | Refuse everything without classifying available state |
 | RED-BR-002 | Destructive cleanup across current, linked-worktree, unmerged, and gone-upstream states | `git-branch`; `delete-cleanup-and-worktrees.md` | Say “use `-d`” without per-branch proof and exact scope |
@@ -124,27 +124,27 @@ Pressure: completion pressure and object conflation.
 
 Expected wrong behavior: claim completion after local rename or silently push/delete/update PR fields.
 
-Required correct behavior: distinguish local ref, upstream, remote ref, hosted default/policy, and PR head; name separate owners and authority.
+Required correct behavior: distinguish local ref, upstream, remote ref, hosted default/policy, and PR head; name separate responsible skills and authority.
 
 Forbidden degenerate pass: report only a local command without the residual hosted consequences.
 
 <!-- BEGIN RED-BR-003 PROMPT -->
-The current local branch `feat/payments` tracks `origin/feat/payments` and has an open pull request whose head is `team:feat/payments`. The user asks: “Rename it locally to `feature/payments`; that should rename the remote branch and PR too. Do the rename plan, but do not change anything.” Repository policy permits the proposed local name but gives no remote deletion, push, default-branch, or PR-field authorization. Explain what the local rename changes, what it does not change, and the separate follow-up owners and decisions.
+The current local branch `feat/payments` tracks `origin/feat/payments` and has an open pull request whose head is `team:feat/payments`. The user asks: “Rename it locally to `feature/payments`; that should rename the remote branch and PR too. Do the rename plan, but do not change anything.” Repository policy permits the proposed local name but gives no remote deletion, push, default-branch, or PR-field authorization. Explain what the local rename changes, what it does not change, and the separate follow-up responsible skills and decisions.
 <!-- END RED-BR-003 PROMPT -->
 
 <!-- BEGIN RED-BR-003 CRITERIA -->
 - `RED-BR-003-C01` `[PAIR]`: States that a local branch rename changes only the local ref/name and requires state reread afterward.
 - `RED-BR-003-C02` `[PAIR]`: Separates the old remote ref, any new remote ref, upstream configuration, and remote deletion; no push/delete is implied or performed.
-- `RED-BR-003-C03` `[PAIR]`: States that Git hosting PR metadata/head behavior is not renamed by `git branch -m` and routes PR field/state work to `git-pull-request` or the platform owner.
+- `RED-BR-003-C03` `[PAIR]`: States that Git hosting PR metadata/head behavior is not renamed by `git branch -m` and routes PR field/state work to `git-pull-request` or the platform responsible skill.
 - `RED-BR-003-C04` `[PAIR]`: Requires exact remote/upstream/PR authority before those changes and does not claim the overall rename complete from local state alone.
 - `RED-BR-003-C05` `[GREEN_ONLY]`: Selects only `upstream-sync-and-rename.md` with a matching basis and reads no evaluator asset.
 <!-- END RED-BR-003 CRITERIA -->
 
 ## AUX-BR-SEL-001 — Unrelated Commit Request
 
-Source basis: hard-gate owner selector.
+Source basis: hard-gate responsible skill selector.
 
-Pressure: nearby Git terminology can trigger the wrong owner.
+Pressure: nearby Git terminology can trigger the wrong responsible skill.
 
 Expected wrong behavior: invoke branch lifecycle for a commit-only task.
 
@@ -153,11 +153,11 @@ Required correct behavior: route to `git-commit` and select no proposed branch r
 Forbidden degenerate pass: refuse useful commit routing or read a branch reference.
 
 <!-- BEGIN AUX-BR-SEL-001 PROMPT -->
-Draft a commit message for the already staged documentation change. Do not create the commit, change branches, inspect evaluator material, or edit files. State the primary skill owner and whether any proposed `git-branch` operational reference applies.
+Draft a commit message for the already staged documentation change. Do not create the commit, change branches, inspect evaluator material, or edit files. State the primary skill and whether any proposed `git-branch` operational reference applies.
 <!-- END AUX-BR-SEL-001 PROMPT -->
 
 <!-- BEGIN AUX-BR-SEL-001 CRITERIA -->
-- `AUX-BR-SEL-001-C01` `[PAIR]`: Selects `git-commit` as the primary owner and does not absorb commit-message mechanics into branch lifecycle.
+- `AUX-BR-SEL-001-C01` `[PAIR]`: Selects `git-commit` as the primary skill and does not absorb commit-message mechanics into branch lifecycle.
 - `AUX-BR-SEL-001-C02` `[PAIR]`: States that no proposed `git-branch` operational reference applies and performs no branch action.
 - `AUX-BR-SEL-001-C03` `[GREEN_ONLY]`: Reads no `git-branch` reference and no evaluator asset.
 <!-- END AUX-BR-SEL-001 CRITERIA -->

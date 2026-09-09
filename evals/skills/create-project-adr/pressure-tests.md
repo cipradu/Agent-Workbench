@@ -88,7 +88,7 @@ Prompt: "A production bug was fixed by adding validation. Write an ADR for the f
 
 Expected failure mode: Create an ADR for a routine fix or unresolved diagnosis.
 
-Required behavior: Require confirmed root cause and a durable decision such as validation ownership, dangerous-operation policy, schema boundary, or repeated convention; otherwise reject or route to diagnosis/pattern/docs.
+Required behavior: Require confirmed root cause and a durable decision such as validation responsibility, dangerous-operation policy, schema boundary, or repeated convention; otherwise reject or route to diagnosis/pattern/docs.
 
 Pass condition: Routine bug fixes and symptom workarounds do not become ADRs.
 
@@ -108,7 +108,7 @@ Prompt: "The promotion skill has an optional provider fallback. Record an ADR fo
 
 Expected failure mode: Create ADRs for provider commands, prompt cues, or one-off fallback details.
 
-Required behavior: Evaluate only durable decisions such as optional-provider strategy, credential boundary, external mutation policy, local-state ownership, structured-output contract, or fallback semantics; reject ordinary provider mechanics.
+Required behavior: Evaluate only durable decisions such as optional-provider strategy, credential boundary, external mutation policy, local-state responsibility, structured-output contract, or fallback semantics; reject ordinary provider mechanics.
 
 Pass condition: Provider details stay in skill/docs/config unless they pass the ADR bar as project decisions.
 

@@ -47,7 +47,7 @@ Run these steps in order.
 
 ### 1. Confirm Decision Readiness And Source Authority
 
-Verify that the decision is either accepted, proposed for explicit acceptance, or ready for the user/project owner to approve.
+Verify that the decision is either accepted, proposed for explicit acceptance, or ready for the user to approve.
 
 Completion criterion: the ADR can state either `Status: Proposed` with a clear pending decision, or `Status: Accepted` with a clear accepted decision.
 
@@ -55,7 +55,7 @@ Failure output: `Blocked: ADR decision is not ready to record: <missing decision
 
 Before treating any source as decision truth, classify it:
 
-- accepted decision evidence: explicit project owner approval, accepted ADR, approved architecture/spec decision, or accepted project rule;
+- accepted decision evidence: explicit project user approval, accepted ADR, approved architecture/spec decision, or accepted project rule;
 - proposed decision evidence: a concrete decision ready for approval with known alternatives and consequences;
 - candidate signal: implementation-plan KTD, review finding, issue, ticket, incident, dogfood report, optimization result, prior learning, ideation output, or repeated workflow observation that may indicate an ADR candidate;
 - inferred rationale: agent/user interpretation, guessed motivation, branch/commit/PR implication, or unstated trade-off;
@@ -154,7 +154,7 @@ For each meaningful alternative:
 
 Consequences must include known positives and negatives. Use neutral consequences when useful. If consequences are all positive, continue analysis before presenting the ADR as ready.
 
-For source-derived ADRs, harvest negative and neutral consequences from rejected alternatives, review findings, risks, migration or rollout notes, operational burdens, privacy/security constraints, measurement limitations, unresolved dependencies, and maintenance ownership. A winning metric, successful fix, approved plan, or accepted review finding is not enough if the accepted costs are missing.
+For source-derived ADRs, harvest negative and neutral consequences from rejected alternatives, review findings, risks, migration or rollout notes, operational burdens, privacy/security constraints, measurement limitations, unresolved dependencies, and maintenance responsibility. A winning metric, successful fix, approved plan, or accepted review finding is not enough if the accepted costs are missing.
 
 Completion criterion: rejected alternatives and consequences explain the trade-off honestly.
 
@@ -172,7 +172,7 @@ Allowed changes to accepted ADRs:
 
 When a decision changes, create a new ADR with a new number and mark the old ADR as superseded.
 
-When an accepted ADR appears stale, misleading, contradicted, or practically superseded, preserve the accepted body and create a superseding ADR when the new decision is ready. If authority is unclear, emit a stale-decision blocked packet with the conflicting artifacts, what was checked, why the ADR cannot be safely updated or superseded, and the smallest next owner decision.
+When an accepted ADR appears stale, misleading, contradicted, or practically superseded, preserve the accepted body and create a superseding ADR when the new decision is ready. If authority is unclear, emit a stale-decision blocked packet with the conflicting artifacts, what was checked, why the ADR cannot be safely updated or superseded, and the smallest next user decision.
 
 Completion criterion: historical decisions remain auditable.
 

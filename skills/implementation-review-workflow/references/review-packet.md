@@ -58,7 +58,7 @@ Classify target identity before applying identity mechanics:
 - `repository_backed`: require the resolved repository/worktree or checkout, applicable branch/range/base/head, diff or current-file source, exact changed paths, untracked-file handling for working-tree review, and freshness tied to that repository state.
 - `non_repository_configuration`: require named approved source entries; named target entries, configuration artifact, or platform objects; and current exact readback or equivalent evidence tied to that target. Treat those semantic names and the readback as sufficient identity unless direct evidence shows a name collision, artifact ambiguity, stale readback, or another concrete identity conflict. Only then require the smallest stronger identifier, such as a platform object ID, environment/account/tenant boundary, version, hash, or canonical snapshot, needed to resolve the ambiguity. Do not require Git checkout, diff, changed paths, untracked handling, base/head refs, or repository path/hash/version mechanics for this target type.
 
-Choose the type from the owner of the reviewable target state. A repository policy governing a platform configuration does not make the target `repository_backed`, and a file-shaped configuration target is repository-backed only when its checkout/diff is the state under review.
+Choose the type from the authoritative system for the reviewable target state. A repository policy governing a platform configuration does not make the target `repository_backed`, and a file-shaped configuration target is repository-backed only when its checkout/diff is the state under review.
 
 Infer `first_pass` when no prior reviewer state applies. Prior-cycle reports, finding registries, accepted baselines, reconciliation data, and a re-review reason are required only for `resumed_review` or `re_review`, not for a first-pass configuration packet.
 
@@ -138,7 +138,7 @@ Derived non-semantic baseline:
 - before path manifest: parent target/evidence path manifest and hash, or unavailable with semantic-review fallback
 - after path manifest: current target/evidence path manifest and hash
 - exact delta: patch, diff, or before/after artifact comparison proving the full delta
-- classifier rationale: explicit no-effect judgment for trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, future-agent behavior, and any domain-specific protected contract
+- classifier rationale: explicit no-effect judgment for trigger selection, routing, responsibility boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, future-agent behavior, and any domain-specific protected contract
 - mechanical proof/readback: commands, output paths, rendered/readback evidence, or direct artifact inspection proving the classifier rationale
 - untracked decisions: included and excluded untracked paths with rationale and acceptance impact
 - derived baseline identity: new fingerprint or manifest identity linked to the parent baseline
@@ -197,7 +197,7 @@ Reviewer findings should include one action:
 | `required_evidence` | Required proof is missing, stale, blocked, or contradicted. | Blocks `ACCEPT` and `ACCEPT_WITH_NITS` when tied to a requirement, hard criterion, invariant, contract, or required verification. |
 | `advisory` | Non-blocking nit or residual risk accepted with the reviewed state. | Compatible with `ACCEPT_WITH_NITS`; compatible with `ACCEPT` only when no active finding remains. |
 | `future_candidate` | Later improvement candidate outside the active acceptance target. | Compatible with accepting verdicts; never authorizes automatic edits. |
-| `human_decision` | Owner decision needed. | Blocking only when the decision is required for acceptance; otherwise a named residual risk or open question. |
+| `user_decision` | User decision needed. | Blocking only when the decision is required for acceptance; otherwise a named residual risk or open question. |
 
 The action label cannot make a blocking issue non-blocking. If a finding names an unresolved requirement, hard criterion, invariant, contract, or required evidence gap, it is blocking regardless of whether the reviewer mislabeled the action.
 
@@ -254,7 +254,7 @@ Include dev-server or runtime command source, URL/port when relevant, screenshot
 
 ### Control-Surface Changes
 
-For skills, agents, prompts, commands, hooks, templates, rules, or workflow artifacts, include the future behavior being changed, trigger boundary, non-use boundary, pressure scenarios, forbidden shortcuts, validation evidence, review checkpoint effect, changed-truth/regression halo, and downstream owners that must not be absorbed.
+For skills, agents, prompts, commands, hooks, templates, rules, or workflow artifacts, include the future behavior being changed, trigger boundary, non-use boundary, pressure scenarios, forbidden shortcuts, validation evidence, review checkpoint effect, changed-truth/regression halo, and responsible downstream skills or agents that must not be absorbed.
 
 ### Prior PR Or Review Feedback
 
@@ -285,9 +285,9 @@ When a verdict blocks acceptance, build a fix handoff from reviewer findings:
 - reviewer evidence and why it matters;
 - suggested fix, or reason no direct fix is supplied;
 - required verification or evidence to collect;
-- caller-derived owner/route when the fix is not an implementation change;
+- caller-derived responsible skill or agent/route when the fix is not an implementation change;
 - non-target boundary;
-- disposition before re-review: `fixed`, `fixed-differently`, `not-addressing`, `declined`, or `needs-human`.
+- disposition before re-review: `fixed`, `fixed-differently`, `not-addressing`, `declined`, or `needs-user`.
 
 For review-fix execution, also capture:
 
@@ -311,4 +311,4 @@ An accepting verdict is terminal for the active review loop of the reviewed stat
 
 ## Residual Risk Handoff
 
-Accepted residual risk, non-blocking findings, skipped checks, or material coverage gaps should be recorded in an existing durable surface when that surface is already in scope. Valid sinks can include project continuity, a PR body, tracker handoff, release note, or another project-approved owner. This skill does not mutate those surfaces directly unless the owning workflow is explicitly invoked. Blocking findings cannot become accepted merely because they were recorded.
+Accepted residual risk, non-blocking findings, skipped checks, or material coverage gaps should be recorded in an existing durable surface when that surface is already in scope. Valid sinks can include project continuity, a PR body, tracker handoff, release note, or another project-approved record. This skill does not mutate those surfaces directly unless the owning workflow is explicitly invoked. Blocking findings cannot become accepted merely because they were recorded.

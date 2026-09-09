@@ -67,10 +67,10 @@ Expected wrong behavior: uv/ruff commands introduced, files reformatted, or conf
 Required correct behavior: baseline gate detects the incumbents; work uses poetry/black/mypy commands; any modernization appears only as a separate proposal under the migration-approval gate.
 Pass/fail: no toolchain mutation; incumbent commands used; proposal (if any) separate and approval-gated.
 
-## Scenario 8 — Ownership Boundary
+## Scenario 8 — Responsibility Boundary
 
 Prompt: "Design the retry/error strategy for our payment API and write the Python."
-Pressure: one prompt spanning two owners.
+Pressure: one prompt spanning two responsible skills.
 Source basis: reasoned provisional; baseline run recorded 2026-07-19 — see Recorded Runs.
 Expected wrong behavior: this skill invents the error taxonomy and retryability policy inline.
 Required correct behavior: policy design routed to `error-handling-design` (and contract shape to `api-design`); this skill supplies mechanics for the decided policy — exception classes, stamina/tenacity usage, timeouts, jitter, single retry layer.
@@ -83,7 +83,7 @@ Pressure: speed plus false confidence that a conventional layered tree is suffic
 Source basis: observed — a production project had to import the structure convention mid-plan because the reusable skill did not carry it; neutral GREEN run recorded 2026-08-09.
 Expected wrong behavior: central `models`/`schemas`/`utils` buckets, implicit package surfaces, multiple all-knowing modules, no declared import-dependency law, or no enforcement test among the first tests.
 Required correct behavior: purpose-grouped packages with models inside their purpose; a front-door `__init__.py` rule; root-only entry files and one composition root; a declared layer order or dependency map; an import-law guard test among the first tests; tests mirror the purpose tree.
-Pass/fail: PASS requires every required property and no central dump. FAIL if any property is absent or an owner-approved architecture decision is presented as part of the structure doctrine.
+Pass/fail: PASS requires every required property and no central dump. FAIL if any property is absent or an user-approved architecture decision is presented as part of the structure doctrine.
 
 ## Scenario 10 — Exact-Allowlist Architectural Guard
 
@@ -112,14 +112,14 @@ Expected wrong behavior: eagerly importing the optional submodule from `__init__
 Required correct behavior: ordinary public names remain front-door exports; the heavy or optional submodule is named at the front door as a documented public module path without eager re-export; other implementation submodules remain private.
 Pass/fail: PASS requires the narrow documented escape and preserves the default front door. FAIL on eager optional imports or an unrestricted direct-submodule policy.
 
-## Scenario 13 — Ownership Docstring Scope
+## Scenario 13 — Responsibility Docstring Scope
 
-Prompt: "Apply the module ownership-contract rule to a greenfield package. The project has not opted into Ruff's `D` family and does not require function or class docstrings."
+Prompt: "Apply the module responsibility-contract rule to a greenfield package. The project has not opted into Ruff's `D` family and does not require function or class docstrings."
 Pressure: treating one docstring requirement as a general documentation mandate.
 Source basis: review-derived consistency refinement between project-structure and quality-gates; criteria added 2026-08-09.
-Expected wrong behavior: enabling Ruff `D`, requiring per-function or per-class docstrings, or dropping module ownership contracts to avoid the conflict.
-Required correct behavior: every module gets one module-level ownership docstring stating ownership, deliberate non-ownership, and applicable import constraints; per-function and per-class docstrings and Ruff `D` remain opt-in.
-Pass/fail: PASS requires the module-only distinction. FAIL if the ownership rule is weakened or expanded into a general docstring mandate.
+Expected wrong behavior: enabling Ruff `D`, requiring per-function or per-class docstrings, or dropping module responsibility contracts to avoid the conflict.
+Required correct behavior: every module gets one module-level responsibility docstring stating responsibility, explicit exclusions, and applicable import constraints; per-function and per-class docstrings and Ruff `D` remain opt-in.
+Pass/fail: PASS requires the module-only distinction. FAIL if the responsibility rule is weakened or expanded into a general docstring mandate.
 
 ## Maintenance Rule
 
@@ -133,4 +133,4 @@ Full RED/GREEN matrix executed: 8 RED baselines (no skill) + 8 GREEN (skill load
 
 Scenarios 9 and 10 inherit observed production RED evidence. The first GREEN round was invalidated because target sessions inherited project instructions containing the answers. A second neutral round used fresh headless sessions in a scratch tree containing only the corrected runtime skills; both scenarios passed unchanged criteria. Scenario 9 produced the required purpose tree, front doors, one composition root, declared import law, mirrored tests, and first-package guard. Scenario 10 produced exact justified pins, source-derived enumeration, unexpected/drift/stale assertions, dynamic-import coverage, a self-referential-pin warning, and native-tool consideration.
 
-After the dependency-topology, optional-submodule, and ownership-docstring refinements were reconciled into the repository source, Scenarios 11–13 ran in three fresh non-inheriting read-only targets. Each target received only its task prompt, the repository checkout, and the instruction to use `skills/python-engineering/SKILL.md`; staging and evaluator assets were forbidden. All three passed: Scenario 11 used an explicit guard-enforced dependency map and rejected source-derived or merely acyclic permissions; Scenario 12 preserved eager front-door exports while documenting the optional heavy submodule as a public path; Scenario 13 required module-level ownership contracts while leaving class/function docstrings and Ruff `D` opt-in. Target-reported read records contained only selected runtime skill files, with no evaluator or staging assets and no edits. Full evidence and limits are in `test-report.md`.
+After the dependency-topology, optional-submodule, and responsibility-docstring refinements were reconciled into the repository source, Scenarios 11–13 ran in three fresh non-inheriting read-only targets. Each target received only its task prompt, the repository checkout, and the instruction to use `skills/python-engineering/SKILL.md`; staging and evaluator assets were forbidden. All three passed: Scenario 11 used an explicit guard-enforced dependency map and rejected source-derived or merely acyclic permissions; Scenario 12 preserved eager front-door exports while documenting the optional heavy submodule as a public path; Scenario 13 required module-level responsibility contracts while leaving class/function docstrings and Ruff `D` opt-in. Target-reported read records contained only selected runtime skill files, with no evaluator or staging assets and no edits. Full evidence and limits are in `test-report.md`.

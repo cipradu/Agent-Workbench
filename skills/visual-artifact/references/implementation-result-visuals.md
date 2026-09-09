@@ -52,7 +52,7 @@ Build this before layout:
 | --- | --- | --- |
 | What changed? | Focused diff, aligned before/after view, or changed-file map | Choose literal shape when the change itself is the question; summarize when broader impact matters |
 | What proves it? | Evidence rail or proof chain | Verification, review, and residual risk matter |
-| Where did plan and reality diverge? | Deviation table plus ownership route | Implementation found an edge case or constraint |
+| Where did plan and reality diverge? | Deviation table plus responsibility route | Implementation found an edge case or constraint |
 | What should reviewer inspect? | Reviewer-focus checklist with source links | Review needs orientation |
 | What happened across the whole workstream? | Artifact timeline and decision/evidence matrix; Mermaid `timeline` only when chronology is central | Context compaction or long-running work happened |
 | Does the human understand enough? | Short comprehension check | User wants teach-back or merge confidence |
@@ -65,11 +65,11 @@ For each deviation, show:
 - actual observation;
 - conservative choice made;
 - source evidence;
-- artifact owner affected: spec, plan, review, continuity, ADR, or none;
+- artifact's authoritative skill affected: spec, plan, review, continuity, ADR, or none;
 - residual risk;
 - closeout route.
 
-Do not turn implementation notes into permanent source truth. Route source changes back to owners.
+Do not turn implementation notes into permanent source truth. Route source changes back to the responsible skills.
 
 ## Mermaid Fit
 
@@ -113,7 +113,7 @@ Show:
 - work completed;
 - remaining blockers;
 - next valid action;
-- source owner for each claim.
+- authoritative source for each claim.
 
 Do not create a generic repository architecture map unless codebase orientation is the explicit reader job.
 
@@ -128,7 +128,7 @@ Good questions focus on:
 - risks;
 - verification evidence;
 - residual gaps;
-- source-owner boundaries.
+- source-responsibility boundaries.
 
 For each question include:
 

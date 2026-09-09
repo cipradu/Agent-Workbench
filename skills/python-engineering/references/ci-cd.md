@@ -2,7 +2,7 @@
 
 Load this reference when creating or reviewing CI pipelines, GitHub Actions workflows, Docker builds for Python, or local multi-environment automation (nox/tox).
 
-Owner boundaries: publish flow → packaging-distribution reference; dependency-audit and secrets-scan requirements → security reference; commit/PR mechanics → `git-commit` / `git-pull-request`.
+Responsibility boundaries: publish flow → packaging-distribution reference; dependency-audit and secrets-scan requirements → security reference; commit/PR mechanics → `git-commit` / `git-pull-request`.
 
 ## Canonical Pipeline Shape (GitHub Actions + uv)
 

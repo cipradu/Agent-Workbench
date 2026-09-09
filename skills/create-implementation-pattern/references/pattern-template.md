@@ -94,7 +94,7 @@ Last reviewed: YYYY-MM-DD
 
 ## Context
 
-{Describe the local project conditions that make this problem recur: architecture, ownership, runtime constraints, data shape, testing constraints, operational constraints, framework behavior, or team workflow.}
+{Describe the local project conditions that make this problem recur: architecture, responsibility, runtime constraints, data shape, testing constraints, operational constraints, framework behavior, or team workflow.}
 
 ## Forces
 
@@ -126,8 +126,8 @@ Last reviewed: YYYY-MM-DD
 
 Use only when the pattern affects agents, skills, prompts, MCP/tools, plugins, commands, hooks, or autonomous workflows.
 
-- Action owner:
-- Context owner:
+- Acting agent:
+- Context-managing component:
 - Shared workspace assumption:
 - Approval or human-only boundary:
 - Lifecycle/interruption behavior:

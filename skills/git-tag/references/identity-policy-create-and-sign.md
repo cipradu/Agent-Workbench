@@ -2,7 +2,7 @@
 
 Use this reference when a tag task needs naming/version/type/message/signing policy discovery, a decision about whether local creation is permitted, or creation/annotation/signing of one exact local tag.
 
-## Discover The Policy Owner
+## Discover The Policy Authority
 
 Resolve policy from current repository evidence in this order where available:
 
@@ -29,7 +29,7 @@ No examples, absent files, or requested convention authorize a policy. A user-re
 
 Mechanically discover current policy sources, existing names, candidate collisions, target object existence, and configured automation. Do not mechanically choose a product compatibility promise.
 
-When a current `github-release` owner is available and the repository's accepted release model makes that owner responsible for applying an already-defined release/version policy, route that coordination there. `github-release` still must not invent product compatibility. When that owner is absent, inapplicable, or the compatibility choice remains undefined, route the exact decision to the repository's named product/domain authority.
+When a current `github-release` skill is available and the repository's accepted release model makes that skill responsible for applying an already-defined release/version policy, route that coordination there. `github-release` still must not invent product compatibility. When that skill is absent, inapplicable, or the compatibility choice remains undefined, route the exact decision to the repository's named product/domain authority.
 
 Failure output: `Blocked: product version meaning requires <named human/domain authority>; no accepted repository policy determines <choice>.`
 

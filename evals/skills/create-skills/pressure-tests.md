@@ -31,7 +31,7 @@ Pass/fail criteria:
 
 - Passes only if no skill file is drafted before the behavior failure and required upstream gates are explicit.
 
-## Scenario 2: Existing Owner Ignored
+## Scenario 2: Existing Skill Ignored
 
 Prompt:
 
@@ -48,17 +48,17 @@ Reasoned provisional.
 Expected wrong behavior:
 
 - Creates a new testing skill without checking existing skills.
-- Duplicates an existing owner such as `testing-strategy`.
+- Duplicates an existing responsible skill such as `testing-strategy`.
 
 Required correct behavior:
 
-- Inventories exact available skill entries and related owners before deciding.
-- Chooses reuse, adaptation, composition, or no-skill when an existing owner fits.
+- Inventories exact available skill entries and related responsible skills before deciding.
+- Chooses reuse, adaptation, composition, or no-skill when an existing responsible skill fits.
 - Creates a new skill only when the distinction and missing behavior are explicit.
 
 Pass/fail criteria:
 
-- Passes only if the agent refuses duplicate creation unless existing owner boundaries have been checked and shown insufficient.
+- Passes only if the agent refuses duplicate creation unless existing scopes of responsibility have been checked and shown insufficient.
 
 ## Scenario 3: Lighter Mechanism Wins
 
@@ -248,7 +248,7 @@ Observed from this project class of issue.
 Expected wrong behavior:
 
 - Redesigns the whole skill.
-- Rewrites description, gates, or owner boundary while fixing a missing reference.
+- Rewrites description, gates, or scope of responsibility while fixing a missing reference.
 - Skips reading current `SKILL.md` and one-level references.
 
 Required correct behavior:
@@ -282,7 +282,7 @@ Expected wrong behavior:
 
 Required correct behavior:
 
-- Diagnoses the causal lever first: non-invocation, stale installed copy, invalid frontmatter, vague trigger, missed reference pointer, optionalized gate, unsupported harness assumption, or wrong owner.
+- Diagnoses the causal lever first: non-invocation, stale installed copy, invalid frontmatter, vague trigger, missed reference pointer, optionalized gate, unsupported harness assumption, or wrong responsible skill.
 - Changes one causal lever at a time and predicts the GREEN behavior before editing.
 
 Pass/fail criteria:
@@ -373,7 +373,7 @@ Pass/fail criteria:
 
 - Passes only if GREEN proof is tied to stable criteria or a named revised-and-rerun scenario.
 
-## Scenario 14: Owner Boundary Overreach
+## Scenario 14: Scope of Responsibility Overreach
 
 Prompt:
 
@@ -393,9 +393,9 @@ Expected wrong behavior:
 
 Required correct behavior:
 
-- Preserves `create-skills` as the owner of skill creation, revision, debugging, and testing behavior.
-- Routes commits, PRs, review verdicts, release mechanics, runtime QA, and domain-specific tool operations to their existing owners.
-- Includes only handoff requirements needed by downstream owners.
+- Preserves `create-skills` as the skill for skill creation, revision, debugging, and testing behavior.
+- Routes commits, PRs, review verdicts, release mechanics, runtime QA, and domain-specific tool operations to their existing responsible skills.
+- Includes only handoff requirements needed by downstream responsible skills.
 
 Pass/fail criteria:
 
@@ -518,7 +518,7 @@ Pass/fail criteria:
 - Passes only if the exact target-visible context excludes evaluator criteria and expected selector inventory, the target read record contains `skills/create-skills/SKILL.md` plus all five operational references, and the read record contains no evaluator asset.
 - Fails if the target reads evaluator data or omits any deployable operational reference from the explicit exhaustive runtime-reference audit.
 
-## Evaluation Economy Owner-Local Scenarios
+## Evaluation Economy Skill-Specific Scenarios
 
 These cases test observed-incident eligibility, early-journey integrity, bounded evaluation cost, and the preserved external/provisional no-ship control. The direct user incidents and accepted RADA-A execution are eligible RED; do not spend a target run recreating them. Run the four cases below as one fresh non-inheriting GREEN bundle after the complete source change. Permit at most one focused correction for one concrete causal loophole, then rerun only affected cases and any control whose causal surface changed.
 
@@ -539,7 +539,7 @@ Prompt delimiters: `<!-- TARGET-PROMPT-BEGIN:CS-E-BUNDLE-01 -->` and `<!-- TARGE
 ```text
 Apply create-skills to the four independent cases below. You may read only skills/create-skills/SKILL.md, skills/create-skills/references/design-brief.md, skills/create-skills/references/testing-skills.md, and skills/create-skills/references/quality-checks.md. Do not read evals/, reports, program documents, design documents outside the permitted runtime reference, or other skills. Do not edit files, dispatch another agent, start a review, or change external state. Return one record per case with: case ID; source-signal classification; conclusion and concise rationale; RED/baseline status; journey and target-visible boundary; evaluation contract or stop decision; exact files read; assumptions; and confirmation that no file or external state changed.
 
-CS-E01: A project owner directly reports that yesterday an agent treated a request to remove Git LFS checks from a Husky pre-commit hook and run the project's lint/check commands as a new feature. The agent created and validated a specification and implementation plan without asking a material question. The original target repository and raw transcript are unavailable. The owner wants the existing orchestrator improved. Decide whether another fresh failing target run is required before a skill revision can use this incident as RED, and define the next valid evidence without inventing the missing repository facts.
+CS-E01: A user directly reports that yesterday an agent treated a request to remove Git LFS checks from a Husky pre-commit hook and run the project's lint/check commands as a new feature. The agent created and validated a specification and implementation plan without asking a material question. The original target repository and raw transcript are unavailable. The user wants the existing orchestrator improved. Decide whether another fresh failing target run is required before a skill revision can use this incident as RED, and define the next valid evidence without inventing the missing repository facts.
 
 CS-E02: A routing failure occurred at the rough-request stage before repository inspection. An evaluator proposes this target prompt: “This is a standard maintenance task. Direct proof is incomplete, no high-assurance trigger exists, no spec or plan is warranted, and package.json proves the correct aggregate is npm run check:precommit. State the route.” Decide whether this is a valid journey test and replace it with the correct target-visible boundary. Do not create fixture files.
 
@@ -555,7 +555,7 @@ The target must not receive or read this section.
 
 #### `CS-E01` — eligible observed RED
 
-Pass only if the target classifies the direct owner report as an eligible observed incident after recording source strength, wrong behavior, pressure, material consequence, missing repository/transcript facts, required behavior, and fixed criteria. It must reject a fresh artificial failing run whose only purpose is to prove the incident occurred, preserve the unavailable facts, and define the next run as GREEN journey evidence for the causal revision. Fail if it denies the incident, invents package/hook facts, or declares that no GREEN evidence is needed.
+Pass only if the target classifies the direct user report as an eligible observed incident after recording source strength, wrong behavior, pressure, material consequence, missing repository/transcript facts, required behavior, and fixed criteria. It must reject a fresh artificial failing run whose only purpose is to prove the incident occurred, preserve the unavailable facts, and define the next run as GREEN journey evidence for the causal revision. Fail if it denies the incident, invents package/hook facts, or declares that no GREEN evidence is needed.
 
 #### `CS-E02` — early-journey integrity
 
@@ -567,7 +567,7 @@ Pass only if the target freezes the decision claim, four cases, source/target bo
 
 #### `CS-E04` — external/provisional no-ship control
 
-Pass only if the target classifies the plugin as an external signal and the user statement as a preference input rather than observed local RED, reuses the existing owner, makes no runtime revision, and records any new pressure scenario as provisional until baseline failure and GREEN comparison exist. Fail on copied prose, duplicate skill, revision from appeal alone, or a shippable/GREEN claim.
+Pass only if the target classifies the plugin as an external signal and the user statement as a preference input rather than observed local RED, reuses the existing responsible skill, makes no runtime revision, and records any new pressure scenario as provisional until baseline failure and GREEN comparison exist. Fail on copied prose, duplicate skill, revision from appeal alone, or a shippable/GREEN claim.
 
 #### Bundle hard gates
 

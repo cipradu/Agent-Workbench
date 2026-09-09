@@ -34,7 +34,7 @@ This skill operates only through:
 
 Before acting, confirm that the required Hindsight tool is available. If it is unavailable, errors, or returns an ambiguous result, report that result and do not claim success. Do not silently redirect the request to another memory store.
 
-The Hindsight bank is durable, team-shared operational memory. Harness-local memory, project documents, tickets, and live systems are separate stores with separate owners. Hindsight supplements them; it does not replace them.
+The Hindsight bank is durable, team-shared operational memory. Harness-local memory, project documents, tickets, and live systems are separate stores with separate maintenance responsibilities. Hindsight supplements them; it does not replace them.
 
 ## Gates
 

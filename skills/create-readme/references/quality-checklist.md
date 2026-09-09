@@ -87,7 +87,7 @@ Re-check these claims before completion when they appear or change:
 - package names, package managers, supported runtimes, compatibility, and registry targets;
 - local development URL, port, app root, `cwd`, env vars, compose services, launch configs, and config examples;
 - public links, repo-relative links, anchors, badges, screenshots, logos, demos, videos, and package pages;
-- support, ownership, maintenance, license, security, privacy, compliance, warranty, and roadmap promises;
+- support, responsibility, maintenance, license, security, privacy, compliance, warranty, and roadmap promises;
 - generated-report freshness, local config boundaries, read-only/mutation safety, privacy constraints, and output paths;
 - claims that no tests, examples, license, support channel, deployment path, docs page, package README, or API reference exists.
 

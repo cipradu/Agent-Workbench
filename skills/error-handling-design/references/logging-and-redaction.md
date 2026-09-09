@@ -91,7 +91,7 @@ For generated or review artifacts:
 For authentication and authorization diagnostics:
 
 - Log the credential type, failure category, route/operation, trusted principal when known, tenant/account scope when policy permits, and correlation ID.
-- Do not log raw credential material, parsed token claims that contain sensitive values, authorization policy internals, or resource ownership details that would help an unauthorized caller enumerate the system.
+- Do not log raw credential material, parsed token claims that contain sensitive values, authorization policy internals, or resource-account association details that would help an unauthorized caller enumerate the system.
 - Track suspicious patterns as security telemetry when the project has that channel; otherwise use structured warning logs with redacted fields and clear correlation.
 
 ## Stack Traces And Cause Chains

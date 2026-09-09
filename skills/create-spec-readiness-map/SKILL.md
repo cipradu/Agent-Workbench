@@ -13,7 +13,7 @@ Use when the source artifact is too broad, cross-cutting, multi-domain, research
 
 Use when the work needs durable multi-session coordination for spec readiness: unresolved authority, current-system facts, architecture boundaries, risk constraints, acceptance evidence, external research, or product-to-engineering translation questions.
 
-Use when the orchestrator routes a blindspot pass, unknown-unknown pass, hidden-risk pass, or "I don't know what I don't know" request here because a product source exists and broad PRD-to-spec readiness is the uncertainty owner.
+Use when the orchestrator routes a blindspot pass, unknown-unknown pass, hidden-risk pass, or "I don't know what I don't know" request here because a product source exists and broad PRD-to-spec readiness is the unresolved question.
 
 ## Do Not Use
 
@@ -46,7 +46,7 @@ The durable artifact is a spec-readiness map with child tickets. A ticket resolv
 | Engineering spec | Required behavior, constraints, invariants, authority, contracts, risks, acceptance evidence | Implementation order, task graph, unresolved product invention |
 | Implementation plan | Dependency-ordered execution units, blast radius, verification, coder handoff | New product truth, changed spec truth |
 
-If an item belongs to another owner, route it there and record the route in the map. Do not absorb another owner's artifact just to keep this workflow moving.
+If an item belongs to another skill, route it there and record the route in the map. Do not absorb an artifact governed by another skill just to keep this workflow moving.
 
 ## Mandatory Sequence
 
@@ -57,7 +57,7 @@ If an item belongs to another owner, route it there and record the route in the 
 | 2 | Classify missing engineering truth | Each missing item is classified as ticket, fog, route-out, or no-op |
 | 3 | Create or load the map | `docs/spec-readiness/<slug>/map.md` exists or an equivalent existing map is loaded |
 | 4 | Create sharp tickets | Every current sharp question has one ticket; non-sharp uncertainty stays in Fog |
-| 5 | Resolve one ticket | One claimed ticket is resolved with evidence and owner routing; never more than one per session |
+| 5 | Resolve one ticket | One claimed ticket is resolved with evidence and skill or agent routing; never more than one per session |
 | 6 | Update the map | Decision pointer, fog changes, new tickets, and invalidated tickets are recorded |
 | 7 | Emit handoff or blocked state | Handoff packet is ready for `create-engineering-spec`, or remaining blockers are explicit |
 
@@ -90,7 +90,7 @@ Read the source artifact fresh. Extract only the truth needed for spec readiness
 - acceptance or success signals that may become engineering acceptance evidence;
 - source authority and currentness.
 
-Do not rewrite the PRD. If the PRD appears stale, conflicting, or product-incomplete, stop and route to the PRD owner or user decision.
+Do not rewrite the PRD. If the PRD appears stale, conflicting, or product-incomplete, stop and route to the `create-project-prd` skill or user decision.
 
 Completion criterion: a future spec author can see which product truths are authoritative, which are assumptions, and which are not safe to translate yet.
 
@@ -100,17 +100,17 @@ Classify every missing item into one of these outcomes:
 
 - `ticket`: the question is sharp enough to answer with evidence.
 - `fog`: the area matters, but the question cannot yet be stated precisely.
-- `route-out`: another owner must resolve it before this map can progress.
+- `route-out`: another skill must resolve it before this map can progress.
 - `no-op`: it sounds useful but does not affect engineering spec readiness.
 
 When doing an unknown-discovery or blindspot pass, map uncertainty into the existing outcomes instead of creating a new artifact shape: known source facts become source truth, known open questions become tickets when sharp, tacit product/domain expectations route to PRD or user authority when they affect product truth, suspected unknown unknowns become Fog until consequence and an evidence path can be stated, and broad categories become no-op unless they can change the future engineering spec.
 
 Use these ticket types:
 
-- `source-authority`: rules, ADRs, existing specs, policies, owners, or source precedence.
+- `source-authority`: rules, ADRs, existing specs, policies, responsible components, or source precedence.
 - `current-system`: brownfield code, tests, schemas, configs, runtime behavior, consumers, or existing contracts.
 - `external-research`: current library, framework, protocol, vendor, standard, legal, regulatory, or best-practice facts.
-- `architecture-boundary`: ownership, seams, adapters, layering, data flow, or architecture trade-offs.
+- `architecture-boundary`: responsibility, seams, adapters, layering, data flow, or architecture trade-offs.
 - `risk-constraint`: security, privacy, reliability, compliance, operational, migration, performance, or data-integrity constraints.
 - `acceptance-evidence`: what would prove the future spec requirement and what verifier can observe it.
 - `product-clarification`: a product-scope ambiguity discovered during translation; route to `create-project-prd` or the user before it becomes engineering truth.
@@ -140,7 +140,7 @@ Create one ticket per sharp question. A ticket question is sharp when the answer
 
 Do not create tickets for fog. Fog becomes tickets only after another ticket makes the question precise.
 
-For each ticket, record status, type, blockers, source, question, evidence needed, owner route, and expected spec impact. Use dependency order when numbering tickets. A blocked ticket may be created if the question is sharp but depends on another ticket.
+For each ticket, record status, type, blockers, source, question, evidence needed, skill or agent route, and expected spec impact. Use dependency order when numbering tickets. A blocked ticket may be created if the question is sharp but depends on another ticket.
 
 For blindspot-derived tickets or fog, record the suspected blind spot, evidence already found, evidence missing, why it matters, source strength or confidence, resolution method, and expected spec impact. If those cannot be stated, keep it as Fog or reject it as a no-op instead of creating a generic ticket.
 
@@ -155,7 +155,7 @@ To resolve a ticket:
 1. Load the map at low resolution.
 2. Pick the ticket named by the user, or the first open unblocked unclaimed ticket by number.
 3. Claim it by setting `Status: claimed` before doing substantive work.
-4. Resolve through the correct owner. Use `architecture-design` for architecture judgment, `structured-problem-resolution` for failure cause, relevant design skills for domain constraints, and the research subagent for current external facts.
+4. Resolve through the correct skill or agent. Use `architecture-design` for architecture judgment, `structured-problem-resolution` for failure cause, relevant design skills for domain constraints, and the research subagent for current external facts.
 5. Record evidence in the ticket, not only in chat.
 6. Set `Status: resolved` only when the question is answered with enough evidence for a spec author to rely on it.
 
@@ -242,7 +242,7 @@ For spec handoff, output:
 | "The PRD is detailed, so write the spec now." | Detailed product truth can still hide missing engineering authority, risk, current-system, or acceptance evidence. | Run the warrant check; use this skill only when missing truth is multi-ticket or multi-session. |
 | "Break the PRD into build chunks." | Build chunks belong after an approved engineering spec. | Create investigation and decision tickets only. |
 | "Put every unknown into tickets." | Fog that cannot be phrased precisely becomes noisy fake work. | Ticket sharp questions; keep non-sharp uncertainty in Fog. |
-| "A blindspot pass means list every risk." | Broad risk lists do not create spec readiness unless each item has consequence and an evidence path. | Classify by ticket, Fog, route-out, or no-op; require evidence needed, owner route, and spec impact for every ticket. |
+| "A blindspot pass means list every risk." | Broad risk lists do not create spec readiness unless each item has consequence and an evidence path. | Classify by ticket, Fog, route-out, or no-op; require evidence needed, skill or agent route, and spec impact for every ticket. |
 | "Resolve several related tickets together." | Combined resolution hides evidence boundaries and makes review harder. | Resolve one ticket per session. |
 | "The map should contain all details for convenience." | Duplicated decisions drift. | Keep details in tickets; map only points. |
 | "A product ambiguity can be decided by engineering." | That leaks product truth into spec work. | Route product ambiguity back to PRD/user authority. |

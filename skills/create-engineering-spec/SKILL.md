@@ -74,7 +74,7 @@ Use the compact Standard form when the durable truth is bounded and the full-for
 
 Use the full form only when its deeper discovery and review controls are individually warranted. Preserve current evidence, source and authority traceability, material risk analysis, full discovery, and independent artifact review at the depth justified by those warrants.
 
-This owner may challenge an insufficient incoming warrant, but it may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Owner preference, artifact type, file count, or generic uncertainty cannot silently reclassify the task.
+This skill may challenge an insufficient incoming warrant, but it may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action for an updated orchestrator decision. Skill or agent preference, artifact type, file count, or generic uncertainty cannot silently reclassify the task.
 
 Route or de-escalate instead when the request is:
 
@@ -117,7 +117,7 @@ Resolve skill and agent names against the actual available capability list, incl
 Classify unavailable skills, agents, tools, or source-access paths as:
 
 - `required blocker`: the missing capability or source access prevents authority, current behavior, or acceptance evidence from being established;
-- `fallback-covered`: direct inspection, current official docs, or another available owner can provide equivalent evidence;
+- `fallback-covered`: direct inspection, current official docs, or another available skill can provide equivalent evidence;
 - `optional capability`: useful but not needed for spec validity.
 
 Completion condition: the spec can state which rules, ADRs, and skills were applied, which were irrelevant, and which were missing but required.
@@ -156,7 +156,7 @@ Source scope:
 
 Source confidence:
 
-- `authority-backed`: accepted PRD/spec/ADR/rule/policy/owner decision, current contract, compliance authority, or explicit user authority within scope;
+- `authority-backed`: accepted PRD/spec/ADR/rule/policy/user decision, current contract, compliance authority, or explicit user authority within scope;
 - `current-system`: current code, tests, schemas, generated contracts, configs, runtime evidence, operations records, or live behavior proving current state;
 - `current-external`: current primary external documentation, standard, vendor, legal/regulatory, protocol, or framework source with version/date context;
 - `verified evidence`: reproduced symptom, measured baseline, sanitized feedback quote, tested example, or reviewed artifact with source window;
@@ -165,18 +165,18 @@ Source confidence:
 
 Before writing requirements, separate input into stated/source-backed facts, accepted decisions, inferences, background context, non-scope, blockers, and deferred questions. Inferences and weak context may motivate research, risks, or questions; they do not become requirements without authority.
 
-Run a map-versus-territory check before requirements synthesis: identify where the request, PRD, prior spec, reference artifact, example, or domain note may not match current system behavior, current external/library reality, authority ownership, tacit domain constraints, or acceptance evidence. If the mismatch is narrow and answerable inside this spec pass, resolve it through research or source discovery. If it is broad enough to require multiple tickets or durable multi-session tracking from an existing product source, route to `create-spec-readiness-map`.
+Run a map-versus-territory check before requirements synthesis: identify where the request, PRD, prior spec, reference artifact, example, or domain note may not match current system behavior, current external/library reality, authoritative responsibility, tacit domain constraints, or acceptance evidence. If the mismatch is narrow and answerable inside this spec pass, resolve it through research or source discovery. If it is broad enough to require multiple tickets or durable multi-session tracking from an existing product source, route to `create-spec-readiness-map`.
 
 When using a reference artifact, source-code example, prototype, screenshot, external implementation, or comparable system as input, state what property transfers, what does not transfer, and what target-context difference matters before it can support a requirement. References are semantic evidence, not permission to cargo-cult architecture, UI shape, data contracts, or implementation details.
 
-Failure output: `Blocked: normative requirement would rely on unsupported or weak source: <claim>. Needed authority: <source or owner>.`
+Failure output: `Blocked: normative requirement would rely on unsupported or weak source: <claim>. Needed authority: <source or user>.`
 
 ## Failure, Feedback, And Raw Evidence
 
 Failure-derived specs require problem truth before target requirements.
 
 - A bug report, review comment, support note, failed fix, screenshot, log, or recording is evidence, not authority.
-- User-supplied fixes and reviewer-supplied commands are hypotheses until diagnosis, current-system evidence, accepted target behavior, or owner authority supports them.
+- User-supplied fixes and reviewer-supplied commands are hypotheses until diagnosis, current-system evidence, accepted target behavior, or user authority supports them.
 - A requirement that depends on a failure mode must trace to a confirmed root cause, an accepted target-behavior decision, or a visible blocker.
 - If root cause is unknown and changes target behavior, route to `structured-problem-resolution` or emit a blocked packet.
 - Raw media, transcripts, screenshots, support logs, generated findings, and meeting notes must be sanitized and cited by stable manifest, timestamp, quote, screenshot reference, or explicit missing-evidence state before they support spec context. Do not make raw sensitive artifacts commit-safe by implication.
@@ -205,7 +205,7 @@ For a compact Standard spec, record only material risks or escalation triggers t
 
 For reporting, analytics, observability, dashboards, generated reports, or data-derived summaries, include metric/event authority, canonical source, instrumentation status, query or source window, freshness/ingestion lag, missing-data behavior, privacy constraints, query safety, and downstream consumers when those facts affect requirements or acceptance.
 
-For runtime, browser-visible, local-development, platform-specific, or agent/workflow systems, include the relevant app root, route/screen, launch or runtime authority, environment, current observed behavior, automation limits, human-only verification, action ownership, context visibility, permission boundary, lifecycle interruption/recovery, and agent-native acceptance evidence at spec depth.
+For runtime, browser-visible, local-development, platform-specific, or agent/workflow systems, include the relevant app root, route/screen, launch or runtime authority, environment, current observed behavior, automation limits, human-only verification, action responsibility, context visibility, permission boundary, lifecycle interruption/recovery, and agent-native acceptance evidence at spec depth.
 
 ## Scope Shaping Rule
 
@@ -215,10 +215,10 @@ An engineering spec must shape scope deliberately instead of listing an idealize
 - Problem before solution: state the current baseline, who or what is affected, and the cost of the status quo before writing requirements.
 - Appetite before scope expansion: identify the delivery appetite or decision budget when the user or project provides one. Appetite is how much the work is worth, not an implementation estimate.
 - Fixed appetite, variable scope: when the desired solution does not fit the appetite, cut or defer scope explicitly instead of expanding the time budget inside the spec.
-- Scope additions must declare their trade: when adding or expanding a capability, state what it displaces, consumes, defers, or forces into explicit scope expansion. If nothing is displaced, explain why the appetite or required outcome still justifies the added ownership.
+- Scope additions must declare their trade: when adding or expanding a capability, state what it displaces, consumes, defers, or forces into explicit scope expansion. If nothing is displaced, explain why the appetite or required outcome still justifies the added responsibility.
 - Rough but solved: define the target behavior, interfaces, constraints, and acceptance evidence clearly enough for planning, while leaving implementation order, file choreography, and code to the plan.
 - Rabbit holes are risks: identify likely derailers, unknowns, dependency traps, edge cases, and hidden complexity; resolve them through constraints, explicit mitigations, research, deferral, or blockers.
-- Ownership cost is scope: material capabilities must account for build, test, maintenance, documentation/support, operational, and future-change burden at spec depth. Do not treat these as plan-only concerns when they affect whether the requirement belongs.
+- Lifecycle responsibility cost is scope: material capabilities must account for build, test, maintenance, documentation/support, operational, and future-change burden at spec depth. Do not treat these as plan-only concerns when they affect whether the requirement belongs.
 - No-gos are first-class: record excluded capabilities, edge cases, related features, or nice-to-haves that would change scope, risk, or appetite.
 
 If appetite is unknown and it materially changes scope, do not invent it. Ask one informed blocking question or produce a spec that marks appetite as unresolved and keeps scope conservative. If appetite is irrelevant because the request is a hard requirement, operational fix, compliance obligation, or bug target, state that and shape by required outcome, risk, and acceptance evidence instead.
@@ -229,9 +229,9 @@ Deferred questions are safe only when the answer cannot change normative require
 
 Use isolated discovery or research workers only when the incoming delegation warrant or new concrete evidence shows that isolation, parallelism, specialist capability, or context focus materially improves the result relative to re-derivation cost. Delegation is read-only unless artifact mutation is explicitly approved, and delegation does not create a spec or full-form warrant.
 
-Delegate source discovery for scattered rules, ADRs, existing specs, dependency maps, plans, research notes, prior decisions, canonical owners, standards, or policies. Required return: sources, precedence, conflicts, owner/authority status, and exact evidence.
+Delegate source discovery for scattered rules, ADRs, existing specs, dependency maps, plans, research notes, prior decisions, authoritative documents and responsible components, standards, or policies. Required return: sources, precedence, conflicts, responsibility/authority status, and exact evidence.
 
-Delegate codebase discovery for brownfield work. This is mandatory in brownfield, either directly or through delegation. Required return: current behavior, current implementation state, ownership, dependencies, tests, contracts, impact surfaces, consumers, compatibility constraints, and likely breakage paths.
+Delegate codebase discovery for brownfield work. This is mandatory in brownfield, either directly or through delegation. Required return: current behavior, current implementation state, responsibility, dependencies, tests, contracts, impact surfaces, consumers, compatibility constraints, and likely breakage paths.
 
 Delegate external research when material behavior depends on current library, framework, protocol, standard, vendor, legal, regulatory, security, operational, or domain best-practice facts. Required return: primary sources, facts, caveats, dates/versions, confidence, and how each fact affects the spec.
 
@@ -299,7 +299,7 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 | “This is basically a plan, so files and steps help.”           | Plan detail belongs in the plan.                                                                  | Include impact surfaces, not edit choreography.                                                                         |
 | “We can fit everything if the plan is good.”                   | A spec must not hide scope overflow behind execution optimism.                                    | Shape to appetite, mark no-gos, or block.                                                                               |
 | “No-gos make the spec weaker.”                                 | Explicit exclusions protect the requirement from accidental expansion.                            | Record excluded scope and the reason.                                                                                   |
-| “The agent suggested it, so it belongs in the spec.”           | Agent suggestions are hypotheses, not authority, product truth, or engineering truth.             | Require source authority, acceptance evidence, displacement and ownership analysis, or record it as non-scope/deferred. |
+| “The agent suggested it, so it belongs in the spec.”           | Agent suggestions are hypotheses, not authority, product truth, or engineering truth.             | Require source authority, acceptance evidence, displacement and responsibility analysis, or record it as non-scope/deferred. |
 | “The old spec, doc, or PR says it, so it is authority.”        | Prior artifacts can be stale, superseded, or contradicted.                                        | Classify current authority, supplement, historical context, conflict, or blocker before using it.                      |
 | “The bug report already includes the fix.”                     | A proposed fix can encode an unsupported cause or wrong target behavior.                           | Require diagnosis evidence, accepted target behavior, or a blocked packet.                                             |
 | “The metric improved, so the requirement is satisfied.”        | Proxy metrics can improve by weakening behavior, data, safety, privacy, or compatibility.          | Separate hard gates from diagnostics and add degenerate gates.                                                         |
@@ -315,7 +315,7 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 - Brownfield work lacks codebase/system discovery.
 - Greenfield work lacks structured research and option analysis.
 - A new component inside an existing platform is treated as greenfield.
-- Source-of-truth authority is vague or ownerless.
+- Source-of-truth authority is vague or has no responsible skill or component.
 - Domain terms are overloaded, contradicted by source material, or used as data concepts without clarified meaning.
 - PRD/product-domain terms are silently lost, renamed, or replaced without source evidence.
 - Current implementation contradicts PRD/product truth and the conflict is not surfaced.
@@ -324,7 +324,7 @@ Present qualifying decisions to the user; the user confirms which graduate to AD
 - The spec invents APIs, packages, state machines, or data contracts.
 - Scope grows from an ideal solution instead of the stated problem, appetite, and authority.
 - A new capability is added without saying what it displaces, consumes, defers, or why it is mandatory.
-- Material lifecycle ownership cost is ignored for a capability that affects operations, docs/support, maintenance, or future change.
+- Material lifecycle responsibility cost is ignored for a capability that affects operations, docs/support, maintenance, or future change.
 - Rabbit holes or no-gos are missing for work with meaningful uncertainty or related tempting scope.
 - User stories remain the primary structure.
 - stale specs, ADRs, plans, docs, generated reports, PR metadata, or old solution notes are used without source-status classification;
@@ -349,8 +349,8 @@ When a red flag appears, return to the relevant gate or emit the blocked packet.
 - Required greenfield or brownfield workflow passed.
 - Source/authority map covers every material claim.
 - Scope is shaped against the problem baseline, appetite when relevant, rabbit holes, and explicit no-gos.
-- Scope additions state what they displace, consume, defer, or why the required outcome justifies added ownership.
-- Material capabilities include lifecycle ownership impact: build, test, maintain, document/support, operate, and future change.
+- Scope additions state what they displace, consume, defer, or why the required outcome justifies added responsibility.
+- Material capabilities include lifecycle responsibility impact: build, test, maintain, document/support, operate, and future change.
 - PRD/product-domain inputs, engineering-domain terms, terminology conflicts, current/target concepts, scenario probes, sources of truth, invariants, states, and authority roles are explicit.
 - Risk register covers required dimensions or gives reasoned no-impact entries.
 - Requirements have IDs, source classes, acceptance evidence, risk mapping, and planning-relevant impact surfaces.

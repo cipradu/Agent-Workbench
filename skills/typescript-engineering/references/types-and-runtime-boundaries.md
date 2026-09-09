@@ -10,9 +10,9 @@ Application logic contains no `any`. At an unavoidable untyped library edge, iso
 
 ## Zod V4 Schema Rules
 
-For new work, Zod v4 is the runtime schema owner.
+For new work, Zod v4 supplies runtime schema validation.
 
-For incumbent work, use the project-designated runtime validator. If no incumbent mechanism exists and choosing one is outside the approved task, specify the complete validation contract and stop for the owner/dependency decision. Do not select a universal library or hand-write a local predicate, assertion function, or schema as a substitute for that missing decision.
+For incumbent work, use the project-designated runtime validator. If no incumbent mechanism exists and choosing one is outside the approved task, specify the complete validation contract and stop for the user decision on the dependency and responsible component. Do not select a universal library or hand-write a local predicate, assertion function, or schema as a substitute for that missing decision.
 
 - Import it consistently with `import { z } from "zod"`.
 - Put schemas in sibling `*.schema.ts` modules; implementation files import them. Do not declare runtime schemas inline with route/service/tool logic.
@@ -33,9 +33,9 @@ Validate parsed JSON, external API responses, message/job payloads, browser stor
 
 At egress, serialize through the declared wire schema. Rich runtime values such as errors, dates, maps, sets, classes, binary data, brands, and cyclic causes need explicit wire representations.
 
-## Contract Ownership
+## Contract Responsibility
 
-Cross-surface request, response, event, webhook, job, and error-envelope schemas live in one contracts owner and are not redefined by consumers. For errors, the contracts owner also owns the explicit mapping from the errors owner's validated transport-neutral payload into each external envelope. The contracts owner contains wire data, boundary mapping, and derived types only; it does not absorb services, persistence models, runtime error classes, settings loaders, or orchestration.
+Cross-surface request, response, event, webhook, job, and error-envelope schemas live in one contracts component and are not redefined by consumers. For errors, the contracts component also owns the explicit mapping from the errors component's validated transport-neutral payload into each external envelope. The contracts component contains wire data, boundary mapping, and derived types only; it does not absorb services, persistence models, runtime error classes, settings loaders, or orchestration.
 
 Provider contracts are derived field-by-field from the provider's authoritative machine-readable specification when available. Examples and prose do not silently override the contract. Test missing, extra, malformed, nullable, optional, and version-skewed values.
 
@@ -49,4 +49,4 @@ Every semantic schema/config field must have a consuming runtime call site. Poli
 - Prove presence in control flow or fail with a logged catalog error; do not use non-null assertions.
 - Do not hide invariant failures with optional chaining, nullish defaults, or broad fallback values.
 
-Failure output: `Rejected: runtime boundary or semantic contract is incomplete: <unknown input, schema owner, parse, serialization, field consumer, or unsafe assertion>.`
+Failure output: `Rejected: runtime boundary or semantic contract is incomplete: <unknown input, schema definition, parse, serialization, field consumer, or unsafe assertion>.`

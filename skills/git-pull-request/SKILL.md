@@ -16,7 +16,7 @@ Use this skill when:
 - The agent must decide whether the PR is ready for review, should stay draft, or should be blocked until validation or scope cleanup is done.
 - The user asks for a current hosted PR status snapshot, bounded watch, drive-to-ready workflow, or complete check and merge-state observation.
 - The user asks to retrieve hosted review conversations or threads, reply to a specific thread, or resolve a thread after its concern is handled.
-- The user explicitly asks to merge or enable auto-merge for one exact hosted PR/MR. These remain separate high-impact external mutations inside this owner.
+- The user explicitly asks to merge or enable auto-merge for one exact hosted PR/MR. These remain separate high-impact external mutations within this skill's scope.
 
 ## Do Not Use
 
@@ -27,7 +27,7 @@ Do not use this skill when:
 - The change is not committed and the user wants the uncommitted work included in the PR. Use `git-commit` first or stop for the user's decision.
 - The PR would be opened from detached HEAD, from the default branch to itself, from an unresolved base branch, or with an unknown diff range.
 - The user asks only for independent code review of an existing PR. Use the review workflow; this skill owns hosted transport and state, not independent acceptance judgment.
-- The user asks to implement a code correction described by a PR comment. Use this skill to retrieve and identify the hosted thread, then route semantic diagnosis and code change to the applicable real owner. Reply and resolution return here only with separate authority.
+- The user asks to implement a code correction described by a PR comment. Use this skill to retrieve and identify the hosted thread, then route semantic diagnosis and code change to the applicable skill or agent. Reply and resolution return here only with separate authority.
 - The host/platform cannot be identified and the user asked for an actual external PR mutation rather than a description draft.
 - The user asks to create, switch, remove, or repair worktrees, configure local setup, start dev servers, run browser/Xcode validation, diagnose or fix CI, release, deploy, or clean up branches as part of PR work. Route those actions to their owning workflows; the hosted lifecycle reference composes their results without absorbing their mechanics.
 - The repository has stricter PR, issue-key, release-note, or template rules. Follow those and use this skill only for gaps.
@@ -55,7 +55,7 @@ Classify the user's request:
 - Hosted status: read one complete current PR snapshot, report it, and stop.
 - Hosted threads-only: retrieve complete current conversation/thread state and perform only separately authorized reply or resolution actions.
 - Hosted watch: observe read-only PR state until a declared terminal state or bound; do not repair or merge.
-- Hosted drive: observe and route blockers to their owners within declared bounds; do not infer repair, commit, push, reply, resolution, rerun, or merge authority.
+- Hosted drive: observe and route blockers to the responsible skills or agents within declared bounds; do not infer repair, commit, push, reply, resolution, rerun, or merge authority.
 - Hosted merge or auto-merge: apply only the exact explicitly authorized hosted merge action after a current head-bound preflight.
 
 Rules:
@@ -135,7 +135,7 @@ Rules:
 - If the commit list is empty, stop. There is no committed branch work to describe.
 - If base or base remote cannot be resolved, ask one targeted question for the missing branch or remote.
 - If local git cannot resolve the range but a platform CLI, connector, or documented API can fetch PR metadata, use the platform range and say so in the result.
-- When describing or updating an existing PR, fetch or read platform metadata for base name, head name or SHA, URL, state, cross-repository/fork status, and head owner when available. For fork PRs, match the base repository to the correct local remote before diffing.
+- When describing or updating an existing PR, fetch or read platform metadata for base name, head name or SHA, URL, state, cross-repository/fork status, and head repository namespace when available. For fork PRs, match the base repository to the correct local remote before diffing.
 - If platform diff or metadata is used because local refs are shallow, missing, forked, or unrelated, label that evidence source and do not imply local working-tree changes are part of the PR.
 - Do not assume the remote is named `origin`. Forks, mirrors, and upstream/origin split setups must choose the correct base remote deliberately.
 
@@ -227,7 +227,7 @@ Rules:
 - Large or mixed-scope PRs should be split when possible. If not possible, the body must explain why the scope is coupled.
 - For bug-fix PRs, ready state requires root-cause summary, reproduction or incident evidence, validation of the original failing path, and debug-artifact hygiene. If the fix is a likely symptom patch or the cause is unproven, block ready state or make the uncertainty explicit in draft.
 - For code-changing PRs with obvious avoidable duplication, dead code, unnecessary complexity, hand-rolled existing utilities, or efficiency regressions visible in the resolved diff, route to cleanup first or make the PR draft with the risk named.
-- For runtime or production-impacting PRs, include operational validation or a no-runtime-impact rationale: healthy signals, failure signals, rollback or mitigation trigger, validation window, and owner when relevant.
+- For runtime or production-impacting PRs, include operational validation or a no-runtime-impact rationale: healthy signals, failure signals, rollback or mitigation trigger, validation window, and operational responder when relevant.
 - If upstream evidence exists, consume it as context without letting it replace current state checks. Review packets, plan IDs, dogfood reports, optimization metrics, browser-polish notes, generated reports, CI status, and known residuals can inform readiness and body content only when their scope matches the resolved PR range.
 - Use a compact readiness packet for blocked, draft, or complex PRs: mode, allowed mutation, base/head/range, working tree, branch/upstream, push need, existing PR state, validation evidence, unresolved findings, title/body quality, draft/ready state, residual risk, and external fields to change.
 

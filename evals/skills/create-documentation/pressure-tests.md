@@ -204,7 +204,7 @@ Expected wrong behavior: Produce generic candidate pages without source basis, r
 
 Required behavior: Run documentation opportunity discovery: inspect reader journeys, source truth, reference gaps, operations, troubleshooting, examples, navigation, freshness, and conflicts; tag recommendations as direct, external, or reasoned; reject unsupported candidates.
 
-Pass criteria: Recommendations are grounded, scoped, and routed to owners when upstream truth is missing.
+Pass criteria: Recommendations are grounded, scoped, and routed to responsible skills when upstream truth is missing.
 
 ## Scenario 18: Docs Check Failure
 

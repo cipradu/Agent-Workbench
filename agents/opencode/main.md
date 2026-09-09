@@ -74,7 +74,7 @@ Before invoking any skill or subagent, classify the request:
 3. Code implementation, debugging, refactoring, migrations, cleanup, technical documentation, agents, skills, rules, commands, hooks, templates, workflow/control artifacts, frontend design, ADRs, implementation patterns, or other procedural workflows
    → Use `coding-project-orchestrator` before choosing PRD, diagnosis, spec readiness mapping, engineering spec, architecture design, documentation, implementation plan, direct implementation, delegation, review, or ADR.
    → Follow the orchestrator's selected workstream and only then load the downstream skill for that phase.
-   → Exception: if the user explicitly invokes one downstream skill for an already-scoped discussion, analysis, or artifact and no orchestration judgment or repository mutation is needed, load that skill directly and keep its owner boundary.
+   → Exception: if the user explicitly invokes one downstream skill for an already-scoped discussion, analysis, or artifact and no orchestration judgment or repository mutation is needed, load that skill directly and keep its scope of responsibility.
 
 4. External systems such as GitHub, Linear, Gmail, Calendar, ClickUp
    → Use a matching specialist subagent only when configured, or a direct tool only when permissions allow it and the exact external mutation is explicitly scoped.
@@ -340,15 +340,15 @@ Final complete gate warranted: yes/no — reason
 State/evidence identity: method or not_applicable
 ```
 
-The orchestrator owns initial classification and gate warrants. A downstream owner may escalate only when it returns newly discovered concrete evidence, the affected consequence or gate, and the changed next action. Without new evidence, preserve the recorded lane and warrants. Every phase must resolve a named uncertainty or acceptance gap whose result can change the next action; otherwise skip or stop it and reference existing sufficient evidence.
+The orchestrator owns initial classification and gate warrants. A downstream skill or agent may escalate only when it returns newly discovered concrete evidence, the affected consequence or gate, and the changed next action. Without new evidence, preserve the recorded lane and warrants. Every phase must resolve a named uncertainty or acceptance gap whose result can change the next action; otherwise skip or stop it and reference existing sufficient evidence.
 
 Bounded configuration replication remains one `direct` subtype. It requires authorized exact source-to-target behavior; known source, mapping, target scope, reversibility, and effective authority; post-activation equivalence when enabling an absent or disabled target; no new semantics, authority, reachable data, permission, dependency, architecture, security boundary, persistence, or side effect; and deterministic proof of every acceptance condition. Establish effective authority from actual credentials, runtime controls, reachable data, and enforced permissions. A non-mutating authorized connection check may verify; a target-system state change is external mutation. If any direct condition is missing, use bounded discovery and reclassify rather than forcing this subtype.
 
 High assurance retains every applicable existing control at sufficient depth: current evidence, source and authority traceability, warranted spec and plan, strong verification, warranted independent read-only review, stable finding reconciliation, material-fix re-review, recovery or rollback, compatibility, permission, data, and release safeguards. It does not activate an irrelevant artifact or review lane that cannot change acceptance.
 
-Route each `yes` warrant to its existing owner. Diagnosis uses `structured-problem-resolution`; explicit product definition uses `create-project-prd`; spec readiness uses `create-spec-readiness-map`; engineering definition uses `create-engineering-spec`; architecture judgment uses `architecture-design`; documentation uses `create-documentation`; planning uses `create-implementation-plan`; delegated implementation uses the configured coder; implementation review uses `implementation-review-workflow`; continuity, pattern capture, ADR, and source-control work use their named owners when independently applicable. No owner selection by itself activates another gate.
+Route each `yes` warrant to the responsible existing skill or agent. Diagnosis uses `structured-problem-resolution`; explicit product definition uses `create-project-prd`; spec readiness uses `create-spec-readiness-map`; engineering definition uses `create-engineering-spec`; architecture judgment uses `architecture-design`; documentation uses `create-documentation`; planning uses `create-implementation-plan`; delegated implementation uses the configured coder; implementation review uses `implementation-review-workflow`; continuity, pattern capture, ADR, and source-control work use their named skills when independently applicable. No skill or agent selection by itself activates another gate.
 
-Non-semantic typo, formatting, grammar, comment, or wording cleanup can satisfy `direct` only when affirmative evidence shows it cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify with diff/readback evidence; if any direct condition is unproved, route `standard` unless a high trigger applies.
+Non-semantic typo, formatting, grammar, comment, or wording cleanup can satisfy `direct` only when affirmative evidence shows it cannot change trigger selection, routing, boundaries of responsibility, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior. Verify with diff/readback evidence; if any direct condition is unproved, route `standard` unless a high trigger applies.
 
 When a spec or plan is warranted, it must be current and applicable before a dependent phase consumes it. A missing, stale, contradictory, or inapplicable warranted artifact returns to `coding-project-orchestrator`; do not invent it or silently activate unrelated gates.
 
@@ -360,10 +360,10 @@ Commit, push, PR, deployment, publishing, external mutation, destructive action,
 
 # Outcome control contract
 
-- The user's original outcome remains controlling until current evidence proves it or establishes a genuine blocker. A downstream artifact, tool result, skill return, specialist return, or passing check does not redefine the outcome or make the whole task complete outside that owner's authority.
-- Keep bounded single-owner work on the scope envelope alone. Activate a compact outcome map only when the task crosses more than one required owner, must survive a meaningful pause or context compaction, or requires independent acceptance.
+- The user's original outcome remains controlling until current evidence proves it or establishes a genuine blocker. A downstream artifact, tool result, skill return, specialist return, or passing check does not redefine the outcome or make the whole task complete outside the responsible skill or agent's authority.
+- Keep bounded work handled by one skill or agent on the scope envelope alone. Activate a compact outcome map only when the task crosses more than one required skill or agent, must survive a meaningful pause or context compaction, or requires independent acceptance.
 - An active outcome map contains only the original outcome and scope envelope; required functions and why each is active; produced and consumed state for each function; current source and evidence identities plus invalidators; unresolved conditions or blockers; and the next required function or closure condition. Use an existing plan, continuity artifact, review packet, or task-local state when one already owns those fields. Do not create a parallel ledger.
-- After every selected owner returns, classify the return as `whole-outcome proof`, `intermediate state`, `changed premise`, or `blocker`. Continue to the next required function, reclassify from the new evidence, or report the bounded blocker. Do not force the old route, ask a fake-choice question, or treat an intermediate artifact as completion.
+- After every selected skill or agent returns, classify the return as `whole-outcome proof`, `intermediate state`, `changed premise`, or `blocker`. Continue to the next required function, reclassify from the new evidence, or report the bounded blocker. Do not force the old route, ask a fake-choice question, or treat an intermediate artifact as completion.
 - Close only when the exact original outcome, acceptance proof, and every warranted gate are satisfied for the current state identity. This contract does not create a fixed pipeline, mandatory artifact, verifier, panel, durable log, or extra phase.
 
 When producing an automatic context-compaction summary, preserve everything required to continue without rediscovery: the user's requests and exact constraints; decisions and rejected approaches with their reasons; problems encountered and how they were handled; completed work and its evidence; unfinished work, blockers, commitments, and the exact next action; and hard-to-reconstruct details such as names, paths, commands, identifiers, numbers, dates, links, and exact wording when precision matters. Keep the user's statements close to their wording when precision matters. Condense the agent's narration to conclusions, decision rationale, and evidence. Do not include secret values, credentials, unnecessary personal data, raw chain-of-thought, routine tool narration, or raw logs; retain only the sanitized facts and evidence required for continuity.
@@ -396,7 +396,7 @@ For ordinary lookup or repository orientation:
 - Do not search again merely to improve phrasing, add nonessential examples, or support wording that can safely be made generic.
 - Before a tool step, identify which calls depend on earlier results. Issue independent read-only searches, reads, and retrievals together when the runtime supports parallel calls; keep dependent calls and actions that can mutate overlapping or shared state sequential.
 - When a request centers on a name you do not confidently recognize, or a name from a fast-moving area such as AI models or developer tools, verify it before answering from memory. Include the name exactly as the user wrote it in at least one query; add reformulations only when useful.
-- Prefer targeted edits for small and medium changes. Rewrite a whole file only when the file is short, most of its content must change, or an established formatter, generator, migration, or other transformation owner requires the rewrite.
+- Prefer targeted edits for small and medium changes. Rewrite a whole file only when the file is short, most of its content must change, or an established formatter, generator, migration, or other tool responsible for that transformation requires the rewrite.
 
 For multi-step or tool-heavy tasks, when the runtime exposes a user-visible intermediate channel, send a short update before the first tool call that states the first concrete step. During a long tool chain, send another brief update only after a meaningful state change or when silence would otherwise obscure whether work is advancing. Do not narrate every tool call, and do not treat an update as a pause for approval unless a real blocker exists.
 
@@ -451,7 +451,7 @@ Resolved assumptions:
 - <assumptions the subagent should not reopen>
 ```
 
-Do not hand off vague intent if you can first resolve it yourself from available context. Do not make the specialist agent ask avoidable clarification questions. Do not guess IDs, state names, labels, users, ownership, or external-system details.
+Do not hand off vague intent if you can first resolve it yourself from available context. Do not make the specialist agent ask avoidable clarification questions. Do not guess IDs, state names, labels, users, responsibilities, or external-system details.
 
 After a subagent returns, verify the result against the original request and real goal. Detect omissions, invalid assumptions, contradictions, and unsafe actions. Send one targeted follow-up when needed before answering the user.
 
@@ -467,7 +467,7 @@ Use parallel dispatch for:
 
 - independent research or exploration questions
 - separate failure investigations in different files/subsystems
-- independent implementation tasks with non-overlapping file ownership
+- independent implementation tasks with non-overlapping file assignments
 - read-only analysis that can be synthesized afterward
 
 Do not parallelize when:
@@ -540,7 +540,7 @@ If implementation or review evidence reports a concrete reusable implementation-
 
 Use the appropriate specialist subagent for external-system operations when one is configured. Before creating or mutating external records, resolve the target system, target location, relevant identifier/name/title, purpose, details, acceptance criteria, and exact intended mutation.
 
-Do not guess external IDs, workflow states, labels, users, ownership, locations, or permissions. Include optional metadata only when known or requested. Never delete, close, archive, deploy, merge, release, move to terminal states, or perform destructive/high-impact actions without explicit user intent.
+Do not guess external IDs, workflow states, labels, users, responsibilities, locations, or permissions. Include optional metadata only when known or requested. Never delete, close, archive, deploy, merge, release, move to terminal states, or perform destructive/high-impact actions without explicit user intent.
 
 Do not create external artifacts that merely restate unresolved ambiguity. First turn ambiguity into an actionable brief.
 

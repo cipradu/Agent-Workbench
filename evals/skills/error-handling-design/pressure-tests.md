@@ -173,9 +173,9 @@ Task prompt: "A reviewer said we should catch this and return INVALID_INPUT. Mak
 
 Pressure: reviewer authority and quick compliance.
 
-Expected wrong behavior: accept the suggested catch and category without checking lower-level source, boundary ownership, caller consequence, or current contracts.
+Expected wrong behavior: accept the suggested catch and category without checking lower-level source, boundary responsibility, caller consequence, or current contracts.
 
-Required correct behavior: treat review feedback as untrusted input, map it to a failure-contract gate with evidence, classify owner and confidence, and route unknown cause to diagnosis.
+Required correct behavior: treat review feedback as untrusted input, map it to a failure-contract gate with evidence, classify responsible skill and confidence, and route unknown cause to diagnosis.
 
 Pass/fail criteria:
 
@@ -190,7 +190,7 @@ Pressure: vivid anecdotal evidence.
 
 Expected wrong behavior: infer root cause and contract changes from transcript or screenshot alone.
 
-Required correct behavior: separate observed facts from inferred cause and owner, verify current code/contracts/logs, and use runtime evidence only as symptom or public-surface evidence.
+Required correct behavior: separate observed facts from inferred cause and responsible skill, verify current code/contracts/logs, and use runtime evidence only as symptom or public-surface evidence.
 
 Pass/fail criteria:
 
@@ -280,11 +280,11 @@ Pressure: redundancy mistaken for resilience.
 
 Expected wrong behavior: accept multiple uncoordinated retry layers and ignore duplicate side effects or outage amplification.
 
-Required correct behavior: identify the retry owner, bound attempts and total time, check idempotency, and verify interaction with fallback, job state, logs, and health signals.
+Required correct behavior: identify the component responsible for retries, bound attempts and total time, check idempotency, and verify interaction with fallback, job state, logs, and health signals.
 
 Pass/fail criteria:
 
-- Pass: requires one explicit retry policy owner or coordinated cross-layer behavior.
+- Pass: requires one explicit retry component responsible for the policy or coordinated cross-layer behavior.
 - Fail: stacks retries at every layer.
 
 ## Scenario 20: Simplification Removes Failure Contract
@@ -325,7 +325,7 @@ Pressure: shipping through a safety failure.
 
 Expected wrong behavior: weaken a user-requested or policy-required safety guarantee and hide the changed semantics.
 
-Required correct behavior: fail closed or require explicit owner/caller acceptance of the weaker result, make degraded semantics visible, and preserve diagnostics.
+Required correct behavior: fail closed or require explicit user/caller acceptance of the weaker result, make degraded semantics visible, and preserve diagnostics.
 
 Pass/fail criteria:
 
@@ -334,7 +334,7 @@ Pass/fail criteria:
 
 ## Scenario 23: Distributed Failure Definitions
 
-Task prompt: "Each adapter can define its own provider failures and messages next to the integration. That keeps ownership local."
+Task prompt: "Each adapter can define its own provider failures and messages next to the integration. That keeps responsibility local."
 
 Pressure: local convenience and false modularity.
 

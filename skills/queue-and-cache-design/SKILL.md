@@ -26,7 +26,7 @@ Do not use this skill when:
 - The work is primarily relational schema, migrations, indexes, transactions, ORM usage, persistent integrity, or durable query performance. Use `database-design`; use this skill only for cache/queue boundaries around that database work.
 - The work is only API contract shape, endpoint behavior, pagination, status codes, OpenAPI, GraphQL, or client compatibility. Use `api-design`; use this skill only for asynchronous or cached behavior behind the API.
 - The work is only error taxonomy, validation messages, exception mapping, logging/redaction, or degraded-mode response design. Use `error-handling-design`; use this skill only for retry, dead-letter, worker, or cache failure semantics.
-- The work is long-running workflow orchestration, sagas, human approval workflows, durable timers, compensation graphs, or multi-step business process execution that needs a workflow engine. Use architecture/spec work first; a simple queue is not a workflow engine.
+- The work is long-running workflow orchestration, sagas, approval workflows, durable timers, compensation graphs, or multi-step business process execution that needs a workflow engine. Use architecture/spec work first; a simple queue is not a workflow engine.
 - The work is realtime transport design such as WebSockets, SSE, presence, live collaboration, or push transport, unless Redis pub/sub, streams, fan-out, or backplane behavior is directly in scope.
 - The task is only exact Redis/BullMQ/library syntax. Verify current syntax against project dependencies or official docs; use this skill for design decisions and failure semantics.
 - The work is generic root-cause diagnosis, code-review orchestration, browser testing, simulator testing, setup, commits, pushes, PRs, CI watch, tracker filing, or release mechanics. Use the owning diagnosis, testing, review, setup, git, PR, or workflow skill.
@@ -34,7 +34,7 @@ Do not use this skill when:
 
 ## Iron Law
 
-Queues and caches are coordination contracts, not faster storage. Do not add Redis keys, cache layers, jobs, workers, retries, locks, rate limits, pub/sub, or streams until source of truth, consistency/expiry, idempotency, failure/retry behavior, concurrency limits, ownership, and observability/recovery are explicit.
+Queues and caches are coordination contracts, not faster storage. Do not add Redis keys, cache layers, jobs, workers, retries, locks, rate limits, pub/sub, or streams until source of truth, consistency/expiry, idempotency, failure/retry behavior, concurrency limits, responsibility, and observability/recovery are explicit.
 
 ## Core Concept
 
@@ -56,9 +56,9 @@ Identify the runtime surface before choosing Redis or a queue:
 
 - scope synthesis: stated requirement, inferred consistency assumptions, explicitly out-of-scope guarantees, and unresolved facts that would change primitive choice;
 - surface type: cache, background job, delayed job, repeatable job, worker flow, rate limit, lock, dedupe key, idempotency key, pub/sub, stream, or ephemeral state;
-- source of truth: database row, external service, filesystem/object storage, event log, queue state, Redis key, in-memory process state, or another owner;
+- source of truth: database row, external service, filesystem/object storage, event log, queue state, Redis key, in-memory process state, or another authoritative component;
 - correctness requirement: fresh read, stale-while-revalidate, eventual consistency, at-least-once execution, at-most-once notification, durable replay, best-effort fan-out, or coordination-only state;
-- ownership: producer, consumer, invalidator, worker, scheduler, operator, and code owner;
+- responsibility: producer, consumer, invalidator, worker, scheduler, operator, and maintaining component;
 - existing-system evidence: producer paths, worker paths, scheduler definitions, key families, queue names, wrapper clients, provider defaults, retry/dead-letter configuration, metrics, dashboards, runbooks, ADRs, and tests that currently define behavior;
 - environment: Redis/provider/deployment model, persistence mode, eviction policy, cluster/sentinel behavior, connection lifecycle, tenant boundaries, and sensitive data constraints.
 
@@ -77,7 +77,7 @@ Choose the primitive from the contract, not from convenience:
 - Use a durable outbox or database-backed handoff when database commit and asynchronous side effects must not be split by a crash.
 - Use streams or a durable log when consumers need replay, ordering, offsets, or independent consumption.
 - Use pub/sub only for best-effort live notification where missed messages are acceptable.
-- Use locks sparingly, with expiry, ownership tokens, release behavior, and fencing or another stale-owner defense when stale lock holders can cause corruption.
+- Use locks sparingly, with expiry, lock tokens, release behavior, and fencing or another stale-lock-holder defense when stale lock holders can cause corruption.
 - Use rate limits with explicit identity, key cardinality, window, burst behavior, and failure response.
 - Use Redis data structures deliberately: strings for simple values/counters, hashes for compact objects, sets for membership, sorted sets for ranked/time-priority access, streams for append-only consumption, and lists only when their queue semantics are enough.
 - Use existing project-native queue/cache wrappers, key builders, outbox conventions, worker bases, and metrics conventions when they already provide the accepted contract; do not add raw Redis or queue usage beside them without a justified boundary.
@@ -104,7 +104,7 @@ For cache and Redis-key work, make key lifecycle explicit:
 - Mark best-effort scratch checkpoints as non-authoritative unless durability, retention, replay, cleanup, and operator semantics are deliberately accepted. Checkpoints must not become hidden queue state, completion records, or recovery sources by accident.
 - Define cache degradation: on miss, corrupt entry, unreachable cache, stale source, or incompatible schema, decide whether the system recomputes, bypasses, serves stale, blocks, warns, fails closed, or escalates.
 
-Completion criterion: every key family has owner, shape, cardinality, TTL, invalidation path, and memory/failure behavior.
+Completion criterion: every key family has a responsible component, shape, cardinality, TTL, invalidation path, and memory/failure behavior.
 
 Failure output: `Rejected: Redis/cache key lifecycle is unsafe or undefined: <specific key family>.`
 
@@ -154,7 +154,7 @@ Workers are production services, not helper scripts:
 - Track queue depth, age of oldest job, processing latency, failure rate, retry rate, stalled count, dead-letter count, worker concurrency, downstream rate-limit hits, cache hit/miss rate, Redis memory, evictions, and connection errors when material.
 - Define dashboard, alert, runbook, replay, purge, and manual intervention paths for production queues.
 - Avoid hidden unbounded parallelism. Worker concurrency, sandboxing, batching, and pipeline usage must match downstream limits.
-- For runtime-impacting changes, name operational validation fields: log queries or search terms, metric/dashboard names, healthy signals, failure signals, rollback or mitigation trigger, validation window, and owner.
+- For runtime-impacting changes, name operational validation fields: log queries or search terms, metric/dashboard names, healthy signals, failure signals, rollback or mitigation trigger, validation window, and operational responder.
 
 Completion criterion: an operator can detect backlog, diagnose failures, shut down safely, and recover work without guessing.
 
@@ -192,11 +192,11 @@ Before trusting an existing queue/cache contract, classify the relevant artifact
 - `stale but mechanically correctable`: names, paths, metrics, or constants drifted while semantics stayed stable.
 - `contradicted by code or operations`: accepted guidance and live behavior disagree.
 - `missing source of truth`: no artifact owns freshness, durability, idempotency, retry, or recovery semantics.
-- `ambiguous owner`: producer, worker, invalidator, scheduler, operator, or replay owner is unclear.
+- `ambiguous responsibility`: producer, worker, invalidator, scheduler, operator, or replay component is unclear.
 - `superseded by ADR/provider constraint`: a later accepted decision or provider guarantee changes the local assumption.
 - `too under-specified to design safely`: the contract cannot support implementation or review.
 
-Changed delivery guarantees, Redis authority, idempotency model, retry/dead-letter behavior, lock strategy, pub/sub durability expectation, or source-of-truth ownership require design/spec/architecture work. Do not hide those changes as local cleanup.
+Changed delivery guarantees, Redis authority, idempotency model, retry/dead-letter behavior, lock strategy, pub/sub durability expectation, or source-of-truth responsibility require design/spec/architecture work. Do not hide those changes as local cleanup.
 
 ### Review Findings
 
@@ -208,9 +208,9 @@ Suppress findings when the concern is speculative, load/cardinality evidence is 
 
 For duplicate jobs, stale reads, stampedes, stalled workers, poison jobs, lost messages, lock races, retry storms, unbounded Redis growth, or repeated failed fixes, gather symptom evidence before changing mechanisms:
 
-- observed symptom, trigger, affected key family or job type, source of truth, producer path, worker path, provider/Redis mode, relevant timestamps, correlation/job IDs, retry counts, lock owner/token, TTLs, invalidation path, worker concurrency, and prior failed attempts;
+- observed symptom, trigger, affected key family or job type, source of truth, producer path, worker path, provider/Redis mode, relevant timestamps, correlation/job IDs, retry counts, lock holder/token, TTLs, invalidation path, worker concurrency, and prior failed attempts;
 - causal chain from trigger to stale data, duplicate work, lost notification, lock corruption, backlog, retry storm, or memory growth;
-- prediction for uncertain causes, such as authoritative reads differing under stale-cache theory, repeated business idempotency keys under duplicate-retry theory, lock duration/token evidence under stale-owner theory, or missing replay state under pub/sub-loss theory.
+- prediction for uncertain causes, such as authoritative reads differing under stale-cache theory, repeated business idempotency keys under duplicate-retry theory, lock duration/token evidence under stale-lock-holder theory, or missing replay state under pub/sub-loss theory.
 
 If evidence points to a generic root-cause investigation, route to `structured-problem-resolution` before changing retries, TTLs, invalidation, locks, workers, or primitives.
 
@@ -245,7 +245,7 @@ When blocked, emit the failure output from the failed step and name the smallest
 - Use `error-handling-design` when public/private failure shape, validation errors, retryability categories, dead-letter records, logging/redaction, or degraded-mode behavior needs deeper design.
 - Use `testing-strategy` when queue/cache behavior needs regression, integration, fake-time, failure-injection, contract, or operational verification planning.
 - Use `structured-problem-resolution` when a queue/cache symptom needs full root-cause diagnosis before selecting a mechanism.
-- Use `architecture-design` when introducing queues/caches changes service boundaries, ownership, coupling, consistency model, or deployment topology.
+- Use `architecture-design` when introducing queues/caches changes service boundaries, responsibility, coupling, consistency model, or deployment topology.
 - Use `create-project-adr` when choosing Redis as authoritative for a state category, standardizing a queue/cache pattern, introducing a durable outbox, adopting a queue provider/library, or setting a project-wide worker/cache convention.
 
 ## Rationalization Table
@@ -257,7 +257,7 @@ When blocked, emit the failure output from the failed step and name the smallest
 | "We can add TTLs later."                   | Missing TTLs cause stale reads, memory growth, stuck locks, and stale dedupe/rate-limit state.                  | Define TTL and invalidation before implementation.                                       |
 | "Retry will fix transient failures."       | Retry without bounds, backoff, timeouts, and idempotency creates duplicate work and thundering herds.           | Define attempts, backoff, timeout, retryable categories, and dead-letter behavior.       |
 | "Put the whole object in the job payload." | Payload snapshots become stale, large, sensitive, and hard to migrate.                                          | Put stable IDs and reload authoritative state in the worker.                             |
-| "A lock prevents the race."                | Locks can expire, be stolen, be released by the wrong owner, or leave stale workers running.                    | Use ownership tokens, expiry, release checks, and fencing when stale owners matter.      |
+| "A lock prevents the race."                | Locks can expire, be stolen, be released by the wrong lock holder, or leave stale workers running.                    | Use lock tokens, expiry, release checks, and fencing when stale lock holders matter.      |
 | "Pub/sub is an event log."                 | Pub/sub messages can be missed by disconnected consumers.                                                       | Use streams, a queue, or another durable log when replay or recovery matters.            |
 | "Monitoring can come later."               | Unobservable queues and caches fail silently as latency, staleness, duplication, or backlog.                    | Define metrics, logs, correlation IDs, dashboards, and recovery actions with the design. |
 | "The UI looks right, so the queue/cache works." | One visible journey does not prove retry, replay, idempotency, invalidation, outage, shutdown, or lock behavior. | Use user-visible evidence as a signal, then verify the queue/cache contract directly. |
@@ -268,9 +268,9 @@ When blocked, emit the failure output from the failed step and name the smallest
 ## Red Flags
 
 - Cache, queue, or Redis key design appears before source of truth and consistency semantics are known.
-- Cache entries have no TTL, invalidation path, owner, or stale-read policy.
+- Cache entries have no TTL, invalidation path, responsible component, or stale-read policy.
 - Redis keys have unbounded cardinality, large values, sensitive payloads, or no memory policy awareness.
-- A lock has no expiry, owner token, release check, or stale-owner strategy.
+- A lock has no expiry, lock-holder token, release check, or stale-lock-holder strategy.
 - Pub/sub is used where missed messages must be recovered.
 - A job type has no idempotency, dedupe, retry/backoff, timeout, dead-letter, or poison-job handling.
 - Workers have no graceful shutdown, failed/stalled handling, or operational dashboard/metrics.

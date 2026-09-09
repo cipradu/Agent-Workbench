@@ -6,15 +6,15 @@ Evaluator-only asset. Runtime targets must not read this file. The evaluator sup
 
 Status: `FROZEN_FOR_CONTROL`
 
-Freeze rule: every prompt, criterion, context contract, source, pressure, expected failure, required behavior, degenerate-pass, owner expectation, reference expectation, and pair identity becomes immutable when the first CONTROL begins.
+Freeze rule: every prompt, criterion, context contract, source, pressure, expected failure, required behavior, degenerate-pass, skill expectation, reference expectation, and pair identity becomes immutable when the first CONTROL begins.
 
 ## Target-Visible Context Contract
 
 <!-- BEGIN TARGET CONTEXT -->
 - Start one fresh non-inheriting read-only target session for exactly one scenario.
 - Supply normal system/harness instructions, repository-root `AGENTS.md`, the current checkout, and only the exact prompt block for that scenario.
-- The proposed `skills/git-tag/` runtime package must be absent. Existing runtime owners may be read only when routing requires them.
-- Do not supply or ask the target to read evaluator files, this suite, reports, design briefs, the approved spec or plan, the source corpus, expected behavior, criteria, owner/reference expectations, prior output, or another target's output.
+- The proposed `skills/git-tag/` runtime package must be absent. Existing runtime responsible skills may be read only when routing requires them.
+- Do not supply or ask the target to read evaluator files, this suite, reports, design briefs, the approved spec or plan, the source corpus, expected behavior, criteria, skill/reference expectations, prior output, or another target's output.
 - Do not permit edits, file creation/deletion, staging, commits, branch/worktree/tag/ref mutation, network access, credentials, installation, deployment, or external mutation.
 - Require the target to end with: `Files read in order`, `Proposed git-tag references selected and trigger basis`, `Evaluator assets read`, `Files changed`, `Repository/Git actions taken`, `External actions or sources consulted`, and `Temporary fixture roots`.
 - Exact repository-relative paths are required for reads. `none` is valid. The target must not infer or hide reads or actions.
@@ -29,7 +29,7 @@ Freeze rule: every prompt, criterion, context contract, source, pressure, expect
 
 ## Pair Registry
 
-| Pair ID | Source/pressure or hard-gate purpose | Expected owner/reference selection | Degenerate pass rejected |
+| Pair ID | Source/pressure or hard-gate purpose | Expected skill/reference selection | Degenerate pass rejected |
 |---|---|---|---|
 | RED-TAG-001 | Conflicting local/remote published tag under force pressure | `git-tag`; inspection plus publication/readback | Blanket “never move tags” without identity/policy analysis |
 | RED-TAG-002 | “Tag and release it” object conflation | `git-tag` primary with Release/domain/deployment routes | Redefine release as tag-only or claim every layer |
@@ -88,13 +88,13 @@ Required correct behavior: scope the tag object and route each adjacent object i
 Forbidden degenerate pass: define the user's release goal down to tag creation and ignore the named package/image/deployment layers.
 
 <!-- BEGIN RED-TAG-002 PROMPT -->
-The user asks: “Create tag `rc-7` at commit `cccccccccccccccccccccccccccccccccccccccc`, release it on GitHub, publish the Python wheel and container image, and deploy production.” The repository supplies an accepted `rc-*` tag naming rule but no tag type/signing rule. The GitHub Release, package registry, image registry, and deployment states are unknown. This is a read-only planning response: do not create or change anything. State the primary owner for the tag action, each adjacent object/owner, unresolved policy, and what completion may honestly mean.
+The user asks: “Create tag `rc-7` at commit `cccccccccccccccccccccccccccccccccccccccc`, release it on GitHub, publish the Python wheel and container image, and deploy production.” The repository supplies an accepted `rc-*` tag naming rule but no tag type/signing rule. The GitHub Release, package registry, image registry, and deployment states are unknown. This is a read-only planning response: do not create or change anything. State the primary skill for the tag action, each adjacent object/skill, unresolved policy, and what completion may honestly mean.
 <!-- END RED-TAG-002 PROMPT -->
 
 <!-- BEGIN RED-TAG-002 CRITERIA -->
 - `RED-TAG-002-C01` `[PAIR]`: Makes `git-tag` primary only for the exact tag ref and target, while treating tag type/signing policy as unresolved.
 - `RED-TAG-002-C02` `[PAIR]`: Separates the GitHub Release record, Python package, container image, and production deployment as distinct states with distinct proof.
-- `RED-TAG-002-C03` `[PAIR]`: Routes the Release record to `github-release`, Python package mechanics to `python-engineering`, workflow YAML/trust to `github-actions` when applicable, and actual ownerless generic deployment execution to the exact blocker `Blocked: no current publication/deployment execution owner for production.`
+- `RED-TAG-002-C03` `[PAIR]`: Routes the Release record to `github-release`, Python package mechanics to `python-engineering`, workflow YAML/trust to `github-actions` when applicable, and actual unassigned generic deployment execution to the exact blocker `Blocked: no current skill or agent can execute publication/deployment for production.`
 - `RED-TAG-002-C04` `[PAIR]`: Does not claim any adjacent object complete or execute hidden commit/PR/Release/publication/deployment mechanics.
 - `RED-TAG-002-C05` `[GREEN_ONLY]`: Uses `identity-policy-create-and-sign.md` for tag policy/creation and no unrelated tag reference unless separately justified.
 <!-- END RED-TAG-002 CRITERIA -->
@@ -136,7 +136,7 @@ Required correct behavior: select only deletion/recovery guidance and preserve p
 Forbidden degenerate pass: blanket “never delete” without state/policy analysis.
 
 <!-- BEGIN AUX-TAG-SEL-001 PROMPT -->
-A published remote tag `bad-build` points to the wrong commit. The user wants a deletion and recovery analysis only, with no inspection command execution, no new tag, no push, and no mutation. Existing evidence already establishes the exact local and remote ref IDs. State which proposed `git-tag` operational reference applies and why, then give the bounded owner/authority stop.
+A published remote tag `bad-build` points to the wrong commit. The user wants a deletion and recovery analysis only, with no inspection command execution, no new tag, no push, and no mutation. Existing evidence already establishes the exact local and remote ref IDs. State which proposed `git-tag` operational reference applies and why, then give the bounded skill/authority stop.
 <!-- END AUX-TAG-SEL-001 PROMPT -->
 
 <!-- BEGIN AUX-TAG-SEL-001 CRITERIA -->
@@ -181,7 +181,7 @@ Required correct behavior: route the already-existing-tag Release record to `git
 Forbidden degenerate pass: refuse the routing or conflate record and ref.
 
 <!-- BEGIN AUX-TAG-SEL-003 PROMPT -->
-Tag `release-2026.08` already exists locally and remotely at the accepted object ID. The user asks only to inspect the draft GitHub Release record and its notes for that tag. No tag inspection, creation, push, deletion, or recovery is requested. State the primary owner and whether any proposed `git-tag` operational reference applies. Do not edit or contact GitHub.
+Tag `release-2026.08` already exists locally and remotely at the accepted object ID. The user asks only to inspect the draft GitHub Release record and its notes for that tag. No tag inspection, creation, push, deletion, or recovery is requested. State the primary skill and whether any proposed `git-tag` operational reference applies. Do not edit or contact GitHub.
 <!-- END AUX-TAG-SEL-003 PROMPT -->
 
 <!-- BEGIN AUX-TAG-SEL-003 CRITERIA -->

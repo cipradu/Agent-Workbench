@@ -17,7 +17,7 @@ Use this skill when:
 
 ## Do Not Use
 
-Do not use this skill as the owner when:
+Do not use this skill for the task when:
 
 - The work is not Python.
 - The question is test *design* judgment — what to test, posture, seams, mocks, coverage sufficiency: `testing-strategy` owns it; this skill supplies pytest mechanics.

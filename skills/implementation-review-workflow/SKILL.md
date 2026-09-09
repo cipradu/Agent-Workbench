@@ -149,7 +149,7 @@ The fields from `Dispatch basis` through `Completion condition` are the core rea
 | Freshness/fingerprints | Repository change/review-input fingerprints when applicable; otherwise current non-repository target readback identity and evidence freshness                      |
 | Accepted target baseline | Required for re-review: the prior accepted target identity and evidence snapshot using the identity scheme for that target type                                   |
 | Changed truth and halo | What changed since the accepted baseline or prior review, the proportional causal scope to re-check, and why broader or narrower scope is justified                 |
-| Finding action policy  | The finding action classes expected in reviewer output: `required_correction`, `required_evidence`, `advisory`, `future_candidate`, or `human_decision`             |
+| Finding action policy  | The finding action classes expected in reviewer output: `required_correction`, `required_evidence`, `advisory`, `future_candidate`, or `user_decision`             |
 | Evidence manifest      | Optional for simple reviews; required when evidence spans generated artifacts, screenshots, logs, metrics, reports, local-only files, or other multi-artifact proof |
 | Known limits           | Assumptions, blockers, unavailable tools, environment limits, unresolved user decisions, and acceptance impact                                                      |
 
@@ -231,18 +231,18 @@ Request the reviewer depth that matches risk. Review depth controls rigor inside
 
 First classify whether a control-artifact text edit changes behavior:
 
-- No independent review required: typo, formatting, grammar, comment, or wording cleanup that cannot change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior, and whose non-semantic carry-forward bundle satisfies the parent-baseline, before/after manifest, exact-delta, classifier-rationale, proof/readback, untracked-decision, derived-identity, prior-content-limit, and bounded-disclosure requirements above.
-- Review required: any text edit that changes or could plausibly change trigger selection, routing, ownership boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior.
+- No independent review required: typo, formatting, grammar, comment, or wording cleanup that cannot change trigger selection, routing, responsibility boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior, and whose non-semantic carry-forward bundle satisfies the parent-baseline, before/after manifest, exact-delta, classifier-rationale, proof/readback, untracked-decision, derived-identity, prior-content-limit, and bounded-disclosure requirements above.
+- Review required: any text edit that changes or could plausibly change trigger selection, routing, responsibility boundaries, mandatory or optional behavior, gates, stop conditions, delegation, acceptance criteria, permissions, external/project behavior, or future-agent behavior.
 
 | Depth      | Use when                                                                                                                                                                                        | Caller behavior                                                                                        |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `quick`    | Low-risk, narrow semantic changes with no runtime/security/public-contract/data/migration/dependency effect, including trigger or routing wording that clarifies existing intent without changing gates or ownership boundaries | Request `quick`, state why the risk is low, and still pass the changed files and verification evidence |
+| `quick`    | Low-risk, narrow semantic changes with no runtime/security/public-contract/data/migration/dependency effect, including trigger or routing wording that clarifies existing intent without changing gates or responsibility boundaries | Request `quick`, state why the risk is low, and still pass the changed files and verification evidence |
 | `standard` | Normal implementation changes, tests/config/docs-as-control changes, or ordinary re-review                                                                                                      | Request `standard` unless quick/deep is clearly justified                                              |
 | `deep`     | Concrete broad/high-consequence or high-uncertainty evidence: auth/authz, security, billing, migrations, data models, public APIs, dependencies, concurrency, performance-sensitive paths, release/deploy, repeated failed fixes, or another named severe consequence | Request `deep`, name the evidence and risk surfaces, and expect stronger validation; control-artifact status alone is insufficient |
 
 The `deep` row applies only when those are current changed surfaces or concrete consequences of the current delta. It never applies to a document-only delta, even when the document describes those subjects or governs later implementation. Documents that function as executable control artifacts are excluded from the document-only class and follow their actual control consequence.
 
-Do not exempt semantic control-surface changes merely because they are small. Route low-risk semantic control-surface changes to `quick` with a narrow packet and explicit risk rationale. Use `standard` or `deep` when the change affects mandatory behavior, stop conditions, review requirements, delegation, ownership boundaries, public contracts, permissions, external mutation, or cross-skill workflow behavior.
+Do not exempt semantic control-surface changes merely because they are small. Route low-risk semantic control-surface changes to `quick` with a narrow packet and explicit risk rationale. Use `standard` or `deep` when the change affects mandatory behavior, stop conditions, review requirements, delegation, responsibility boundaries, public contracts, permissions, external mutation, or cross-skill workflow behavior.
 
 Depth should follow content shape and risk surface, not file count alone. Name relevant shapes in the packet: runtime code, tests-only, migration/schema, public API/contract, security/auth, dependency/config, generated artifact, docs-as-control, skill/agent/rule/prompt, frontend/UI, performance/concurrency, optimization output, refactor/simplification, review-fix rework, or artifact-only review. Use the review-packet reference for shape-specific evidence.
 
@@ -273,7 +273,7 @@ Constraints:
 - Review the changed truth plus proportional causal halo, not only edited lines and not unrelated accepted history unless material triggers require it.
 - Answer the exact review question and return a verdict once that question and applicable acceptance conditions are assessed.
 - Expand beyond the exact target and initial proportional regression halo only when concrete evidence inside them identifies the smallest required added boundary; record the evidence and expansion.
-- Classify every finding action as `required_correction`, `required_evidence`, `advisory`, `future_candidate`, or `human_decision`.
+- Classify every finding action as `required_correction`, `required_evidence`, `advisory`, `future_candidate`, or `user_decision`.
 - For confidence 75/100 findings and all P0/P1 findings, include the direct `first_evidence` quote, command output, or rule quote that makes the finding true.
 - For high-risk or deep-review findings on non-document surfaces, attempt independent validation when a fresh-context validator is available; otherwise report the missing validation as a coverage gap or escalation input. For document-only deltas, do not dispatch a validator and record independent validation as `not_applicable — prohibited for document-only review`.
 - Verify prior PR/review comments or external feedback only when the packet supplies that source or explicitly asks the reviewer to retrieve it with read-only tools.
@@ -317,7 +317,7 @@ Finding actions do not override blocking truth:
 - `required_evidence`: target may be correct, but required proof is missing, stale, blocked, or contradicted before acceptance.
 - `advisory`: accepted non-blocking nit or residual risk that does not invalidate the reviewed state.
 - `future_candidate`: out-of-scope or later improvement candidate that must not be auto-applied inside the accepted review loop.
-- `human_decision`: an owner decision is required; it blocks acceptance only when the decision is necessary to satisfy a requirement, hard criterion, invariant, contract, or required evidence.
+- `user_decision`: a user decision is required; it blocks acceptance only when the decision is necessary to satisfy a requirement, hard criterion, invariant, contract, or required evidence.
 
 The blocking rule is biconditional: any unresolved requirement, hard criterion, invariant, contract, or required evidence gap is blocking and incompatible with `ACCEPT` or `ACCEPT_WITH_NITS`, regardless of the action label. Conversely, advisory or future-candidate findings do not authorize automatic edits after an accepting verdict.
 
@@ -376,11 +376,11 @@ Continuity updates are not a substitute for review acceptance, pattern capture, 
 
 Accepted residual risk is allowed only after `ACCEPT`, `ACCEPT_WITH_NITS`, or explicit user authorization to proceed with a named acceptance risk. Durable recording does not convert blocking findings into accepted work.
 
-When accepted residual risk, non-blocking findings, skipped checks, or material coverage gaps remain, route them to an existing durable surface when that surface is already in scope: project continuity, PR body, tracker handoff, release note, or another project-approved owner. Do not mutate PRs, tickets, labels, comments, or external systems from this skill. If no durable surface applies, report the residual risk in the completion report and name that no durable sink was in scope.
+When accepted residual risk, non-blocking findings, skipped checks, or material coverage gaps remain, route them to an existing durable surface when that surface is already in scope: project continuity, PR body, tracker handoff, release note, or another project-approved record. Do not mutate PRs, tickets, labels, comments, or external systems from this skill. If no durable surface applies, report the residual risk in the completion report and name that no durable sink was in scope.
 
 ## Gate 5 — Re-Review Loop
 
-When the verdict is `ACCEPT`, `ACCEPT_WITH_NITS`, or mechanically closed `ACCEPTED_BY_CONDITION`, the active review loop for the reviewed state ends. Do not turn advisory, future-candidate, or accepted residual-risk findings into automatic edits. If the owner chooses a later semantic edit, apply the re-review gate below.
+When the verdict is `ACCEPT`, `ACCEPT_WITH_NITS`, or mechanically closed `ACCEPTED_BY_CONDITION`, the active review loop for the reviewed state ends. Do not turn advisory, future-candidate, or accepted residual-risk findings into automatic edits. If the user chooses a later semantic edit, apply the re-review gate below.
 
 Re-review occurs only for: an explicit request; a concrete high-assurance re-review trigger; `material_reopen`; a nonconforming or additional semantic delta; uncertain conditional proof; or the reviewer-stated inability to evaluate the corrected state safely without another pass. A correction, new evidence, prior state, fingerprint, or scope change alone is not enough unless it establishes one of those triggers.
 
@@ -391,8 +391,8 @@ When this re-review gate passes:
 1. Preserve the reviewer report and stable finding IDs.
 2. Record loop state: review cycle number, review checkpoint, re-review reason, active blocking IDs, non-blocking IDs, findings targeted for fix, evidence missing, and blocked checks.
 3. Group active findings by file, artifact, or tightly coupled fix path only for handoff clarity; do not merge IDs.
-4. Give implementers stable finding IDs, action class, evidence, suggested resolution or reason none was supplied, expected verification, and non-target boundaries. Do not ask fix owners to perform the independent acceptance review.
-5. Track per-finding disposition before re-review: `fixed`, `fixed-differently`, `not-addressing`, `declined`, or `needs-human`, with reason and evidence.
+4. Give implementers stable finding IDs, action class, evidence, suggested resolution or reason none was supplied, expected verification, and non-target boundaries. Do not ask implementing agents to perform the independent acceptance review.
+5. Track per-finding disposition before re-review: `fixed`, `fixed-differently`, `not-addressing`, `declined`, or `needs-user`, with reason and evidence.
 6. For review-fix execution, preserve the pre-fix checkpoint when available and gather the fix-introduced delta by target type. For `repository_backed`, provide the fix diff or exact changed-file delta and its self-review result. For `non_repository_configuration`, provide the exact configuration-entry, configuration-artifact, or platform-object delta with its current readback and self-review result. Do not make the reviewer infer either fix from a broader branch diff, configuration export, or platform snapshot when a narrower delta can be recovered.
 7. If implementation changed to address blocking findings and the re-review gate passes, gather fresh identity and evidence for the selected target type, then dispatch as `re_review` with `re_review_reason: blocking_fix`:
    - For `repository_backed`, require the checkout/worktree identity, changed-file inventory, diff/current-file source, untracked-file handling, repository fingerprints, verification evidence, accepted target baseline, and proportional causal halo.
@@ -418,7 +418,7 @@ Stop and escalate instead of dispatching another review when any loop guard trip
 - two consecutive re-reviews introduce new blocking findings from the attempted fixes;
 - `INCONCLUSIVE` repeats for the same missing evidence or unavailable check after a re_review with no new evidence or check result;
 - the reviewer returns structurally non-conforming output twice for the same packet defect;
-- the required next action is a product, architecture, security, release, or human decision rather than more coding.
+- the required next action is a product, architecture, security, release, or user decision rather than more coding.
 
 Loop-guard failure output must include the stable finding IDs, what changed since the last review, why another re-review would not add evidence, and the required escalation or decision.
 

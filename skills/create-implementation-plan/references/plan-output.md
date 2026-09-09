@@ -293,7 +293,7 @@ Re-plan triggers:
 
 ## 12. Verification Matrix
 
-| Evidence ID | Spec ID(s) | Unit(s) | Verification type | Environment/preflight | Command/check | Expected result | Manual/residual risk | Owner/reviewer |
+| Evidence ID | Spec ID(s) | Unit(s) | Verification type | Environment/preflight | Command/check | Expected result | Manual/residual risk | Verifier/reviewer |
 | ----------- | ---------- | ------- | ----------------- | --------------------- | ------------- | --------------- | -------------------- | -------------- |
 
 ## 13. Approval Gates and Re-Plan Triggers

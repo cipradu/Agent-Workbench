@@ -8,7 +8,7 @@ Business policy owns decisions. Adapters own mechanisms. A boundary is healthy w
 
 ## Responsibility Map
 
-| Concern                                                                          | Owner                                                            | Notes                                                                                  |
+| Concern                                                                          | Responsible component                                            | Notes                                                                                  |
 | -------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | Business rule, invariant, state transition                                       | Domain or application policy module                              | Name the concept that owns the rule.                                                   |
 | Input shape, authentication context, transport status, pagination envelope       | Boundary handler, controller, route, command, worker, UI adapter | Translate into application input; do not decide business policy here.                  |

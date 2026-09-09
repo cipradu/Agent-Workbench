@@ -45,12 +45,12 @@ For independently built workspace packages:
 
 Build order does not grant import permission. References mirror the approved package dependency law.
 
-## Diagnostic Ownership
+## Diagnostic Responsibility
 
-The TypeScript compiler is the default compiler-diagnostic owner. Keep build/emit, declarations, project-reference orchestration, incremental state, clean/watch, and editor services explicitly owned even if another engine can report diagnostics.
+The TypeScript compiler is the default compiler-diagnostic tool. Keep build/emit, declarations, project-reference orchestration, incremental state, clean/watch, and editor services explicitly owned even if another engine can report diagnostics.
 
 An alternative may replace only a standalone diagnostic step after proving TypeScript/tsconfig compatibility, complete file-to-project assignment, diagnostic and exit-status parity on valid and invalid cases, no duplicate provider/autofix, target-repository performance, removal cost, rollback, and explicit approval. It does not silently replace build, declaration, reference-graph, or editor duties.
 
 After reference/resolution changes, remove `*.tsbuildinfo`, output, and relevant tool caches, then run the root solution build and complete check.
 
-Failure output: `Blocked: TypeScript program or lifecycle owner is unresolved: <file, config, reference edge, diagnostic, emit, or declaration>.`
+Failure output: `Blocked: TypeScript program or lifecycle tool is unresolved: <file, config, reference edge, diagnostic, emit, or declaration>.`

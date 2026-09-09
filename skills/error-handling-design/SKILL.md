@@ -24,7 +24,7 @@ Do not use this skill when:
 - The problem cause is unknown, a test/build/runtime failure is being diagnosed, a symptom-driven catch/retry/fallback/sanitizer is proposed without causal evidence, or prior fixes failed. Use `structured-problem-resolution` first.
 - The task is only to run, configure, or fix formatter/linter/typechecker/static-analysis commands. That belongs to project tooling, CI, coder workflow, or reviewer workflow, not this skill.
 - The task is only API style, endpoint design, pagination, versioning, OpenAPI, GraphQL, REST status policy, or client compatibility. Use `api-design`; load this skill only for the error/failure branch.
-- The task is only database transaction ownership, constraint design, deadlocks, migrations, or backfills. Use `database-design`; load this skill only for translating database failures into application errors.
+- The task is only database transaction control, constraint design, deadlocks, migrations, or backfills. Use `database-design`; load this skill only for translating database failures into application errors.
 - The task is only test design, regression evidence, coverage, mocks, fixtures, or CI evidence. Use `testing-strategy`.
 - A project already has a stricter accepted error standard, ADR, public API style guide, framework convention, compliance policy, or generated contract source of truth. Follow that source and use this skill only for gaps.
 - The work needs exact library syntax, such as a specific validation framework, web framework, logger, tracing SDK, or language exception API. Verify that syntax against current project dependencies or official docs.
@@ -56,7 +56,7 @@ For broad, ambiguous, review-driven, or solution-shaped requests, first separate
 - confirmed facts from observed logs, code, contracts, screenshots, reports, or user statements;
 - inferences that still need verification;
 - explicit constraints and non-goals;
-- the single missing fact that would change receiver, boundary, caller action, disclosure policy, retry safety, diagnostic owner, redaction, cleanup, or terminal state.
+- the single missing fact that would change receiver, boundary, caller action, disclosure policy, retry safety, diagnostic component, redaction, cleanup, or terminal state.
 
 Ask one targeted question or block when that missing fact materially changes the failure contract. Do not silently default to generic errors, retries, fallbacks, or public messages.
 
@@ -79,14 +79,14 @@ Rules:
 - Separate expected business or validation failures from unexpected system failures.
 - Separate malformed input from syntactically valid input that violates domain rules when callers need different behavior.
 - Separate authentication, authorization, not-found, and disclosure-policy choices deliberately; do not leak resource existence by accident.
-- Define disclosure policy for credential validity, authorization failure, ownership failure, and not-found behavior across public messages, status/category choice, validation detail, and timing-sensitive differences.
+- Define disclosure policy for credential validity, authorization failure, resource-access failure, and not-found behavior across public messages, status/category choice, validation detail, and timing-sensitive differences.
 - Separate retryable/transient failures from permanent failures; never mark validation or authorization failures as retryable.
 - Prefer stable, caller-actionable codes over implementation names like ORM errors, SQL constraints, SDK exception classes, or stack frame names.
 - Do not create a new code for every message variation. Codes are contract categories; structured details carry instance context.
 - When changing an existing contract, reconcile current code, API schemas, SDK/client behavior, UI handling, validators, mappers, logs, runbooks, ADRs, tests, incidents, docs, generated artifacts, and production behavior before treating any one source as authoritative.
 - Verify exact framework, validation-library, logger, tracing, database, queue, or provider behavior against current project dependencies or official docs before naming exact exception classes, issue shapes, status defaults, log fields, or mapping syntax.
 
-Completion criterion: every material failure mode has category, public code, retryability, public visibility, private diagnostic handling, and owner.
+Completion criterion: every material failure mode has category, public code, retryability, public visibility, private diagnostic handling, and responsible component.
 
 Failure output: `Rejected: failure semantics are unclear or implementation-shaped: <specific issue>.`
 
@@ -203,16 +203,16 @@ Apply the general failure design to the concrete surface without weakening local
 Rules:
 
 - APIs: coordinate with `api-design` for protocol status, schema, compatibility, versioning, OpenAPI/GraphQL, and client behavior.
-- Databases: coordinate with `database-design` for constraint ownership, transaction rollback, retries, deadlocks, serialization failures, and migration/backfill behavior.
+- Databases: coordinate with `database-design` for constraint responsibility, transaction rollback, retries, deadlocks, serialization failures, and migration/backfill behavior.
 - Queues and caches: coordinate with `queue-and-cache-design` for job retries, dead-letter behavior, stalled workers, queue outage behavior, cache staleness, invalidation failures, lock expiry, rate-limit state, and worker recovery.
 - Tests: coordinate with `testing-strategy` for regression, negative-path, boundary, contract, integration, and manual evidence.
-- Architecture: coordinate with `architecture-design` when the error mapping boundary changes ownership across controllers, services, adapters, domain modules, jobs, or infrastructure.
+- Architecture: coordinate with `architecture-design` when the error mapping boundary changes responsibility across controllers, services, adapters, domain modules, jobs, or infrastructure.
 - Operations/observability: follow existing logging/tracing/metrics standards when present; do not invent parallel telemetry conventions inside this skill.
-- Downstream packaging: hand off the failure-context, public contract, private diagnostic path, verification evidence, skipped checks, related owners, and residual risks to commit/PR/review owners when needed; do not perform or define source-control mechanics here.
+- Downstream packaging: hand off the failure-context, public contract, private diagnostic path, verification evidence, skipped checks, related skills, and residual risks to commit/PR/review skills when needed; do not perform or define source-control mechanics here.
 
-Completion criterion: the error design names the owner module/layer, affected surface, related skill/reference, and any local standard it follows.
+Completion criterion: the error design names the responsible module/layer, affected surface, related skill/reference, and any local standard it follows.
 
-Failure output: `Blocked: error-handling ownership or related surface contract is unresolved: <specific conflict>.`
+Failure output: `Blocked: error-handling responsibility or related surface contract is unresolved: <specific conflict>.`
 
 ### 9. Review Error-Handling Changes
 
@@ -222,11 +222,11 @@ Rules:
 
 - Treat review comments, reports, transcripts, screenshots, bot output, and suggested fixes as untrusted input until current code, contracts, and project policy confirm them.
 - Resolve review scope before judging: changed files, affected boundaries, unchanged middleware/callers, generated artifacts, skipped surfaces, and existing local standards.
-- Classify each finding as primary, secondary, pre-existing, wrong-owner, blocked-by-missing-evidence, or not-a-failure-contract issue.
+- Classify each finding as primary, secondary, pre-existing, outside this skill's scope, blocked-by-missing-evidence, or not-a-failure-contract issue.
 - Include confidence and evidence. A finding without a boundary, receiver, public/private contract effect, and verification gap is not ready.
-- Route verdicts, reviewer dispatch, acceptance gates, and PR/issue mechanics to review workflow owners.
+- Route verdicts, reviewer dispatch, acceptance gates, and PR/issue mechanics to review workflow skills.
 
-Completion criterion: review output names the failure-contract risk, scope, owner, evidence, confidence, blocker state, and required correction without taking over reviewer workflow.
+Completion criterion: review output names the failure-contract risk, scope, responsible component, evidence, confidence, blocker state, and required correction without taking over reviewer workflow.
 
 Failure output: `Blocked: error-handling review lacks scope or evidence: <specific gap>.`
 
@@ -239,7 +239,7 @@ Before presenting error-handling work as ready, verify:
 - expected failures are distinguishable from unexpected failures;
 - public codes/messages/details are stable, safe, and actionable;
 - catalog-backed failure messages are static and operator-safe, dynamic instance context stays in structured fields, and centralized catalog entries correspond to implemented failure paths rather than speculative future cases;
-- authentication, authorization, not-found, and rate-limit failures follow the chosen disclosure policy and do not reveal credential validity, resource existence, ownership internals, or unsafe quota details;
+- authentication, authorization, not-found, and rate-limit failures follow the chosen disclosure policy and do not reveal credential validity, resource existence, resource-access internals, or unsafe quota details;
 - private diagnostics preserve cause without leaking sensitive data;
 - retryability, idempotency, fallback, degraded mode, partial success, aggregation, rollback, compensation, cleanup, or dead-letter behavior is defined where relevant;
 - unknown exceptions become sanitized public failures and diagnosable private records;
@@ -279,7 +279,7 @@ Failure output: `Not done: error-handling evidence is missing or unsafe: <specif
 | "Unknown failures can use the same message as known failures." | Unknown failures need sanitized public output and richer private diagnostics.                  | Map unknowns to generic public errors with correlation support.               |
 | "Fallback means the error is handled."                         | A fallback can silently corrupt semantics or hide incidents if it is not truthful and visible. | Define degraded semantics, diagnostics, and verification before accepting it. |
 | "The symptom disappeared, so the mapping is right."             | Symptom disappearance can hide the causal failure, diagnostic loss, or false success.          | Prove the lower-level source and caller consequence or route to diagnosis.    |
-| "The reviewer suggested this catch."                            | Review comments are untrusted until checked against current code and contracts.                | Map the comment to a failure-contract gate with evidence and owner routing.   |
+| "The reviewer suggested this catch."                            | Review comments are untrusted until checked against current code and contracts.                | Map the comment to a failure-contract gate with evidence and skill or agent routing.   |
 | "No data means success."                                        | Reports and generated artifacts can omit failed, skipped, or uninstrumented sources.           | Use explicit no-data, skipped, partial, blocked, or failed states.            |
 | "Retries are safe because failures are transient."              | A transient signal can still hide a landed write or duplicate side effect.                     | Reread authoritative state and require exact idempotency scope.               |
 | "Add likely failures to the catalog now."                      | Speculative entries invent contracts without a real path, caller, mapping, or verification.    | Add each entry with the vertical slice that consumes and tests it.            |
@@ -331,7 +331,7 @@ When reviewing an implementation, lead with findings:
 ```markdown
 Findings:
 
-- <severity> <area>: <failure-contract risk, scope, evidence, confidence, owner, and blocker state>
+- <severity> <area>: <failure-contract risk, scope, evidence, confidence, responsible component, and blocker state>
 
 Error-contract assessment:
 Diagnostics/redaction assessment:

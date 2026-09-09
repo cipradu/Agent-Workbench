@@ -7,7 +7,7 @@ Use this reference before accepting a new or revised skill.
 - The skill solves a recurring behavior problem.
 - Source signals were classified before becoming instructions.
 - Current source evidence was read for existing-skill work: `SKILL.md`, one-level references, related skills, rules, scripts/checks/hooks/CI, agents/subagents, test evidence, and invocation surfaces.
-- Exact available skill entries were checked before claiming no existing owner fits.
+- Exact available skill entries were checked before claiming no existing responsible skill fits.
 - A lighter mechanism was considered and rejected with reason.
 - Skill type is explicit.
 - Top-level structure starts with frontmatter, title, When to Use, Do Not Use, then Iron Law.
@@ -35,7 +35,7 @@ Use this reference before accepting a new or revised skill.
 Hard gates:
 
 - recurring behavior failure or explicit no-skill stop;
-- current owner and inventory check;
+- current responsibility and inventory check;
 - lighter-mechanism decision;
 - skill type and structure fit;
 - RED baseline or provisional label with fixed criteria;
@@ -85,7 +85,7 @@ If not, delete it or move it to a reference only when it supports a specific bra
 | Reference pointer is vague       | Rewrite the pointer around the condition for loading it      |
 | Skill carries stale sediment     | Delete stale lines instead of rewording them                 |
 | Skill was not tested             | Run RED/GREEN pressure scenarios                             |
-| Existing-skill edit rewrites too much | Preserve owner boundary and make targeted behavior changes |
+| Existing-skill edit rewrites too much | Preserve responsibility boundary and make targeted behavior changes |
 | Feedback is pasted as instructions | Classify source signal, restate behavior failure, then test |
 | Tool workflow has vague fallback | State substitution limits, stop condition, and verification  |
 
@@ -107,7 +107,7 @@ This packet supports downstream review or handoff. It does not own independent r
 
 - Preflight state and availability are explicit.
 - Exact command/action output, sentinel, nonzero, timeout, and ambiguous-result meanings are defined.
-- Native owner and substitution policy are defined.
+- Native mechanism and substitution policy are defined.
 - Allowed writes, forbidden mutations, credentials, privacy, local state, cleanup, and teardown are explicit.
 - Manual handoff or stop condition is defined when the workflow cannot preserve its safety promise.
 - Verification checks the actual side effect or readback, not only command completion.

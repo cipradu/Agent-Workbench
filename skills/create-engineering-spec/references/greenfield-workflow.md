@@ -6,11 +6,11 @@ Greenfield means no existing system owns the problem space. It does not mean no 
 
 ### 1. Establish stakeholder and authority map
 
-From decomposition, identify actors with power, veto, responsibility, or operational exposure. For each material rule or data concept, identify candidate authority: user decision, domain owner, policy, standard, vendor, regulator, protocol, business process, or operational owner.
+From decomposition, identify actors with power, veto, responsibility, or operational exposure. For each material rule or data concept, identify candidate authority: user decision, domain expert, policy, standard, vendor, regulator, protocol, business process, or operational responder.
 
 Completion criterion: every material concept/rule has candidate authority or blocker.
 
-Classify authority strength before it supports a requirement: accepted decision, current external authority, domain owner input, verified operational evidence, weak context, inferred hint, or unsupported. Weak context and inferred hints can motivate options or questions, but not normative requirements.
+Classify authority strength before it supports a requirement: accepted decision, current external authority, domain expert input, verified operational evidence, weak context, inferred hint, or unsupported. Weak context and inferred hints can motivate options or questions, but not normative requirements.
 
 ### 2. Build engineering domain model
 
@@ -18,9 +18,9 @@ Create an engineering-domain model, not a glossary. Include product-domain input
 
 Completion criterion: a future planner can understand the product-to-engineering translation, domain language, authority, state, and constraints without guessing.
 
-For agent, skill, prompt, MCP/tool, workflow, plugin, or autonomous-loop systems, include action ownership, context ownership, shared workspace assumptions, permission and human-only boundaries, lifecycle/interruption behavior, recovery path, and agent-native acceptance evidence.
+For agent, skill, prompt, MCP/tool, workflow, plugin, or autonomous-loop systems, include acting-agent responsibility, context-management responsibility, shared workspace assumptions, permission and human-only boundaries, lifecycle/interruption behavior, recovery path, and agent-native acceptance evidence.
 
-For reporting, analytics, observability, dashboard, or generated-output systems, include metric/event definitions, canonical sources, freshness windows, missing-data behavior, privacy boundaries, generated-artifact ownership, and interpretation limits.
+For reporting, analytics, observability, dashboard, or generated-output systems, include metric/event definitions, canonical sources, freshness windows, missing-data behavior, privacy boundaries, generated-artifact responsibility, and interpretation limits.
 
 ### 3. Run structured research plan
 
@@ -50,7 +50,7 @@ If technology choice, measurement method, data authority, or external-provider b
 
 ### 5. Define target system at spec level
 
-Define capabilities, system boundaries, data contracts, interface expectations, source-of-truth ownership, state model, authority model, invariants, quality constraints, risk register, and acceptance evidence.
+Define capabilities, system boundaries, data contracts, interface expectations, source-of-truth responsibility, state model, authority model, invariants, quality constraints, risk register, and acceptance evidence.
 
 Do not define implementation order, internal file structure, or code.
 
@@ -67,7 +67,7 @@ Stop before full spec when:
 - viable approaches have not been researched;
 - technology choice determines requirements and no evidence-backed recommendation exists;
 - reporting, measurement, or data-derived behavior lacks metric authority, source authority, or privacy/freshness semantics;
-- agent/workflow behavior lacks action ownership, context boundary, approval boundary, or recovery semantics;
+- agent/workflow behavior lacks acting-agent responsibility, context boundary, approval boundary, or recovery semantics;
 - acceptance evidence would require inventing domain rules;
 - an unresolved decision changes scope, architecture, risk, data authority, or compliance.
 

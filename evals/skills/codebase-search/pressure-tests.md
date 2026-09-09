@@ -24,7 +24,7 @@ Prompt: "The PR comment says line 42 calls the old service. Find the fix."
 
 Required behavior: verify the current path and anchor, distinguish reviewed diff from current checkout, and route fixes elsewhere.
 
-Pass condition: the answer reports search evidence and owner route without resolving PR threads or editing code.
+Pass condition: the answer reports search evidence and responsible workflow without resolving PR threads or editing code.
 
 ### Runtime Clue Pressure
 

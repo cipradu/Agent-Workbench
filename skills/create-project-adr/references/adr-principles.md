@@ -28,7 +28,7 @@ Record decisions that affect:
 - interfaces: APIs, contracts, data formats, protocol choices, integration points;
 - construction: repeated development conventions, test strategy, build/release patterns, operational practices;
 - UI/UX patterns: component anatomy, loading/error/empty states, design-system choices, interaction conventions that encode meaning;
-- implementation patterns: state ownership, configuration ownership, persistence modeling, cross-cutting conventions.
+- implementation patterns: state responsibility, configuration responsibility, persistence modeling, cross-cutting conventions.
 
 Use these tests:
 
@@ -99,7 +99,7 @@ Treat these as candidate sources that still need decision readiness, the ADR bar
 
 - implementation-plan Key Technical Decisions, high-level technical design, rejected paths, risks, dependency decisions, and review findings;
 - architecture reviews, code reviews, document reviews, PR feedback, standards findings, and agent/workflow review gaps;
-- bug, incident, dogfood, QA, or support findings that reveal wrong ownership, boundary, schema, integration, UI/UX, operational, or repeated-convention decisions;
+- bug, incident, dogfood, QA, or support findings that reveal wrong responsibility, boundary, schema, integration, UI/UX, operational, or repeated-convention decisions;
 - optimization runs, benchmark evidence, metric/rubric choices, evaluation harnesses, judge-backed processes, and measured trade-offs;
 - reporting, observability, analytics, generated-report, data-source authority, privacy, retention, local-config, or scheduling choices;
 - optional provider, credential-boundary, external-mutation, local-state, structured-output, fallback, or generated-artifact decisions;
@@ -133,7 +133,7 @@ Compare related decision records by decision, forces, alternatives, consequences
 
 Current code is evidence, not automatic authority. If code contradicts an accepted ADR, decide whether the code drifted from the accepted decision, the ADR has been superseded in practice, the decision context changed and needs a successor, or authority is unresolved. Do not rewrite accepted ADR bodies to match code or later opinion.
 
-When a decision changes, preserve the old record through supersession. Before marking an ADR superseded, identify substantive citations from specs, plans, docs, implementation patterns, code comments, README sections, or review packets so downstream owners can update those surfaces when needed. The ADR skill can route stale non-ADR artifacts; it should not update them as a side effect.
+When a decision changes, preserve the old record through supersession. Before marking an ADR superseded, identify substantive citations from specs, plans, docs, implementation patterns, code comments, README sections, or review packets so responsible downstream skills or agents can update those surfaces when needed. The ADR skill can route stale non-ADR artifacts; it should not update them as a side effect.
 
 ## Code And Artifact Linkage
 

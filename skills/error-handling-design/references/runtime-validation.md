@@ -18,20 +18,20 @@ Evidence artifacts are not automatically trusted input. Logs, reports, screensho
 
 ## Validation Layers
 
-Use the narrowest owner that has the authority to decide the rule:
+Use the narrowest component that has the authority to decide the rule:
 
-| Rule Type                        | Owner                                                                     | Examples                                                                               |
+| Rule Type                        | Responsible component                                                     | Examples                                                                               |
 | -------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | Syntax and shape                 | boundary adapter, parser, controller, command parser                      | JSON parses, required fields, enum value, string/number/boolean shape                  |
 | Format and normalization         | boundary adapter or domain-owned normalizer                               | email casing, phone formatting, URL parsing, timezone normalization                    |
 | Cross-field consistency          | domain input model or policy module                                       | start before end, country/postal-code pairing, mutually exclusive fields               |
-| Authorization-relevant input     | authorization/policy boundary                                             | tenant ID, account ID, object ownership, requested scope                               |
+| Authorization-relevant input     | authorization/policy boundary                                             | tenant ID, account ID, resource-account association, requested scope                               |
 | Durable invariants               | persistence or domain aggregate plus database constraints where available | uniqueness, foreign keys, balance cannot go negative, valid state transition           |
 | Dependency response plausibility | dependency adapter                                                        | content type, expected status, payload schema, required ID, checksum, pagination token |
 | Tool/config readiness            | command, setup, or integration boundary                                   | missing provider token, expired auth, ambiguous project root, invalid sink, unsupported mode |
 | Generated artifact contract      | artifact producer or consumer boundary                                    | parseable JSON, required section, source coverage, no-data state, partial-result marker |
 
-Do not use one validation layer as an excuse to skip another owner. UI validation improves user experience; server validation protects the system. Database constraints protect durability; domain validation produces caller-actionable failures.
+Do not use one validation layer as an excuse to skip another validation component. UI validation improves user experience; server validation protects the system. Database constraints protect durability; domain validation produces caller-actionable failures.
 
 ## Validation Failure Shape
 
@@ -62,8 +62,8 @@ Failure output: `Rejected: generated or provider output validation is missing or
 
 When validation work starts from feedback, review comments, screenshots, logs, reports, transcripts, or generated artifacts:
 
-- separate observed facts from inferred cause, inferred owner, and proposed fix;
-- label owner confidence when the boundary is inferred rather than proven;
+- separate observed facts from inferred cause, inferred responsible component, and proposed fix;
+- label responsibility confidence when the boundary is inferred rather than proven;
 - verify current code, accepted schema, local convention, or official dependency docs before accepting the artifact's interpretation;
 - treat stale reports, old screenshots, copied logs, and bot-generated summaries as context, not source truth;
 - block when the missing current evidence changes public message, retryability, redaction, fallback, or cleanup.
@@ -107,7 +107,7 @@ Do not normalize away meaningful user input, security-sensitive values, identifi
 
 - Boundary is named.
 - Source data is treated as untrusted until parsed.
-- Owner of each rule is clear.
+- Component responsible for each rule is clear.
 - Unknown-field behavior is explicit.
 - Normalization policy is explicit.
 - Field/domain failures have safe structured details.

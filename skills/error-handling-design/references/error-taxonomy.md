@@ -8,13 +8,13 @@ Use this reference when defining failure categories, public codes, permanence, r
 | ------------------------ | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------- |
 | `validation`             | Caller supplied malformed, missing, badly typed, badly formatted, or domain-invalid input | Return field/domain details when safe                          | No, except after caller changes input          |
 | `authentication`         | Caller identity is missing, invalid, expired, malformed, or unverifiable                  | Ask caller to authenticate or refresh credentials without exposing credential internals | Only after credential refresh or re-auth       |
-| `authorization`          | Caller is known but not allowed to perform the action                                     | Deny safely, with disclosure policy and no ownership/policy internals | No                                             |
+| `authorization`          | Caller is known but not allowed to perform the action                                     | Deny safely, with disclosure policy and no resource-access/policy internals | No                                             |
 | `not_found`              | Resource or route is absent, hidden, or outside disclosure policy                         | Return not-found shape consistent with policy and enumeration risk | No, unless eventual consistency is documented  |
 | `conflict`               | Request conflicts with current state, version, uniqueness, or concurrency rule            | Tell caller how to resolve when safe                           | Maybe after state refresh or idempotency check |
 | `rate_limited`           | Caller, tenant, token, IP, job, route, or system exceeded a limit                         | Tell caller to slow down when safe; include `Retry-After` when meaningful and safe | Yes, after indicated backoff                   |
 | `dependency_unavailable` | Downstream service, database, cache, queue, file store, or provider is unavailable        | Indicate temporary failure when safe                           | Yes, if operation is idempotent or guarded     |
 | `timeout`                | Operation exceeded a deadline or dependency response time                                 | Expose retry/backoff only when safe                            | Maybe, if duplicate side effects are prevented |
-| `cancelled`              | Caller, context, shutdown, or supervisor cancelled work                                   | Surface cancellation semantics to the owner                    | Depends on caller intent                       |
+| `cancelled`              | Caller, context, shutdown, or supervisor cancelled work                                   | Surface cancellation semantics to the caller or supervisor                    | Depends on caller intent                       |
 | `invariant_violation`    | Internal state violates a rule that should have been impossible                           | Generic public error; private diagnostic and alert             | No until fixed                                 |
 | `unknown`                | Unexpected unclassified failure                                                           | Generic public error; private diagnostic and alert if material | No by default                                  |
 
@@ -85,7 +85,7 @@ Use local names when they exist. These states are examples of distinct semantics
 Rules:
 
 - Invalid, malformed, expired, missing, and unsupported credentials should map to stable authentication categories without echoing credential values, parser details, token claims, key IDs, or signature internals.
-- Authorization failures should not expose policy internals, role hierarchy, tenant membership, object ownership, or which condition failed unless the API deliberately documents that disclosure.
+- Authorization failures should not expose policy internals, role hierarchy, tenant membership, resource-account association, or which condition failed unless the API deliberately documents that disclosure.
 - Choose whether unauthorized access to a protected object returns authorization or not-found semantics. Apply that policy consistently to status/category, public code, message, validation detail, timing, and batch-item behavior.
 - Rate-limit failures should expose enough backoff information for legitimate clients without giving attackers precise tuning data beyond the chosen contract.
 - Repeated malformed auth, forbidden access, suspicious enumeration, and abuse patterns may be operational or security telemetry even when the public error is a normal `4xx`.
@@ -125,7 +125,7 @@ Rules:
 - Require idempotency keys, natural idempotency, dedupe records, transactional outbox, or equivalent guard before retrying unsafe writes.
 - Do not retry validation, authentication, authorization, permanent not-found, or invariant violations by default.
 - Bound retries by count, total time, and backoff policy. Do not create unbounded retry loops.
-- Avoid retrying the same failure at multiple layers unless ownership is explicit.
+- Avoid retrying the same failure at multiple layers unless responsibility is explicit.
 - Treat timeout, network failure, `5xx`, pending async status, sync failure, or commit-ambiguous write as unknown outcome until authoritative state is reread or a status resource confirms the result.
 - Define exact idempotency scope: operation, target, request body, idempotency key, tenant/user boundary, and replay window. A different body with the same key, or the same body against a different target, is not automatically safe.
 
@@ -149,7 +149,7 @@ Failure output: `Rejected: taxonomy simplification changes failure contract with
 
 ## Taxonomy Checklist
 
-- Each category has meaning, owner, public code, retryability, and private diagnostic path.
+- Each category has meaning, responsible component, public code, retryability, and private diagnostic path.
 - Public codes are stable and caller-actionable.
 - Public messages are safe.
 - Private cause is preserved where maintainers can access it.

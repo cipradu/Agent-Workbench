@@ -25,7 +25,7 @@ For a workflow involving a protected environment, OIDC, an earlier artifact, rep
 - OIDC issuer, audience, subject claims, repository/ref/environment binding, provider trust policy, and session permissions;
 - effective token defaults and job-level overrides;
 - artifact producer, identity, digest/provenance, retention, and hosted service semantics;
-- runner image, labels, ownership, isolation, and required tools;
+- runner image, labels, responsibility, isolation, and required tools;
 - secret/variable availability and event-specific behavior;
 - an authorized hosted run for the exact event/ref and any required external-system readback.
 
@@ -33,6 +33,6 @@ If these are absent, “production-ready” is not justified. Do not pair `unver
 
 ## Proof Plan And Output
 
-Name each claim, current evidence class, missing authoritative evidence, owner, and safe next verification. Keep static, local emulated, diagnostic, hosted, external-system, manual, and blocked categories distinct.
+Name each claim, current evidence class, missing authoritative evidence, responsible verifier, and safe next verification. Keep static, local emulated, diagnostic, hosted, external-system, manual, and blocked categories distinct.
 
 Failure output: `Blocked: workflow proof does not support the claim: <claim and missing evidence>.`

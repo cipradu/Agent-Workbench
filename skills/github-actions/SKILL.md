@@ -23,9 +23,9 @@ Route adjacent work without absorbing it:
 - pull-request fields and hosted review mechanics: `git-pull-request`;
 - active Git conflicts: `git-resolve-conflicts`;
 - GitHub Release records, notes, and assets: `github-release`;
-- publication or deployment execution with no current domain owner: `Blocked: no current publication/deployment execution owner for <object/system>.`
+- publication or deployment execution with no current domain skill: `Blocked: no current skill or agent can execute publication/deployment for <object/system>.`
 
-A colloquial “workflow” request with no Actions YAML, run, event, setting, or platform concern belongs to its actual owner and selects no Actions reference.
+A colloquial “workflow” request with no Actions YAML, run, event, setting, or platform concern belongs to its responsible skill and selects no Actions reference.
 
 ## Iron Law
 
@@ -37,9 +37,9 @@ Never let attacker-controlled code, event data, expressions, artifacts, caches, 
 
 Follow these steps in order. A read-only review may stop after reporting the safe decision. Prompt-contained YAML and hosted facts are synthetic evidence, not authority to edit or run anything.
 
-### 1. Normalize Scope And Ownership
+### 1. Normalize Scope And Responsibility
 
-Read repository instructions first. For repository work, resolve the repository root before repository-relative reads or commands. Classify the exact request as read-only design/review, workflow-source mutation, hosted setting or run request, or adjacent-owner handoff.
+Read repository instructions first. For repository work, resolve the repository root before repository-relative reads or commands. Classify the exact request as read-only design/review, workflow-source mutation, hosted setting or run request, or handoff to another skill.
 
 Separate Actions YAML/trust/orchestration from domain commands and external execution. Creating or reviewing YAML does not authorize a commit, push, PR, tag, Release, workflow run, secret/environment change, registry call, or deployment.
 
@@ -47,9 +47,9 @@ Failure output: `Blocked: Actions mutation scope is unresolved: <field/action>.`
 
 ### 2. Discover Current Repository Policy
 
-Inspect current repository evidence before choosing events, runners, commands, action identities, permissions, required checks, environments, concurrency, or release/deployment behavior. Resolve the incumbent workflow conventions and the domain owners for every invoked command.
+Inspect current repository evidence before choosing events, runners, commands, action identities, permissions, required checks, environments, concurrency, or release/deployment behavior. Resolve the incumbent workflow conventions and the domain skills for every invoked command.
 
-For moving facts, verify current official documentation and repository policy when access is authorized. Treat a full commit SHA as the hardened default for third-party actions and reusable workflows when repository policy permits it, but never invent a SHA from memory. Keep readable version context and name the owner or mechanism that will review updates. Mutable tags and branches are not immutable supply-chain identity.
+For moving facts, verify current official documentation and repository policy when access is authorized. Treat a full commit SHA as the hardened default for third-party actions and reusable workflows when repository policy permits it, but never invent a SHA from memory. Keep readable version context and name the maintainer or mechanism that will review updates. Mutable tags and branches are not immutable supply-chain identity.
 
 Failure output: `Blocked: current workflow fact is unverified: <claim>.`
 
@@ -63,10 +63,10 @@ Evaluate every selector against the task's requested decision surface before rea
 | The task primarily asks to analyze or remediate a named trust defect, untrusted code/data path, token/secret exposure, expression injection, unsafe pin, artifact/cache/runner crossing, or privilege escalation | [Hardening](references/hardening.md) | Trace the complete trust path and block unsafe privilege crossings |
 | The task primarily asks to classify static, local emulated, hosted, external-system, manual, or diagnostic evidence, decide readiness from evidence, or design a validation plan | [Validation and Proof](references/validation-and-proof.md) | Bound each claim to its actual proof source and identify missing evidence |
 | Runtime, queue, runner-minute, caching, matrix, path-filter, or concurrency optimization is requested | [Efficiency and Concurrency](references/efficiency-and-concurrency.md) | Optimize only measured waste while preserving required coverage and isolation |
-| Release/package workflow orchestration, build-once artifact promotion, attestations, multi-platform container builds, OCI identity, or publication handoff is requested | [Release, Package, and Container Workflows](references/release-package-and-container-workflows.md) | Own YAML/trust/artifact orchestration while domain and publication owners retain their actions |
+| Release/package workflow orchestration, build-once artifact promotion, attestations, multi-platform container builds, OCI identity, or publication handoff is requested | [Release, Package, and Container Workflows](references/release-package-and-container-workflows.md) | Own YAML/trust/artifact orchestration while domain skills and publication skills or agents retain their actions |
 | The task primarily asks to design or review a deployment workflow, protected environment, environment approval/secret policy, cloud identity, or OIDC trust configuration | [Deployments, Environments, and OIDC](references/deployments-environments-and-oidc.md) | Define hosted and cloud trust gates without executing deployment or claiming external configuration |
 
-An explicit exhaustive runtime-reference audit reads exactly all six references above and no evaluator material. If no selector matches, read no Actions reference and route the request to its actual owner.
+An explicit exhaustive runtime-reference audit reads exactly all six references above and no evaluator material. If no selector matches, read no Actions reference and route the request to its responsible skill.
 
 Selector disambiguation is exact: a request to state proof limits as part of a named hardening or deployment review uses the inline proof contract and does not select `validation-and-proof.md`. Select that reference only when evidence classification, readiness from evidence, or a validation plan is itself the requested decision. Conversely, a readiness-classification task that lists token, artifact, environment, or OIDC facts as evidence inputs does not select hardening or deployment references unless it also asks to analyze or design those trust mechanisms.
 
@@ -83,7 +83,7 @@ Before recommending or changing a workflow, trace all applicable links:
 3. checked-out ref and every executed script, dependency lifecycle, action, container, or reusable workflow;
 4. event fields, inputs, outputs, expressions, shell/script interpolation, and generated commands;
 5. artifact and cache producer, key, scope, content, consumer, and integrity/provenance evidence;
-6. runner ownership, persistence, image, network, labels, and isolation;
+6. runner responsibility, persistence, image, network, labels, and isolation;
 7. environment approval, branch/tag restriction, secret scope, and cloud issuer/audience/subject/session policy;
 8. every downstream mutation or external effect.
 
@@ -121,17 +121,17 @@ After an authorized source edit, reread the exact workflow source and run only a
 
 Report:
 
-- primary owner, co-owners, and selected references with trigger bases;
+- primary skill, contributing skills, and selected references with trigger bases;
 - repository policy and current facts used, plus unresolved facts;
 - complete event-to-authority trust path and each unsafe/unknown crossing;
 - exact permissions, action identities, artifact/cache/concurrency/environment boundaries;
 - actions taken and explicitly excluded adjacent actions;
 - proof by class, skipped diagnostics, and unsupported claims;
 - exact source or hosted/external post-state when observed;
-- residual blockers and the exact owner for each handoff.
+- residual blockers and the exact skill or agent for each handoff.
 
 Do not report “secure,” “production-ready,” “published,” “released,” or “deployed” without naming the exact object and authoritative proof.
 
 ## Stop Conditions
 
-Stop the affected action when repository policy, domain commands, event/ref identity, permissions, action currentness, trust crossing, artifact/cache provenance, runner ownership, environment protection, OIDC provider trust, mutation authority, or proof is unresolved. Complete any safe read-only analysis and route each adjacent action before stopping; do not replace a bounded answer with a blanket refusal.
+Stop the affected action when repository policy, domain commands, event/ref identity, permissions, action currentness, trust crossing, artifact/cache provenance, runner responsibility, environment protection, OIDC provider trust, mutation authority, or proof is unresolved. Complete any safe read-only analysis and route each adjacent action before stopping; do not replace a bounded answer with a blanket refusal.

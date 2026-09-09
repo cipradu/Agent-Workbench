@@ -63,7 +63,7 @@ Choose exactly one path before commit-oriented work begins.
 | `message-only draft` | The user asks only for a commit message or asks for message help from a diff/current changes | Inspect only the requested evidence, draft the message, and stop. Do not stage, branch, commit, push, or open a PR. |
 | `single commit` | All intended paths form one reviewable and revertible logical unit | Continue through all gates once. |
 | `multiple commit groups` | Intended paths contain independent logical units that can be reviewed and reverted separately | Define each group and repeat the commit gates per group. |
-| `blocked unsafe state` | Scope, branch, conflicts, secrets, generated output, verification, or ownership cannot be resolved safely | Stop with the specific blocker and the one missing decision or evidence item. |
+| `blocked unsafe state` | Scope, branch, conflicts, secrets, generated output, verification, or responsibility cannot be resolved safely | Stop with the specific blocker and the one missing decision or evidence item. |
 | `reroute` | The user is really asking to push, open/update a PR, merge, release, tag, deploy, watch CI, file trackers, or resolve review workflow state | Stop or hand off to the owning workflow. Do not smuggle those mechanics into a commit. |
 
 Completion criterion: the selected path explains what will happen and what will not happen.
@@ -148,7 +148,7 @@ Rules:
 
 - Treat upstream summaries and "commit fixes" instructions as proposed evidence, not staging authority.
 - Inspect untracked and generated/workflow-output files before staging them.
-- Stage generated reports, screenshots, logs, local configs, raw extracts, copied databases, provider state, or experiment outputs only when persistence intent, privacy impact, and repository ownership are explicit.
+- Stage generated reports, screenshots, logs, local configs, raw extracts, copied databases, provider state, or experiment outputs only when persistence intent, privacy impact, and repository responsibility are explicit.
 - Never stage secrets, credentials, auth state, local machine preferences, scratch caches, or debug debris. If the file may contain sensitive data, inspect or run an appropriate secret check before staging.
 - If a file contains mixed concerns that cannot be separated safely, keep it in the coupled commit only when the coupling is part of the same logical unit; otherwise stop for user judgment.
 

@@ -51,7 +51,7 @@ Build this before layout:
 | What depends on what? | Mermaid `flowchart TD` dependency graph plus unit table | Dependency order or parallelism is the core question |
 | What is the critical path? | Mermaid `flowchart TD` with critical path labels plus unit table | Some units block many others |
 | What gets verified where? | Verification matrix | Reader needs proof coverage by unit/spec ID |
-| Who owns each step or handoff? | Owner matrix; Mermaid `swimlane-beta` only by verified exception | Multiple executors, owners, or review gates exist |
+| Who owns each step or handoff? | Responsibility matrix; Mermaid `swimlane-beta` only by verified exception | Multiple executors, responsible skills, or review gates exist |
 | What happens by phase? | Execution-wave table; Mermaid `gantt` only when dates or durations matter | Phase order matters more than calendar dates |
 | Where is risk concentrated? | Risk table or heat map with text labels | Risk affects sequencing or reviewer focus |
 | When must execution stop? | Stop-rule table | Re-plan triggers matter to the executor |
@@ -79,7 +79,7 @@ Useful Mermaid forms:
 
 - `flowchart TD` for plan dependencies, critical path, fan-in/fan-out, approval gates, and stop gates;
 - `gantt` only when the reader needs calendar dates or durations;
-- `swimlane-beta` only when owner lanes are central and render verification passes;
+- `swimlane-beta` only when responsibility lanes are central and render verification passes;
 - `kanban` only for visualizing current workflow status, never as the source implementation plan.
 
 Keep plan units, boundaries, verification, reviewer focus, blast radius, and stop rules in tables. Mermaid should expose ordering, not hide execution detail.
@@ -96,7 +96,7 @@ Show verification as a first-class artifact:
 - command/check;
 - expected result;
 - manual or residual risk;
-- owner/reviewer.
+- verifier/reviewer.
 
 Do not summarize verification as "tests pass" without evidence or expected result.
 
@@ -108,7 +108,7 @@ Show stop rules clearly:
 - affected unit or source artifact;
 - stop condition;
 - required action;
-- owner route.
+- skill or agent route.
 
 This prevents the visual plan from being treated as a script that can run through contradictions.
 

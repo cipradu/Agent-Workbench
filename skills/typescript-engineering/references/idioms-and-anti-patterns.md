@@ -2,7 +2,7 @@
 
 Load this reference for TypeScript language idioms, narrowing-friendly implementation, iteration/object patterns, anti-pattern review, or debugging entry points.
 
-Owner boundary: `architecture-design` owns system patterns and module seams; [Types And Runtime Boundaries](types-and-runtime-boundaries.md) owns type contracts, parsing, and untrusted-object handling; [Async And Concurrency](async-and-concurrency.md) owns promise lifetime and async iteration; [Modules And Packages](modules-and-packages.md) owns barrel/public-surface policy; [Errors And Resilience](errors-and-resilience.md) owns exception and cleanup mechanics; [Logging And Observability](logging-observability.md) owns diagnostic-output wiring; `structured-problem-resolution` owns unexplained failures. This reference owns local language expression, narrowing-friendly control flow, collection/object idioms, and debugging hygiene without absorbing those branches.
+Responsibility boundary: `architecture-design` owns system patterns and module seams; [Types And Runtime Boundaries](types-and-runtime-boundaries.md) owns type contracts, parsing, and untrusted-object handling; [Async And Concurrency](async-and-concurrency.md) owns promise lifetime and async iteration; [Modules And Packages](modules-and-packages.md) owns barrel/public-surface policy; [Errors And Resilience](errors-and-resilience.md) owns exception and cleanup mechanics; [Logging And Observability](logging-observability.md) owns diagnostic-output wiring; `structured-problem-resolution` owns unexplained failures. This reference owns local language expression, narrowing-friendly control flow, collection/object idioms, and debugging hygiene without absorbing those branches.
 
 ## Prefer Narrowing-Friendly Code
 
@@ -19,7 +19,7 @@ Owner boundary: `architecture-design` owns system patterns and module seams; [Ty
 - Use `map`, `filter`, and `flatMap` for clear single-purpose transformations; use a loop when several conditions, early exit, or mutation make the pipeline harder to read.
 - Use `for...of` for awaited sequential iteration; do not use `forEach(async ...)` when completion matters.
 - Use `Map`/`Set` when key identity, non-string keys, iteration, or membership semantics require them. Use objects for declared records, not arbitrary untrusted-key maps.
-- Do not spread possibly undefined or untrusted objects into trusted state without parsing and explicit ownership.
+- Do not spread possibly undefined or untrusted objects into trusted state without parsing and explicit responsibility.
 - Avoid repeated array scans in nested loops when an indexed map/set states the intent and measurement or input scale justifies it.
 
 ## Type-Level Restraint
@@ -37,11 +37,11 @@ Owner boundary: `architecture-design` owns system patterns and module seams; [Ty
 - exception swallowing or promises caught to no-op;
 - async constructors or import-time I/O/side effects;
 - boolean flags that create several hidden behaviors;
-- generic `utils`, `helpers`, or `types` dumping grounds without an approved owner;
+- generic `utils`, `helpers`, or `types` dumping grounds without an approved component responsibility;
 - root barrels added for shorter imports;
 - duplicate runtime and type sources of truth maintained by hand;
 - debug `console.log`, committed breakpoints, focused tests, or disabled suites;
-- abstractions added before real duplication or domain ownership exists.
+- abstractions added before real duplication or domain responsibility exists.
 
 ## Debugging Entry Points
 

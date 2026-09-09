@@ -16,7 +16,7 @@ Classify by reader need first:
 | Move from old behavior to new behavior      | Migration or deprecation guide              | Who is affected, before/after, steps, compatibility, timeline, verification          |
 | Integrate or consume an API                 | API docs                                    | Auth, endpoints/operations, schemas, errors, pagination/bounds, examples, versioning |
 | Operate a system safely                     | Runbook or operational guide                | Preconditions, roles, safety checks, commands, expected output, rollback, escalation |
-| Decide what docs should improve             | Documentation audit or opportunity discovery | Candidate pages, source basis, reader impact, rejection reasons, owner route         |
+| Decide what docs should improve             | Documentation audit or opportunity discovery | Candidate pages, source basis, reader impact, rejection reasons, skill or agent route         |
 | Understand a generated or recurring report  | Report documentation or report reference    | Purpose, source system, freshness, fields, privacy limits, regeneration path         |
 | Learn what changed technically              | Technical release note, migration note, or changelog entry | Reader impact, changed behavior, compatibility, action required, source truth |
 
@@ -46,12 +46,12 @@ Use these classifications before drafting edge-case artifacts.
 
 | Requested artifact                         | Documentation only when...                                                          | Otherwise route to...                              |
 | ------------------------------------------ | ------------------------------------------------------------------------------------ | -------------------------------------------------- |
-| Release note or changelog                  | It helps a technical reader use, migrate, troubleshoot, operate, or understand change | Release, marketing, product, or PR owner           |
-| Announcement, launch copy, social post     | It is explicitly a technical docs page with reader task and source truth              | Promotion or communications owner                  |
-| Generated Markdown report under `docs/`    | The task is to explain the report, not treat the report as current truth              | Reporting or workflow owner                        |
-| Shared collaboration document              | It is the approved local source or an explicitly imported docs target                 | Collaboration/publishing owner                     |
-| PR description or commit message           | Never as reader-facing docs                                                          | Git or PR owner                                    |
-| Issue log, review finding list, backlog    | The page is explicitly a technical known-issues or troubleshooting artifact           | Tracker, review, or project-continuity owner       |
+| Release note or changelog                  | It helps a technical reader use, migrate, troubleshoot, operate, or understand change | Release, marketing, product, or `git-pull-request` skill           |
+| Announcement, launch copy, social post     | It is explicitly a technical docs page with reader task and source truth              | Promotion or communications skill                  |
+| Generated Markdown report under `docs/`    | The task is to explain the report, not treat the report as current truth              | Reporting or workflow skill                        |
+| Shared collaboration document              | It is the approved local source or an explicitly imported docs target                 | Collaboration/publishing skill                     |
+| PR description or commit message           | Never as reader-facing docs                                                          | Git or `git-pull-request` skill                                    |
+| Issue log, review finding list, backlog    | The page is explicitly a technical known-issues or troubleshooting artifact           | Tracker, review, or `project-continuity` skill       |
 
 ## Documentation Audit And Opportunity Discovery
 
@@ -64,7 +64,7 @@ Required output:
 - candidate docs changes, each tagged `direct`, `external`, or `reasoned`;
 - unsupported candidates rejected with one-line reasons;
 - affected pages or missing pages;
-- owner route when product, engineering, architecture, API, operational, or release truth is missing.
+- skill or agent route when product, engineering, architecture, API, operational, or release truth is missing.
 
 Candidate axes:
 
@@ -101,7 +101,7 @@ Rules:
 | Architecture reasoning before docs exist                            | `architecture-design`        |
 | README front-door structure                                         | `create-readme`              |
 | Root cause for an unexplained failure                               | `structured-problem-resolution` |
-| Commit, PR, release, publish, sync, or tracker mutation              | Git, PR, release, publishing, or tracker owner |
+| Commit, PR, release, publish, sync, or tracker mutation              | Git, PR, release, publishing, or tracker skill |
 
 ## Type-Specific Skeletons
 

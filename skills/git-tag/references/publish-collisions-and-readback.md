@@ -66,4 +66,4 @@ Do not force-update or delete the remote tag from this publication branch. Route
 
 ## Completion Boundary
 
-Successful exact-ref readback proves only the remote Git ref identity observed from that remote. It does not prove hosted rulesets, a GitHub Release, artifact publication, registry state, or deployment. Report those layers separately and route them to their owners.
+Successful exact-ref readback proves only the remote Git ref identity observed from that remote. It does not prove hosted rulesets, a GitHub Release, artifact publication, registry state, or deployment. Report those layers separately and route them to the responsible skills or agents.

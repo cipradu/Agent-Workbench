@@ -96,7 +96,7 @@ For substantial rewrites, command-heavy updates, validation passes, and public-f
 - assumption or inference to keep outside the README;
 - stale or contradicted claim to remove, rewrite, or report;
 - unsupported claim to omit or block;
-- routed item for PRD, engineering spec, documentation, diagnosis, testing, git/PR, or publishing owners.
+- routed item for PRD, engineering spec, documentation, diagnosis, testing, git/PR, or publishing skills.
 
 For existing README refreshes, audit baseline claims that affect reader trust: project purpose, commands, package names, links, badges, screenshots, features, support, roadmap, deployment, public/private positioning, compatibility, security/license pointers, and absence claims. Preserve accurate claims, remove or rewrite stale claims, and report contradictions that affect reader instructions.
 
@@ -270,5 +270,5 @@ Stop and fix before completion when:
 - Use `create-documentation` when the task is a multi-page docs set, tutorial, how-to guide, explanation, or reference documentation rather than a README.
 - Use `create-project-prd` or `create-engineering-spec` when README work depends on unresolved product positioning, audience, requirements, compatibility, support promises, or behavior contracts.
 - Use `structured-problem-resolution` when README work uncovers a broken command, failing example, runtime error, unsupported workaround, or unclear failure cause.
-- Use testing or runtime workflow owners when screenshots, browser testing, simulator testing, dogfood execution, or route verification must be performed before a README claim can be supported.
+- Use testing or runtime workflow skills when screenshots, browser testing, simulator testing, dogfood execution, or route verification must be performed before a README claim can be supported.
 - Use `git-commit` only after the user explicitly asks to commit README changes.

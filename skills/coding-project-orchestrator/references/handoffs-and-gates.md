@@ -15,9 +15,9 @@ Use this reference before moving from one workstream to another or dispatching a
 - [Gate: From Unknown-Discovery Routing](#gate-from-unknown-discovery-routing)
 - [Gate: To Runtime Polish Or QA](#gate-to-runtime-polish-or-qa)
 - [Gate: To Reusable Project Verifier](#gate-to-reusable-project-verifier)
-- [Gate: To Operational Or Reporting Owner](#gate-to-operational-or-reporting-owner)
+- [Gate: To Operational Or Reporting Skill](#gate-to-operational-or-reporting-skill)
 - [Gate: To Visual Artifact](#gate-to-visual-artifact)
-- [Gate: To Post-Ship Communication Owner](#gate-to-post-ship-communication-owner)
+- [Gate: To Post-Ship Communication Skill](#gate-to-post-ship-communication-skill)
 - [Gate: To Source-Control Or PR Work](#gate-to-source-control-or-pr-work)
 - [Gate: To External Collaboration Or Publishing Sync](#gate-to-external-collaboration-or-publishing-sync)
 - [Gate: To Implementation Plan](#gate-to-implementation-plan)
@@ -43,7 +43,7 @@ Every handoff should include:
 - Source strength: explicit user authority, current file evidence, verified artifact evidence, inferred intent, weak signal, or contradicted source.
 - Artifact identity and currentness: exact path, ID, URL, version, commit, review cycle, external copy, or currentness check when an artifact drives the handoff.
 - Changed user direction when applicable: the explicit update, superseded instruction or batch, unaffected work and authority, reconciled governing artifact, invalidated evidence, and the exact next authorized action. A late result from an earlier instruction is evidence to reassess, not acceptance of a changed requirement.
-- Produced state and consumer: the bounded state this owner must return, who or what consumes it next, and whether it can prove the whole outcome or only one function.
+- Produced state and consumer: the bounded state this skill or agent must return, who or what consumes it next, and whether it can prove the whole outcome or only one function.
 - Decisive evidence identity and invalidators: exact source, artifact, runtime, diff, review, or external-state identity that makes the return current, plus changes that make it stale.
 - Return condition: what lets the coordinator continue, reclassify, close, or report a genuine blocker.
 - Constraints: what must be preserved.
@@ -59,13 +59,13 @@ Every handoff should include:
 - Stop triggers: conditions that require returning to user, diagnosis, spec, plan, or architecture.
 - Review routing when applicable: dispatch basis, effective authority, exact target, initial proportional regression halo, exact review question, non-goals, evidence-based expansion condition, and completion condition.
 
-A downstream owner may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action. Without new evidence, it must preserve the incoming lane and warrants.
+A responsible downstream skill or agent may escalate only by returning newly discovered concrete evidence, the affected consequence or gate, and the changed next action. Without new evidence, it must preserve the incoming lane and warrants.
 
 If a handoff cannot include these fields, it is not ready.
 
 ## Outcome Map And Control Return
 
-The current user-authorized outcome remains controlling across every handoff. Use the scope envelope alone for bounded work that one owner can complete and prove without a meaningful pause or independent acceptance. Activate a compact outcome map only when the task crosses more than one required owner, must survive a meaningful pause or context compaction, or requires independent acceptance.
+The current user-authorized outcome remains controlling across every handoff. Use the scope envelope alone for bounded work that one skill or agent can complete and prove without a meaningful pause or independent acceptance. Activate a compact outcome map only when the task crosses more than one required skill or agent, must survive a meaningful pause or context compaction, or requires independent acceptance.
 
 An active map contains only:
 
@@ -85,7 +85,7 @@ The coordinator classifies each return before moving forward:
 - `changed premise`: new concrete evidence invalidates a current scope, consequence, gate, plan, authority, or proof assumption; preserve unaffected work and reclassify;
 - `blocker`: no authorized safe path remains; return the exact unmet condition, unaffected work, evidence or authority needed, and resume point.
 
-A downstream owner cannot redefine the current user-authorized outcome, force the old route after a premise changes, ask the user to decide when a safe authorized default exists, or declare whole-task completion outside its authority.
+A responsible downstream skill or agent cannot redefine the current user-authorized outcome, force the old route after a premise changes, ask the user to decide when a safe authorized default exists, or declare whole-task completion outside its authority.
 
 ## Plan-Backed Execution Handoff
 
@@ -174,7 +174,7 @@ Failure output:
 
 Pass condition:
 
-- The answer depends on ownership, boundaries, seams, adapters, patterns, layering, framework leakage, or brownfield architecture risk.
+- The answer depends on responsibility, boundaries, seams, adapters, patterns, layering, framework leakage, or brownfield architecture risk.
 - Forces and existing constraints can be inspected or named as blockers.
 
 Failure output:
@@ -199,12 +199,12 @@ Pass condition:
 
 - The request uses blindspot-pass, unknown-unknown, hidden-risk, help-me-prompt-better, or similar uncertainty-discovery language.
 - The first durable decision classifies the uncertainty by the truth it can change: product/domain/tacit expectation, candidate direction, PRD-to-spec readiness, bounded engineering truth, failure cause, architecture boundary, execution strategy, or discussion-only output.
-- The next step invokes the matching owner gate or blocks on its missing prerequisite.
-- No standalone unknowns artifact, generic risk list, visual explainer, PRD, spec, plan, or code change is produced before owner classification.
+- The next step invokes the matching skill gate or blocks on its missing prerequisite.
+- No standalone unknowns artifact, generic risk list, visual explainer, PRD, spec, plan, or code change is produced before skill or agent classification.
 
 Failure output:
 
-`Blocked: unknown-discovery routing must identify the truth owner before producing artifacts or actions: <product/problem/engineering/spec-readiness/architecture/execution/discussion gap>.`
+`Blocked: unknown-discovery routing must identify the responsible skill for that truth before producing artifacts or actions: <product/problem/engineering/spec-readiness/architecture/execution/discussion gap>.`
 
 ## Gate: To Runtime Polish Or QA
 
@@ -227,27 +227,27 @@ Pass condition:
 - Current project instructions, developer entry points, commands, feature-map state, and source/build identity were inspected far enough to select exactly one mode without requiring a user-named skill: `use`, `maintain`, `bootstrap`, or `not_applicable`.
 - `use` requires an adequate current verifier for the affected path. `maintain` requires source, control, observer, evidence, or support-claim drift that must be classified before reliance. `bootstrap` requires no adequate verifier, a runnable first user-observable vertical slice, reusable live proof needed for acceptance, and current authorization for project mutation plus required live actions.
 - `not_applicable` is selected for non-runnable libraries, document-only or read-only work, pre-runnable scaffolding, or behavior already closed by sufficient deterministic evidence; it returns to the ordinary proof path without verifier infrastructure.
-- `testing-strategy` owns mode semantics, capability design, feature-map truth, lifecycle stages, evidence, failure classification, currentness, maintenance, and retirement. The normal project implementation owner creates or repairs project-local files and commands. A verifier-specific owner is optional, not a bootstrap prerequisite.
+- `testing-strategy` owns mode semantics, capability design, feature-map truth, lifecycle stages, evidence, failure classification, currentness, maintenance, and retirement. The normal project implementing agent creates or repairs project-local files and commands. A verifier-specific skill or agent is optional, not a bootstrap prerequisite.
 - The handoff names current project source/build identity, accepted feature scope, canonical observer, existing mechanisms to reuse, proven missing seams, target and non-target paths, authority boundary, temporary-state and cleanup constraints, required discovery pointer and feature-map state, implementation return, and first or affected live proof.
 - Closure requires consuming the implementation return and applicable Launch, Doctor, Drive, Evidence, and Cleanup results. A design, generated file, feature map, command exit, implementer claim, or verifier run that is not carried into final acceptance is not enough.
-- The route creates no cloud agent, swarm, schedule, Cursor-specific path, universal screenshot/video requirement, dependency, wrapper, helper, or future-use layer without a separate current project need and owner.
+- The route creates no cloud agent, swarm, schedule, Cursor-specific path, universal screenshot/video requirement, dependency, wrapper, helper, or future-use layer without a separate current project need and responsible skill or component.
 
 Failure output:
 
-`Blocked: project verifier <bootstrap/use/maintain> lacks <runnable target/mutation authority/live-action authority/project implementation owner/current source or build/feature scope/discovery pointer/real observer/cleanup contract/return contract/evidence consumer>.`
+`Blocked: project verifier <bootstrap/use/maintain> lacks <runnable target/mutation authority/live-action authority/project implementing agent/current source or build/feature scope/discovery pointer/real observer/cleanup contract/return contract/evidence consumer>.`
 
-## Gate: To Operational Or Reporting Owner
+## Gate: To Operational Or Reporting Skill
 
 Pass condition:
 
 - The requested outcome is a read-only status, recap, metric, pulse, or generated evidence artifact rather than product/spec/implementation truth.
-- The owning reporting/data workflow or owner is known, or the only output from this skill is a handoff/blocker packet.
-- Data sources, source window, freshness policy, privacy/PII constraints, output artifact scope, and no-write access expectations are named for the owner.
-- Generated output will be labeled by the owner as evidence with uncertainty/no-data states, not as canonical requirements or acceptance.
+- The owning reporting/data workflow or responsible agent is known, or the only output from this skill is a handoff/blocker packet.
+- Data sources, source window, freshness policy, privacy/PII constraints, output artifact scope, and no-write access expectations are named for the responsible skill or agent.
+- Generated output will be labeled by the responsible skill or agent as evidence with uncertainty/no-data states, not as canonical requirements or acceptance.
 
 Failure output:
 
-`Blocked: reporting handoff lacks owner, read-only source, source window, privacy boundary, or artifact scope: <specific gap>.`
+`Blocked: reporting handoff lacks a responsible skill or agent, read-only source, source window, privacy boundary, or artifact scope: <specific gap>.`
 
 ## Gate: To Visual Artifact
 
@@ -263,7 +263,7 @@ Failure output:
 
 `Blocked: visual artifact handoff lacks reader job, source artifact, output mode, or source-truth boundary: <specific gap>.`
 
-## Gate: To Post-Ship Communication Owner
+## Gate: To Post-Ship Communication Skill
 
 Pass condition:
 
@@ -274,7 +274,7 @@ Pass condition:
 
 Failure output:
 
-`Blocked: post-ship communication handoff lacks owner, shipped-value evidence, or scoped external-action boundary: <specific gap>.`
+`Blocked: post-ship communication handoff lacks a responsible skill or agent, shipped-value evidence, or scoped external-action boundary: <specific gap>.`
 
 ## Gate: To Source-Control Or PR Work
 
@@ -335,7 +335,7 @@ Pass condition:
 - Complete direct proof remains absent, no concrete high-assurance trigger applies, and `Lane: standard` is recorded.
 - Target and non-target boundaries, permission, practical recovery, verifier availability, and acceptance evidence are known enough to execute safely.
 - Diagnosis, spec, plan, delegation, review, re-review, and final complete-gate warrants were decided independently. Every warranted precondition is satisfied; no artifact is created merely because the task is durable, tooling/configuration-related, multi-file, or not direct.
-- The handoff preserves the complete requested outcome, current evidence, constraints, exact verification, and conditions that return the work to the user or an upstream owner.
+- The handoff preserves the complete requested outcome, current evidence, constraints, exact verification, and conditions that return the work to the user or an upstream skill or agent.
 
 Failure output:
 
@@ -347,7 +347,7 @@ Pass condition:
 
 - `Delegation warranted: yes` names how isolation, parallelism, specialist capability, or context focus materially improves the result relative to re-derivation cost.
 - Any separately warranted spec or plan is current; delegation alone did not create either warrant.
-- Handoff includes the complete assurance decision, objective, context, constraints, target boundary, non-target boundary, source strength, isolation/overlap state, verification ownership, and stop triggers.
+- Handoff includes the complete assurance decision, objective, context, constraints, target boundary, non-target boundary, source strength, isolation/overlap state, verification responsibility, and stop triggers.
 - When a plan governs execution, the [Plan-Backed Execution Handoff](#plan-backed-execution-handoff) is complete and authorizes exact plan-unit IDs. Supplying the plan without an exact batch does not pass this gate.
 - The coder is not being asked to decide product/spec truth.
 - Parallel or serial execution has been chosen from overlap risk, shared state, verifier availability, and rollback/re-plan triggers.

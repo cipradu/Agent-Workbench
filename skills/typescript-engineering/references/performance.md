@@ -2,7 +2,7 @@
 
 Load this reference for profiling, benchmarking, compiler/type-lint performance, bundle/runtime performance, caching mechanics, or worker-performance decisions.
 
-Owner boundary: regressions go to `structured-problem-resolution`; cache/distributed-work policy goes to `queue-and-cache-design`; concurrency mechanics go to [Async And Concurrency](async-and-concurrency.md); architecture owns structural trade-offs. This reference owns measurement mechanics and the measure-before-optimize gate.
+Responsibility boundary: regressions go to `structured-problem-resolution`; cache/distributed-work policy goes to `queue-and-cache-design`; concurrency mechanics go to [Async And Concurrency](async-and-concurrency.md); architecture owns structural trade-offs. This reference owns measurement mechanics and the measure-before-optimize gate.
 
 ## Measure First
 

@@ -1,12 +1,12 @@
 # Project Structure And Dependency Law
 
-Load when creating or changing packages, module purposes, transport/service/tool layers, composition roots, centralized owners, imports, shared contracts, or provider adapters.
+Load when creating or changing packages, module purposes, transport/service/tool layers, composition roots, centralized components, imports, shared contracts, or provider adapters.
 
 ## Structure By Owned Purpose
 
 Every package/module has one concrete purpose and owns only the code, schemas, types, tests, and adapters for that purpose. Project-specific product topology belongs in project rules; do not copy a sample project's package map.
 
-Avoid generic dumping grounds such as `core`, `common`, `shared`, `misc`, `utils`, `helpers`, `types`, or `services`. A purpose-local file with one of those names is acceptable only when the enclosing owner makes its scope unambiguous.
+Avoid generic dumping grounds such as `core`, `common`, `shared`, `misc`, `utils`, `helpers`, `types`, or `services`. A purpose-local file with one of those names is acceptable only when the enclosing module makes its scope unambiguous.
 
 When the project already contains or explicitly requires these surfaces, apply this responsibility separation:
 
@@ -19,18 +19,18 @@ This list assigns responsibility to accepted surfaces. It does not authorize inv
 
 Services do not reach around an adapter to call a database, SDK, HTTP client, process, or filesystem directly. Leaf modules do not locate settings, loggers, or clients globally.
 
-## Centralized Cross-Cutting Owners
+## Centralized Cross-Cutting Components
 
-When a concern recurs, it has one narrow owner:
+When a concern recurs, it has one component responsible for it:
 
 - contracts: cross-surface request/response/event/job/webhook/wire schemas, derived types, and mapping from internal payloads into those external contracts;
 - settings: configuration schemas, loading, validation, protected merge, immutable values;
 - errors: catalogs, runtime error types, factories, normalizers, and the transport-neutral sanitized error payload;
 - logging: factories, serializers, redaction, correlation, sinks, fallback diagnostics;
 - persistence: schemas, migrations, and database client/tool mechanics;
-- testing support: shared conventions and genuinely shared primitives in the declared central owner; package-specific factories, doubles, and reset helpers on that package's explicit testing subpath.
+- testing support: shared conventions and genuinely shared primitives in the declared central component; package-specific factories, doubles, and reset helpers on that package's explicit testing subpath.
 
-Feature modules contribute their schema/catalog/redaction/config additions to these owners in the same change. They do not create parallel settings kernels, loggers, error taxonomies, test-helper conventions, persistence writers, or plugin systems.
+Feature modules contribute their schema/catalog/redaction/config additions to these components in the same change. They do not create parallel settings kernels, loggers, error taxonomies, test-helper conventions, persistence writers, or plugin systems.
 
 ## Declare Dependency Direction
 
@@ -40,7 +40,7 @@ Project instructions declare the import law beside the package tree: a lowest-fi
 - Cross-package imports use declared workspace names and public subpaths, never relative paths escaping the package.
 - Every direct external import has a direct declaration in the importing package.
 - TypeScript project references mirror direct workspace dependencies where reference builds apply.
-- Aliases and exports point to real owners; they do not create undeclared edges.
+- Aliases and exports point to real modules; they do not create undeclared edges.
 - Vendor SDK types stop at adapters. Project-owned contracts cross into services.
 - Provider-independent capabilities use project-owned interfaces only when the current project requires provider independence.
 - Sole-writer, settings-reader, logger-construction, and surface-catalog decisions are enforced at imports and call sites.
@@ -51,4 +51,4 @@ Use a native TypeScript-aware rule when it expresses the complete invariant and 
 
 Do not create a dependency map from whatever current imports happen to exist, use threshold-based acceptance, exempt whole directories, or maintain a partial scan list. Architecture defines the allowed graph; the guard proves code conforms to it.
 
-Failure output: `Blocked: package ownership or dependency law is unresolved: <purpose, layer, composition root, centralized owner, public surface, or permitted edge>.`
+Failure output: `Blocked: package responsibility or dependency law is unresolved: <purpose, layer, composition root, centralized component, public surface, or permitted edge>.`

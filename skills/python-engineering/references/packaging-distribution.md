@@ -2,7 +2,7 @@
 
 Load this reference when building, versioning, publishing, or documenting a Python package; wiring CLI entry points; choosing a build backend; or managing releases.
 
-Owner boundaries: reader-facing doc content standards → `create-documentation`; README standards → `create-readme`; publish-time supply-chain rules also appear in the security reference.
+Responsibility boundaries: reader-facing doc content standards → `create-documentation`; README standards → `create-readme`; publish-time supply-chain rules also appear in the security reference.
 
 ## Build Backend
 

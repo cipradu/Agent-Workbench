@@ -15,7 +15,7 @@ description: Use when starting or governing non-trivial AI-assisted project work
 
 ## Do Not Use
 
-- Do not use this skill as a substitute for domain guidance. For architecture, API design, database work, queues, testing, security, debugging, documentation, git, PRs, reviews, continuity, setup, browser automation, Xcode, or framework-specific rules, use the relevant owner after applying this contract.
+- Do not use this skill as a substitute for domain guidance. For architecture, API design, database work, queues, testing, security, debugging, documentation, git, PRs, reviews, continuity, setup, browser automation, Xcode, or framework-specific rules, use the relevant skill after applying this contract.
 - Do not use this skill to create a domain procedure, tool API, schema, command recipe, review verdict process, commit process, PR process, release process, tracker workflow, or external publishing workflow.
 - Do not use this skill to add maximum ceremony to direct answers or narrow local work. Use the lightest sufficient gate that preserves approval, scope, evidence, and verification.
 - Do not treat this skill as permission to mutate files or external systems. It governs when mutation is allowed; it does not grant approval by itself.
@@ -167,7 +167,7 @@ The contract must identify:
 - readback verification after mutation;
 - idempotency key or authoritative dedupe query when retry or repetition could duplicate work;
 - retry rule for ambiguous failure;
-- partial-success states, recovery owner, and whether rollback or compensation is separately authorized when the operation spans more than one record or system.
+- partial-success states, agent or system responsible for recovery, and whether rollback or compensation is separately authorized when the operation spans more than one record or system.
 
 Rules:
 
@@ -175,18 +175,18 @@ Rules:
 - A successful command is not always proof that the intended external state changed; read back the authoritative state when consequence matters.
 - A failed or timed-out external mutation is not proof that nothing changed. Re-read authoritative state before retrying.
 - Before repeating a mutation that can duplicate work, use the provider's idempotency mechanism or an authoritative pre-write dedupe query. If neither can make repetition safe, stop and report the unresolved state.
-- For multi-record or multi-system work, record each leg as not started, applied, absent, unknown, failed, or compensated. Preserve successful legs when a later leg fails, assign recovery ownership, and resume from authoritative state instead of replaying the whole workflow.
+- For multi-record or multi-system work, record each leg as not started, applied, absent, unknown, failed, or compensated. Preserve successful legs when a later leg fails, assign recovery responsibility to an agent or system, and resume from authoritative state instead of replaying the whole workflow.
 - Compensation, reversal, deletion, publication, and other consequential recovery actions require their own authority unless the accepted workflow already grants that exact action. Do not describe an unverified or unauthorized compensation as rollback.
 - Do not broaden external metadata. If the user names one field, record, title, label, preference, or body, change only that item.
 - Do not change titles, labels, assignees, branches, project fields, durable preferences, publication state, or integration-sensitive metadata unless the user explicitly approves that exact field or state.
 
-Completion criterion: one authorized writer touches only the approved external/shared state; the capability boundary is stated honestly; authoritative readback proves each resulting state; dedupe or idempotency also proves safe repetition when retry or repetition could duplicate work; and partial or unknown outcomes have an explicit recovery owner and separately authorized next action.
+Completion criterion: one authorized writer touches only the approved external/shared state; the capability boundary is stated honestly; authoritative readback proves each resulting state; dedupe or idempotency also proves safe repetition when retry or repetition could duplicate work; and partial or unknown outcomes have an explicit agent or system responsible for recovery and separately authorized next action.
 
 Failure output: "Blocked: external/shared-state mutation lacks immutable identity, one-writer integrity, honest capability isolation, authoritative readback, duplicate-safe retry when retry or repetition could duplicate work, or partial-state recovery: <specific gap>."
 
 ### 7. Respect Stateful Workflows And Ordered Gates
 
-When work has a plan, matrix, report, run ID, log, branch, review state, generated artifact, continuity artifact, phase gate, or stable checklist, use that artifact instead of relying on recollection. A new explicit user instruction is not stale conversation memory: reconcile its effect through the existing owner before dependent work continues. Preserve unaffected constraints and evidence; do not silently rewrite governing artifacts or accept a late result against superseded requirements. Side questions and status requests do not by themselves cancel the active task.
+When work has a plan, matrix, report, run ID, log, branch, review state, generated artifact, continuity artifact, phase gate, or stable checklist, use that artifact instead of relying on recollection. A new explicit user instruction is not stale conversation memory: reconcile its effect through the existing responsible skill before dependent work continues. Preserve unaffected constraints and evidence; do not silently rewrite governing artifacts or accept a late result against superseded requirements. Side questions and status requests do not by themselves cancel the active task.
 
 Rules:
 
@@ -195,7 +195,7 @@ Rules:
 - Do not mark a row, item, phase, or route complete without evidence.
 - Every required item must be passed, fixed, skipped with rationale, explicitly deferred to an approved durable surface, or blocked.
 - Partial progress, reduced failure count, selected route, or revised draft is not completion.
-- Do not mutate durable workflow artifacts as progress logs unless their owner says they are the correct state surface.
+- Do not mutate durable workflow artifacts as progress logs unless their authoritative instructions say they are the correct state surface.
 
 Completion criterion: workflow state is reconciled against the authoritative artifact, and completion claims match the artifact's gates.
 
@@ -220,7 +220,7 @@ Rules:
 
 - Do not delegate raw ambiguity when local context can resolve it.
 - Do not treat a worker result, review note, or tool report as self-validating. The caller verifies it against the original request, governing rules, changed files, and required evidence.
-- Review findings, failed checks, skipped verification, incomplete follow-through, and residual work must be fixed in scope, explicitly deferred with reason, routed to an approved durable owner, or reported unresolved.
+- Review findings, failed checks, skipped verification, incomplete follow-through, and residual work must be fixed in scope, explicitly deferred with reason, routed to an approved durable record, or reported unresolved.
 - Do not let residual findings disappear behind completion language.
 
 Completion criterion: delegated output is checked against the objective, boundaries, and evidence requirements before it affects the final answer or next mutation.
@@ -236,7 +236,7 @@ Rules:
 - Lead with the useful answer, risk, blocker, or result.
 - Before asking for a user decision, form a compact decision-evidence packet: the user-visible situation and consequence; why no safe authorized default exists; the exact requirement, artifact, action, or branch blocked; unaffected work; the recommended resolution; the exact behavior or artifact it changes; its material effect; its material cost and risk; what happens if no change is made; and supporting evidence or limits. Use the packet to reason; do not dump it as mandatory headings.
 - Explain the user's action and observable consequence before internal identifiers or implementation detail. Present alternatives only when they differ materially in behavior, cost, risk, authority, or future obligation; merge choices with the same practical result.
-- When another owner discovers the decision but does not own direct interactive clarification, return that evidence packet to the orchestrator instead of emitting a raw technical question or option menu.
+- When another skill or agent discovers the decision but does not own direct interactive clarification, return that evidence packet to the orchestrator instead of emitting a raw technical question or option menu.
 - Contradict weak assumptions or risky directions when evidence warrants it.
 - Avoid performative agreement, empty praise, marketing language, and apology loops.
 - Be concise by default; add depth only when it changes the user's decision or the work quality.
@@ -308,7 +308,7 @@ Rules:
 
 - Distinguish feedback that guides remaining work from validation that proves completion. A focused check may run while edits remain when it resolves a prerequisite, determines the next edit, or checks a required baseline or test-first expectation.
 - Run completion validation at the declared plan-unit, skill-step, or deliverable boundary and any required checkpoint. Feedback does not complete the unit or replace an applicable mandatory check or warranted review.
-- Select breadth through the testing owner from changed behavior, affected dependencies, named risks, and governing requirements. Reuse sufficient current evidence only when the gate permits it; repeat or broaden checks for relevant source, fixture, configuration, or environment changes, failures, unresolved risks, or explicit gate requirements.
+- Select breadth through `testing-strategy` from changed behavior, affected dependencies, named risks, and governing requirements. Reuse sufficient current evidence only when the gate permits it; repeat or broaden checks for relevant source, fixture, configuration, or environment changes, failures, unresolved risks, or explicit gate requirements.
 - Do not re-read or diff merely to confirm a successful structured edit applied, or run reassurance checks that cannot affect the next decision.
 - For prose revisions, defer formatting and style checks until the revision is complete. Source, link, semantic, or behavior checks may inform remaining edits. Prose-formatted skills, rules, and prompts require behavior evidence; formatting checks alone cannot prove correctness.
 - Do not say "done" based on confidence alone.
@@ -366,7 +366,7 @@ Stop and correct course when any of these appears:
 - A failed external mutation is retried without rereading authoritative state.
 - Multiple delegates retain overlapping external write capability while their role prompts are described as hard isolation or each is allowed to mutate part of one shared-state unit.
 - A repeatable external mutation lacks provider idempotency or an authoritative dedupe query.
-- A multi-record or multi-system operation partially succeeds, but the successful and failed legs, recovery owner, or separate compensation authority are not recorded.
+- A multi-record or multi-system operation partially succeeds, but the successful and failed legs, agent or system responsible for recovery, or separate compensation authority are not recorded.
 - A stateful workflow advances from chat memory instead of its current artifact.
 - A worker, reviewer, or tool result is accepted without caller-side verification.
 - A residual finding, failed check, skipped verification, or incomplete item disappears from the final state.

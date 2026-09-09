@@ -2,7 +2,7 @@
 
 Load this reference when writing or reviewing exception classes, exception handling, cleanup, retries, timeouts, deprecations, or fault tolerance.
 
-Owner boundaries: error taxonomy, result envelopes, sanitized user-facing messages, and which failures are retryable *by policy* belong to `error-handling-design`. Diagnosing an existing failure belongs to `structured-problem-resolution`. Queue/job semantics (idempotency design, DLQs, delivery guarantees) belong to `queue-and-cache-design`. This reference owns the Python mechanics.
+Responsibility boundaries: error taxonomy, result envelopes, sanitized user-facing messages, and which failures are retryable *by policy* belong to `error-handling-design`. Diagnosing an existing failure belongs to `structured-problem-resolution`. Queue/job semantics (idempotency design, DLQs, delivery guarantees) belong to `queue-and-cache-design`. This reference owns the Python mechanics.
 
 ## Exception Mechanics
 

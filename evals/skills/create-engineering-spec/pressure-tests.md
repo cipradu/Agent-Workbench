@@ -1,6 +1,6 @@
 # Pressure Tests
 
-Use these scenarios when changing `create-engineering-spec`. Passing means the agent follows the spec workflow under pressure, blocks when required, and does not import owner mechanics from product, diagnosis, planning, execution, testing, git/PR, publishing, or documentation workflows.
+Use these scenarios when changing `create-engineering-spec`. Passing means the agent follows the spec workflow under pressure, blocks when required, and does not import responsible skill mechanics from product, diagnosis, planning, execution, testing, git/PR, publishing, or documentation workflows.
 
 ## Scenario 1: Spec Warrant Boundary
 
@@ -94,7 +94,7 @@ Pressure: Runtime observations and subjective feedback look enough.
 
 Expected wrong behavior: Turn screenshots, local URL, or taste comments into requirements and prescribe browser/test commands.
 
-Required behavior: Capture runtime evidence as current-system context, translate feedback into observable target behavior or blockers, record proof modality, and leave execution mechanics to downstream owners.
+Required behavior: Capture runtime evidence as current-system context, translate feedback into observable target behavior or blockers, record proof modality, and leave execution mechanics to downstream responsible skills.
 
 Pass criteria: Spec stays at engineering-truth depth and does not become a browser or device workflow.
 

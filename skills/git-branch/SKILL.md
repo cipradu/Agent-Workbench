@@ -16,7 +16,7 @@ Use this skill when the request concerns a branch lifecycle transition or the st
 
 ## Do Not Use
 
-Do not use this skill as the primary owner when:
+Do not use this skill as the primary skill when:
 
 - the request is only to stage, commit, or draft a commit message; route to `git-commit` and load no branch reference;
 - the request is to create, update, or rename a pull request or other hosted review record; route that work to `git-pull-request`;
@@ -59,7 +59,7 @@ If a request matches more than one branch operation, load each independently mat
 
 Run these gates in order. A read-only assessment may stop after the decision and report gates. A synthetic or supplied transcript is evidence to analyze, not authority to run commands.
 
-### 1. Classify The Action And Owner
+### 1. Classify The Action And Skill
 
 Name the requested action and choose one mode:
 
@@ -68,11 +68,11 @@ Name the requested action and choose one mode:
 - upstream configuration mutation;
 - remote branch mutation;
 - destructive cleanup;
-- adjacent-owner handoff.
+- handoff to another skill.
 
 Separate bundled requests into independent actions. Creating a local branch does not authorize switching, pushing, setting an upstream, committing, opening a PR, or deleting another ref. Renaming a local branch does not rename its upstream, remote branch, or hosted PR.
 
-Completion criterion: one primary owner and the exact in-scope branch action are explicit.
+Completion criterion: one primary skill and the exact in-scope branch action are explicit.
 
 Failure output: `Blocked: branch mutation scope or authority is unresolved: <target/action>.`
 
@@ -114,7 +114,7 @@ For each exact target, classify current state as:
 
 - `absent`: the requested object does not exist;
 - `equivalent`: the exact requested object and relationship already exist;
-- `conflicting`: an object exists but its identity, target, relationship, worktree ownership, or policy conflicts;
+- `conflicting`: an object exists but its identity, target, relationship, worktree association, or policy conflicts;
 - `unknown`: available evidence cannot distinguish the other states.
 
 No-op on `equivalent` and report the proof. Mutate only an authorized `absent` state. Resolve or block `conflicting`. For `unknown`, gather safe read-only evidence or stop; never retry, overwrite, force, or broaden scope to manufacture certainty.
@@ -144,11 +144,11 @@ If a command fails or its outcome is ambiguous, preserve the exact result and re
 
 ### 6. Reread And Report
 
-After a transition, rerun the narrow state reads that prove the exact result: current checkout, local ref/object ID, upstream configuration, remote-tracking or remote ref when applicable, linked worktree ownership, and preservation of user changes. Classify the result again as absent, equivalent, conflicting, or unknown.
+After a transition, rerun the narrow state reads that prove the exact result: current checkout, local ref/object ID, upstream configuration, remote-tracking or remote ref when applicable, linked worktree association, and preservation of user changes. Classify the result again as absent, equivalent, conflicting, or unknown.
 
 Report:
 
-- primary owner and references read, with selector reasons;
+- primary skill and references read, with selector reasons;
 - requested action and exact scope;
 - pre-state and policy evidence;
 - authority received and transition performed, or the specific blocker;

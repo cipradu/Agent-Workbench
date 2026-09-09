@@ -108,11 +108,11 @@ Evidence scope:
 - `historical`: old plans, old learnings, old incidents, old reviews, or prior-session notes that must be checked against current project truth;
 - `external`: catalog pattern, framework guidance, vendor docs, prior art, or outside example that can inform local adaptation but cannot prove local recurrence;
 - `opinion`: reviewer, coder, user, or agent recommendation without independent project evidence;
-- `unrelated`: similar wording or code shape with different forces, owners, lifecycle, or risk.
+- `unrelated`: similar wording or code shape with different forces, responsibilities, lifecycle, or risk.
 
 Confidence anchors:
 
-- `mandated`: accepted ADR, architecture rule, compliance/platform constraint, interface contract, or explicit owner decision requires repeated application;
+- `mandated`: accepted ADR, architecture rule, compliance/platform constraint, interface contract, or explicit user decision requires repeated application;
 - `proven`: at least three matching project examples share the same problem shape and forces;
 - `candidate`: one or two examples, promising repeated signal, or planned repetition exists, but recurrence, force match, or mandate is incomplete;
 - `refresh-needed`: an existing pattern may be stale, overlapping, contradicted, or missing current examples;
@@ -147,7 +147,7 @@ One or two examples can justify a candidate pattern when the idea is promising b
 
 A foundational or mandated pattern can be accepted before three implementations only when a prior approved decision, platform constraint, compliance constraint, interface contract, or architecture rule requires the approach to repeat. Name the mandate explicitly. Do not smuggle personal preference in as a mandate.
 
-Do not abstract coincidental similarity. Two pieces of code that look alike may have different lifecycles, owners, failure modes, or constraints. If the forces differ, do not make one pattern.
+Do not abstract coincidental similarity. Two pieces of code that look alike may have different lifecycles, responsibilities, failure modes, or constraints. If the forces differ, do not make one pattern.
 
 Do not name domain concepts after technical patterns. Pattern language should help implementation; it should not leak into domain vocabulary unless the domain itself uses that term.
 
@@ -200,7 +200,7 @@ A complete pattern record must include:
 
 Use `references/pattern-template.md` when writing the artifact.
 
-For agent, skill, prompt, MCP/tool, plugin, command, hook, or autonomous workflow patterns, include action ownership, context ownership, shared workspace assumptions, approval and human-only boundaries, lifecycle/interruption behavior, recovery path, and agent-native verification when those properties are load-bearing.
+For agent, skill, prompt, MCP/tool, plugin, command, hook, or autonomous workflow patterns, include acting-agent responsibility, context-management responsibility, shared workspace assumptions, approval and human-only boundaries, lifecycle/interruption behavior, recovery path, and agent-native verification when those properties are load-bearing.
 
 ## Quality Gate
 

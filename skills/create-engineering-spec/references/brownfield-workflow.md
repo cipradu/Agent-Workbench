@@ -33,7 +33,7 @@ Classify each material artifact as:
 - superseded historical context;
 - pre-existing contradiction;
 - non-authoritative context;
-- blocked pending owner decision.
+- blocked pending user decision.
 
 If an artifact appears stale but may still be authoritative, record the conflict in the source/authority map or blocked packet. Do not silently match docs to code or code to docs; current implementation is evidence for current truth, not automatic target authority.
 
@@ -49,7 +49,7 @@ Document current behavior for every touched interface, workflow, data concept, p
 
 Completion criterion: current behavior is cited or marked blocking.
 
-Before asserting absence of a table, route, endpoint, config, dependency, contract, test, owner, current behavior, or consumer, search the relevant source class and record the query/scope or mark the absence unverified.
+Before asserting absence of a table, route, endpoint, config, dependency, contract, test, responsible component, current behavior, or consumer, search the relevant source class and record the query/scope or mark the absence unverified.
 
 ### 5. Discover current implementation state
 
@@ -63,11 +63,11 @@ For requests tied to a branch, patch, PR, review comment, screenshot, or stale f
 
 For runtime, browser-visible, local-development, or platform-specific behavior, include launch config, package scripts, framework config, Procfile, Docker Compose, environment examples, route/screen, logs, screenshots, simulator/device state, and observed URL only as current-system or operational evidence unless a stronger authority makes them target constraints.
 
-### 6. Map ownership and authority
+### 6. Map responsibility and authority
 
-Identify owners for components, data concepts, business rules, processes, APIs/interfaces, schemas, operational policies, and compliance/regulatory obligations. Include escalation path when available.
+Identify maintenance responsibility for components, data concepts, business rules, processes, APIs/interfaces, schemas, operational policies, and compliance/regulatory obligations. Include escalation path when available.
 
-Completion criterion: every material concept/rule has owner/authority or blocker.
+Completion criterion: every material concept/rule has responsibility/authority or blocker.
 
 ### 7. Analyze impact and blast radius
 
@@ -124,7 +124,7 @@ Stop before full spec when:
 - current implementation state has not been inspected;
 - absence claims were not searched in the relevant source class;
 - stale or conflicting prior specs, ADRs, plans, docs, or generated reports may be authoritative and have not been reconciled;
-- owner/authority is unknown for material facts;
+- responsibility/authority is unknown for material facts;
 - affected contracts, data flows, downstream consumers, or breakage paths are unknown;
 - library/protocol/vendor behavior is material but unverified;
 - runtime, browser-visible, platform, reporting, or raw-feedback evidence is being treated as target authority without verification;
@@ -132,4 +132,4 @@ Stop before full spec when:
 
 ## Output Contribution
 
-The brownfield workflow contributes source precedence, canonical status, product-domain/current-system comparison, current behavior, implementation state, ownership/authority map, dependency/library/protocol findings, impact and blast-radius analysis, planning-relevant impact surfaces, constraints, non-goals, blockers, and decisions.
+The brownfield workflow contributes source precedence, canonical status, product-domain/current-system comparison, current behavior, implementation state, responsibility/authority map, dependency/library/protocol findings, impact and blast-radius analysis, planning-relevant impact surfaces, constraints, non-goals, blockers, and decisions.

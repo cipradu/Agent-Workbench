@@ -397,7 +397,7 @@ These traps are specific to processing human input — code reviews, suggestions
 
 - Keep stable IDs and dispositions for each item.
 - Verify factual claims, scope, and current relevance before each edit.
-- Use `fixed differently`, `not addressing with evidence`, `declined harmful`, or `needs human decision` when the literal suggestion is not the right fix.
+- Use `fixed differently`, `not addressing with evidence`, `declined harmful`, or `needs user decision` when the literal suggestion is not the right fix.
 
 ---
 

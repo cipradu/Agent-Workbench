@@ -2,7 +2,7 @@
 
 Load this reference when creating a Python project, adding or managing dependencies, choosing layout, writing standalone scripts, selecting a Python version, or when the baseline gate needs greenfield defaults.
 
-Owner boundary: layer and module-ownership judgment (api/services/repositories seams) belongs to `architecture-design`. This reference owns Python project mechanics.
+Responsibility boundary: layer and module-responsibility judgment (api/services/repositories seams) belongs to `architecture-design`. This reference owns Python project mechanics.
 
 ## Version Targeting
 
@@ -91,7 +91,7 @@ Automation graduates from shell to Python at ~100 lines or non-straightforward c
 Selection lives here; usage mechanics (sessions, transactions, migrations) live in the `database-design` skill's SQLAlchemy/Alembic reference — load it alongside. Verified 2026-07.
 
 - Default ORM: **SQLAlchemy 2.0** with the typed ORM surface (`Mapped[]`, `mapped_column`) and its mature asyncio support, plus **Alembic** for migrations (async `env.py` via the official `-t async` template). Note for async usage: lazy-loading is disallowed under `AsyncSession` — eager-load (`selectinload`) or `AsyncAttrs`; details owned by `database-design`.
-- **SQLModel is not the default.** Reasons (each verifiable): pre-1.0 (0.0.x) after 4+ years; pins trailing SQLAlchemy patch versions; a thin wrapper that requires dropping to the SQLAlchemy API for advanced needs (composite keys, column options, complex queries) — so non-trivial projects pay for both layers; maintenance was single-owner until 2026-03 and the new cadence is unproven; its docs do not cover async pitfalls. SQLAlchemy 2.0's typed ORM closed the ergonomics gap it targeted. Acceptable only for simple CRUD prototypes that will stay simple; the official FastAPI full-stack template's use of it is authored by SQLModel's own creator — weigh that provenance.
+- **SQLModel is not the default.** Reasons (each verifiable): pre-1.0 (0.0.x) after 4+ years; pins trailing SQLAlchemy patch versions; a thin wrapper that requires dropping to the SQLAlchemy API for advanced needs (composite keys, column options, complex queries) — so non-trivial projects pay for both layers; maintenance was single-maintainer until 2026-03 and the new cadence is unproven; its docs do not cover async pitfalls. SQLAlchemy 2.0's typed ORM closed the ergonomics gap it targeted. Acceptable only for simple CRUD prototypes that will stay simple; the official FastAPI full-stack template's use of it is authored by SQLModel's own creator — weigh that provenance.
 - Postgres async driver is a **deployment decision**: with PgBouncer transaction/statement pooling in the path, use **psycopg3** (≥3.2; requires PgBouncer ≥1.22 + libpq 17 for prepared statements) — asyncpg's prepared statements conflict under transaction pooling (its own FAQ; the `statement_cache_size=0` workaround forfeits its speed edge). With no pooler or session pooling, **asyncpg** holds a measured latency edge (magnitude disputed across benchmarks — benchmark yours). Both dialects (`postgresql+asyncpg`, `postgresql+psycopg`) are first-class in SQLAlchemy.
 
 ## New-Project Checklist

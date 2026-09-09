@@ -1,10 +1,10 @@
 # Coordinator Execution Pressure Tests
 
-Owner: `coding-project-orchestrator`
+Skill: `coding-project-orchestrator`
 
 This evaluator checks whether the primary coordinator can turn an approved multi-unit plan into exact coder batches, preserve the review decision through checkpoint execution, reconcile one correction batch, scope re-review from evidence, and resume at the next exact boundary without inventing resource quotas or a second router.
 
-Test posture: `ACCEPTANCE_FIRST`. Three direct observed incidents are eligible RED. One fresh pre-edit journey classifies which current owner contracts still permit the causal failures. The same target packet and acceptance rows remain frozen for GREEN.
+Test posture: `ACCEPTANCE_FIRST`. Three direct observed incidents are eligible RED. One fresh pre-edit journey classifies which current responsible skill contracts still permit the causal failures. The same target packet and acceptance rows remain frozen for GREEN.
 
 ## Observed RED Basis
 
@@ -14,11 +14,11 @@ The observed incidents are recorded in `docs/skill-analysis/pstack-integration-s
 - `RED-CE-02 — unsupported review bypass`: the primary created the governing spec and plan, then declared review unnecessary without complete deterministic-closure evidence. Later independent review found many material issues.
 - `RED-CE-03 — per-change deep review`: the primary repeatedly dispatched deep review after individual changes even though the configured depth reconstructs broad system context and no edit-level acceptance boundary existed.
 
-Each incident includes the pressure, wrong behavior, material consequence, and required correction. No artificial fresh RED transcript is required to establish that the behavior occurred. The fresh pre-edit journey is used only to locate the remaining causal owner gaps and prevent unnecessary source edits.
+Each incident includes the pressure, wrong behavior, material consequence, and required correction. No artificial fresh RED transcript is required to establish that the behavior occurred. The fresh pre-edit journey is used only to locate the remaining causal responsible skill gaps and prevent unnecessary source edits.
 
 ## Frozen Evaluation Contract
 
-Decision claim: Given an ordinary approved plan and current owner contracts, the coordinator can derive one exact coherent coder batch, advance only proven units, stop at the declared review checkpoint, invoke review at evidence-selected depth, reconcile findings into one correction batch, use only trigger-scoped re-review, resume from exact durable state, and close against the original outcome and current evidence identity.
+Decision claim: Given an ordinary approved plan and current responsible skill contracts, the coordinator can derive one exact coherent coder batch, advance only proven units, stop at the declared review checkpoint, invoke review at evidence-selected depth, reconcile findings into one correction batch, use only trigger-scoped re-review, resume from exact durable state, and close against the original outcome and current evidence identity.
 
 Cases and controls:
 
@@ -28,7 +28,7 @@ Cases and controls:
 
 Fresh target maximum: one pre-edit baseline journey and one unchanged post-edit GREEN journey. One additional affected-case rerun is allowed only after the first GREEN exposes a concrete loophole whose correction preserves this decision claim and every frozen row. Infrastructure-invalid runs do not count as behavior results and cannot weaken criteria.
 
-Recorded criteria correction: first-pass implementation review finding `F-001` proved that the original post-checkpoint row permitted `U4` and dependent `U5` in one batch even though the approved spec and every runtime owner require each unit to be dependency-eligible before authorization. Plan version 0.4 authorizes one correction to this evaluator: require separate `U4` and `U5` authorizations and returns, preserve every other criterion and degenerate rejection, invalidate the first GREEN grading for the affected row, and use the one allowed affected-case rerun before blocking-fix re-review.
+Recorded criteria correction: first-pass implementation review finding `F-001` proved that the original post-checkpoint row permitted `U4` and dependent `U5` in one batch even though the approved spec and every runtime responsible skill require each unit to be dependency-eligible before authorization. Plan version 0.4 authorizes one correction to this evaluator: require separate `U4` and `U5` authorizations and returns, preserve every other criterion and degenerate rejection, invalidate the first GREEN grading for the affected row, and use the one allowed affected-case rerun before blocking-fix re-review.
 
 Independent evaluator review: not used by default. The complete implementation has a separately warranted single final implementation review at standard depth.
 
@@ -36,7 +36,7 @@ Completion reserve: preserve enough work for the complete source amendment, unch
 
 Downshift order: omit duplicate target models, extra examples, convenience screenshots, editorial passes, and speculative scenarios before any required case, source control, or final review.
 
-Expansion trigger: a fixed case proves a distinct missing owner or contract outside the amended spec/plan target, or the current review owner cannot consume the required checkpoint/re-review state. Preserve the result and return to planning; do not authorize an unplanned edit.
+Expansion trigger: a fixed case proves a distinct missing responsible skill or contract outside the amended spec/plan target, or the current review workflow cannot consume the required checkpoint/re-review state. Preserve the result and return to planning; do not authorize an unplanned edit.
 
 Stop outcomes: `PASS`, `CORRECT`, `BLOCK`, `RE-PLAN`, or `INFRASTRUCTURE-INVALID`.
 

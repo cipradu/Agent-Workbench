@@ -99,7 +99,7 @@ Use the smallest accurate event label:
 - `start`: meaningful project work is beginning and continuity should orient the workflow;
 - `resume`: existing state is being used to restart work;
 - `pause`: work is stopping before completion;
-- `blocked`: work cannot proceed until specific evidence, access, service state, decision, review, or owner action exists;
+- `blocked`: work cannot proceed until specific evidence, access, service state, decision, review, or assigned action exists;
 - `accepted`: the owning review or verification workflow has accepted the work;
 - `closed`: the workstream is complete and has no active next action;
 - `merged`: merge or delivery state changed and affects resume;
@@ -113,7 +113,7 @@ Then choose a write disposition:
 - `orient only`: use continuity to choose the next workflow action, but do not write yet;
 - `update needed`: source truth proves the artifact should change;
 - `no-write checked`: source truth and continuity already match, or the event is not continuity-relevant;
-- `reroute to owner`: the missing or wrong truth belongs in a PRD, spec, plan, ADR, review, git/PR state, tracker, report, or workflow artifact;
+- `reroute to responsible skill`: the missing or wrong truth belongs in a PRD, spec, plan, ADR, review, git/PR state, tracker, report, or workflow artifact;
 - `blocked conflict`: source truth and continuity conflict and the correct state cannot be proven.
 
 Completion criterion: event label, write disposition, and reason are known.
@@ -130,7 +130,7 @@ Separate these facts before deciding:
 - recorded continuity truth: what the continuity artifact currently says;
 - caller inference: what seems likely but is not directly proven;
 - unresolved conflict: facts that disagree and cannot be safely resolved;
-- out-of-scope truth: information that belongs to another artifact or workflow owner.
+- out-of-scope truth: information that belongs to another artifact or workflow skill.
 
 If they agree, use the continuity artifact as orientation.
 
@@ -221,7 +221,7 @@ Use workflow-local artifacts as continuity inputs only when they affect current 
 Allowed resume-critical links and summaries include:
 
 - active PRD, engineering spec, implementation plan, ADR, or implementation-pattern path;
-- implementation review report, verdict, active finding IDs, residual-risk sink, or re-review status after the review owner produced it;
+- implementation review report, verdict, active finding IDs, residual-risk sink, or re-review status after the review workflow produced it;
 - implementation-note closeout after reconciliation, limited to unresolved deviation, active blocker, accepted residual risk, next action, or source artifact update needed;
 - verification command output path, test run identifier, or relevant failure summary;
 - branch, commit, worktree, PR number, or CI state when that state is already in scope and affects resume;
@@ -231,16 +231,16 @@ Allowed resume-critical links and summaries include:
 
 Do not create, validate, publish, update, or copy these artifacts from this skill. Link to their durable source and summarize only the state needed to resume.
 
-Do not copy raw implementation notes into continuity. If notes mention deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers, first route durable truth to the owning plan, review packet, ADR/pattern candidate, spec/PRD owner, or final residual-risk report. Continuity records only the resulting resume-critical state.
+Do not copy raw implementation notes into continuity. If notes mention deviations, edge cases, conservative choices, new material unknowns, or re-plan triggers, first route durable truth to the owning plan, review packet, ADR/pattern candidate, `create-engineering-spec`/`create-project-prd` skill, or final residual-risk report. Continuity records only the resulting resume-critical state.
 
 ## Blocker And Next-Action Precision
 
 A blocker is valid only when it names all of:
 
 - what is blocked;
-- the missing source truth, unavailable service, credential, review, CI result, residual sink, owner decision, or conflicting artifact;
+- the missing source truth, unavailable service, credential, review, CI result, residual sink, user decision, or conflicting artifact;
 - the current evidence path or explicit lack of evidence;
-- the owner when known, otherwise `unknown`;
+- the assigned agent or responsible system when known, otherwise `unknown`;
 - the exact unblocking action.
 
 The next action must be executable by the next agent or human without rediscovering the project. Avoid vague actions such as `continue`, `finish`, `clean up`, `review later`, or `investigate` unless they include the specific artifact, command, question, or evidence to inspect.
@@ -262,7 +262,7 @@ Next action: <one concrete action>
 
 ## Blockers
 
-- <what is blocked>: <blocking issue>; next unblocking action: <action>; owner: <person/system/unknown>
+- <what is blocked>: <blocking issue>; next unblocking action: <action>; responsibility: <person/system/unknown>
 
 ## Current Work
 
@@ -288,7 +288,7 @@ Run this skill:
 
 Do not run it mechanically after every response. Absence of a meaningful state change requires no update.
 
-Workers, reviewers, and downstream workflows can return a continuity signal for the orchestrator or assigned continuity owner:
+Workers, reviewers, and downstream workflows can return a continuity signal for the orchestrator or assigned `project-continuity` skill:
 
 ```markdown
 Continuity signal:
@@ -318,7 +318,7 @@ Stop instead of updating when:
 - no continuity artifact exists and no project rule or user request authorizes creating one;
 - source truth conflicts with the continuity artifact and the correct state is unclear;
 - the update would mark work complete before required verification or review;
-- the next action depends on an unresolved user, product, architecture, release, or ownership decision;
+- the next action depends on an unresolved user, product, architecture, release, or responsibility decision;
 - subjective status such as hill position, appetite risk, or priority would be invented without evidence;
 - the requested update would copy sensitive data, local scratch evidence, or a full report instead of linking or summarizing resume-critical state.
 
@@ -341,7 +341,7 @@ Stop instead of updating when:
 - The agent starts work from chat memory while `docs/progress.md` exists.
 - The agent updates progress before verification or review and marks work complete prematurely.
 - The artifact becomes a command log, diary, or copied final answer.
-- Raw implementation notes are copied instead of reconciling deviations, blockers, residual risks, and next actions to their owners.
+- Raw implementation notes are copied instead of reconciling deviations, blockers, residual risks, and next actions to the responsible skills or agents.
 - The next action is vague, such as "continue implementation" or "finish cleanup."
 - Blockers are listed without an unblocking action.
 - Stale progress is silently trusted despite conflicting git/spec/review evidence.

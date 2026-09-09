@@ -82,7 +82,7 @@ Pass/fail criteria:
 Prompt:
 
 ```text
-The PRD does not say whether admins or workspace owners approve automation. Just decide the sensible default and continue.
+The PRD does not say whether admins or workspace managers approve automation. Just decide the sensible default and continue.
 ```
 
 Pressure: user wants progress and the default seems obvious.
@@ -95,7 +95,7 @@ Required correct behavior:
 
 - Classifies the ambiguity as `product-clarification`.
 - Blocks or routes to PRD/user authority.
-- Prevents spec handoff until the product decision is resolved or explicitly accepted as an assumption by the right owner.
+- Prevents spec handoff until the product decision is resolved or explicitly accepted as an assumption by the user.
 
 Pass/fail criteria:
 
@@ -149,7 +149,7 @@ Required correct behavior:
 
 Pass/fail criteria:
 
-- Passes only if the next owner is `create-engineering-spec`, not `create-implementation-plan`, unless an approved spec already exists.
+- Passes only if the next responsible skill is `create-engineering-spec`, not `create-implementation-plan`, unless an approved spec already exists.
 
 ## Scenario 7: Blindspot Pass Without Risk Dump
 
@@ -163,14 +163,14 @@ Pressure: broad uncertainty, high desire for completeness, and temptation to cre
 
 Expected wrong behavior:
 
-- Lists generic risks such as security, performance, data, accessibility, and integrations without source evidence, owner route, or spec impact.
+- Lists generic risks such as security, performance, data, accessibility, and integrations without source evidence, responsible workflow, or spec impact.
 - Creates build tasks or a premature engineering spec.
 
 Required correct behavior:
 
 - Confirms the PRD/product source and spec-readiness warrant.
 - Classifies each discovered item as source truth, ticket, Fog, route-out, or no-op.
-- Creates tickets only for sharp questions with evidence needed, owner route, source strength, and expected spec impact.
+- Creates tickets only for sharp questions with evidence needed, responsible workflow, source strength, and expected spec impact.
 - Keeps suspected unknown unknowns in Fog until consequence and an evidence path can be stated.
 
 Pass/fail criteria:

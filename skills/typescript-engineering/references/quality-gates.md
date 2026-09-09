@@ -1,8 +1,8 @@
 # Quality Gates And Semantic Enforcement
 
-Load for Biome, Ultracite, ESLint, type-aware/custom policy, file discovery, autofix ownership, suppressions, or driving a project to a clean gate.
+Load for Biome, Ultracite, ESLint, type-aware/custom policy, file discovery, autofix responsibility, suppressions, or driving a project to a clean gate.
 
-## One Owner Per Responsibility
+## One Tool Per Responsibility
 
 For new projects:
 
@@ -11,9 +11,9 @@ For new projects:
 - TypeScript owns compiler programs, project references, build/emit, and diagnostic duties;
 - one tool owns each autofix/rule family.
 
-Ultracite is the preset/configuration layer for Biome, not a second engine. ESLint does not own formatting or duplicate baseline rules. Preserve an incumbent only after mapping every required rule and file to an equally strong owner.
+Ultracite is the preset/configuration layer for Biome, not a second engine. ESLint does not own formatting or duplicate baseline rules. Preserve an incumbent only after mapping every required rule and file to an equally strong tool.
 
-Oxlint, Oxfmt, or another engine is a migration candidate rather than an additive default. Compare identical file discovery, project assignment, rule/diagnostic coverage, autofix ownership, valid/invalid exit behavior, lifecycle, target-repository performance, removal cost, and rollback. Migrate one owner only with explicit scope.
+Oxlint, Oxfmt, or another engine is a migration candidate rather than an additive default. Compare identical file discovery, project assignment, rule/diagnostic coverage, autofix responsibility, valid/invalid exit behavior, lifecycle, target-repository performance, removal cost, and rollback. Migrate one tool only with explicit scope.
 
 ## Biome Baseline
 
@@ -41,21 +41,21 @@ Enforce at least:
 Project-derived semantic enforcement must cover:
 
 - the sole settings/environment reader;
-- centralized logger construction and direct `console`/stdout/stderr ownership;
+- centralized logger construction and direct `console`/stdout/stderr responsibility;
 - centralized catalog factories, surface-catalog import law, raw rethrow and native/local error bans;
-- log-before-throw/catch-control ownership with correlation and typed error context;
+- log-before-throw/catch-control responsibility with correlation and typed error context;
 - package/layer dependency direction, public subpaths, and boundary-escaping relative imports;
-- route/service/tool I/O ownership and composition-root-only construction;
-- sibling schema placement, inline schema prohibition, and one contract owner;
+- route/service/tool I/O responsibility and composition-root-only construction;
+- sibling schema placement, inline schema prohibition, and one contract definition;
 - tests outside production source, no focused/skipped markers, and no runtime test hooks;
 - no convenience barrels;
 - semantic schema/config fields having runtime consumers where structural enforcement is feasible.
 
-Repository paths, aliases, package maps, settings-loader files, fallback writers, surface helpers, I/O owners, and composition roots are source-derived policy data. Update the map in the same change as the governed architecture.
+Repository paths, aliases, package maps, settings-loader files, fallback writers, surface helpers, I/O components, and composition roots are source-derived policy data. Update the map in the same change as the governed architecture.
 
 ## Native Rule First, Exact Custom Rule When Needed
 
-Use `no-restricted-imports`, `no-restricted-properties`, and `no-restricted-syntax` only when an exact selector proves the invariant without banning the legitimate owner. When native rules cannot prove context, write one source-derived custom ESLint rule or structural guard for the exact policy.
+Use `no-restricted-imports`, `no-restricted-properties`, and `no-restricted-syntax` only when an exact selector proves the invariant without banning the legitimate component. When native rules cannot prove context, write one source-derived custom ESLint rule or structural guard for the exact policy.
 
 Log-before-control is not provable by merely checking that a catch exists. Its rule must inspect catch/throw/control-flow context and require the approved logger call with correlation and the normalized typed error before the transition. Package dependency rules must derive the scan universe and policy map from project source truth rather than a partial hand list.
 
@@ -71,7 +71,7 @@ Forbidden in handwritten source, tests, and configuration:
 - narrowed includes/globs or hidden exclusions used to avoid diagnostics;
 - focused/skipped tests, coverage exclusions, assertion weakening, or snapshot refreshes used to get green.
 
-When a rule is wrong, fix the rule in its centralized owner through the project decision path; do not suppress a call site. Exact generated/vendor/tool-owned categories may receive a config-level exception with an explicit owner and alternative gate. Handwritten tests remain under the same type-safety rules as production.
+When a rule is wrong, fix the rule in its centralized component through the project decision path; do not suppress a call site. Exact generated/vendor/tool-owned categories may receive a config-level exception with an explicit generating tool or vendor and alternative gate. Handwritten tests remain under the same type-safety rules as production.
 
 Negative type tests use an isolated suppression-free invalid fixture plus a valid companion and assert the intended diagnostic/exit result. If the toolchain cannot prove the negative case without suppression, report the limitation.
 
@@ -79,4 +79,4 @@ Negative type tests use an isolated suppression-free invalid fixture plus a vali
 
 Run the project safe autofix once, inspect semantic changes, then run read-only full-scope Biome/Ultracite, semantic ESLint with zero warnings, compiler/project diagnostics, tests with coverage, build/declarations/package verification, and the aggregate check. Staged-file success is feedback only.
 
-Failure output: `Not done: quality-gate integrity violation: <duplicate owner, suppression, incomplete rule, uncovered file, or failing gate>.`
+Failure output: `Not done: quality-gate integrity violation: <duplicate tool responsibility, suppression, incomplete rule, uncovered file, or failing gate>.`
