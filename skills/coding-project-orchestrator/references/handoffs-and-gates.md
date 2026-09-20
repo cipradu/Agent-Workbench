@@ -54,7 +54,7 @@ Every handoff should include:
 - Required context: rules, skills, ADRs, references, and code paths to read first.
 - Verification: exact command, inspection, evidence type, review expected, verifier availability, automation limits, human-only checks, and skipped-check rationale.
 - Residual route: continuity, PR body, tracker workflow, owning artifact revision, final-answer residual risk, or none with reason; external routes retain their separate authorization requirements.
-- Discovery route: mention every discovered issue and record its observation, location, available evidence or unverified status, current-task relationship, and disposition in the existing local issue/debt record or `docs/discoveries.md` on first entry. Deduplicate, link review evidence, exclude secrets, and report recording limitations in the permitted handoff. Recording does not authorize investigation, repair, or external ticket creation.
+- Tech-debt route: supply the concrete queue state and classify each issue. Current-task and current-change defects require repair and verification. When concrete authorized work follows the current task, persist a complete, deduplicated `docs/tech-debt.md` entry before advancing; when none follows, require bounded local repair and verification after the original task. Include any permission, access, destructive-action, or material-expansion blocker; recording does not authorize investigation while the queue remains or external ticket creation.
 - External action scope: draft-only, read-only, local file write, generated artifact write, local config/preference write, commit, push, PR create/update, publish, pull/sync, schedule, tracker update, or metadata mutation when applicable.
 - Canonical source and privacy: local authoritative artifact, external copy role, sync direction, source window, sensitive/local-only artifact handling, and explicit permission status when applicable.
 - Stop triggers: conditions that require returning to user, diagnosis, spec, plan, or architecture.
@@ -79,7 +79,7 @@ An active map contains only:
 
 Keep these fields in an existing plan, continuity artifact, review packet, or task-local state when available. Do not create a duplicate ledger or copy the full source corpus.
 
-Preserve the original task and explicit user amendments, authorized scope/exclusions, completion proof, current spec/plan identity, completed/pending work, next necessary action and rationale, and discovery-record pointer with deferred dispositions. After compaction or handoff, recover and compare this authoritative task state before dependent actions; bound recovery to what can change that action. The newest subtask or debt entry cannot replace the objective. When current proof satisfies the accepted criteria and required gates, close instead of pursuing deferred work.
+Preserve the original task and explicit user amendments, authorized scope/exclusions, completion proof, current spec/plan identity, completed/pending work, concrete queue identity, next necessary action and rationale, and the `docs/tech-debt.md` pointer with deferred, blocked, and end-of-queue dispositions. After compaction or handoff, recover and compare this authoritative task state before dependent actions; bound recovery to what can change that action. The newest subtask or debt entry cannot replace the objective. When current proof satisfies the accepted criteria and required gates, apply the `project-rules` tech-debt contract before closing the task or queue.
 
 The coordinator classifies each return before moving forward:
 
@@ -423,7 +423,7 @@ Stop the dependent execution branch and return to the appropriate upstream workf
 - external collaboration copies, generated reports, local config, runtime evidence, PR metadata, or source-control state conflict with accepted source truth;
 - required changes exceed the target boundary;
 - new public behavior, contract, state, migration, dependency, permission, generated artifact, or operational concern appears;
-- required verification cannot be run or a failure invalidates the accepted implementation contract; repair a current-change regression and verify it within existing authority, and mention, record, and defer unrelated failures without chasing them;
+- required verification cannot be run or a failure invalidates the accepted implementation contract; repair a current-change regression within existing authority, and route incidental failures through the `project-rules` tech-debt contract using the concrete queue state;
 - the required verifier is unavailable or cannot observe the behavior it was expected to prove;
 - delegated or parallel work overlaps unexpectedly or touches shared mutable state without a safe collision strategy;
 - a required acceptance gate remains blocked; report and record the issue without treating its record as permission for expanded work;

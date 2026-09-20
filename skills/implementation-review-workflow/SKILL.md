@@ -311,9 +311,9 @@ Do not substitute self-review or a generic reviewer as equivalent.
 
 ## Gate 4 — Interpret the Verdict
 
-Analyze every finding and note against the accepted outcome, current source evidence, and authorized scope before interpreting its action or verdict. Severity, confidence, an optional label, or an external approving verdict never waives this analysis. Report every discovered issue, including incidental and pre-existing observations; discovery does not authorize further investigation or repair outside the task.
+Analyze every finding and note against the accepted outcome, current source evidence, authorized scope, and concrete queue state before interpreting its action or verdict. Severity, confidence, an optional label, or an external approving verdict never waives this analysis. Report every discovered issue, including incidental and pre-existing observations. Current-task defects require correction; incidental issues may enter `docs/tech-debt.md` only while concrete authorized work remains, and otherwise become end-of-queue repair obligations under `project-rules`.
 
-Give each item an evidence-backed disposition: `fixed` or `fixed-differently` with current verification; `dismissed` with counter-evidence showing the proposal is incorrect; `deferred` only when evidence shows it is unrelated or optional and explains why the accepted outcome remains satisfied; `needs-user` when a required prerequisite exceeds authorization; or `unresolved` while required correction or proof remains. A record or action label alone is not a disposition. Correct and verify valid in-scope defects without redundant user approval. For a required out-of-scope prerequisite, stop dependent work and obtain a user decision on the smallest scope change; reclassification, a revised plan, or reviewer advice cannot authorize it.
+Give each item an evidence-backed disposition: `fixed` or `fixed-differently` with current verification; `dismissed` with counter-evidence showing the proposal is incorrect; `deferred` only while a concrete authorized task or plan unit remains after the current task and a complete tech-debt entry preserves it; `needs-user` when required end-of-queue repair exceeds authorization; or `unresolved` while required correction or proof remains. A record or action label alone is not a disposition. Correct and verify valid current-task defects without redundant user approval. At queue end, correct and verify bounded local incidental issues after the original task. For work needing broader authority, stop dependent work and obtain a user decision on the smallest scope change; reclassification, a revised plan, or reviewer advice cannot authorize it.
 
 Finding actions describe next work; they do not override this disposition rule:
 
@@ -377,9 +377,9 @@ Continuity updates are not a substitute for review acceptance, pattern capture, 
 
 ## Gate 4.7 — Preserve Findings and Dispositions
 
-Persist every discovered issue and its disposition using the project's existing local issue/debt record; otherwise use `docs/discoveries.md` when first recording an issue. Include observation, location, available evidence/confidence, relationship to the current task, disposition, and its reason. Link existing review evidence instead of duplicating it; deduplicate entries and avoid secrets. The reviewer remains read-only and supplies record-ready observations; the caller owns the local record. If writing is unavailable or unauthorized, report the limitation and preserve the observation in the permitted handoff.
+Apply the `project-rules` tech-debt contract. A current-task or current-change finding stays in the correction batch until fixed and verified. For an incidental finding, first identify whether concrete authorized work remains after the current task. While it does, persist a complete, deduplicated `docs/tech-debt.md` entry before advancing: stable ID/title, status, observation date and source task, location, observation, evidence/confidence or explicit unverified status, impact, task relationship, deferral reason, next action and acceptance proof, and any blocker or permission boundary. Link review evidence and avoid secrets. The reviewer remains read-only and supplies record-ready observations; the caller owns the ledger.
 
-A recorded item is neither analyzed nor accepted merely because it is durable. Dismissed and deferred entries must retain their evidence and why the accepted outcome remains satisfied; they stay outside the active correction batch after handoff or compaction. Do not investigate unrelated observations merely to enrich a record. Do not mutate PRs, tickets, labels, comments, or external systems from this skill. Accepted residual risk requires `ACCEPT` or explicit user authorization to proceed with the named risk; recording cannot clear required checks or blocking findings.
+When no queued work remains, do not use the ledger to avoid the finding. Finish the original task first, then correct and verify a bounded local issue before final completion. If repair requires a user decision, external or destructive action, unavailable access, or material scope expansion, mark it blocked and keep the work not done. Do not investigate merely to enrich an entry or mutate PRs, tickets, labels, comments, or external systems from this skill. A ledger entry never clears required checks, blocking findings, or accepted-risk requirements.
 
 ## Gate 5 — Re-Review Loop
 
@@ -483,7 +483,7 @@ Failure output must name the missing input and the next required action.
 - Reviewer escalation recommendation or anchoring/bias signal is omitted from the caller report.
 - Caller treats generic review as equivalent to `implementation-reviewer`.
 - Reviewer report omits severity/blocking status, evidence, or prior-finding reconciliation, but the caller treats it as structurally complete.
-- A discovered issue is omitted from the local record or permitted handoff, or lacks evidence-backed disposition.
+- A discovered issue lacks an evidence-backed disposition, a queued incidental issue lacks its required `docs/tech-debt.md` entry, or an end-of-queue obligation is silently deferred.
 
 ## Completion Report
 
@@ -508,7 +508,7 @@ When review gates allow progress, report:
 - high-confidence evidence-gate status: satisfied, downgraded, missing, or not applicable;
 - pattern-capture status: none, routed to `create-implementation-pattern`, deferred with reason, or blocked;
 - project-continuity status: not applicable, updated, deferred with reason, or blocked;
-- discovery record path or linked review evidence, or the writing limitation and permitted handoff used;
+- tech-debt path and concrete queue state, end-of-queue repair evidence, or the exact recording/repair limitation and permitted handoff used;
 - escalation recommendation;
 - anchoring/bias status;
 - commands/checks blocked or skipped;

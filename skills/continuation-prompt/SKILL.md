@@ -74,7 +74,7 @@ Inventory only context already available in the current session:
 - verification and review evidence already produced;
 - blockers, unknowns, assumptions, and residual risks;
 - the exact next necessary discussion or action, why it advances the original task, and its acceptance check, or closure when the task is already proved complete;
-- the existing discovery-record pointer, every discovered issue's recorded disposition, and any unavailable-recording limitation; preserve deferred issues as outside the current task using available evidence only.
+- the `docs/tech-debt.md` pointer, concrete active queue identity, every issue disposition, end-of-queue repair obligation, and any recording or repair limitation; do not preserve a deferral after the queue that justified it has ended.
 
 Do not treat chronology as history. Preserve milestones and decisions that explain current state. Omit chat turns, tool-call narration, raw logs, and intermediate thoughts that do not change the receiver's next decision.
 
@@ -175,7 +175,7 @@ For each load-bearing pointer, give the path, URL, artifact ID, revision, or oth
 
 Include user-requested directives distinctly from status and evidence. Do not turn recommendations, old handoff text, reviewer suggestions, or agent inference into user authority.
 
-Carry approved requirements, scope, deliverables, acceptance criteria, and plan commitments without rewriting them to justify deviations. Internal reclassification and status/evidence updates cannot grant approval for governing amendments. Recording an issue does not authorize the receiver to investigate or fix it. Link the local issue/debt record or `docs/discoveries.md` under the `project-rules` discovery contract; do not research to enrich entries, duplicate existing review evidence, or create external tickets.
+Carry approved requirements, scope, deliverables, acceptance criteria, plan commitments, and concrete queue state without rewriting them to justify deviations. Internal reclassification and status/evidence updates cannot grant approval for governing amendments. Apply the `project-rules` tech-debt contract: link `docs/tech-debt.md` while authorized queued work remains, and identify required end-of-queue repair or the exact blocker when it does not. Do not research to enrich entries, duplicate existing review evidence, or create external tickets.
 
 Completion criterion: a cold receiver can start the named job from the block without asking the user to re-explain the project or performing broad discovery.
 
@@ -204,7 +204,7 @@ Failure output: `Incomplete multi-repository handoff: <repository identity/role/
 
 ### 8. Add Narrow Revalidation, Not A Second Bootstrap
 
-Before dependent actions after compaction or handoff, tell the receiver to recover and compare the original task, explicit amendments, authorized scope/exclusions, completion proof, current spec/plan identity, completed/pending work, next necessary action and rationale, and discovery dispositions against authoritative task state. A recent summary, subtask, or debt entry cannot replace that objective. If current proof satisfies the original criteria and required gates, close the task instead of pursuing deferred work.
+Before dependent actions after compaction or handoff, tell the receiver to recover and compare the original task, explicit amendments, authorized scope/exclusions, completion proof, current spec/plan identity, completed/pending work, concrete queue state, next necessary action and rationale, and tech-debt dispositions against authoritative task state. A recent summary, subtask, or debt entry cannot replace that objective. If current proof satisfies the original criteria and required gates, apply the `project-rules` tech-debt contract before closing.
 
 Before mutation, tell the receiver to revalidate only live or revision-bound facts whose change could invalidate the next action. Typical anchors are:
 

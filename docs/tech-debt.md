@@ -1,6 +1,10 @@
-# Discovered Issues
+# Technical Debt
 
-Recording an issue does not authorize work on it. Entries preserve available evidence and their relationship to the active task. Reuse an entry when the same issue appears again; link detailed evidence rather than duplicate it.
+`docs/tech-debt.md` is the queue-preservation ledger defined by the harness `<tech_debt_discipline>`. Add an incidental issue here only when concrete authorized work remains queued after the current task. Do not use this file for a current-task defect or current-change regression; fix and verify those inside the current task. When no concrete authorized task follows the current task, finish and verify the original task, then repair and verify the newly discovered issue before final completion. If that repair needs a user decision, external or destructive action, unavailable access, or material scope expansion, record the blocker in current task or continuity state without creating a new tech-debt entry, and keep the work not done. When reconciling an entry already created while a queue was active, update that existing entry instead of creating another.
+
+When the active queue reaches its final task, reconcile entries created by that queue before closure. Older entries remain debt until separately authorized or brought into an active queue.
+
+Each entry records a stable ID and title, status, observation date and source task, location, observation, available evidence or explicit unverified status, impact, relationship to the current task, reason for deferral, required next action and acceptance proof, and any blocker or permission boundary. Reuse an entry when the same issue appears again; link detailed evidence instead of duplicating it. Keep secrets out of this file.
 
 Current in-scope instruction defects and their corrections are recorded in [the finding/scope evaluation report](../evals/skills/implementation-review-workflow/finding-scope-control-report.md): terminal minor-finding bypasses; pre-existing issues grouped with suppressed false positives; blanket CI-failure repair; spec appetite handling that could cut accepted scope; plan expansion when smaller paths fail; whole-execution re-planning after unexpected verification failure; and review finding F-001, unconditional deferral of pre-existing defects even when their repair is authorized. The report preserves correction, behavioral proof and independent acceptance state rather than duplicating that record here.
 

@@ -166,10 +166,10 @@ When starting or resuming work, use continuity to orient the workflow:
 - completed and pending work, last completed checkpoint, and acceptance proof;
 - known blockers or unresolved questions;
 - next necessary action and why it advances the original task, or closure when its criteria and required gates are proved;
-- discovery-record pointer and issue dispositions, preserving deferred work as outside the current task;
+- `docs/tech-debt.md` pointer, concrete queue identity, issue dispositions, and any required end-of-queue repair or blocker;
 - risks, stale assumptions, or source-truth conflicts.
 
-After compaction or handoff, recover and compare these fields against authoritative task state before dependent actions. Do not promote the latest summary, subtask, or debt entry into the objective. Read only sources needed to resolve the next action; do not restart broad discovery. If the accepted outcome and required gates already have current proof, finish rather than pursue deferred issues.
+After compaction or handoff, recover and compare these fields against authoritative task state before dependent actions. Do not promote the latest summary, subtask, or debt entry into the objective. Read only sources needed to resolve the next action; do not restart broad discovery. If the accepted outcome and required gates already have current proof, apply the `project-rules` tech-debt contract before closing the task or queue.
 
 When a current approved plan governs implementation, also reconcile the plan-backed resume boundary: governing spec and plan identity/currentness; last accepted execution batch or review checkpoint with an evidence pointer; exact next authorized batch or workflow action; active review finding IDs and dispositions; and evidence changes that invalidate direct resume or require re-planning. If these fields are absent, use the plan, review source, and repository state to recover them before implementation; do not translate a vague `continue implementation` note into authority.
 
@@ -190,7 +190,7 @@ Capture:
 - active authoritative artifact or `none`;
 - blockers and unblocking action;
 - next necessary action and rationale, or `none` when completion is proved;
-- discovery-record pointer and dispositions, including explicit deferred status;
+- `docs/tech-debt.md` pointer, concrete queue identity, dispositions, and explicit deferred, end-of-queue, or blocked status;
 - source-truth links or paths;
 - compact update entry with date and what changed.
 
@@ -238,7 +238,7 @@ Allowed resume-critical links and summaries include:
 
 Do not create, validate, publish, update, or copy these artifacts from this skill. Link to their durable source and summarize only the state needed to resume.
 
-Do not copy raw implementation notes into continuity. Mention and record every discovered issue under the `project-rules` discovery contract using available evidence; link that record and existing review evidence rather than duplicating entries. A discovery or deviation does not authorize investigation, repair, or a governing amendment. Preserve scope-expanding prerequisites as blocked for a user decision and unrelated issues outside the authorized task as deferred. Preserve pre-existing defects and necessary prerequisites within the authorized task as required work until their acceptance evidence is complete; age alone does not make an issue deferred. Route an authorized governing amendment through the responsible artifact skill; continuity records only resulting state and authority, never retroactively changes the task to match implementation.
+Do not copy raw implementation notes into continuity. Apply the `project-rules` tech-debt contract and link `docs/tech-debt.md` plus existing review evidence rather than duplicating entries. Continuity records the concrete queue that justified deferral, the issue disposition, and any end-of-queue repair or blocker; it does not authorize investigation, repair, or a governing amendment. Preserve current-task defects as required work until verified. When the recorded queue ends, do not carry its deferral forward: record the bounded local repair as required, or record the exact user decision, access, external/destructive action, or material expansion that blocks it. Route an authorized governing amendment through the responsible artifact skill; continuity records only resulting state and authority, never retroactively changes the task to match implementation.
 
 ## Blocker And Next-Action Precision
 

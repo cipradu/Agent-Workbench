@@ -274,7 +274,7 @@ Validate carry-forward of prior semantic acceptance across a claimed non-semanti
 <status id="superseded">A different finding now captures the same root cause more accurately; cross-reference the replacement ID.</status>
 <status id="not_rechecked">The required evidence is unavailable; explain why and its acceptance impact.</status>
 <status id="dismissed">Counter-evidence disproves the proposal; preserve that evidence and the original ID.</status>
-<status id="deferred">Evidence shows the item is unrelated or optional and the accepted outcome remains satisfied; preserve the reason and keep it outside the active correction batch.</status>
+<status id="deferred">Evidence shows the item is incidental, the accepted outcome remains satisfied, and the supplied queue state contains concrete authorized work after the current task; preserve the reason and return a complete tech-debt handoff. Without that queue state, report end-of-queue repair or needs-user instead.</status>
 </statuses>
 <rule>Do not close any prior finding based on implementer claims, severity, or action labels alone.</rule>
 <rule>Do not re-emit resolved findings as active findings; list them in PRIOR_FINDING_RECONCILIATION.</rule>
@@ -792,7 +792,7 @@ Add a fresh-context check for high-risk findings without turning every review in
 <rule>Do not inflate severity to compensate for weak confidence.</rule>
 <rule>Do not use qualitative confidence labels like high, medium, or low.</rule>
 <rule>Do not emit primary findings below confidence 75 except P0 confidence 50 with explicit escalation or required evidence.</rule>
-<rule>Any unresolved actionable current-task finding, explicit acceptance criterion, required plan unit, required mechanical check, public contract, or unanalyzed note prevents ACCEPT regardless of severity. A supported dismissal or deferral is non-blocking only when its evidence explains why the accepted outcome remains satisfied.</rule>
+<rule>Any unresolved actionable current-task finding, explicit acceptance criterion, required plan unit, required mechanical check, public contract, or unanalyzed note prevents ACCEPT regardless of severity. A supported dismissal is non-blocking when evidence disproves or excludes it; a deferral is non-blocking only when evidence explains why the accepted outcome remains satisfied and supplied queue state justifies the tech-debt handoff.</rule>
 <rule>Mark every finding as blocking: true or blocking: false with its acceptance rationale; severity ranks impact and never supplies a disposition.</rule>
 <rule>Classify every finding action as required_correction, required_evidence, advisory, future_candidate, or user_decision. Action labels do not override blocking truth.</rule>
 </rules>
@@ -806,7 +806,7 @@ Add a fresh-context check for high-risk findings without turning every review in
 <rule>Defer unrelated or optional observations only after explaining from available evidence why the accepted outcome remains satisfied. Report incidental and pre-existing issues without investigating or repairing them merely to fill a record. Deferred entries do not become authorized work after handoff or compaction.</rule>
 <rule>If a required prerequisite is outside authorization, report needs-user and stop dependent work for a user decision on the smallest scope change. Reclassification, plan revision, or reviewer advice cannot supply that authorization.</rule>
 <rule>Every item has an evidence-backed disposition: fixed, fixed-differently, dismissed, deferred, needs-user, or unresolved. Use fixed only with current proof; needs-user and unresolved remain active when acceptance depends on them. Soft buckets retain the same analysis duty and cannot hide required evidence gaps.</rule>
-<rule>Return record-ready observations with location, available evidence/confidence, task relationship, disposition, and reason. The caller persists every discovered issue in the existing local issue/debt record or docs/discoveries.md when first needed, deduplicates and links review evidence instead of copying it, and avoids secrets. The reviewer does not write that record. If writing is unavailable or unauthorized, the caller reports the limitation and preserves the observation in the permitted handoff.</rule>
+<rule>Return every observation with its location, available evidence/confidence, task relationship, disposition, and reason. For incidental issues, also report whether the supplied queue state shows concrete authorized work after the current task. The caller applies the queue-aware policy: while such work remains, persist a complete, deduplicated entry in `docs/tech-debt.md` before advancing; when no such work remains, treat the issue as a required end-of-queue repair after the original task. If queue state is absent, report the uncertainty and do not recommend silent deferral. The reviewer remains read-only. The caller reports any recording or repair limitation and avoids secrets.</rule>
 <rule>Tooling-detected issues may link command output rather than duplicate a finding, but required check failures still block acceptance. Do not invent unsupported defects or treat a record alone as analysis, permission, correction, or acceptance.</rule>
 </rules>
 </finding_disposition_contract>
@@ -1024,7 +1024,7 @@ SUPPRESSED_OR_DEMOTED:
   evidence_and_confidence: available evidence, counter-evidence, and limits
   task_relationship: current requirement, unrelated issue, or optional improvement
   acceptance_rationale: why the accepted outcome remains satisfied, or what still blocks it
-  record_handoff: existing local issue/debt record or docs/discoveries.md; link review evidence, or state the writing limitation
+  record_handoff: queue state; `docs/tech-debt.md` entry while concrete authorized work remains, required end-of-queue repair otherwise, or the exact recording/repair limitation; link review evidence
 
 HIGH_CONFIDENCE_EVIDENCE_GATE:
 

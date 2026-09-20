@@ -67,9 +67,9 @@ Keep that baseline controlling before each next action, not only at handoff or c
 
 When new user input arrives during work, distinguish a correction or added constraint from a side question, status request, cancellation, or replacement. Answer independent questions without abandoning the active task. Before affected work continues, reconcile changed requirements through the existing spec, plan, or implementing agent; update the affected scope, batch, warrants, and evidence while preserving unaffected work. Send the revised authorization to affected delegates. Inspect already-started actions and late returns against the current instruction before retrying or accepting them; a stop request does not prove rollback or grant compensating-action authority.
 
-Every proposed capability, abstraction, file, test, durable artifact, or workflow phase must trace to the outcome, a current named risk or invariant of that outcome, a required compatibility obligation, or cleanup directly caused by the change. Each investigation or added check must resolve a named uncertainty about that outcome or a regression from the current change. Remove an untraceable item; report and record it as a discovery instead of treating its usefulness as scope authority.
+Every proposed capability, abstraction, file, test, durable artifact, or workflow phase must trace to the outcome, a current named risk or invariant of that outcome, a required compatibility obligation, cleanup directly caused by the change, or the bounded end-of-queue repair obligation defined by `project-rules`. Each investigation or added check must resolve a named uncertainty about that outcome, a regression from the current change, or that end-of-queue obligation. Remove an otherwise untraceable item without treating its usefulness as scope authority.
 
-For every discovered issue, mention it to the user and record it under the `project-rules` discovery contract, using only available evidence. Classify the next action separately: repair a current-change regression; perform required authorized in-scope work, including pre-existing defects and necessary authorized prerequisites; stop only dependent work for a user decision when a prerequisite expands scope; report, record, and defer unrelated work outside the authorized task. Pre-existing status alone does not justify deferral. Unknown relevance permits only the bounded check needed to decide whether the accepted outcome is affected. Recording is not permission to investigate or fix, and a deferred entry must not become the next task.
+Apply the `project-rules` tech-debt contract to every discovered issue. Repair current-task defects and current-change regressions now. For an incidental issue, determine whether a concrete authorized task or plan unit remains after the current task. While such work remains, persist a complete entry in `docs/tech-debt.md` before advancing; when none remains, finish the original task and then repair and verify the issue before final completion. Unknown relevance permits only the bounded check needed to classify the issue. Recording does not authorize investigation while the queue remains, and a missing permission or material expansion becomes a blocked end-of-queue obligation rather than a silent deferral.
 
 Identify:
 
@@ -179,9 +179,9 @@ When `mapped`, carry only:
 - completed and pending functions, unresolved conditions, and genuine blockers;
 - the next required function or exact closure condition.
 
-Use an existing plan, continuity artifact, review packet, or task-local state when it already owns these fields. Preserve the original task and explicit amendments, authorized exclusions, completion proof, current spec/plan identity, completed and pending work, next necessary action and its rationale, and a pointer to the discovery record with deferred dispositions. Do not create a second ledger, duplicate source artifacts, or copy the full evidence corpus.
+Use an existing plan, continuity artifact, review packet, or task-local state when it already owns these fields. Preserve the original task and explicit amendments, authorized exclusions, completion proof, current spec/plan identity, completed and pending work, concrete queue identity, next necessary action and its rationale, and the `docs/tech-debt.md` pointer with deferred, blocked, and end-of-queue dispositions. Do not create a second ledger, duplicate source artifacts, or copy the full evidence corpus.
 
-After compaction or resumption, recover and compare this authoritative task state before dependent actions. A recent subtask, summary, or debt entry cannot replace the original objective. Recovery is limited to the sources needed to resolve the next action; if current proof already satisfies the accepted criteria and required gates, close the task instead of pursuing deferred work.
+After compaction or resumption, recover and compare this authoritative task state before dependent actions. A recent subtask, summary, or debt entry cannot replace the original objective. Recovery is limited to the sources needed to resolve the next action; if current proof already satisfies the accepted criteria and required gates, apply the `project-rules` tech-debt contract before closing the task or queue.
 
 Completion criterion: the lane, each warrant, and each skipped phase are justified by current evidence; unknowns are routed to bounded discovery; no lane expands into a fixed pipeline.
 
@@ -245,7 +245,7 @@ Rules:
 - Do not let documentation invent product truth, engineering truth, architecture decisions, or execution order.
 - Do not let generated reports, local config, screenshots, launch/runtime logs, post-ship drafts, PR prose, or external collaboration copies become product/problem/engineering/architecture/execution/acceptance truth by accident.
 - Do not record an ADR for a decision that is not significant, not durable, or not actually decided.
-- Do not let review findings change scope; evaluate their relationship to the accepted task before routing. Scope-expanding prerequisites require a user decision before governing amendments or dependent implementation; unrelated findings remain recorded and deferred.
+- Do not let review findings change scope; evaluate their relationship to the accepted task before routing. Scope-expanding prerequisites require a user decision before governing amendments or dependent implementation; incidental findings follow the `project-rules` queue-aware tech-debt contract.
 - Do not treat stale, inferred, externally edited, or contradicted artifacts as accepted source truth until the owning workflow reconciles them.
 
 Completion criterion: each artifact contains only the truth it owns and passes unresolved truth downstream explicitly.
@@ -333,7 +333,7 @@ Before claiming completion:
 - update project continuity when a continuity artifact exists or is required and a meaningful start/resume/pause/close checkpoint changed current state;
 - surface implementation-pattern candidates only when concrete recurrence or mandate signals exist, then route them to `create-implementation-pattern` for accepted/candidate/update/rejection judgment;
 - surface ADR candidates only when decisions meet the ADR bar;
-- confirm every discovered issue was mentioned and recorded with its evidence and disposition, including resolved and unrelated issues; link existing review evidence rather than duplicating it, disclose any recording limitation, and preserve the required durable route or explicit residual-risk report for blocked checks, accepted risks, and skipped verification.
+- confirm every discovered issue has an evidence-backed disposition; current-task and current-change issues are repaired and verified, queued incidental issues have complete `docs/tech-debt.md` entries, and end-of-queue obligations are repaired or explicitly blocked. Link existing review evidence rather than duplicating it and preserve the required durable route or residual-risk report for blocked checks, accepted risks, and skipped verification.
 
 Close only when current evidence proves the exact current user-authorized outcome, acceptance proof, and every warranted gate for the same state identity. An intermediate artifact, passing local check, skill-local or agent-local completion claim, or stale acceptance result cannot close the task.
 
