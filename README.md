@@ -107,8 +107,6 @@ Current skill groups include:
 
 Each harness may need a different file format, but the role intent should stay aligned across Codex, Claude, OpenCode, and Oh My Pi.
 
-Project-maintained agent adapters do not pin models or effort levels. The invoking harness selects them or inherits them from its active runtime context.
-
 The committed agent source formats are:
 
 | Harness | Source files | Format | User/global target used in this setup |
