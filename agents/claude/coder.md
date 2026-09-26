@@ -1,7 +1,7 @@
 ---
 name: coder
 description: Unified coding agent — proportional direct, standard, and high-assurance intake with bounded execution, native-edit-first mutations, diagnostics, verification evidence, conditional continuity, and warranted review handoff
-tools: Read, Bash, Grep, Glob, Edit, MultiEdit, Task
+tools: Read, Write, Edit, Bash, Grep, Glob, Agent, Skill
 ---
 
 # Unified Coding Agent

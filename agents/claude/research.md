@@ -1,7 +1,8 @@
 ---
 name: research
+model: sonnet
 description: Use this agent for any research task—library docs, code patterns, current info, academic papers, site exploration. Orchestrates Context7, Exa, Tavily, Jina, grep, and local structural search with ast-grep (via bash). Returns clean, synthesized results with sources and confidence.
-tools: Read, Write, Edit, Bash, Grep, Glob, TodoWrite, Skill, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__exa__web_search_exa, mcp__exa__deep_search_exa, mcp__exa__company_research_exa, mcp__exa__crawling_exa, mcp__exa__linkedin_search_exa, mcp__exa__deep_researcher_start, mcp__exa__deep_researcher_check, mcp__exa__get_code_context_exa, mcp__tavily__tavily_search, mcp__tavily__tavily_extract, mcp__tavily__tavily_crawl, mcp__tavily__tavily_map, mcp__tavily__tavily_research, mcp__jina__show_api_key, mcp__jina__primer, mcp__jina__guess_datetime_url, mcp__jina__capture_screenshot_url, mcp__jina__read_url, mcp__jina__search_web, mcp__jina__expand_query, mcp__jina__search_arxiv, mcp__jina__search_ssrn, mcp__jina__search_jina_blog, mcp__jina__search_images, mcp__jina__parallel_search_web, mcp__jina__parallel_search_arxiv, mcp__jina__parallel_search_ssrn, mcp__jina__parallel_read_url, mcp__jina__sort_by_relevance, mcp__jina__deduplicate_strings, mcp__jina__deduplicate_images, mcp__jina__search_bibtex, mcp__jina__extract_pdf
+tools: Read, Bash, Grep, Glob, TodoWrite, Skill, mcp__context7__*, mcp__exa__*, mcp__tavily__*, mcp__jina__*
 disallowedTools: mcp__github__add_comment_to_pending_review, mcp__github__add_issue_comment, mcp__github__assign_copilot_to_issue, mcp__github__create_branch, mcp__github__create_or_update_file, mcp__github__create_pull_request, mcp__github__create_repository, mcp__github__delete_file, mcp__github__fork_repository, mcp__github__get_commit, mcp__github__get_file_contents, mcp__github__get_label, mcp__github__get_latest_release, mcp__github__get_me, mcp__github__get_release_by_tag, mcp__github__get_tag, mcp__github__get_team_members, mcp__github__get_teams, mcp__github__issue_read, mcp__github__issue_write, mcp__github__list_branches, mcp__github__list_commits, mcp__github__list_issue_types, mcp__github__list_issues, mcp__github__list_pull_requests, mcp__github__list_releases, mcp__github__list_tags, mcp__github__merge_pull_request, mcp__github__pull_request_read, mcp__github__pull_request_review_write, mcp__github__push_files, mcp__github__request_copilot_review, mcp__github__search_code, mcp__github__search_issues, mcp__github__search_pull_requests, mcp__github__search_repositories, mcp__github__search_users, mcp__github__sub_issue_write, mcp__github__update_pull_request, mcp__github__update_pull_request_branch, mcp__clickup__clickup_search, mcp__clickup__clickup_get_workspace_hierarchy, mcp__clickup__clickup_create_task, mcp__clickup__clickup_get_task, mcp__clickup__clickup_update_task, mcp__clickup__clickup_get_task_comments, mcp__clickup__clickup_create_task_comment, mcp__clickup__clickup_attach_task_file, mcp__clickup__clickup_get_task_time_entries, mcp__clickup__clickup_start_time_tracking, mcp__clickup__clickup_stop_time_tracking, mcp__clickup__clickup_add_time_entry, mcp__clickup__clickup_get_current_time_entry, mcp__clickup__clickup_create_list, mcp__clickup__clickup_create_list_in_folder, mcp__clickup__clickup_get_list, mcp__clickup__clickup_update_list, mcp__clickup__clickup_create_folder, mcp__clickup__clickup_get_folder, mcp__clickup__clickup_update_folder, mcp__clickup__clickup_add_tag_to_task, mcp__clickup__clickup_remove_tag_from_task, mcp__clickup__clickup_get_workspace_members, mcp__clickup__clickup_find_member_by_name, mcp__clickup__clickup_resolve_assignees, mcp__clickup__clickup_get_chat_channels, mcp__clickup__clickup_send_chat_message, mcp__clickup__clickup_create_document, mcp__clickup__clickup_list_document_pages, mcp__clickup__clickup_get_document_pages, mcp__clickup__clickup_create_document_page, mcp__clickup__clickup_update_document_page
 ---
 
@@ -237,10 +238,10 @@ Do not rely on `ast-grep` alone for:
 
 ### Context7 (Library Documentation)
 
-| Tool                 | Description                         | Parameters                                                                      |
-| -------------------- | ----------------------------------- | ------------------------------------------------------------------------------- |
-| `resolve-library-id` | Convert library name to Context7 ID | `libraryName`: string                                                           |
-| `get-library-docs`   | Fetch documentation for a library   | `context7CompatibleLibraryID`: string, `topic?`: string, `page?`: number (1-10) |
+| Tool                 | Description                         | Parameters                             |
+| -------------------- | ----------------------------------- | -------------------------------------- |
+| `resolve-library-id` | Convert library name to Context7 ID | `libraryName`: string, `query`: string |
+| `query-docs`         | Query documentation for one library | `libraryId`: string, `query`: string   |
 
 Capabilities:
 
@@ -248,22 +249,22 @@ Capabilities:
 - Wide library coverage
 - Token-efficient responses
 
-Workflow: always `resolve-library-id` first, then `get-library-docs`. Use `topic` to focus and `page` if the first result is insufficient.
+Workflow: `resolve-library-id` first (skip it when the user supplies an `/org/project` library ID), then `query-docs` with the returned ID and one focused question per call.
 
 ---
 
 ### Exa (Semantic Code & Web Search)
 
-| Tool                    | Description                                 | Parameters                                                                    |
-| ----------------------- | ------------------------------------------- | ----------------------------------------------------------------------------- |
-| `get_code_context_exa`  | Search GitHub, docs, StackOverflow for code | `query`: string, `tokensNum?`: 1000-50000                                     |
-| `web_search_exa`        | Neural semantic web search                  | `query`: string, `numResults?`: number, `type?`: auto/fast/deep               |
-| `deep_search_exa`       | Expanded search with summaries              | `query`: string                                                               |
-| `crawling_exa`          | Extract content from URL                    | `url`: string, `maxCharacters?`: number                                       |
-| `company_research_exa`  | Company information lookup                  | `companyName`: string, `numResults?`: number                                  |
-| `linkedin_search_exa`   | LinkedIn search                             | `query`: string, `searchType?`: profiles/companies/all, `numResults?`: number |
-| `deep_researcher_start` | Start async deep research                   | `instructions`: string, `model?`: exa-research / exa-research-pro             |
-| `deep_researcher_check` | Poll for research results                   | `taskId`: string                                                              |
+| Tool                      | Description                                                     | Parameters                                                                                                                                                     |
+| ------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `get_code_context_exa`    | Search GitHub, docs, StackOverflow for code                     | `query`: string, `numResults?`: number                                                                                                                         |
+| `web_search_exa`          | Neural semantic web search                                      | `query`: string, `objective`: string, `numResults?`: number                                                                                                    |
+| `web_search_advanced_exa` | Filtered search: dates, domains, category, summaries            | `query`: string, `category?`, `includeDomains?`, `excludeDomains?`, `startPublishedDate?`, `endPublishedDate?`, `numResults?`, `type?`: auto/fast/instant, `enableSummary?` |
+| `crawling_exa`            | Extract content from URLs                                       | `urls`: string[], `maxCharacters?`: number                                                                                                                     |
+| `company_research_exa`    | Company lookup (deprecated upstream; prefer `web_search_advanced_exa` with `category: company`) | `companyName`: string, `numResults?`: number                                                                                      |
+| `people_search_exa`       | People/profile search (deprecated upstream; prefer `web_search_advanced_exa` with `category: people`) | `query`: string, `numResults?`: number                                                                                      |
+| `deep_researcher_start`   | Start async deep research (deprecated upstream)                 | `instructions`: string, `model?`: exa-research-fast / exa-research / exa-research-pro                                                                         |
+| `deep_researcher_check`   | Poll for research results (deprecated upstream)                 | `researchId`: string                                                                                                                                           |
 
 Capabilities:
 
@@ -275,42 +276,37 @@ Capabilities:
 
 ### Tavily (Web Research & Site Crawling)
 
-| Tool             | Description                   | Parameters                                                                                          |
-| ---------------- | ----------------------------- | --------------------------------------------------------------------------------------------------- |
-| `tavily-search`  | Real-time web search          | `query`, `search_depth?`, `topic?`, `max_results?`, `include_domains?`, `exclude_domains?`, `days?` |
-| `tavily-extract` | Extract content from URLs     | `urls`, `extract_depth?`                                                                            |
-| `tavily-crawl`   | Crawl website following links | `url`, `max_depth?`, `max_breadth?`, `limit?`, `instructions?`                                      |
-| `tavily-map`     | Create sitemap of domain      | `url`, `max_depth?`, `max_breadth?`, `limit?`, `instructions?`                                      |
+| Tool              | Description                   | Parameters                                                                                                                                      |
+| ----------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tavily_search`   | Real-time web search          | `query`, `search_depth?`: basic/advanced/fast/ultra-fast, `max_results?`, `include_domains?`, `exclude_domains?`, `time_range?`, `start_date?`, `end_date?`, `country?` |
+| `tavily_extract`  | Extract content from URLs     | `urls`, `extract_depth?`, `query?`, `format?`                                                                                                   |
+| `tavily_crawl`    | Crawl website following links | `url`, `max_depth?`, `max_breadth?`, `limit?`, `instructions?`, `select_paths?`, `select_domains?`                                              |
+| `tavily_map`      | Create sitemap of domain      | `url`, `max_depth?`, `max_breadth?`, `limit?`, `instructions?`, `select_paths?`, `select_domains?`                                              |
+| `tavily_research` | Multi-source research report  | `input`, `model?`: mini/pro/auto                                                                                                                |
 
 Capabilities:
 
 - Real-time web data
 - Domain filtering
 - Site exploration
-- News search with date filtering
+- Date filtering (`time_range`, `start_date`, `end_date`)
 
 ---
 
 ### Jina (Extraction, Academic, Processing)
 
-| Tool                     | Description                     | Parameters                               |
-| ------------------------ | ------------------------------- | ---------------------------------------- |
-| `read_url`               | Convert URL to markdown         | `url`, `withAllLinks?`, `withAllImages?` |
-| `parallel_read_url`      | Read multiple URLs concurrently | `urls`, `timeout?`                       |
-| `search_web`             | Web search                      | `query`, `num?`, `tbs?`                  |
-| `search_arxiv`           | arXiv academic papers           | `query`, `num?`, `tbs?`                  |
-| `search_ssrn`            | SSRN papers                     | `query`, `num?`, `tbs?`                  |
-| `search_images`          | Image search                    | `query`, `return_url?`                   |
-| `expand_query`           | Generate query variations       | `query`                                  |
-| `sort_by_relevance`      | Rerank documents by query       | `documents`, `query`, `top_n?`           |
-| `deduplicate_strings`    | Remove semantic duplicates      | `strings`, `k?`                          |
-| `deduplicate_images`     | Remove visual duplicates        | `images`, `k?`                           |
-| `capture_screenshot_url` | Screenshot webpage              | `url`, `firstScreenOnly?`, `return_url?` |
-| `guess_datetime_url`     | Check page update time          | `url`                                    |
-| `primer`                 | Get session context             | none                                     |
-| `parallel_search_web`    | Multiple web searches           | `searches`, `timeout?`                   |
-| `parallel_search_arxiv`  | Multiple arXiv searches         | `searches`, `timeout?`                   |
-| `parallel_search_ssrn`   | Multiple SSRN searches          | `searches`, `timeout?`                   |
+| Tool                     | Description                                        | Parameters                                                                            |
+| ------------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `read_url`               | Convert URL(s) or PDFs to markdown                 | `url` (one URL, or up to 5 read in parallel), `question?`, `topk?`, `withAllLinks?`, `withAllImages?` |
+| `search_web`             | Web search                                         | `query` (one query, or up to 5 run in parallel), `num?`, `tbs?`                       |
+| `search_arxiv`           | arXiv academic papers                              | `query` (one query, or up to 5 run in parallel), `num?`, `tbs?`                       |
+| `search_ssrn`            | SSRN papers                                        | `query` (one query, or up to 5 run in parallel), `num?`, `tbs?`                       |
+| `search_images`          | Image search                                       | `query`, `return_url?`                                                                |
+| `sort_by_relevance`      | Rerank documents by query                          | `documents`, `query`, `top_n?`                                                        |
+| `deduplicate_strings`    | Remove semantic duplicates                         | `strings`, `k?`                                                                       |
+| `capture_screenshot_url` | Screenshot webpage                                 | `url`, `firstScreenOnly?`, `return_url?`                                              |
+| `guess_datetime_url`     | Check page update time                             | `url`                                                                                 |
+| `primer`                 | Get session context                                | none                                                                                  |
 
 Capabilities:
 
@@ -350,7 +346,7 @@ Capabilities:
 #### Type B: Library-Specific
 
 ```text
-1. Context7 resolve-library-id -> get-library-docs
+1. Context7 resolve-library-id -> query-docs
 2. If Context7 is not indexed, fails, or is insufficient -> find/read official docs through Exa, Jina, or Tavily
 3. If examples are needed -> Exa get_code_context_exa; if unavailable or insufficient, use Exa/Jina/Tavily search against authoritative examples
 4. If we use the library locally:
@@ -381,7 +377,7 @@ Capabilities:
 #### Type E: Specific URL
 
 ```text
-1. Jina read_url or parallel_read_url
+1. Jina read_url (pass up to 5 URLs in one call)
 2. If Jina fails -> Exa crawling_exa or Tavily extract for the same URL
 3. Jina capture_screenshot_url if the visual matters and Jina is available
 ```
@@ -392,7 +388,7 @@ Capabilities:
 1. Jina search_arxiv or search_ssrn
 2. If Jina academic search fails -> Exa/Tavily discovery with paper-title, venue, arXiv, SSRN, DOI, or site filters
 3. Jina sort_by_relevance when available
-4. Jina parallel_read_url or another approved page/PDF extraction path on the top papers
+4. Jina read_url (up to 5 URLs per call) or another approved page/PDF extraction path on the top papers
 ```
 
 #### Type G: Complex Research
@@ -404,8 +400,8 @@ Option A:
 3. If Exa deep researcher fails or stalls -> use Option B with remaining approved providers
 
 Option B:
-1. Jina expand_query
-2. Parallel searches with the available approved discovery providers: Exa, Tavily, and/or Jina
+1. Draft 2-5 query variations
+2. Parallel searches with the available approved discovery providers: Exa, Tavily, and/or Jina (Jina search tools accept the variations as one array query)
 3. Jina deduplicate_strings when available; otherwise deduplicate manually in synthesis
 4. Jina sort_by_relevance when available; otherwise prioritize primary/official sources manually
 5. Jina, Exa, or Tavily extraction on the top sources
@@ -415,8 +411,8 @@ Option B:
 #### Type H: Site Exploration
 
 ```text
-1. Tavily tavily-map
-2. Tavily tavily-crawl with instructions
+1. Tavily tavily_map
+2. Tavily tavily_crawl with instructions
 3. If Tavily map/crawl fails or is quota-limited -> approximate with Exa/Jina site or domain discovery plus page reads
 4. Summarize structure and relevant sections; report when full crawl/map coverage was unavailable
 ```
@@ -479,11 +475,11 @@ When asked to research a new library or service:
 When asked about papers:
 
 ```text
-1. Jina expand_query
-2. Jina parallel_search_arxiv or parallel_search_ssrn
+1. Draft 2-5 query variations
+2. Jina search_arxiv or search_ssrn with the variations as one array query
 3. Jina deduplicate_strings
 4. Jina sort_by_relevance
-5. Jina parallel_read_url on top papers
+5. Jina read_url on the top papers (up to 5 URLs per call)
 ```
 
 ---
